@@ -19,7 +19,7 @@ export default function HomePage() {
           </p>
           <Link
             href="/contact"
-            className="inline-block mt-8 border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] hover:border-cobalt hover:bg-cobalt hover:text-paper transition-colors"
+            className="inline-block mt-8 border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] hover:border-cobalt hover:text-cobalt hover:font-bold transition-colors"
           >
             Work with us
           </Link>

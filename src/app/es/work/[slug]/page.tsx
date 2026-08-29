@@ -8,6 +8,7 @@ import {
   getAllProjects,
   getProjectBySlug,
   getAdjacentProject,
+  getPreviousProject,
 } from "@/content/projects-es";
 
 type Props = { params: { slug: string } };
@@ -19,13 +20,14 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const project = getProjectBySlug(params.slug);
   if (!project) return {};
-  return { title: `${project.title}. Tresunotres` };
+  return { title: `${project.title}. Tresunotres`, description: project.summary };
 }
 
 export default function ProjectPageEs({ params }: Props) {
   const project = getProjectBySlug(params.slug);
   if (!project) notFound();
   const next = getAdjacentProject(project.slug);
+  const prev = getPreviousProject(project.slug);
 
   return (
     <article>
@@ -48,13 +50,31 @@ export default function ProjectPageEs({ params }: Props) {
             <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mt-2">
               {project.title}
             </h1>
-            <div className="mt-6 space-y-4 text-stone">
-              {project.overview.map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
-              ))}
+            <p className="font-display text-xl md:text-2xl italic text-stone mt-3 max-w-2xl">
+              {project.tagline}
+            </p>
+
+            <div className="mt-10">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-3">
+                El brief
+              </h2>
+              <p className="font-display text-xl md:text-2xl font-normal leading-snug max-w-2xl">
+                {project.brief}
+              </p>
+            </div>
+
+            <div className="mt-10">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-3">
+                La idea
+              </h2>
+              <div className="space-y-4 text-stone">
+                {project.overview.map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
+                ))}
+              </div>
             </div>
           </div>
-          <dl className="font-mono text-sm space-y-4 md:border-l md:border-mist md:pl-10">
+          <dl className="font-mono text-sm space-y-6 md:border-l md:border-mist md:pl-10">
             <div>
               <dt className="uppercase tracking-[0.2em] text-stone text-xs">
                 Cliente
@@ -69,15 +89,35 @@ export default function ProjectPageEs({ params }: Props) {
             </div>
             <div>
               <dt className="uppercase tracking-[0.2em] text-stone text-xs">
-                Servicios
+                Qué hicimos
               </dt>
-              <dd className="mt-1">{project.services.join(", ")}</dd>
+              <dd className="mt-1 space-y-1">
+                {project.services.map((service, i) => (
+                  <div key={i}>{service}</div>
+                ))}
+              </dd>
             </div>
           </dl>
         </div>
 
         <div className="mt-16">
           <Gallery images={project.gallery} />
+        </div>
+
+        <div className="mt-16 pt-10 border-t border-mist">
+          <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-6">
+            Créditos
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 font-mono text-sm">
+            {project.credits.map((credit, i) => (
+              <div key={i}>
+                <div className="uppercase tracking-[0.2em] text-stone text-xs">
+                  {credit.role}
+                </div>
+                <div className="mt-1">{credit.names}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {project.quote && (
@@ -90,14 +130,21 @@ export default function ProjectPageEs({ params }: Props) {
         )}
 
         <div className="mt-20 border-t border-mist pt-10 flex items-center justify-between">
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-stone">
-            Siguiente proyecto
-          </span>
-          <Link
-            href={`/es/work/${next.slug}`}
-            className="font-display text-lg hover:text-stone transition-colors"
-          >
-            {next.title} →
+          <Link href={`/es/work/${prev.slug}`} className="group">
+            <span className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2">
+              ← Anterior
+            </span>
+            <span className="font-display text-lg group-hover:text-cobalt transition-colors">
+              {prev.title}
+            </span>
+          </Link>
+          <Link href={`/es/work/${next.slug}`} className="group text-right">
+            <span className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2">
+              Siguiente →
+            </span>
+            <span className="font-display text-lg group-hover:text-cobalt transition-colors">
+              {next.title}
+            </span>
           </Link>
         </div>
       </Container>

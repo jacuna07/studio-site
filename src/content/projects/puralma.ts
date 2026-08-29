@@ -3,19 +3,20 @@ import type { Project } from "./types";
 const project: Project = {
   slug: "puralma",
   title: "Puralma",
+  tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Puralma",
   year: "[YEAR]",
   type: "[PROJECT TYPE]",
   services: ["[SERVICES TBD]"],
   summary: "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Puralma project.",
-  hero: {
-    src: "/images/puralma/cover.jpg",
-    alt: "Puralma. Cover image",
-  },
+  brief:
+    "[BRIEF PLACEHOLDER] Replace with the one-line challenge or question that framed this project.",
   overview: [
     "[PLACEHOLDER] Replace with the real project brief: what the client needed, and why.",
     "[PLACEHOLDER] Replace with a short paragraph on the approach and the outcome.",
   ],
+  credits: [{ role: "Design", names: "Adrián Jiménez & Javier Acuña" }],
+  hero: { src: "/images/puralma/cover.jpg", alt: "Puralma. Cover image" },
   gallery: [
     {
       src: "/images/puralma/gallery-1.svg",

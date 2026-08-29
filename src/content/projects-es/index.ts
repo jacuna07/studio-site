@@ -18,3 +18,9 @@ export function getAdjacentProject(slug: string): Project {
   if (idx === -1) return projects[0];
   return projects[(idx + 1) % projects.length];
 }
+
+export function getPreviousProject(slug: string): Project {
+  const idx = projects.findIndex((p) => p.slug === slug);
+  if (idx === -1) return projects[0];
+  return projects[(idx - 1 + projects.length) % projects.length];
+}

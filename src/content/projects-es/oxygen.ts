@@ -3,20 +3,24 @@ import type { Project } from "../projects/types";
 const project: Project = {
   slug: "oxygen",
   title: "Oxygen",
+  tagline: "[MARCADOR DE ESLOGAN] Una línea breve que capture la esencia de la marca.",
   client: "Oxygen",
   year: "[AÑO]",
   type: "[TIPO DE PROYECTO]",
   services: ["[SERVICIOS POR DEFINIR]"],
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Oxygen.",
-  hero: {
-    src: "/images/oxygen/cover.jpg",
-    alt: "Oxygen. Imagen de portada",
-  },
+  brief:
+    "[MARCADOR DE BRIEF] Reemplazar con el reto o la pregunta de una línea que enmarcó este proyecto.",
   overview: [
     "[MARCADOR] Reemplazar con el brief real del proyecto: qué necesitaba el cliente y por qué.",
     "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
   ],
+  credits: [{ role: "Diseño", names: "Adrián Jiménez y Javier Acuña" }],
+  hero: {
+    src: "/images/oxygen/cover.jpg",
+    alt: "Oxygen. Imagen de portada",
+  },
   gallery: [
     {
       src: "/images/oxygen/gallery-1.svg",

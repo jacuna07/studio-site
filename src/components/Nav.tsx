@@ -60,7 +60,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         <div className="hidden md:flex items-center gap-9 font-mono text-xs uppercase tracking-[0.2em]">
           <nav className="flex gap-9">
             {t.links.map((l) => (
-              <Link key={l.href} href={l.href} className="hover:text-stone transition-colors">
+              <Link key={l.href} href={l.href} className="hover:text-cobalt hover:font-bold transition-colors">
                 {l.label}
               </Link>
             ))}
@@ -102,7 +102,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="font-display text-4xl font-normal hover:text-stone transition-colors"
+                className="font-display text-4xl font-normal hover:text-cobalt hover:font-bold transition-colors"
               >
                 {l.label}
               </Link>
