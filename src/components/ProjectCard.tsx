@@ -7,11 +7,15 @@ export default function ProjectCard({
   index,
   aspect = "wide",
   locale = "en",
+  overlay = "gradient",
+  showIndex = true,
 }: {
   project: Project;
   index: number;
   aspect?: "wide" | "square" | "uniform";
   locale?: "en" | "es";
+  overlay?: "gradient" | "solid";
+  showIndex?: boolean;
 }) {
   const href = locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`;
 
@@ -31,25 +35,44 @@ export default function ProjectCard({
         src={project.hero.src}
         alt={project.hero.alt}
         fill
-        className="object-cover"
+        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
       />
-      <div
-        className="absolute inset-0 flex flex-col justify-end p-8 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{
-          background:
-            "linear-gradient(to top, rgba(10,10,10,0.88), rgba(10,10,10,0) 58%)",
-        }}
-      >
-        <div className="font-mono text-[11px] tracking-[0.2em] text-stone mb-2">
-          {String(index).padStart(2, "0")}
+      {overlay === "solid" ? (
+        <div className="absolute inset-x-0 bottom-0 h-1/2 overflow-hidden">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-cobalt origin-center scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100"
+          />
+          <div className="relative z-10 flex h-full flex-col justify-end p-8 opacity-0 transition-opacity duration-300 delay-100 group-hover:opacity-100">
+            <div className="font-display text-2xl md:text-3xl font-medium text-paper">
+              {project.title}
+            </div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper mt-2">
+              {project.industry}
+            </div>
+          </div>
         </div>
-        <div className="font-display text-2xl md:text-3xl font-medium">
-          {project.title}
+      ) : (
+        <div
+          className="absolute inset-0 flex flex-col justify-end p-8 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(10,10,10,0.88), rgba(10,10,10,0) 58%)",
+          }}
+        >
+          {showIndex && (
+            <div className="font-mono text-[11px] tracking-[0.2em] text-stone mb-2">
+              {String(index).padStart(2, "0")}
+            </div>
+          )}
+          <div className="font-display text-2xl md:text-3xl font-medium">
+            {project.title}
+          </div>
+          <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper mt-2">
+            {project.industry}
+          </div>
         </div>
-        <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper mt-2">
-          {project.industry}
-        </div>
-      </div>
+      )}
     </Link>
   );
 }

@@ -43,6 +43,8 @@ export default function WorkGrid({
             index={gi * 3 + 1}
             aspect="wide"
             locale={locale}
+            overlay="solid"
+            showIndex={false}
           />
           {group.length > 1 && (
             <div className="grid grid-cols-1 md:grid-cols-2">
@@ -53,6 +55,8 @@ export default function WorkGrid({
                   index={gi * 3 + 2 + i}
                   aspect="square"
                   locale={locale}
+                  overlay="solid"
+                  showIndex={false}
                 />
               ))}
             </div>
