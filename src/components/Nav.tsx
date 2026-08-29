@@ -36,7 +36,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
   const esHref = locale === "es" ? pathname : `/es${pathname === "/" ? "" : pathname}`;
 
   return (
-    <header className="relative z-50">
+    <header id="top" className="relative z-50">
       <Container className="relative z-50 flex items-center justify-between py-6">
         <Link href={t.home} className="block" onClick={() => setOpen(false)}>
           <Image
@@ -58,7 +58,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         </Link>
 
         <div className="hidden md:flex items-center gap-10">
-          <nav className="flex gap-8 font-sans text-base">
+          <nav className="flex gap-8 font-sans text-base uppercase tracking-wide">
             {t.links.map((l) => (
               <Link
                 key={l.href}

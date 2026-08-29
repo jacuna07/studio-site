@@ -8,25 +8,31 @@ export default function HomePageEs() {
 
   return (
     <>
-      <section className="py-20 md:py-28">
+      <section className="py-28 md:py-40">
         <Container>
-          <h1 className="font-display font-normal text-4xl md:text-5xl lg:text-6xl leading-[1.15] tracking-normal max-w-3xl">
-            Un estudio de branding que construye identidades duraderas.
+          <h1 className="font-display font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.2] max-w-5xl">
+            Somos Tresunotres.
+            <br />
+            Dos diseñadores en Costa Rica que
+            <br />
+            construyen identidad de marca, empaques
+            <br />
+            y sistemas visuales{" "}
+            <span className="italic">desde adentro hacia afuera.</span>
           </h1>
-          <p className="mt-6 text-lg text-stone max-w-xl">
-            Diseñamos identidad de marca, empaques y sistemas visuales para
-            empresas que quieren ser recordadas.
-          </p>
-          <Link
-            href="/es/contact"
-            className="inline-block mt-8 border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] hover:border-cobalt hover:bg-cobalt hover:text-paper transition-colors"
-          >
-            Trabajemos juntos
-          </Link>
+          <div className="mt-16 flex justify-center">
+            <a
+              href="#work"
+              aria-label="Ir al trabajo"
+              className="text-2xl text-stone hover:text-cobalt transition-colors"
+            >
+              ↓
+            </a>
+          </div>
         </Container>
       </section>
 
-      <section className="py-16 border-t border-mist">
+      <section id="work" className="py-16 border-t border-mist">
         <Container>
           <div className="flex items-end justify-between mb-10">
             <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone">
