@@ -19,7 +19,7 @@ export default function HomePageEs() {
           </p>
           <Link
             href="/es/contact"
-            className="inline-block mt-8 border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] hover:border-cobalt hover:text-cobalt hover:font-bold transition-colors"
+            className="inline-block mt-8 border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] hover:border-cobalt hover:bg-cobalt hover:text-paper transition-colors"
           >
             Trabajemos juntos
           </Link>
@@ -34,12 +34,12 @@ export default function HomePageEs() {
             </h2>
             <Link
               href="/es/work"
-              className="font-mono text-xs uppercase tracking-[0.2em] hover:text-stone transition-colors"
+              className="font-mono text-xs uppercase tracking-[0.2em] hover:text-cobalt hover:font-bold transition-colors"
             >
               Ver todo
             </Link>
           </div>
-          <WorkGrid projects={projects} />
+          <WorkGrid projects={projects} locale="es" />
         </Container>
       </section>
     </>

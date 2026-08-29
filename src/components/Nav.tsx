@@ -68,14 +68,14 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           <div className="flex items-center gap-2 text-stone">
             <Link
               href={enHref}
-              className={locale === "en" ? "text-paper" : "hover:text-paper transition-colors"}
+              className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:font-bold transition-colors"}
             >
               EN
             </Link>
             <span>/</span>
             <Link
               href={esHref}
-              className={locale === "es" ? "text-paper" : "hover:text-paper transition-colors"}
+              className={locale === "es" ? "text-paper" : "hover:text-cobalt hover:font-bold transition-colors"}
             >
               SP
             </Link>
@@ -112,7 +112,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
             <Link
               href={enHref}
               onClick={() => setOpen(false)}
-              className={locale === "en" ? "text-paper" : "hover:text-paper transition-colors"}
+              className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:font-bold transition-colors"}
             >
               EN
             </Link>
@@ -120,7 +120,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
             <Link
               href={esHref}
               onClick={() => setOpen(false)}
-              className={locale === "es" ? "text-paper" : "hover:text-paper transition-colors"}
+              className={locale === "es" ? "text-paper" : "hover:text-cobalt hover:font-bold transition-colors"}
             >
               SP
             </Link>

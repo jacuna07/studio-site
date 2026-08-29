@@ -45,7 +45,7 @@ export default function ProjectPageEs({ params }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="md:col-span-2">
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-stone">
-              {project.type}
+              {project.industry}
             </span>
             <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mt-2">
               {project.title}
@@ -89,13 +89,9 @@ export default function ProjectPageEs({ params }: Props) {
             </div>
             <div>
               <dt className="uppercase tracking-[0.2em] text-stone text-xs">
-                Qué hicimos
+                Industria
               </dt>
-              <dd className="mt-1 space-y-1">
-                {project.services.map((service, i) => (
-                  <div key={i}>{service}</div>
-                ))}
-              </dd>
+              <dd className="mt-1">{project.industry}</dd>
             </div>
           </dl>
         </div>
@@ -118,7 +114,7 @@ export default function ProjectPageEs({ params }: Props) {
             <span className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2">
               ← Anterior
             </span>
-            <span className="font-display text-lg group-hover:text-cobalt transition-colors">
+            <span className="font-display text-lg group-hover:text-cobalt group-hover:font-bold transition-colors">
               {prev.title}
             </span>
           </Link>
@@ -126,7 +122,7 @@ export default function ProjectPageEs({ params }: Props) {
             <span className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2">
               Siguiente →
             </span>
-            <span className="font-display text-lg group-hover:text-cobalt transition-colors">
+            <span className="font-display text-lg group-hover:text-cobalt group-hover:font-bold transition-colors">
               {next.title}
             </span>
           </Link>

@@ -5,9 +5,8 @@ const project: Project = {
   title: "Oxygen",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Oxygen",
-  year: "[YEAR]",
-  type: "[PROJECT TYPE]",
-  services: ["[SERVICES TBD]"],
+  year: "2022",
+  industry: "Fitness",
   summary: "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Oxygen project.",
   brief:
     "[BRIEF PLACEHOLDER] Replace with the one-line challenge or question that framed this project.",

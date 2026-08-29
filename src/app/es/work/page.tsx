@@ -14,7 +14,7 @@ export default function WorkPageEs() {
         <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-12">
           Trabajo
         </h1>
-        <WorkGrid projects={projects} />
+        <WorkGrid projects={projects} locale="es" />
       </Container>
     </section>
   );

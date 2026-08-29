@@ -59,7 +59,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
           <div>
             <Link
               href={t.contactHref}
-              className="font-display text-5xl md:text-6xl font-normal inline-block hover:text-stone transition-colors"
+              className="font-display text-5xl md:text-6xl font-normal inline-block hover:text-cobalt transition-colors"
             >
               {t.talk}
               <span className="text-cobalt">.</span>
@@ -69,7 +69,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
             </p>
             <Link
               href={t.contactHref}
-              className="inline-block mt-8 border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] hover:border-cobalt hover:text-cobalt hover:font-bold transition-colors"
+              className="inline-block mt-8 border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] hover:border-cobalt hover:bg-cobalt hover:text-paper transition-colors"
             >
               {t.cta}
             </Link>
@@ -77,7 +77,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
           <div className="font-mono text-[11px] tracking-[0.2em] text-stone flex flex-col items-start md:items-end gap-3">
             <div className="flex gap-6">
               {t.nav.map((l) => (
-                <Link key={l.href} href={l.href} className="hover:text-paper transition-colors">
+                <Link key={l.href} href={l.href} className="hover:text-cobalt hover:font-bold transition-colors">
                   {l.label}
                 </Link>
               ))}

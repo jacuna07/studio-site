@@ -6,14 +6,18 @@ export default function ProjectCard({
   project,
   index,
   aspect = "wide",
+  locale = "en",
 }: {
   project: Project;
   index: number;
   aspect?: "wide" | "square";
+  locale?: "en" | "es";
 }) {
+  const href = locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`;
+
   return (
     <Link
-      href={`/work/${project.slug}`}
+      href={href}
       className={`group relative block overflow-hidden bg-mist shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] aspect-[4/3] ${
         aspect === "wide" ? "md:aspect-[21/9]" : "md:aspect-[4/3]"
       }`}
@@ -37,8 +41,8 @@ export default function ProjectCard({
         <div className="font-display text-2xl md:text-3xl font-medium">
           {project.title}
         </div>
-        <div className="font-mono text-[10px] tracking-[0.2em] text-cobalt mt-2">
-          {project.type}
+        <div className="font-mono text-[10px] tracking-[0.2em] text-paper mt-2">
+          {project.industry}
         </div>
       </div>
     </Link>

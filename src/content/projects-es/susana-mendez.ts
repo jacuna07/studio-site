@@ -5,9 +5,8 @@ const project: Project = {
   title: "Susana Méndez",
   tagline: "[MARCADOR DE ESLOGAN] Una línea breve que capture la esencia de la marca.",
   client: "Susana Méndez",
-  year: "[AÑO]",
-  type: "[TIPO DE PROYECTO]",
-  services: ["[SERVICIOS POR DEFINIR]"],
+  year: "2024",
+  industry: "Legal",
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Susana Méndez.",
   brief:

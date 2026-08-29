@@ -5,9 +5,8 @@ const project: Project = {
   title: "Susana Méndez",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Susana Méndez",
-  year: "[YEAR]",
-  type: "[PROJECT TYPE]",
-  services: ["[SERVICES TBD]"],
+  year: "2024",
+  industry: "Law",
   summary: "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Susana Méndez project.",
   brief:
     "[BRIEF PLACEHOLDER] Replace with the one-line challenge or question that framed this project.",

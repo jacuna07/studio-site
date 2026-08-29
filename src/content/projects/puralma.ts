@@ -5,9 +5,8 @@ const project: Project = {
   title: "Puralma",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Puralma",
-  year: "[YEAR]",
-  type: "[PROJECT TYPE]",
-  services: ["[SERVICES TBD]"],
+  year: "2026",
+  industry: "Food & Restaurants",
   summary: "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Puralma project.",
   brief:
     "[BRIEF PLACEHOLDER] Replace with the one-line challenge or question that framed this project.",

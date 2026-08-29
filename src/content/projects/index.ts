@@ -2,8 +2,18 @@ import type { Project } from "./types";
 import oxygen from "./oxygen";
 import puralma from "./puralma";
 import susanaMendez from "./susana-mendez";
+import cocoBrew from "./co-co-brew";
+import fiveTrainingCenter from "./five-training-center";
+import nahmudRealEstate from "./nahmud-real-estate";
 
-export const projects: Project[] = [oxygen, puralma, susanaMendez];
+export const projects: Project[] = [
+  oxygen,
+  puralma,
+  susanaMendez,
+  cocoBrew,
+  fiveTrainingCenter,
+  nahmudRealEstate,
+];
 
 export function getAllProjects(): Project[] {
   return projects;

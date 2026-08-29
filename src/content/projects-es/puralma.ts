@@ -5,9 +5,8 @@ const project: Project = {
   title: "Puralma",
   tagline: "[MARCADOR DE ESLOGAN] Una línea breve que capture la esencia de la marca.",
   client: "Puralma",
-  year: "[AÑO]",
-  type: "[TIPO DE PROYECTO]",
-  services: ["[SERVICIOS POR DEFINIR]"],
+  year: "2026",
+  industry: "Alimentos y Restaurantes",
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Puralma.",
   brief:

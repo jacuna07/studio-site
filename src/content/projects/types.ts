@@ -10,8 +10,7 @@ export type Project = {
   tagline: string;
   client: string;
   year: string;
-  type: string;
-  services: string[];
+  industry: string;
   summary: string;
   brief: string;
   overview: string[];

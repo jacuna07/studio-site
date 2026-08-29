@@ -123,7 +123,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] hover:border-cobalt hover:text-cobalt hover:font-bold transition-colors disabled:opacity-50"
+        className="border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] hover:border-cobalt hover:bg-cobalt hover:text-paper transition-colors disabled:opacity-50"
       >
         {status === "loading" ? t.sending : t.send}
       </button>

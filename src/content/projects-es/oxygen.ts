@@ -5,9 +5,8 @@ const project: Project = {
   title: "Oxygen",
   tagline: "[MARCADOR DE ESLOGAN] Una línea breve que capture la esencia de la marca.",
   client: "Oxygen",
-  year: "[AÑO]",
-  type: "[TIPO DE PROYECTO]",
-  services: ["[SERVICIOS POR DEFINIR]"],
+  year: "2022",
+  industry: "Fitness",
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Oxygen.",
   brief:
