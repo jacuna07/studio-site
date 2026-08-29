@@ -16,7 +16,7 @@ const project: Project = {
     "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
   ],
   hero: {
-    src: "/images/amimed/cover.svg",
+    src: "/images/amimed/cover.jpg",
     alt: "Amimed. Imagen de portada",
   },
   gallery: [

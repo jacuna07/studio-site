@@ -16,7 +16,7 @@ const project: Project = {
     "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
   ],
   hero: {
-    src: "/images/nahmud/cover.svg",
+    src: "/images/nahmud/cover.jpg",
     alt: "Nahmud. Imagen de portada",
   },
   gallery: [

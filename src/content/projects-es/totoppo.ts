@@ -16,7 +16,7 @@ const project: Project = {
     "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
   ],
   hero: {
-    src: "/images/totoppo/cover.svg",
+    src: "/images/totoppo/cover.jpg",
     alt: "Totoppo. Imagen de portada",
   },
   gallery: [

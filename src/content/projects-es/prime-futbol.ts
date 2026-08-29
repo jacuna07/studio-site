@@ -16,7 +16,7 @@ const project: Project = {
     "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
   ],
   hero: {
-    src: "/images/prime-futbol/cover.svg",
+    src: "/images/prime-futbol/cover.jpg",
     alt: "Prime Fútbol. Imagen de portada",
   },
   gallery: [

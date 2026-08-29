@@ -16,7 +16,7 @@ const project: Project = {
     "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
   ],
   hero: {
-    src: "/images/base-programming/cover.svg",
+    src: "/images/base-programming/cover.jpg",
     alt: "Base Programming. Imagen de portada",
   },
   gallery: [

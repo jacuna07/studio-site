@@ -16,7 +16,7 @@ const project: Project = {
     "[PLACEHOLDER] Replace with a short paragraph on the approach and the outcome.",
   ],
   hero: {
-    src: "/images/valerios/cover.svg",
+    src: "/images/valerios/cover.jpg",
     alt: "Valerios. Cover image",
   },
   gallery: [

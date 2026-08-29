@@ -16,7 +16,7 @@ const project: Project = {
     "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
   ],
   hero: {
-    src: "/images/valerios/cover.svg",
+    src: "/images/valerios/cover.jpg",
     alt: "Valerios. Imagen de portada",
   },
   gallery: [
