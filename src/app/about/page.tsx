@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Container from "@/components/Container";
 
-export const metadata: Metadata = { title: "About — Tresunotres" };
+export const metadata: Metadata = { title: "About. Tresunotres" };
 
 const team = [
   {
@@ -27,7 +27,7 @@ export default function AboutPage() {
         <div className="space-y-6 text-stone text-lg">
           <p>
             Tresunotres is a brand design studio based in Costa Rica. Most
-            studios design the brand and hope the product catches up — we
+            studios design the brand and hope the product catches up. We
             start on the other side, inside the product or service itself,
             using its actual structure as the base the brand is built on. The
             visible identity comes after, once that foundation holds.
@@ -35,19 +35,19 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-16">
-          <h2 className="font-mono text-xs uppercase tracking-wide text-stone mb-4">
+          <h2 className="font-mono text-xs uppercase tracking-widest text-stone mb-4">
             How we work
           </h2>
           <div className="space-y-4 text-stone">
             <p>
               We work in the shadows, by design. Once a project starts, we
-              stay close — hand in hand with the client through the whole
+              stay close. Hand in hand with the client through the whole
               process, rather than disappearing to design in isolation and
               resurfacing with a finished deck.
             </p>
             <p>
               Every project we&apos;ve taken on so far has come to us through
-              word of mouth — a past client recommending us to someone they
+              word of mouth. A past client recommending us to someone they
               trust. We&apos;ve kept it that way on purpose. It keeps the
               studio small, and it means every client gets both of us, start
               to finish.
@@ -56,19 +56,19 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-16">
-          <h2 className="font-mono text-xs uppercase tracking-wide text-stone mb-8">
+          <h2 className="font-mono text-xs uppercase tracking-widest text-stone mb-8">
             The team
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
             {team.map((person) => (
               <div key={person.name}>
                 <div className="relative aspect-square bg-mist overflow-hidden flex items-center justify-center">
-                  <span className="font-mono text-[11px] uppercase tracking-wide text-stone">
-                    Photo — placeholder
+                  <span className="font-mono text-[11px] uppercase tracking-widest text-stone">
+                    Photo. Placeholder
                   </span>
                 </div>
                 <h3 className="font-display text-lg mt-4">{person.name}</h3>
-                <p className="font-mono text-[11px] uppercase tracking-wide text-stone mt-1">
+                <p className="font-mono text-[11px] uppercase tracking-widest text-stone mt-1">
                   {person.role}
                 </p>
                 <p className="text-stone mt-3">{person.bio}</p>

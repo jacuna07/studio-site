@@ -8,34 +8,34 @@ const project: Project = {
   type: "Rebrand & Packaging",
   services: ["Brand Strategy", "Identity System", "Packaging", "Brand Guidelines"],
   summary:
-    "PLACEHOLDER — A ground-up rebrand for a home goods supply company moving toward sustainable materials.",
+    "PLACEHOLDER. A ground-up rebrand for a home goods supply company moving toward sustainable materials.",
   hero: {
     src: "/images/lumen-supply/hero.svg",
-    alt: "Lumen Supply — placeholder hero image",
+    alt: "Lumen Supply. Placeholder hero image",
   },
   overview: [
-    "PLACEHOLDER — Replace with the real project brief: what the client needed, and why.",
-    "PLACEHOLDER — Replace with a short paragraph on the approach and the outcome.",
+    "PLACEHOLDER. Replace with the real project brief: what the client needed, and why.",
+    "PLACEHOLDER. Replace with a short paragraph on the approach and the outcome.",
   ],
   gallery: [
     {
       src: "/images/lumen-supply/gallery-1.svg",
-      alt: "Lumen Supply — placeholder logo variations",
+      alt: "Lumen Supply. Placeholder logo variations",
       aspect: "square",
     },
     {
       src: "/images/lumen-supply/gallery-2.svg",
-      alt: "Lumen Supply — placeholder packaging mockup",
+      alt: "Lumen Supply. Placeholder packaging mockup",
       aspect: "square",
     },
     {
       src: "/images/lumen-supply/gallery-3.svg",
-      alt: "Lumen Supply — placeholder label detail",
+      alt: "Lumen Supply. Placeholder label detail",
       aspect: "portrait",
     },
     {
       src: "/images/lumen-supply/gallery-4.svg",
-      alt: "Lumen Supply — placeholder brand pattern",
+      alt: "Lumen Supply. Placeholder brand pattern",
       aspect: "wide",
     },
   ],

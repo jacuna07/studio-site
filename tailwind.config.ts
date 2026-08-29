@@ -13,7 +13,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-montserrat)", "system-ui", "sans-serif"],
         display: ["var(--font-syne)", "var(--font-montserrat)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "Helvetica Neue", "Arial", "sans-serif"],
+        mono: ["var(--font-montserrat)", "Helvetica Neue", "Arial", "sans-serif"],
       },
       maxWidth: {
         content: "1440px",

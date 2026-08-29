@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Container from "@/components/Container";
 import ContactForm from "@/components/ContactForm";
 
-export const metadata: Metadata = { title: "Contact — Tresunotres" };
+export const metadata: Metadata = { title: "Contact. Tresunotres" };
 
 export default function ContactPage() {
   return (

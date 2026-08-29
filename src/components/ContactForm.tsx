@@ -36,7 +36,7 @@ export default function ContactForm() {
   }
 
   if (status === "success") {
-    return <p className="text-lg">Thanks — we&apos;ll be in touch soon.</p>;
+    return <p className="text-lg">Thanks. We&apos;ll be in touch soon.</p>;
   }
 
   return (
@@ -44,7 +44,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="name"
-          className="block font-mono text-xs uppercase tracking-wide text-stone mb-2"
+          className="block font-mono text-xs uppercase tracking-widest text-stone mb-2"
         >
           Name
         </label>
@@ -59,7 +59,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="email"
-          className="block font-mono text-xs uppercase tracking-wide text-stone mb-2"
+          className="block font-mono text-xs uppercase tracking-widest text-stone mb-2"
         >
           Email
         </label>
@@ -74,7 +74,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="message"
-          className="block font-mono text-xs uppercase tracking-wide text-stone mb-2"
+          className="block font-mono text-xs uppercase tracking-widest text-stone mb-2"
         >
           Project details
         </label>
@@ -89,13 +89,13 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="border border-paper px-6 py-3 font-mono text-xs uppercase tracking-wide hover:bg-paper hover:text-ink transition-colors disabled:opacity-50"
+        className="border border-paper px-6 py-3 font-mono text-xs uppercase tracking-widest hover:bg-paper hover:text-ink transition-colors disabled:opacity-50"
       >
         {status === "loading" ? "Sending…" : "Send"}
       </button>
       {status === "error" && (
         <p className="text-sm text-red-600">
-          Something went wrong — please try again, or email us directly.
+          Something went wrong. Please try again, or email us directly.
         </p>
       )}
     </form>

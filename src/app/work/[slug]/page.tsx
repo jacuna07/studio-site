@@ -19,7 +19,7 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const project = getProjectBySlug(params.slug);
   if (!project) return {};
-  return { title: `${project.title} — Tresunotres` };
+  return { title: `${project.title}. Tresunotres` };
 }
 
 export default function ProjectPage({ params }: Props) {
@@ -42,7 +42,7 @@ export default function ProjectPage({ params }: Props) {
       <Container className="py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="md:col-span-2">
-            <span className="font-mono text-xs uppercase tracking-wide text-stone">
+            <span className="font-mono text-xs uppercase tracking-widest text-stone">
               {project.type}
             </span>
             <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mt-2">
@@ -56,19 +56,19 @@ export default function ProjectPage({ params }: Props) {
           </div>
           <dl className="font-mono text-sm space-y-4 md:border-l md:border-mist md:pl-10">
             <div>
-              <dt className="uppercase tracking-wide text-stone text-xs">
+              <dt className="uppercase tracking-widest text-stone text-xs">
                 Client
               </dt>
               <dd className="mt-1">{project.client}</dd>
             </div>
             <div>
-              <dt className="uppercase tracking-wide text-stone text-xs">
+              <dt className="uppercase tracking-widest text-stone text-xs">
                 Year
               </dt>
               <dd className="mt-1">{project.year}</dd>
             </div>
             <div>
-              <dt className="uppercase tracking-wide text-stone text-xs">
+              <dt className="uppercase tracking-widest text-stone text-xs">
                 Services
               </dt>
               <dd className="mt-1">{project.services.join(", ")}</dd>
@@ -84,13 +84,13 @@ export default function ProjectPage({ params }: Props) {
           <blockquote className="mt-16 border-t border-mist pt-10 text-xl md:text-2xl font-medium max-w-2xl">
             &ldquo;{project.quote.text}&rdquo;
             <footer className="mt-4 text-sm text-stone">
-              — {project.quote.author}
+              {project.quote.author}
             </footer>
           </blockquote>
         )}
 
         <div className="mt-20 border-t border-mist pt-10 flex items-center justify-between">
-          <span className="font-mono text-xs uppercase tracking-wide text-stone">
+          <span className="font-mono text-xs uppercase tracking-widest text-stone">
             Next project
           </span>
           <Link

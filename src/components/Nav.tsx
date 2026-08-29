@@ -22,14 +22,14 @@ export default function Nav() {
             priority
           />
         </Link>
-        <nav className="flex gap-9 font-mono text-xs uppercase tracking-wide">
+        <nav className="flex gap-9 font-mono text-xs uppercase tracking-widest">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               className="hover:text-stone transition-colors"
             >
-              {l.index} &mdash; {l.label}
+              {l.index}. {l.label}
             </Link>
           ))}
         </nav>

@@ -11,7 +11,7 @@ export default function ProjectCard({
 }) {
   return (
     <Link href={`/work/${project.slug}`} className="group block bg-ink p-7">
-      <div className="font-mono text-[11px] text-stone mb-4">
+      <div className="font-mono text-[11px] tracking-widest text-stone mb-4">
         {String(index).padStart(2, "0")}
       </div>
       <div className="relative aspect-video overflow-hidden bg-mist">
@@ -27,7 +27,7 @@ export default function ProjectCard({
           <h3 className="text-lg font-medium">{project.title}</h3>
           <p className="text-sm text-stone mt-1">{project.summary}</p>
         </div>
-        <span className="font-mono text-[11px] uppercase tracking-wide text-stone whitespace-nowrap mt-1">
+        <span className="font-mono text-[11px] uppercase tracking-widest text-stone whitespace-nowrap mt-1">
           {project.type}
         </span>
       </div>

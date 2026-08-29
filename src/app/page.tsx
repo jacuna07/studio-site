@@ -19,7 +19,7 @@ export default function HomePage() {
           </p>
           <Link
             href="/contact"
-            className="inline-block mt-8 border border-paper px-6 py-3 font-mono text-xs uppercase tracking-wide hover:bg-paper hover:text-ink transition-colors"
+            className="inline-block mt-8 border border-paper px-6 py-3 font-mono text-xs uppercase tracking-widest hover:bg-paper hover:text-ink transition-colors"
           >
             Start a project
           </Link>
@@ -29,12 +29,12 @@ export default function HomePage() {
       <section className="py-16 border-t border-mist">
         <Container>
           <div className="flex items-end justify-between mb-10">
-            <h2 className="font-mono text-xs uppercase tracking-wide text-stone">
+            <h2 className="font-mono text-xs uppercase tracking-widest text-stone">
               Selected work
             </h2>
             <Link
               href="/work"
-              className="font-mono text-xs uppercase tracking-wide hover:text-stone transition-colors"
+              className="font-mono text-xs uppercase tracking-widest hover:text-stone transition-colors"
             >
               View all
             </Link>
