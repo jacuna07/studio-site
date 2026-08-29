@@ -44,8 +44,8 @@ const copy: Record<
   },
   es: {
     home: "/es",
-    headlineLine1: "Cuéntanos",
-    headlineLine2: "sobre lo próximo grande.",
+    headlineLine1: "Contanos",
+    headlineLine2: "sobre tu próximo proyecto.",
     backHeadlineLine1: "Llévame",
     backHeadlineLine2: "a casa.",
     instagram: "[INSTAGRAM]",
