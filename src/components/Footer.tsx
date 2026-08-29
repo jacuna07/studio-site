@@ -26,7 +26,7 @@ const copy: Record<
 > = {
   en: {
     home: "/",
-    headlineLine1: "Tell us —",
+    headlineLine1: "Tell us",
     headlineLine2: "about the next big thing.",
     backHeadlineLine1: "Take me",
     backHeadlineLine2: "home.",
@@ -44,7 +44,7 @@ const copy: Record<
   },
   es: {
     home: "/es",
-    headlineLine1: "Cuéntanos —",
+    headlineLine1: "Cuéntanos",
     headlineLine2: "sobre lo próximo grande.",
     backHeadlineLine1: "Llévame",
     backHeadlineLine2: "a casa.",
