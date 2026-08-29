@@ -79,7 +79,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         </Link>
 
         <div className="hidden md:flex items-center gap-10">
-          <nav className="flex gap-8 font-sans text-base uppercase tracking-wide">
+          <nav className="flex gap-9 font-sans text-base uppercase tracking-wide">
             {t.links.map((l) => (
               <Link
                 key={l.href}
