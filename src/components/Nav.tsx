@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -29,22 +29,43 @@ const copy: Record<Locale, { home: string; links: { href: string; label: string 
 
 export default function Nav({ locale = "en" }: { locale?: Locale }) {
   const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(true);
   const pathname = usePathname() || "/";
   const t = copy[locale];
 
   const enHref = locale === "en" ? pathname : pathname.replace(/^\/es/, "") || "/";
   const esHref = locale === "es" ? pathname : `/es${pathname === "/" ? "" : pathname}`;
 
+  useEffect(() => {
+    let lastY = window.scrollY;
+
+    function onScroll() {
+      const currentY = window.scrollY;
+      const goingDown = currentY > lastY;
+
+      setVisible(currentY < 80 ? true : !goingDown);
+      lastY = currentY;
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header id="top" className="relative z-50">
-      <Container className="relative z-50 flex items-center justify-between py-6">
+    <header
+      id="top"
+      className={`fixed top-0 inset-x-0 z-50 bg-ink transition-transform duration-300 ${
+        visible || open ? "translate-y-0" : "-translate-y-full"
+      }`}
+    >
+      <Container className="relative z-50 flex items-center justify-between h-20">
         <Link href={t.home} className="block" onClick={() => setOpen(false)}>
           <Image
             src="/images/wordmark.svg"
             alt="Tresunotres"
             width={140}
             height={8}
-            className="hidden md:block h-5 w-auto"
+            className="hidden md:block h-[15px] w-auto"
             priority
           />
           <Image
@@ -52,7 +73,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
             alt="Tresunotres"
             width={386}
             height={386}
-            className="md:hidden h-8 w-8"
+            className="md:hidden h-6 w-6"
             priority
           />
         </Link>

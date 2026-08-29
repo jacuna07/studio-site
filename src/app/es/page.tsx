@@ -8,7 +8,7 @@ export default function HomePageEs() {
 
   return (
     <>
-      <section className="py-28 md:py-40">
+      <section className="min-h-[calc(100vh-5rem)] flex flex-col justify-center py-20">
         <Container>
           <h1 className="font-display font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.2] max-w-5xl">
             Somos Tresunotres.
@@ -24,7 +24,7 @@ export default function HomePageEs() {
             <a
               href="#work"
               aria-label="Ir al trabajo"
-              className="text-2xl text-stone hover:text-cobalt transition-colors"
+              className="text-6xl md:text-7xl text-stone hover:text-cobalt transition-colors"
             >
               ↓
             </a>
@@ -46,6 +46,14 @@ export default function HomePageEs() {
             </Link>
           </div>
           <WorkGrid projects={projects} locale="es" />
+          <div className="mt-16 flex justify-center">
+            <Link
+              href="/es/work"
+              className="inline-block border border-paper px-8 py-4 font-mono text-xs uppercase tracking-[0.2em] hover:border-cobalt hover:bg-cobalt hover:text-paper transition-colors"
+            >
+              Ver más
+            </Link>
+          </div>
         </Container>
       </section>
     </>
