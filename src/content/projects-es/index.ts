@@ -19,6 +19,7 @@ import sunari from "./sunari";
 import zero from "./zero";
 import nftFisher from "./nft-fisher";
 import lemur from "./lemur";
+import renu from "./renu";
 
 export const projects: Project[] = [
   oxygen,
@@ -41,6 +42,7 @@ export const projects: Project[] = [
   zero,
   nftFisher,
   lemur,
+  renu,
 ];
 
 export function getAllProjects(): Project[] {
