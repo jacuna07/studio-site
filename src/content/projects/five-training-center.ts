@@ -8,6 +8,7 @@ const project: Project = {
   year: "2022",
   industry: "Fitness",
   featured: true,
+  featuredOrder: 5,
   summary:
     "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Five Training Center project.",
   brief:

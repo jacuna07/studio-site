@@ -7,6 +7,8 @@ const project: Project = {
   client: "Nahmud",
   year: "2023",
   industry: "Bienes Raíces",
+  featured: true,
+  featuredOrder: 6,
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Nahmud.",
   brief:

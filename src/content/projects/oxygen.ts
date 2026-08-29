@@ -8,6 +8,7 @@ const project: Project = {
   year: "2022",
   industry: "Fitness",
   featured: true,
+  featuredOrder: 1,
   summary: "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Oxygen project.",
   brief:
     "[BRIEF PLACEHOLDER] Replace with the one-line challenge or question that framed this project.",

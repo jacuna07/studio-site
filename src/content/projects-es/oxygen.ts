@@ -8,6 +8,7 @@ const project: Project = {
   year: "2022",
   industry: "Fitness",
   featured: true,
+  featuredOrder: 1,
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Oxygen.",
   brief:

@@ -8,6 +8,7 @@ const project: Project = {
   year: "2025",
   industry: "Fitness",
   featured: true,
+  featuredOrder: 4,
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Nahara Pilates.",
   brief:

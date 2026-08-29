@@ -50,7 +50,9 @@ export function getAllProjects(): Project[] {
 }
 
 export function getFeaturedProjects(): Project[] {
-  return projects.filter((p) => p.featured);
+  return projects
+    .filter((p) => p.featured)
+    .sort((a, b) => (a.featuredOrder ?? 0) - (b.featuredOrder ?? 0));
 }
 
 export function getProjectBySlug(slug: string): Project | undefined {

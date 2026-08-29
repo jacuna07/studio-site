@@ -7,7 +7,7 @@ const project: Project = {
   client: "Co.Co Brew",
   year: "2021",
   industry: "Startups",
-  featured: true,
+  featured: false,
   summary:
     "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Co.Co Brew project.",
   brief:

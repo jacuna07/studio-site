@@ -8,6 +8,7 @@ const project: Project = {
   year: "2026",
   industry: "Alimentos y Restaurantes",
   featured: true,
+  featuredOrder: 2,
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Puralma.",
   brief:
