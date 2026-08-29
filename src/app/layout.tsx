@@ -15,13 +15,14 @@ const montserrat = Montserrat({
 const siteTitle = "Tresunotres. Branding & Identity";
 const siteDescription =
   "A branding studio portfolio showcasing identity, packaging, and visual design work.";
+const previewTitle = "Tresunotres – Site Preview";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://studio-site-ochre.vercel.app"),
   title: siteTitle,
   description: siteDescription,
   openGraph: {
-    title: siteTitle,
+    title: previewTitle,
     description: siteDescription,
     url: "/",
     siteName: "Tresunotres",
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: siteTitle,
+    title: previewTitle,
     description: siteDescription,
     images: ["/images/og-cover.jpg"],
   },
