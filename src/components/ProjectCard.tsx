@@ -41,7 +41,7 @@ export default function ProjectCard({
         <div className="font-display text-2xl md:text-3xl font-medium">
           {project.title}
         </div>
-        <div className="font-mono text-[10px] tracking-[0.2em] text-paper mt-2">
+        <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-paper mt-2">
           {project.industry}
         </div>
       </div>

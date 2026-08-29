@@ -40,7 +40,7 @@ export default function HomePage() {
         <Container>
           <div className="flex items-end justify-between mb-10">
             <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone">
-              Selected work
+              Featured
             </h2>
             <Link
               href="/work"

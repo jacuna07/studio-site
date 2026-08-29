@@ -51,6 +51,13 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   return (
     <header
       id="top"
@@ -73,7 +80,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
             alt="Tresunotres"
             width={386}
             height={386}
-            className="md:hidden h-6 w-6"
+            className="md:hidden h-[30px] w-[30px]"
             priority
           />
         </Link>
@@ -120,7 +127,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
       </Container>
 
       {open && (
-        <div className="md:hidden fixed inset-0 z-40 flex flex-col justify-between bg-ink px-6 pt-24 pb-10">
+        <div className="md:hidden fixed inset-x-0 top-0 z-40 flex h-dvh flex-col justify-between bg-ink px-6 pt-24 pb-10">
           <nav className="flex flex-col gap-6">
             {t.links.map((l) => (
               <Link

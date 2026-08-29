@@ -41,7 +41,7 @@ export default function HomePageEs() {
         <Container>
           <div className="flex items-end justify-between mb-10">
             <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone">
-              Trabajo seleccionado
+              Destacado
             </h2>
             <Link
               href="/es/work"
