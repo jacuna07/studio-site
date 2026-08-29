@@ -2,10 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 
-// TODO: replace with your real Formspree endpoint once you've created a form
-// at https://formspree.io (free tier). It will look like:
-// https://formspree.io/f/xxxxabcd
-const FORMSPREE_ENDPOINT = "https://formspree.io/f/REPLACE_ME";
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xljedpak";
 
 type Status = "idle" | "loading" | "success" | "error";
 type Locale = "en" | "es";
