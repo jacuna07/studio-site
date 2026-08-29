@@ -14,8 +14,9 @@ export default function ProjectCard({
   return (
     <Link
       href={`/work/${project.slug}`}
-      className="group relative block overflow-hidden bg-mist shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]"
-      style={{ aspectRatio: aspect === "wide" ? "21 / 9" : "4 / 3" }}
+      className={`group relative block overflow-hidden bg-mist shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] aspect-[4/3] ${
+        aspect === "wide" ? "md:aspect-[21/9]" : "md:aspect-[4/3]"
+      }`}
     >
       <Image
         src={project.hero.src}
