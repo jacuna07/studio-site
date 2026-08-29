@@ -48,3 +48,24 @@ body {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+@keyframes text-wipe {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.text-wipe-overlay {
+  width: 0%;
+  animation: text-wipe 1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-wipe-overlay {
+    animation: none;
+    width: 100%;
+  }
+}
