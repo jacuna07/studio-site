@@ -97,17 +97,17 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
               <div>{t.linkedin}</div>
             </div>
           </div>
-          <div
-            className={`font-mono text-[10px] tracking-[0.2em] ${muted} flex flex-col gap-2 md:items-end transition-colors duration-300`}
-          >
-            <p>
-              &copy; {new Date().getFullYear()} TRESUNOTRES. {t.rights}
-            </p>
-            <a href={`mailto:${t.email}`} className={secondaryHover}>
-              {t.email}
-            </a>
-            <p>{t.location}</p>
-          </div>
+        </div>
+        <div
+          className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-16 pt-6 border-t text-[10px] font-mono tracking-[0.2em] ${muted} ${divider} transition-colors duration-300`}
+        >
+          <p>
+            &copy; {new Date().getFullYear()} TRESUNOTRES. {t.rights}
+          </p>
+          <a href={`mailto:${t.email}`} className={`uppercase ${secondaryHover}`}>
+            {t.email}
+          </a>
+          <p>{t.location}</p>
         </div>
       </Container>
     </footer>
