@@ -16,17 +16,23 @@ export default function Footer() {
             <p className="font-mono text-xs tracking-[0.2em] text-stone mt-6">
               [EMAIL PLACEHOLDER] &middot; COSTA RICA
             </p>
+            <Link
+              href="/contact"
+              className="inline-block mt-8 border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] hover:border-cobalt hover:bg-cobalt hover:text-paper transition-colors"
+            >
+              Start a project
+            </Link>
           </div>
           <div className="font-mono text-[11px] tracking-[0.2em] text-stone flex flex-col items-start md:items-end gap-3">
             <div className="flex gap-6">
               <Link href="/work" className="hover:text-paper transition-colors">
-                01. WORK
+                WORK
               </Link>
               <Link href="/about" className="hover:text-paper transition-colors">
-                02. ABOUT
+                ABOUT
               </Link>
               <Link href="/contact" className="hover:text-paper transition-colors">
-                03. CONTACT
+                CONTACT
               </Link>
             </div>
             <div>[INSTAGRAM] &middot; [LINKEDIN]</div>

@@ -18,8 +18,23 @@ const project: Project = {
   ],
   gallery: [
     {
-      src: "/images/susana-mendez/cover.jpg",
-      alt: "Susana Méndez. Cover image",
+      src: "/images/susana-mendez/gallery-1.svg",
+      alt: "Susana Méndez. Placeholder — logo system needed here.",
+      aspect: "square",
+    },
+    {
+      src: "/images/susana-mendez/gallery-2.svg",
+      alt: "Susana Méndez. Placeholder — color & type needed here.",
+      aspect: "square",
+    },
+    {
+      src: "/images/susana-mendez/gallery-3.svg",
+      alt: "Susana Méndez. Placeholder — primary application photo needed here.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/susana-mendez/gallery-4.svg",
+      alt: "Susana Méndez. Placeholder — environment or lifestyle photo needed here.",
       aspect: "wide",
     },
   ],

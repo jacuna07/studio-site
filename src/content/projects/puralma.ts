@@ -18,8 +18,23 @@ const project: Project = {
   ],
   gallery: [
     {
-      src: "/images/puralma/cover.jpg",
-      alt: "Puralma. Cover image",
+      src: "/images/puralma/gallery-1.svg",
+      alt: "Puralma. Placeholder — logo system needed here.",
+      aspect: "square",
+    },
+    {
+      src: "/images/puralma/gallery-2.svg",
+      alt: "Puralma. Placeholder — color & type needed here.",
+      aspect: "square",
+    },
+    {
+      src: "/images/puralma/gallery-3.svg",
+      alt: "Puralma. Placeholder — primary application photo needed here.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/puralma/gallery-4.svg",
+      alt: "Puralma. Placeholder — environment or lifestyle photo needed here.",
       aspect: "wide",
     },
   ],
