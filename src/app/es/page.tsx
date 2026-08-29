@@ -17,8 +17,11 @@ export default function HomePageEs() {
             <span className="block animate-line" style={{ animationDelay: "150ms" }}>
               proceso a la medida perfeccionado por años.
             </span>
-            <span className="block animate-line" style={{ animationDelay: "300ms" }}>
-              Diseñamos los cimientos. Tu marca disfruta{" "}
+            <span className="block animate-line mt-4" style={{ animationDelay: "600ms" }}>
+              Diseñamos los cimientos.
+            </span>
+            <span className="block animate-line" style={{ animationDelay: "750ms" }}>
+              Tu marca disfruta{" "}
               <span className="text-cobalt">el protagonismo.</span>
             </span>
           </h1>
