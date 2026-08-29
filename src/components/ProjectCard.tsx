@@ -2,9 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/content/projects/types";
 
-export default function ProjectCard({ project }: { project: Project }) {
+export default function ProjectCard({
+  project,
+  index,
+}: {
+  project: Project;
+  index: number;
+}) {
   return (
-    <Link href={`/work/${project.slug}`} className="group block">
+    <Link href={`/work/${project.slug}`} className="group block bg-ink p-7">
+      <div className="font-mono text-[11px] text-stone mb-4">
+        {String(index).padStart(2, "0")}
+      </div>
       <div className="relative aspect-video overflow-hidden bg-mist">
         <Image
           src={project.hero.src}
@@ -18,7 +27,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           <h3 className="text-lg font-medium">{project.title}</h3>
           <p className="text-sm text-stone mt-1">{project.summary}</p>
         </div>
-        <span className="text-xs uppercase tracking-wide text-stone whitespace-nowrap mt-1">
+        <span className="font-mono text-[11px] uppercase tracking-wide text-stone whitespace-nowrap mt-1">
           {project.type}
         </span>
       </div>

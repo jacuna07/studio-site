@@ -10,7 +10,7 @@ export default function HomePage() {
     <>
       <section className="py-20 md:py-28">
         <Container>
-          <h1 className="text-4xl md:text-6xl font-semibold tracking-tight max-w-3xl">
+          <h1 className="font-display font-normal text-4xl md:text-5xl lg:text-6xl leading-[1.15] tracking-normal max-w-3xl">
             A branding studio building identities that last.
           </h1>
           <p className="mt-6 text-lg text-stone max-w-xl">
@@ -19,7 +19,7 @@ export default function HomePage() {
           </p>
           <Link
             href="/contact"
-            className="inline-block mt-8 border border-ink px-6 py-3 text-sm uppercase tracking-wide hover:bg-ink hover:text-paper transition-colors"
+            className="inline-block mt-8 border border-paper px-6 py-3 font-mono text-xs uppercase tracking-wide hover:bg-paper hover:text-ink transition-colors"
           >
             Start a project
           </Link>
@@ -29,19 +29,19 @@ export default function HomePage() {
       <section className="py-16 border-t border-mist">
         <Container>
           <div className="flex items-end justify-between mb-10">
-            <h2 className="text-sm uppercase tracking-wide text-stone">
+            <h2 className="font-mono text-xs uppercase tracking-wide text-stone">
               Selected work
             </h2>
             <Link
               href="/work"
-              className="text-sm uppercase tracking-wide hover:text-stone transition-colors"
+              className="font-mono text-xs uppercase tracking-wide hover:text-stone transition-colors"
             >
               View all
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {projects.map((p) => (
-              <ProjectCard key={p.slug} project={p} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-mist border border-mist">
+            {projects.map((p, i) => (
+              <ProjectCard key={p.slug} project={p} index={i + 1} />
             ))}
           </div>
         </Container>

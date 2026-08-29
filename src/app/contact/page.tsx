@@ -8,7 +8,7 @@ export default function ContactPage() {
   return (
     <section className="py-16">
       <Container className="max-w-2xl">
-        <h1 className="text-3xl font-semibold tracking-tight mb-4">
+        <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-4">
           Contact
         </h1>
         <p className="text-stone mb-10">

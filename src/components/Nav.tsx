@@ -1,27 +1,35 @@
+import Image from "next/image";
 import Link from "next/link";
 import Container from "./Container";
 
 const links = [
-  { href: "/work", label: "Work" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/work", index: "01", label: "Work" },
+  { href: "/about", index: "02", label: "About" },
+  { href: "/contact", index: "03", label: "Contact" },
 ];
 
 export default function Nav() {
   return (
-    <header className="border-b border-mist">
+    <header className="border-b border-paper">
       <Container className="flex items-center justify-between py-6">
-        <Link href="/" className="text-lg font-semibold tracking-tight">
-          Studio
+        <Link href="/" className="block">
+          <Image
+            src="/images/wordmark.svg"
+            alt="Studio"
+            width={140}
+            height={8}
+            className="h-4 w-auto"
+            priority
+          />
         </Link>
-        <nav className="flex gap-8 text-sm uppercase tracking-wide">
+        <nav className="flex gap-9 font-mono text-xs uppercase tracking-wide">
           {links.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               className="hover:text-stone transition-colors"
             >
-              {l.label}
+              {l.index} &mdash; {l.label}
             </Link>
           ))}
         </nav>

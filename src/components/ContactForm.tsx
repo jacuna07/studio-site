@@ -44,7 +44,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="name"
-          className="block text-sm uppercase tracking-wide text-stone mb-2"
+          className="block font-mono text-xs uppercase tracking-wide text-stone mb-2"
         >
           Name
         </label>
@@ -53,13 +53,13 @@ export default function ContactForm() {
           name="name"
           type="text"
           required
-          className="w-full border border-mist px-4 py-3 focus:outline-none focus:border-ink"
+          className="w-full border border-mist px-4 py-3 focus:outline-none focus:border-paper"
         />
       </div>
       <div>
         <label
           htmlFor="email"
-          className="block text-sm uppercase tracking-wide text-stone mb-2"
+          className="block font-mono text-xs uppercase tracking-wide text-stone mb-2"
         >
           Email
         </label>
@@ -68,13 +68,13 @@ export default function ContactForm() {
           name="email"
           type="email"
           required
-          className="w-full border border-mist px-4 py-3 focus:outline-none focus:border-ink"
+          className="w-full border border-mist px-4 py-3 focus:outline-none focus:border-paper"
         />
       </div>
       <div>
         <label
           htmlFor="message"
-          className="block text-sm uppercase tracking-wide text-stone mb-2"
+          className="block font-mono text-xs uppercase tracking-wide text-stone mb-2"
         >
           Project details
         </label>
@@ -83,13 +83,13 @@ export default function ContactForm() {
           name="message"
           rows={5}
           required
-          className="w-full border border-mist px-4 py-3 focus:outline-none focus:border-ink"
+          className="w-full border border-mist px-4 py-3 focus:outline-none focus:border-paper"
         />
       </div>
       <button
         type="submit"
         disabled={status === "loading"}
-        className="border border-ink px-6 py-3 text-sm uppercase tracking-wide hover:bg-ink hover:text-paper transition-colors disabled:opacity-50"
+        className="border border-paper px-6 py-3 font-mono text-xs uppercase tracking-wide hover:bg-paper hover:text-ink transition-colors disabled:opacity-50"
       >
         {status === "loading" ? "Sending…" : "Send"}
       </button>

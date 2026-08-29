@@ -42,10 +42,10 @@ export default function ProjectPage({ params }: Props) {
       <Container className="py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="md:col-span-2">
-            <span className="text-xs uppercase tracking-wide text-stone">
+            <span className="font-mono text-xs uppercase tracking-wide text-stone">
               {project.type}
             </span>
-            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight mt-2">
+            <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mt-2">
               {project.title}
             </h1>
             <div className="mt-6 space-y-4 text-stone">
@@ -54,7 +54,7 @@ export default function ProjectPage({ params }: Props) {
               ))}
             </div>
           </div>
-          <dl className="text-sm space-y-4 md:border-l md:border-mist md:pl-10">
+          <dl className="font-mono text-sm space-y-4 md:border-l md:border-mist md:pl-10">
             <div>
               <dt className="uppercase tracking-wide text-stone text-xs">
                 Client
@@ -90,10 +90,12 @@ export default function ProjectPage({ params }: Props) {
         )}
 
         <div className="mt-20 border-t border-mist pt-10 flex items-center justify-between">
-          <span className="text-sm text-stone">Next project</span>
+          <span className="font-mono text-xs uppercase tracking-wide text-stone">
+            Next project
+          </span>
           <Link
             href={`/work/${next.slug}`}
-            className="text-lg font-medium hover:text-stone transition-colors"
+            className="font-display text-lg hover:text-stone transition-colors"
           >
             {next.title} →
           </Link>
