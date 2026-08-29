@@ -35,20 +35,30 @@ export default function FilteredWorkGrid({
 
   return (
     <div>
-      <div className="flex flex-wrap gap-x-6 gap-y-3 mb-10 font-mono text-xs uppercase tracking-[0.2em]">
-        <button type="button" onClick={() => setActive(null)} className={pillClass(active === null)}>
-          {t.all}
-        </button>
-        {industries.map((industry) => (
+      <div className="relative mb-10">
+        <div className="scrollbar-hide flex gap-x-6 overflow-x-auto whitespace-nowrap font-mono text-xs uppercase tracking-[0.2em] sm:flex-wrap sm:gap-y-3 sm:overflow-visible sm:whitespace-normal">
           <button
-            key={industry}
             type="button"
-            onClick={() => setActive(industry)}
-            className={pillClass(active === industry)}
+            onClick={() => setActive(null)}
+            className={`flex-shrink-0 ${pillClass(active === null)}`}
           >
-            {industry}
+            {t.all}
           </button>
-        ))}
+          {industries.map((industry) => (
+            <button
+              key={industry}
+              type="button"
+              onClick={() => setActive(industry)}
+              className={`flex-shrink-0 ${pillClass(active === industry)}`}
+            >
+              {industry}
+            </button>
+          ))}
+        </div>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-ink to-transparent sm:hidden"
+        />
       </div>
       <WorkGrid projects={filtered} locale={locale} variant="grid" />
     </div>
