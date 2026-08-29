@@ -12,6 +12,7 @@ const copy: Record<
   {
     name: string;
     email: string;
+    phone: string;
     details: string;
     send: string;
     sending: string;
@@ -22,6 +23,7 @@ const copy: Record<
   en: {
     name: "Name",
     email: "Email",
+    phone: "Phone (optional)",
     details: "Project details",
     send: "Send",
     sending: "Sending…",
@@ -31,6 +33,7 @@ const copy: Record<
   es: {
     name: "Nombre",
     email: "Correo electrónico",
+    phone: "Teléfono (opcional)",
     details: "Detalles del proyecto",
     send: "Enviar",
     sending: "Enviando…",
@@ -99,6 +102,20 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
           name="email"
           type="email"
           required
+          className="w-full bg-mist border border-mist text-paper px-4 py-3 focus:outline-none focus:border-paper"
+        />
+      </div>
+      <div>
+        <label
+          htmlFor="phone"
+          className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2"
+        >
+          {t.phone}
+        </label>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
           className="w-full bg-mist border border-mist text-paper px-4 py-3 focus:outline-none focus:border-paper"
         />
       </div>

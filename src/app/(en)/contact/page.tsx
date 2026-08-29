@@ -12,7 +12,7 @@ export default function ContactPage() {
           Contact
         </h1>
         <p className="text-stone mb-10">
-          Tell us a bit about your project and we&apos;ll get back to you.
+          We want to hear about what excites you.
         </p>
         <ContactForm />
       </Container>
