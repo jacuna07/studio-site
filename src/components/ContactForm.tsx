@@ -120,6 +120,16 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
           className="w-full bg-mist border border-mist text-paper px-4 py-3 focus:outline-none focus:border-paper"
         />
       </div>
+      {/* Honeypot: real visitors never see or fill this field. Formspree
+          silently discards any submission where "_gotcha" is non-empty. */}
+      <input
+        type="text"
+        name="_gotcha"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+      />
       <button
         type="submit"
         disabled={status === "loading"}

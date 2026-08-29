@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Syne, Montserrat } from "next/font/google";
+import { SITE_IS_LIVE } from "@/lib/site-config";
 import "./globals.css";
 
 const syne = Syne({
@@ -21,6 +22,9 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://studio-site-ochre.vercel.app"),
   title: siteTitle,
   description: siteDescription,
+  robots: SITE_IS_LIVE
+    ? { index: true, follow: true }
+    : { index: false, follow: false, nocache: true },
   openGraph: {
     title: previewTitle,
     description: siteDescription,
