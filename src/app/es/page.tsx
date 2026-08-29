@@ -18,17 +18,8 @@ export default function HomePageEs() {
               proceso a la medida perfeccionado por años.
             </span>
             <span className="block animate-line" style={{ animationDelay: "300ms" }}>
-              Diseñamos los cimientos.{" "}
-              <span className="relative inline-block">
-                Tu marca disfruta el protagonismo.
-                <span
-                  aria-hidden="true"
-                  className="text-wipe-overlay absolute inset-y-0 left-0 overflow-hidden whitespace-nowrap text-cobalt"
-                  style={{ animationDelay: "1200ms" }}
-                >
-                  Tu marca disfruta el protagonismo.
-                </span>
-              </span>
+              Diseñamos los cimientos. Tu marca disfruta{" "}
+              <span className="text-cobalt">el protagonismo.</span>
             </span>
           </h1>
           <div className="mt-16 flex justify-center">

@@ -27,16 +27,7 @@ export default function HomePage() {
               We design the foundations.
             </span>
             <span className="block animate-line" style={{ animationDelay: "750ms" }}>
-              <span className="relative inline-block">
-                Your brand enjoys the spotlight.
-                <span
-                  aria-hidden="true"
-                  className="text-wipe-overlay absolute inset-y-0 left-0 overflow-hidden whitespace-nowrap text-cobalt"
-                  style={{ animationDelay: "1650ms" }}
-                >
-                  Your brand enjoys the spotlight.
-                </span>
-              </span>
+              Your brand enjoys <span className="text-cobalt">the spotlight.</span>
             </span>
           </h1>
           <div className="mt-16 flex justify-center">

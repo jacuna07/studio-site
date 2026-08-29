@@ -74,7 +74,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         >
           <span className="sr-only">Tresunotres</span>
           <Wordmark className="hidden md:block h-[15px] w-auto" />
-          <CircledWordmark className="md:hidden h-[30px] w-[30px]" />
+          <CircledWordmark className="md:hidden h-[60px] w-[60px]" />
         </Link>
 
         <div className="hidden md:flex items-center gap-10">
