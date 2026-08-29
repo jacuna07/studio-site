@@ -15,7 +15,6 @@ const project: Project = {
     "[PLACEHOLDER] Replace with the real project brief: what the client needed, and why.",
     "[PLACEHOLDER] Replace with a short paragraph on the approach and the outcome.",
   ],
-  credits: [{ role: "Design", names: "Adrián Jiménez & Javier Acuña" }],
   hero: {
     src: "/images/susana-mendez/cover.jpg",
     alt: "Susana Méndez. Cover image",

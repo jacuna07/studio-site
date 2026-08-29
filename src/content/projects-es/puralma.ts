@@ -16,7 +16,6 @@ const project: Project = {
     "[MARCADOR] Reemplazar con el brief real del proyecto: qué necesitaba el cliente y por qué.",
     "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
   ],
-  credits: [{ role: "Diseño", names: "Adrián Jiménez y Javier Acuña" }],
   hero: {
     src: "/images/puralma/cover.jpg",
     alt: "Puralma. Imagen de portada",

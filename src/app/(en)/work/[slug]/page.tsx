@@ -104,22 +104,6 @@ export default function ProjectPage({ params }: Props) {
           <Gallery images={project.gallery} />
         </div>
 
-        <div className="mt-16 pt-10 border-t border-mist">
-          <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-6">
-            Credits
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 font-mono text-sm">
-            {project.credits.map((credit, i) => (
-              <div key={i}>
-                <div className="uppercase tracking-[0.2em] text-stone text-xs">
-                  {credit.role}
-                </div>
-                <div className="mt-1">{credit.names}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {project.quote && (
           <blockquote className="mt-16 border-t border-mist pt-10 text-xl md:text-2xl font-medium max-w-2xl">
             &ldquo;{project.quote.text}&rdquo;
