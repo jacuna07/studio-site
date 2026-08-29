@@ -23,7 +23,7 @@ export default function HomePage() {
             <span className="block animate-line" style={{ animationDelay: "450ms" }}>
               perfected over years.
             </span>
-            <span className="block animate-line mt-4" style={{ animationDelay: "900ms" }}>
+            <span className="block animate-line mt-10" style={{ animationDelay: "900ms" }}>
               We design the foundations.
             </span>
             <span className="block animate-line" style={{ animationDelay: "1050ms" }}>
