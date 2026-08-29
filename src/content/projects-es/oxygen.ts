@@ -7,6 +7,7 @@ const project: Project = {
   client: "Oxygen",
   year: "2022",
   industry: "Fitness",
+  featured: true,
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Oxygen.",
   brief:

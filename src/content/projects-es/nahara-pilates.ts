@@ -7,6 +7,7 @@ const project: Project = {
   client: "Nahara Pilates",
   year: "2025",
   industry: "Fitness",
+  featured: true,
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Nahara Pilates.",
   brief:

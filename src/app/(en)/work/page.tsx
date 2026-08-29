@@ -14,7 +14,7 @@ export default function WorkPage() {
         <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-12">
           Work
         </h1>
-        <WorkGrid projects={projects} />
+        <WorkGrid projects={projects} variant="grid" />
       </Container>
     </section>
   );

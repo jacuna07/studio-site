@@ -10,17 +10,22 @@ export default function ProjectCard({
 }: {
   project: Project;
   index: number;
-  aspect?: "wide" | "square";
+  aspect?: "wide" | "square" | "uniform";
   locale?: "en" | "es";
 }) {
   const href = locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`;
 
+  const aspectClass =
+    aspect === "wide"
+      ? "aspect-[4/3] md:aspect-[21/9]"
+      : aspect === "uniform"
+        ? "aspect-square"
+        : "aspect-[4/3] md:aspect-[4/3]";
+
   return (
     <Link
       href={href}
-      className={`group relative block overflow-hidden bg-mist shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] aspect-[4/3] ${
-        aspect === "wide" ? "md:aspect-[21/9]" : "md:aspect-[4/3]"
-      }`}
+      className={`group relative block overflow-hidden bg-mist shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] ${aspectClass}`}
     >
       <Image
         src={project.hero.src}

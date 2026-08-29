@@ -5,6 +5,15 @@ import susanaMendez from "./susana-mendez";
 import cocoBrew from "./co-co-brew";
 import fiveTrainingCenter from "./five-training-center";
 import naharaPilates from "./nahara-pilates";
+import lux from "./lux";
+import vink from "./vink";
+import goraDental from "./gora-dental";
+import primeFutbol from "./prime-futbol";
+import totoppo from "./totoppo";
+import baseProgramming from "./base-programming";
+import valerios from "./valerios";
+import amimed from "./amimed";
+import sama from "./sama";
 
 export const projects: Project[] = [
   oxygen,
@@ -13,10 +22,23 @@ export const projects: Project[] = [
   cocoBrew,
   fiveTrainingCenter,
   naharaPilates,
+  lux,
+  vink,
+  goraDental,
+  primeFutbol,
+  totoppo,
+  baseProgramming,
+  valerios,
+  amimed,
+  sama,
 ];
 
 export function getAllProjects(): Project[] {
   return projects;
+}
+
+export function getFeaturedProjects(): Project[] {
+  return projects.filter((p) => p.featured);
 }
 
 export function getProjectBySlug(slug: string): Project | undefined {

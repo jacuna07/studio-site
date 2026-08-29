@@ -12,10 +12,28 @@ function chunkByThree(projects: Project[]): Project[][] {
 export default function WorkGrid({
   projects,
   locale = "en",
+  variant = "chunked",
 }: {
   projects: Project[];
   locale?: "en" | "es";
+  variant?: "chunked" | "grid";
 }) {
+  if (variant === "grid") {
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((p, i) => (
+          <ProjectCard
+            key={p.slug}
+            project={p}
+            index={i + 1}
+            aspect="uniform"
+            locale={locale}
+          />
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div>
       {chunkByThree(projects).map((group, gi) => (

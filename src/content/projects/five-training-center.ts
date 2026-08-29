@@ -7,6 +7,7 @@ const project: Project = {
   client: "Five Training Center",
   year: "2022",
   industry: "Fitness",
+  featured: true,
   summary:
     "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Five Training Center project.",
   brief:

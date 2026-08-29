@@ -7,6 +7,7 @@ const project: Project = {
   client: "Five Training Center",
   year: "2022",
   industry: "Fitness",
+  featured: true,
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Five Training Center.",
   brief:

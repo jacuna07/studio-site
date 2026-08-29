@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "./Container";
+import Wordmark from "./icons/Wordmark";
+import CircledWordmark from "./icons/CircledWordmark";
 
 type Locale = "en" | "es";
 
@@ -66,23 +67,14 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
       }`}
     >
       <Container className="relative z-50 flex items-center justify-between h-20">
-        <Link href={t.home} className="block" onClick={() => setOpen(false)}>
-          <Image
-            src="/images/wordmark.svg"
-            alt="Tresunotres"
-            width={140}
-            height={8}
-            className="hidden md:block h-[15px] w-auto"
-            priority
-          />
-          <Image
-            src="/images/circled-wordmark.svg"
-            alt="Tresunotres"
-            width={386}
-            height={386}
-            className="md:hidden h-[30px] w-[30px]"
-            priority
-          />
+        <Link
+          href={t.home}
+          className="block text-paper hover:text-cobalt transition-colors"
+          onClick={() => setOpen(false)}
+        >
+          <span className="sr-only">Tresunotres</span>
+          <Wordmark className="hidden md:block h-[15px] w-auto" />
+          <CircledWordmark className="md:hidden h-[30px] w-[30px]" />
         </Link>
 
         <div className="hidden md:flex items-center gap-10">

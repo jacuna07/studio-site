@@ -17,4 +17,5 @@ export type Project = {
   hero: { src: string; alt: string };
   gallery: GalleryImage[];
   quote?: { text: string; author: string };
+  featured?: boolean;
 };

@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Container from "@/components/Container";
 import WorkGrid from "@/components/WorkGrid";
-import { getAllProjects } from "@/content/projects";
+import { getFeaturedProjects } from "@/content/projects";
 
 export default function HomePage() {
-  const projects = getAllProjects();
+  const projects = getFeaturedProjects().slice(0, 6);
 
   return (
     <>

@@ -7,6 +7,7 @@ const project: Project = {
   client: "Puralma",
   year: "2026",
   industry: "Alimentos y Restaurantes",
+  featured: true,
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Puralma.",
   brief:

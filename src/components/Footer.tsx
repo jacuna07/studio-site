@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Container from "./Container";
 
 type Locale = "en" | "es";
@@ -9,8 +10,11 @@ type Locale = "en" | "es";
 const copy: Record<
   Locale,
   {
+    home: string;
     headlineLine1: string;
     headlineLine2: string;
+    backHeadlineLine1: string;
+    backHeadlineLine2: string;
     instagram: string;
     linkedin: string;
     contactHref: string;
@@ -21,8 +25,11 @@ const copy: Record<
   }
 > = {
   en: {
+    home: "/",
     headlineLine1: "Let’s talk —",
     headlineLine2: "about your next project.",
+    backHeadlineLine1: "Take me back —",
+    backHeadlineLine2: "to the studio.",
     instagram: "[INSTAGRAM]",
     linkedin: "[LINKEDIN]",
     contactHref: "/contact",
@@ -36,8 +43,11 @@ const copy: Record<
     email: "hola@tresunotres.com",
   },
   es: {
+    home: "/es",
     headlineLine1: "Hablemos —",
     headlineLine2: "de tu próximo proyecto.",
+    backHeadlineLine1: "Llévame de vuelta —",
+    backHeadlineLine2: "al estudio.",
     instagram: "[INSTAGRAM]",
     linkedin: "[LINKEDIN]",
     contactHref: "/es/contact",
@@ -54,7 +64,13 @@ const copy: Record<
 
 export default function Footer({ locale = "en" }: { locale?: Locale }) {
   const t = copy[locale];
+  const pathname = usePathname() || "/";
   const [hot, setHot] = useState(false);
+
+  const isContactPage = pathname === t.contactHref;
+  const ctaHref = isContactPage ? t.home : t.contactHref;
+  const ctaLine1 = isContactPage ? t.backHeadlineLine1 : t.headlineLine1;
+  const ctaLine2 = isContactPage ? t.backHeadlineLine2 : t.headlineLine2;
 
   const muted = hot ? "text-paper/80" : "text-stone";
   const divider = hot ? "border-paper/20" : "border-mist";
@@ -72,14 +88,14 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-12">
           <div>
             <Link
-              href={t.contactHref}
+              href={ctaHref}
               onMouseEnter={() => setHot(true)}
               onMouseLeave={() => setHot(false)}
               className="font-display text-4xl md:text-6xl font-normal leading-[1.08] inline-block text-paper"
             >
-              {t.headlineLine1}
+              {ctaLine1}
               <br />
-              {t.headlineLine2}
+              {ctaLine2}
             </Link>
           </div>
           <div className="flex flex-col gap-4 md:items-end">
