@@ -9,6 +9,7 @@ const config: Config = {
         paper: "#ffffff",
         stone: "#8a8a8a",
         mist: "#242424",
+        cobalt: "#1e4fd1",
       },
       fontFamily: {
         sans: ["var(--font-montserrat)", "system-ui", "sans-serif"],

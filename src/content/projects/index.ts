@@ -1,9 +1,9 @@
 import type { Project } from "./types";
-import auroraCoffee from "./aurora-coffee";
-import lumenSupply from "./lumen-supply";
-import northField from "./north-field";
+import oxygen from "./oxygen";
+import puralma from "./puralma";
+import susanaMendez from "./susana-mendez";
 
-export const projects: Project[] = [auroraCoffee, lumenSupply, northField];
+export const projects: Project[] = [oxygen, puralma, susanaMendez];
 
 export function getAllProjects(): Project[] {
   return projects;

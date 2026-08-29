@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Container from "@/components/Container";
-import ProjectCard from "@/components/ProjectCard";
+import WorkGrid from "@/components/WorkGrid";
 import { getAllProjects } from "@/content/projects";
 
 export const metadata: Metadata = { title: "Work. Tresunotres" };
@@ -14,11 +14,7 @@ export default function WorkPage() {
         <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-12">
           Work
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-mist border border-mist">
-          {projects.map((p, i) => (
-            <ProjectCard key={p.slug} project={p} index={i + 1} />
-          ))}
-        </div>
+        <WorkGrid projects={projects} />
       </Container>
     </section>
   );

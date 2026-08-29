@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Container from "@/components/Container";
-import ProjectCard from "@/components/ProjectCard";
+import WorkGrid from "@/components/WorkGrid";
 import { getAllProjects } from "@/content/projects";
 
 export default function HomePage() {
@@ -39,11 +39,7 @@ export default function HomePage() {
               View all
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-mist border border-mist">
-            {projects.map((p, i) => (
-              <ProjectCard key={p.slug} project={p} index={i + 1} />
-            ))}
-          </div>
+          <WorkGrid projects={projects} />
         </Container>
       </section>
     </>
