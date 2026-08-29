@@ -38,12 +38,12 @@ export default function ProjectCard({
         className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
       />
       {overlay === "solid" ? (
-        <div className="absolute inset-x-0 bottom-0 h-1/2 overflow-hidden">
+        <div className="absolute inset-x-0 bottom-0 overflow-hidden">
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-cobalt origin-center scale-x-0 transition-transform duration-500 ease-out group-hover:scale-x-100"
+            className="absolute inset-0 bg-cobalt origin-bottom scale-y-0 transition-transform duration-500 ease-out group-hover:scale-y-100"
           />
-          <div className="relative z-10 flex h-full flex-col justify-end p-8 opacity-0 transition-opacity duration-300 delay-100 group-hover:opacity-100">
+          <div className="relative z-10 px-8 py-5 opacity-0 transition-opacity duration-300 delay-100 group-hover:opacity-100">
             <div className="font-display text-2xl md:text-3xl font-medium text-paper">
               {project.title}
             </div>

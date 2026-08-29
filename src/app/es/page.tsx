@@ -45,7 +45,7 @@ export default function HomePageEs() {
             </h2>
             <Link
               href="/es/work"
-              className="font-mono text-xs uppercase tracking-[0.2em] hover:text-cobalt hover:font-bold transition-colors"
+              className="font-mono text-xs uppercase tracking-[0.2em] hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
             >
               Ver todo
             </Link>

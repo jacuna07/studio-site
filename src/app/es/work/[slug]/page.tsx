@@ -114,7 +114,7 @@ export default function ProjectPageEs({ params }: Props) {
             <span className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2">
               ← Anterior
             </span>
-            <span className="font-display text-lg group-hover:text-cobalt group-hover:font-bold transition-colors">
+            <span className="font-display text-lg group-hover:text-cobalt group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
               {prev.title}
             </span>
           </Link>
@@ -122,7 +122,7 @@ export default function ProjectPageEs({ params }: Props) {
             <span className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2">
               Siguiente →
             </span>
-            <span className="font-display text-lg group-hover:text-cobalt group-hover:font-bold transition-colors">
+            <span className="font-display text-lg group-hover:text-cobalt group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
               {next.title}
             </span>
           </Link>

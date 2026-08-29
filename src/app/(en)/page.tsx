@@ -44,7 +44,7 @@ export default function HomePage() {
             </h2>
             <Link
               href="/work"
-              className="font-mono text-xs uppercase tracking-[0.2em] hover:text-cobalt hover:font-bold transition-colors"
+              className="font-mono text-xs uppercase tracking-[0.2em] hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
             >
               View all
             </Link>

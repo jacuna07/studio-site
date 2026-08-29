@@ -31,7 +31,7 @@ export default function FilteredWorkGrid({
   const pillClass = (isActive: boolean) =>
     isActive
       ? "text-paper font-bold underline underline-offset-4"
-      : "text-stone hover:text-cobalt hover:font-bold transition-colors";
+      : "text-stone hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors";
 
   return (
     <div>

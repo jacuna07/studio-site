@@ -83,7 +83,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
               <Link
                 key={l.href}
                 href={l.href}
-                className="hover:text-cobalt hover:font-bold underline-offset-4 hover:underline transition-colors"
+                className="hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] underline-offset-4 hover:underline transition-colors"
               >
                 {l.label}
               </Link>
@@ -92,14 +92,14 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-stone">
             <Link
               href={enHref}
-              className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:font-bold transition-colors"}
+              className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
             >
               EN
             </Link>
             <span>/</span>
             <Link
               href={esHref}
-              className={locale === "es" ? "text-paper" : "hover:text-cobalt hover:font-bold transition-colors"}
+              className={locale === "es" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
             >
               SP
             </Link>
@@ -126,7 +126,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="font-display text-4xl font-normal hover:text-cobalt hover:font-bold transition-colors"
+                className="font-display text-4xl font-normal hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
               >
                 {l.label}
               </Link>
@@ -136,7 +136,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
             <Link
               href={enHref}
               onClick={() => setOpen(false)}
-              className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:font-bold transition-colors"}
+              className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
             >
               EN
             </Link>
@@ -144,7 +144,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
             <Link
               href={esHref}
               onClick={() => setOpen(false)}
-              className={locale === "es" ? "text-paper" : "hover:text-cobalt hover:font-bold transition-colors"}
+              className={locale === "es" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
             >
               SP
             </Link>
