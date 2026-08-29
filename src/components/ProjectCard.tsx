@@ -23,7 +23,7 @@ export default function ProjectCard({
     aspect === "wide"
       ? "aspect-[4/3] md:aspect-[21/9]"
       : aspect === "uniform"
-        ? "aspect-square"
+        ? "aspect-[5/4]"
         : "aspect-[4/3] md:aspect-[4/3]";
 
   return (
