@@ -3,7 +3,7 @@ import Container from "@/components/Container";
 import ProjectCard from "@/components/ProjectCard";
 import { getAllProjects } from "@/content/projects";
 
-export const metadata: Metadata = { title: "Work — Studio" };
+export const metadata: Metadata = { title: "Work — Tresunotres" };
 
 export default function WorkPage() {
   const projects = getAllProjects();

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Syne, Montserrat, Space_Mono } from "next/font/google";
+import { Syne, Montserrat, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -14,14 +14,14 @@ const montserrat = Montserrat({
   weight: ["400", "500", "600"],
   variable: "--font-montserrat",
 });
-const spaceMono = Space_Mono({
+const ibmPlexSans = IBM_Plex_Sans({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400", "500", "600"],
   variable: "--font-mono",
 });
 
 export const metadata: Metadata = {
-  title: "Studio — Branding & Identity",
+  title: "Tresunotres — Branding & Identity",
   description:
     "A branding studio portfolio showcasing identity, packaging, and visual design work.",
 };
@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${syne.variable} ${montserrat.variable} ${spaceMono.variable} font-sans bg-ink text-paper antialiased`}
+        className={`${syne.variable} ${montserrat.variable} ${ibmPlexSans.variable} font-sans bg-ink text-paper antialiased`}
       >
         <Nav />
         <main className="min-h-screen">{children}</main>

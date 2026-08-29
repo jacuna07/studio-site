@@ -10,12 +10,12 @@ const links = [
 
 export default function Nav() {
   return (
-    <header className="border-b border-paper">
+    <header>
       <Container className="flex items-center justify-between py-6">
         <Link href="/" className="block">
           <Image
             src="/images/wordmark.svg"
-            alt="Studio"
+            alt="Tresunotres"
             width={140}
             height={8}
             className="h-4 w-auto"

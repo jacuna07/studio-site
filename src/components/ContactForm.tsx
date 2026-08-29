@@ -53,7 +53,7 @@ export default function ContactForm() {
           name="name"
           type="text"
           required
-          className="w-full border border-mist px-4 py-3 focus:outline-none focus:border-paper"
+          className="w-full bg-mist border border-mist text-paper px-4 py-3 focus:outline-none focus:border-paper"
         />
       </div>
       <div>
@@ -68,7 +68,7 @@ export default function ContactForm() {
           name="email"
           type="email"
           required
-          className="w-full border border-mist px-4 py-3 focus:outline-none focus:border-paper"
+          className="w-full bg-mist border border-mist text-paper px-4 py-3 focus:outline-none focus:border-paper"
         />
       </div>
       <div>
@@ -83,7 +83,7 @@ export default function ContactForm() {
           name="message"
           rows={5}
           required
-          className="w-full border border-mist px-4 py-3 focus:outline-none focus:border-paper"
+          className="w-full bg-mist border border-mist text-paper px-4 py-3 focus:outline-none focus:border-paper"
         />
       </div>
       <button

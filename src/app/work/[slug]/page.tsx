@@ -19,7 +19,7 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const project = getProjectBySlug(params.slug);
   if (!project) return {};
-  return { title: `${project.title} — Studio` };
+  return { title: `${project.title} — Tresunotres` };
 }
 
 export default function ProjectPage({ params }: Props) {
