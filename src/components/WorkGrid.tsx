@@ -28,6 +28,8 @@ export default function WorkGrid({
             index={i + 1}
             aspect="uniform"
             locale={locale}
+            overlay="solid"
+            showIndex={false}
           />
         ))}
       </div>
