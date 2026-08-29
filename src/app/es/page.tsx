@@ -12,17 +12,14 @@ export default function HomePageEs() {
         <Container>
           <h1 className="font-display font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.2] max-w-5xl">
             <span className="block animate-line" style={{ animationDelay: "0ms" }}>
-              Somos Tresunotres.
+              Construimos identidades visuales mediante un
             </span>
             <span className="block animate-line" style={{ animationDelay: "150ms" }}>
-              Dos diseñadores en Costa Rica que
+              proceso a la medida perfeccionado por años.
             </span>
             <span className="block animate-line" style={{ animationDelay: "300ms" }}>
-              construyen identidad de marca, empaques
-            </span>
-            <span className="block animate-line" style={{ animationDelay: "450ms" }}>
-              y sistemas visuales{" "}
-              <span className="italic">desde adentro hacia afuera.</span>
+              Diseñamos los cimientos. Tu marca disfruta el
+              protagonismo.
             </span>
           </h1>
           <div className="mt-16 flex justify-center">

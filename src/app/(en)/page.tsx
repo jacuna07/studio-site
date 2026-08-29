@@ -12,16 +12,16 @@ export default function HomePage() {
         <Container>
           <h1 className="font-display font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.2] max-w-5xl">
             <span className="block animate-line" style={{ animationDelay: "0ms" }}>
-              We&rsquo;re Tresunotres.
+              Based in Costa Rica.
             </span>
             <span className="block animate-line" style={{ animationDelay: "150ms" }}>
-              Two designers in Costa Rica who build
+              We construct visual identities through a
             </span>
             <span className="block animate-line" style={{ animationDelay: "300ms" }}>
-              brand identity, packaging, and visual
+              custom process perfected over years.
             </span>
             <span className="block animate-line" style={{ animationDelay: "450ms" }}>
-              systems <span className="italic">from the inside out.</span>
+              We design the foundations. Your brand enjoys the spotlight.
             </span>
           </h1>
           <div className="mt-16 flex justify-center">
