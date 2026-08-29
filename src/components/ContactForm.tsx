@@ -44,7 +44,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="name"
-          className="block font-mono text-xs uppercase tracking-widest text-stone mb-2"
+          className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2"
         >
           Name
         </label>
@@ -59,7 +59,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="email"
-          className="block font-mono text-xs uppercase tracking-widest text-stone mb-2"
+          className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2"
         >
           Email
         </label>
@@ -74,7 +74,7 @@ export default function ContactForm() {
       <div>
         <label
           htmlFor="message"
-          className="block font-mono text-xs uppercase tracking-widest text-stone mb-2"
+          className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2"
         >
           Project details
         </label>
@@ -89,7 +89,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "loading"}
-        className="border border-paper px-6 py-3 font-mono text-xs uppercase tracking-widest hover:bg-paper hover:text-ink transition-colors disabled:opacity-50"
+        className="border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] hover:bg-paper hover:text-ink transition-colors disabled:opacity-50"
       >
         {status === "loading" ? "Sending…" : "Send"}
       </button>

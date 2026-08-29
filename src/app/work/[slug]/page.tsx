@@ -42,7 +42,7 @@ export default function ProjectPage({ params }: Props) {
       <Container className="py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="md:col-span-2">
-            <span className="font-mono text-xs uppercase tracking-widest text-stone">
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-stone">
               {project.type}
             </span>
             <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mt-2">
@@ -56,19 +56,19 @@ export default function ProjectPage({ params }: Props) {
           </div>
           <dl className="font-mono text-sm space-y-4 md:border-l md:border-mist md:pl-10">
             <div>
-              <dt className="uppercase tracking-widest text-stone text-xs">
+              <dt className="uppercase tracking-[0.2em] text-stone text-xs">
                 Client
               </dt>
               <dd className="mt-1">{project.client}</dd>
             </div>
             <div>
-              <dt className="uppercase tracking-widest text-stone text-xs">
+              <dt className="uppercase tracking-[0.2em] text-stone text-xs">
                 Year
               </dt>
               <dd className="mt-1">{project.year}</dd>
             </div>
             <div>
-              <dt className="uppercase tracking-widest text-stone text-xs">
+              <dt className="uppercase tracking-[0.2em] text-stone text-xs">
                 Services
               </dt>
               <dd className="mt-1">{project.services.join(", ")}</dd>
@@ -90,7 +90,7 @@ export default function ProjectPage({ params }: Props) {
         )}
 
         <div className="mt-20 border-t border-mist pt-10 flex items-center justify-between">
-          <span className="font-mono text-xs uppercase tracking-widest text-stone">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-stone">
             Next project
           </span>
           <Link

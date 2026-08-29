@@ -35,7 +35,7 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-16">
-          <h2 className="font-mono text-xs uppercase tracking-widest text-stone mb-4">
+          <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-4">
             How we work
           </h2>
           <div className="space-y-4 text-stone">
@@ -56,19 +56,19 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-16">
-          <h2 className="font-mono text-xs uppercase tracking-widest text-stone mb-8">
+          <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-8">
             The team
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
             {team.map((person) => (
               <div key={person.name}>
                 <div className="relative aspect-square bg-mist overflow-hidden flex items-center justify-center">
-                  <span className="font-mono text-[11px] uppercase tracking-widest text-stone">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-stone">
                     Photo. Placeholder
                   </span>
                 </div>
                 <h3 className="font-display text-lg mt-4">{person.name}</h3>
-                <p className="font-mono text-[11px] uppercase tracking-widest text-stone mt-1">
+                <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-stone mt-1">
                   {person.role}
                 </p>
                 <p className="text-stone mt-3">{person.bio}</p>
