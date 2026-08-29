@@ -14,6 +14,11 @@ import baseProgramming from "./base-programming";
 import valerios from "./valerios";
 import amimed from "./amimed";
 import sama from "./sama";
+import nahmud from "./nahmud";
+import sunari from "./sunari";
+import zero from "./zero";
+import nftFisher from "./nft-fisher";
+import lemur from "./lemur";
 
 export const projects: Project[] = [
   oxygen,
@@ -31,6 +36,11 @@ export const projects: Project[] = [
   valerios,
   amimed,
   sama,
+  nahmud,
+  sunari,
+  zero,
+  nftFisher,
+  lemur,
 ];
 
 export function getAllProjects(): Project[] {
