@@ -4,7 +4,7 @@ import puralma from "./puralma";
 import susanaMendez from "./susana-mendez";
 import cocoBrew from "./co-co-brew";
 import fiveTrainingCenter from "./five-training-center";
-import nahmudRealEstate from "./nahmud-real-estate";
+import naharaPilates from "./nahara-pilates";
 
 export const projects: Project[] = [
   oxygen,
@@ -12,7 +12,7 @@ export const projects: Project[] = [
   susanaMendez,
   cocoBrew,
   fiveTrainingCenter,
-  nahmudRealEstate,
+  naharaPilates,
 ];
 
 export function getAllProjects(): Project[] {

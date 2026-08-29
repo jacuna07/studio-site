@@ -5,8 +5,8 @@ const project: Project = {
   title: "Five Training Center",
   tagline: "[MARCADOR DE ESLOGAN] Una línea breve que capture la esencia de la marca.",
   client: "Five Training Center",
-  year: "[AÑO]",
-  industry: "[INDUSTRIA]",
+  year: "2022",
+  industry: "Fitness",
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Five Training Center.",
   brief:
@@ -16,8 +16,8 @@ const project: Project = {
     "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
   ],
   hero: {
-    src: "/images/five-training-center/cover.svg",
-    alt: "Five Training Center. Marcador de posición de la imagen de portada.",
+    src: "/images/five-training-center/cover.jpg",
+    alt: "Five Training Center. Imagen de portada",
   },
   gallery: [
     {

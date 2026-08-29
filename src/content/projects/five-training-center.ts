@@ -5,8 +5,8 @@ const project: Project = {
   title: "Five Training Center",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Five Training Center",
-  year: "[YEAR]",
-  industry: "[INDUSTRY]",
+  year: "2022",
+  industry: "Fitness",
   summary:
     "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Five Training Center project.",
   brief:
@@ -16,8 +16,8 @@ const project: Project = {
     "[PLACEHOLDER] Replace with a short paragraph on the approach and the outcome.",
   ],
   hero: {
-    src: "/images/five-training-center/cover.svg",
-    alt: "Five Training Center. Cover image placeholder.",
+    src: "/images/five-training-center/cover.jpg",
+    alt: "Five Training Center. Cover image",
   },
   gallery: [
     {

@@ -5,8 +5,8 @@ const project: Project = {
   title: "Co.Co Brew",
   tagline: "[MARCADOR DE ESLOGAN] Una línea breve que capture la esencia de la marca.",
   client: "Co.Co Brew",
-  year: "[AÑO]",
-  industry: "[INDUSTRIA]",
+  year: "2021",
+  industry: "Startups",
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Co.Co Brew.",
   brief:
@@ -16,8 +16,8 @@ const project: Project = {
     "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
   ],
   hero: {
-    src: "/images/co-co-brew/cover.svg",
-    alt: "Co.Co Brew. Marcador de posición de la imagen de portada.",
+    src: "/images/co-co-brew/cover.jpg",
+    alt: "Co.Co Brew. Imagen de portada",
   },
   gallery: [
     {

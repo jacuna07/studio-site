@@ -5,8 +5,8 @@ const project: Project = {
   title: "Co.Co Brew",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Co.Co Brew",
-  year: "[YEAR]",
-  industry: "[INDUSTRY]",
+  year: "2021",
+  industry: "Startups",
   summary:
     "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Co.Co Brew project.",
   brief:
@@ -16,8 +16,8 @@ const project: Project = {
     "[PLACEHOLDER] Replace with a short paragraph on the approach and the outcome.",
   ],
   hero: {
-    src: "/images/co-co-brew/cover.svg",
-    alt: "Co.Co Brew. Cover image placeholder.",
+    src: "/images/co-co-brew/cover.jpg",
+    alt: "Co.Co Brew. Cover image",
   },
   gallery: [
     {
