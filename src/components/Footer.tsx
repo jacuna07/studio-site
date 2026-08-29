@@ -6,44 +6,47 @@ type Locale = "en" | "es";
 const copy: Record<
   Locale,
   {
-    talk: string;
+    headlineLine1: string;
+    headlineLine2: string;
     email: string;
     location: string;
-    cta: string;
+    instagram: string;
+    linkedin: string;
     contactHref: string;
     nav: { href: string; label: string }[];
-    social: string;
     rights: string;
     tagline: string;
   }
 > = {
   en: {
-    talk: "Let’s talk",
+    headlineLine1: "Let’s talk —",
+    headlineLine2: "about your next project.",
     email: "[EMAIL PLACEHOLDER]",
     location: "COSTA RICA",
-    cta: "Start a project",
+    instagram: "[INSTAGRAM]",
+    linkedin: "[LINKEDIN]",
     contactHref: "/contact",
     nav: [
-      { href: "/work", label: "WORK" },
-      { href: "/about", label: "ABOUT" },
-      { href: "/contact", label: "CONTACT" },
+      { href: "/work", label: "Work" },
+      { href: "/about", label: "About" },
+      { href: "/contact", label: "Contact" },
     ],
-    social: "[INSTAGRAM] · [LINKEDIN]",
     rights: "ALL RIGHTS RESERVED.",
     tagline: "BRANDING & IDENTITY",
   },
   es: {
-    talk: "Hablemos",
+    headlineLine1: "Hablemos —",
+    headlineLine2: "de tu próximo proyecto.",
     email: "[MARCADOR DE CORREO]",
     location: "COSTA RICA",
-    cta: "Empecemos un proyecto",
+    instagram: "[INSTAGRAM]",
+    linkedin: "[LINKEDIN]",
     contactHref: "/es/contact",
     nav: [
-      { href: "/es/work", label: "TRABAJO" },
-      { href: "/es/about", label: "NOSOTROS" },
-      { href: "/es/contact", label: "CONTACTO" },
+      { href: "/es/work", label: "Trabajo" },
+      { href: "/es/about", label: "Nosotros" },
+      { href: "/es/contact", label: "Contacto" },
     ],
-    social: "[INSTAGRAM] · [LINKEDIN]",
     rights: "TODOS LOS DERECHOS RESERVADOS.",
     tagline: "IDENTIDAD DE MARCA",
   },
@@ -55,34 +58,33 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
   return (
     <footer className="border-t border-mist mt-24">
       <Container className="pt-20 pb-10">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-12">
           <div>
             <Link
               href={t.contactHref}
-              className="font-display text-5xl md:text-6xl font-normal inline-block hover:text-cobalt transition-colors"
+              className="font-display text-4xl md:text-6xl font-normal leading-[1.08] inline-block hover:text-cobalt transition-colors"
             >
-              {t.talk}
-              <span className="text-cobalt">.</span>
+              {t.headlineLine1}
+              <br />
+              {t.headlineLine2}
             </Link>
-            <p className="font-mono text-xs tracking-[0.2em] text-stone mt-6">
-              {t.email} &middot; {t.location}
-            </p>
-            <Link
-              href={t.contactHref}
-              className="inline-block mt-8 border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] hover:border-cobalt hover:bg-cobalt hover:text-paper transition-colors"
-            >
-              {t.cta}
-            </Link>
-          </div>
-          <div className="font-mono text-[11px] tracking-[0.2em] text-stone flex flex-col items-start md:items-end gap-3">
-            <div className="flex gap-6">
-              {t.nav.map((l) => (
-                <Link key={l.href} href={l.href} className="hover:text-cobalt hover:font-bold transition-colors">
-                  {l.label}
-                </Link>
-              ))}
+            <div className="font-mono text-xs tracking-[0.2em] text-stone mt-8 space-y-1.5">
+              <div>{t.email}</div>
+              <div>{t.location}</div>
+              <div>{t.instagram}</div>
+              <div>{t.linkedin}</div>
             </div>
-            <div>{t.social}</div>
+          </div>
+          <div className="flex gap-6 font-sans text-sm">
+            {t.nav.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="hover:text-cobalt hover:font-bold underline-offset-4 hover:underline transition-colors"
+              >
+                {l.label}
+              </Link>
+            ))}
           </div>
         </div>
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-16 pt-6 border-t border-mist text-[10px] font-mono tracking-[0.2em] text-stone">

@@ -44,7 +44,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
             alt="Tresunotres"
             width={140}
             height={8}
-            className="hidden md:block h-4 w-auto"
+            className="hidden md:block h-5 w-auto"
             priority
           />
           <Image
@@ -57,15 +57,19 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           />
         </Link>
 
-        <div className="hidden md:flex items-center gap-9 font-mono text-xs uppercase tracking-[0.2em]">
-          <nav className="flex gap-9">
+        <div className="hidden md:flex items-center gap-10">
+          <nav className="flex gap-8 font-sans text-base">
             {t.links.map((l) => (
-              <Link key={l.href} href={l.href} className="hover:text-cobalt hover:font-bold transition-colors">
+              <Link
+                key={l.href}
+                href={l.href}
+                className="hover:text-cobalt hover:font-bold underline-offset-4 hover:underline transition-colors"
+              >
                 {l.label}
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-2 text-stone">
+          <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-stone">
             <Link
               href={enHref}
               className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:font-bold transition-colors"}
