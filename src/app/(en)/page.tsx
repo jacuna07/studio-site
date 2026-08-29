@@ -11,13 +11,18 @@ export default function HomePage() {
       <section className="min-h-[calc(100vh-5rem)] flex flex-col justify-center py-20">
         <Container>
           <h1 className="font-display font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.2] max-w-5xl">
-            We&rsquo;re Tresunotres.
-            <br />
-            Two designers in Costa Rica who build
-            <br />
-            brand identity, packaging, and visual
-            <br />
-            systems <span className="italic">from the inside out.</span>
+            <span className="block animate-line" style={{ animationDelay: "0ms" }}>
+              We&rsquo;re Tresunotres.
+            </span>
+            <span className="block animate-line" style={{ animationDelay: "150ms" }}>
+              Two designers in Costa Rica who build
+            </span>
+            <span className="block animate-line" style={{ animationDelay: "300ms" }}>
+              brand identity, packaging, and visual
+            </span>
+            <span className="block animate-line" style={{ animationDelay: "450ms" }}>
+              systems <span className="italic">from the inside out.</span>
+            </span>
           </h1>
           <div className="mt-16 flex justify-center">
             <a

@@ -11,14 +11,19 @@ export default function HomePageEs() {
       <section className="min-h-[calc(100vh-5rem)] flex flex-col justify-center py-20">
         <Container>
           <h1 className="font-display font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.2] max-w-5xl">
-            Somos Tresunotres.
-            <br />
-            Dos diseñadores en Costa Rica que
-            <br />
-            construyen identidad de marca, empaques
-            <br />
-            y sistemas visuales{" "}
-            <span className="italic">desde adentro hacia afuera.</span>
+            <span className="block animate-line" style={{ animationDelay: "0ms" }}>
+              Somos Tresunotres.
+            </span>
+            <span className="block animate-line" style={{ animationDelay: "150ms" }}>
+              Dos diseñadores en Costa Rica que
+            </span>
+            <span className="block animate-line" style={{ animationDelay: "300ms" }}>
+              construyen identidad de marca, empaques
+            </span>
+            <span className="block animate-line" style={{ animationDelay: "450ms" }}>
+              y sistemas visuales{" "}
+              <span className="italic">desde adentro hacia afuera.</span>
+            </span>
           </h1>
           <div className="mt-16 flex justify-center">
             <a
