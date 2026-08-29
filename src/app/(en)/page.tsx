@@ -15,13 +15,19 @@ export default function HomePage() {
               Based in Costa Rica.
             </span>
             <span className="block animate-line" style={{ animationDelay: "150ms" }}>
-              We construct visual identities through a
+              We construct visual identities
             </span>
             <span className="block animate-line" style={{ animationDelay: "300ms" }}>
-              custom process perfected over years.
+              through a custom process
             </span>
             <span className="block animate-line" style={{ animationDelay: "450ms" }}>
-              We design the foundations. Your brand enjoys the spotlight.
+              perfected over years.
+            </span>
+            <span className="block animate-line" style={{ animationDelay: "600ms" }}>
+              We design the foundations.
+            </span>
+            <span className="block animate-line" style={{ animationDelay: "750ms" }}>
+              Your brand enjoys the spotlight.
             </span>
           </h1>
           <div className="mt-16 flex justify-center">
