@@ -3,21 +3,42 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Container from "./Container";
 
-const links = [
-  { href: "/work", label: "Work" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-];
+type Locale = "en" | "es";
 
-export default function Nav() {
+const copy: Record<Locale, { home: string; links: { href: string; label: string }[] }> = {
+  en: {
+    home: "/",
+    links: [
+      { href: "/work", label: "Work" },
+      { href: "/about", label: "About" },
+      { href: "/contact", label: "Contact" },
+    ],
+  },
+  es: {
+    home: "/es",
+    links: [
+      { href: "/es/work", label: "Trabajo" },
+      { href: "/es/about", label: "Nosotros" },
+      { href: "/es/contact", label: "Contacto" },
+    ],
+  },
+};
+
+export default function Nav({ locale = "en" }: { locale?: Locale }) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname() || "/";
+  const t = copy[locale];
+
+  const enHref = locale === "en" ? pathname : pathname.replace(/^\/es/, "") || "/";
+  const esHref = locale === "es" ? pathname : `/es${pathname === "/" ? "" : pathname}`;
 
   return (
     <header className="relative z-50">
       <Container className="relative z-50 flex items-center justify-between py-6">
-        <Link href="/" className="block" onClick={() => setOpen(false)}>
+        <Link href={t.home} className="block" onClick={() => setOpen(false)}>
           <Image
             src="/images/wordmark.svg"
             alt="Tresunotres"
@@ -38,20 +59,26 @@ export default function Nav() {
 
         <div className="hidden md:flex items-center gap-9 font-mono text-xs uppercase tracking-[0.2em]">
           <nav className="flex gap-9">
-            {links.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="hover:text-stone transition-colors"
-              >
+            {t.links.map((l) => (
+              <Link key={l.href} href={l.href} className="hover:text-stone transition-colors">
                 {l.label}
               </Link>
             ))}
           </nav>
           <div className="flex items-center gap-2 text-stone">
-            <span className="text-paper">EN</span>
+            <Link
+              href={enHref}
+              className={locale === "en" ? "text-paper" : "hover:text-paper transition-colors"}
+            >
+              EN
+            </Link>
             <span>/</span>
-            <span className="cursor-default">SP</span>
+            <Link
+              href={esHref}
+              className={locale === "es" ? "text-paper" : "hover:text-paper transition-colors"}
+            >
+              SP
+            </Link>
           </div>
         </div>
 
@@ -62,23 +89,15 @@ export default function Nav() {
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
         >
-          <span
-            className={`block h-px w-6 bg-paper transition-transform duration-300 ${
-              open ? "translate-y-[3px] rotate-45" : ""
-            }`}
-          />
-          <span
-            className={`block h-px w-6 bg-paper transition-transform duration-300 ${
-              open ? "-translate-y-[3px] -rotate-45" : ""
-            }`}
-          />
+          <span className={`block h-px w-6 bg-paper transition-transform duration-300 ${open ? "translate-y-[3px] rotate-45" : ""}`} />
+          <span className={`block h-px w-6 bg-paper transition-transform duration-300 ${open ? "-translate-y-[3px] -rotate-45" : ""}`} />
         </button>
       </Container>
 
       {open && (
         <div className="md:hidden fixed inset-0 z-40 flex flex-col justify-between bg-ink px-6 pt-24 pb-10">
           <nav className="flex flex-col gap-6">
-            {links.map((l) => (
+            {t.links.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
@@ -90,9 +109,21 @@ export default function Nav() {
             ))}
           </nav>
           <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-stone">
-            <span className="text-paper">EN</span>
+            <Link
+              href={enHref}
+              onClick={() => setOpen(false)}
+              className={locale === "en" ? "text-paper" : "hover:text-paper transition-colors"}
+            >
+              EN
+            </Link>
             <span>/</span>
-            <span className="cursor-default">SP</span>
+            <Link
+              href={esHref}
+              onClick={() => setOpen(false)}
+              className={locale === "es" ? "text-paper" : "hover:text-paper transition-colors"}
+            >
+              SP
+            </Link>
           </div>
         </div>
       )}

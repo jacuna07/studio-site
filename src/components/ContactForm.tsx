@@ -8,8 +8,42 @@ import { useState, type FormEvent } from "react";
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/REPLACE_ME";
 
 type Status = "idle" | "loading" | "success" | "error";
+type Locale = "en" | "es";
 
-export default function ContactForm() {
+const copy: Record<
+  Locale,
+  {
+    name: string;
+    email: string;
+    details: string;
+    send: string;
+    sending: string;
+    success: string;
+    error: string;
+  }
+> = {
+  en: {
+    name: "Name",
+    email: "Email",
+    details: "Project details",
+    send: "Send",
+    sending: "Sending…",
+    success: "Thanks. We’ll be in touch soon.",
+    error: "Something went wrong. Please try again, or email us directly.",
+  },
+  es: {
+    name: "Nombre",
+    email: "Correo electrónico",
+    details: "Detalles del proyecto",
+    send: "Enviar",
+    sending: "Enviando…",
+    success: "Gracias. Nos pondremos en contacto pronto.",
+    error: "Algo salió mal. Intenta de nuevo, o escríbenos directamente.",
+  },
+};
+
+export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
+  const t = copy[locale];
   const [status, setStatus] = useState<Status>("idle");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -36,7 +70,7 @@ export default function ContactForm() {
   }
 
   if (status === "success") {
-    return <p className="text-lg">Thanks. We&apos;ll be in touch soon.</p>;
+    return <p className="text-lg">{t.success}</p>;
   }
 
   return (
@@ -46,7 +80,7 @@ export default function ContactForm() {
           htmlFor="name"
           className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2"
         >
-          Name
+          {t.name}
         </label>
         <input
           id="name"
@@ -61,7 +95,7 @@ export default function ContactForm() {
           htmlFor="email"
           className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2"
         >
-          Email
+          {t.email}
         </label>
         <input
           id="email"
@@ -76,7 +110,7 @@ export default function ContactForm() {
           htmlFor="message"
           className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2"
         >
-          Project details
+          {t.details}
         </label>
         <textarea
           id="message"
@@ -91,13 +125,9 @@ export default function ContactForm() {
         disabled={status === "loading"}
         className="border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] hover:bg-paper hover:text-ink transition-colors disabled:opacity-50"
       >
-        {status === "loading" ? "Sending…" : "Send"}
+        {status === "loading" ? t.sending : t.send}
       </button>
-      {status === "error" && (
-        <p className="text-sm text-red-600">
-          Something went wrong. Please try again, or email us directly.
-        </p>
-      )}
+      {status === "error" && <p className="text-sm text-red-600">{t.error}</p>}
     </form>
   );
 }

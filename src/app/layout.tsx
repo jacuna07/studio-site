@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Syne, Montserrat } from "next/font/google";
 import "./globals.css";
-import Nav from "@/components/Nav";
-import Footer from "@/components/Footer";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -30,9 +28,7 @@ export default function RootLayout({
       <body
         className={`${syne.variable} ${montserrat.variable} font-sans bg-ink text-paper antialiased`}
       >
-        <Nav />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );
