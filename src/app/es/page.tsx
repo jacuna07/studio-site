@@ -54,9 +54,12 @@ export default function HomePageEs() {
           <div className="mt-16 flex justify-center">
             <Link
               href="/es/work"
-              className="inline-block border border-paper px-8 py-4 font-mono text-xs uppercase tracking-[0.2em] hover:border-cobalt hover:bg-cobalt hover:text-paper transition-colors"
+              className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
             >
-              Ver más
+              Más cosas geniales
+              <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
+                →
+              </span>
             </Link>
           </div>
         </Container>

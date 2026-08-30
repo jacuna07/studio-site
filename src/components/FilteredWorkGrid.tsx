@@ -1,15 +1,21 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import WorkGrid from "./WorkGrid";
 import type { Project } from "@/content/projects/types";
 
 type Locale = "en" | "es";
 
-const copy: Record<Locale, { all: string }> = {
-  en: { all: "All" },
-  es: { all: "Todos" },
+const copy: Record<Locale, { all: string; cursorLabel: string }> = {
+  en: { all: "All", cursorLabel: "View Case Study" },
+  es: { all: "Todos", cursorLabel: "Ver estudio de caso" },
 };
+
+// How long the blue reveal ribbon on a ProjectCard takes to finish sliding
+// up and cover the card (see ProjectCard's "solid" overlay). The cursor
+// flips to black once the ribbon has had time to fully cover the area
+// underneath it, so it stays legible against its own blue background.
+const RIBBON_REVEAL_MS = 500;
 
 export default function FilteredWorkGrid({
   projects,
@@ -32,6 +38,54 @@ export default function FilteredWorkGrid({
     isActive
       ? "text-paper font-bold underline underline-offset-4"
       : "text-stone hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors";
+
+  const cursorPosRef = useRef<HTMLDivElement>(null);
+  const fineHoverRef = useRef(false);
+  const invertTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [cursorActive, setCursorActive] = useState(false);
+  const [cursorInverted, setCursorInverted] = useState(false);
+
+  useEffect(() => {
+    fineHoverRef.current =
+      typeof window !== "undefined" &&
+      window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  }, []);
+
+  useEffect(() => {
+    function handleMove(e: MouseEvent) {
+      const el = cursorPosRef.current;
+      if (el) {
+        el.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+      }
+    }
+    window.addEventListener("mousemove", handleMove);
+    return () => window.removeEventListener("mousemove", handleMove);
+  }, []);
+
+  function handleGridMouseOver(e: React.MouseEvent) {
+    if (!fineHoverRef.current) return;
+    const card = (e.target as HTMLElement).closest("a");
+    if (card && card.dataset.cursorEntered !== "1") {
+      card.dataset.cursorEntered = "1";
+      setCursorActive(true);
+      setCursorInverted(false);
+      if (invertTimerRef.current) clearTimeout(invertTimerRef.current);
+      invertTimerRef.current = setTimeout(() => setCursorInverted(true), RIBBON_REVEAL_MS);
+    }
+  }
+
+  function handleGridMouseOut(e: React.MouseEvent) {
+    if (!fineHoverRef.current) return;
+    const card = (e.target as HTMLElement).closest("a");
+    if (!card) return;
+    const related = e.relatedTarget as HTMLElement | null;
+    if (!related || !card.contains(related)) {
+      delete card.dataset.cursorEntered;
+      setCursorActive(false);
+      setCursorInverted(false);
+      if (invertTimerRef.current) clearTimeout(invertTimerRef.current);
+    }
+  }
 
   return (
     <div>
@@ -60,7 +114,32 @@ export default function FilteredWorkGrid({
           className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-ink to-transparent sm:hidden"
         />
       </div>
-      <WorkGrid projects={filtered} locale={locale} variant="grid" />
+
+      <div
+        onMouseOver={handleGridMouseOver}
+        onMouseOut={handleGridMouseOut}
+        className="[&_a]:cursor-none"
+      >
+        <WorkGrid projects={filtered} locale={locale} variant="grid" />
+      </div>
+
+      <div
+        ref={cursorPosRef}
+        aria-hidden="true"
+        className="pointer-events-none fixed left-0 top-0 z-[60] hidden md:block"
+      >
+        <div
+          className={`flex items-center justify-center rounded-full text-center font-mono uppercase tracking-[0.15em] transition-all duration-300 ease-out ${
+            cursorActive
+              ? `h-28 w-28 px-3 text-[10px] leading-snug opacity-100 ${
+                  cursorInverted ? "bg-ink text-paper" : "bg-cobalt text-paper"
+                }`
+              : "h-0 w-0 bg-cobalt text-[10px] opacity-0"
+          }`}
+        >
+          {t.cursorLabel}
+        </div>
+      </div>
     </div>
   );
 }
