@@ -7,15 +7,15 @@ import type { Project } from "@/content/projects/types";
 type Locale = "en" | "es";
 
 const copy: Record<Locale, { all: string; cursorLabel: string }> = {
-  en: { all: "All", cursorLabel: "View Case Study" },
-  es: { all: "Todos", cursorLabel: "Ver estudio de caso" },
+  en: { all: "All", cursorLabel: "\u{1F440}" },
+  es: { all: "Todos", cursorLabel: "\u{1F440}" },
 };
 
-// How long the blue reveal ribbon on a ProjectCard takes to finish sliding
-// up and cover the card (see ProjectCard's "solid" overlay). The cursor
-// flips to black once the ribbon has had time to fully cover the area
-// underneath it, so it stays legible against its own blue background.
-const RIBBON_REVEAL_MS = 500;
+// How long the cursor bubble's own grow-in transition takes (see the
+// "transition-all duration-300" on the bubble below). It starts blue and
+// flips to black once it has finished expanding to full size, then stays
+// black until it shrinks away on mouse-out.
+const GROW_MS = 300;
 
 export default function FilteredWorkGrid({
   projects,
@@ -70,7 +70,7 @@ export default function FilteredWorkGrid({
       setCursorActive(true);
       setCursorInverted(false);
       if (invertTimerRef.current) clearTimeout(invertTimerRef.current);
-      invertTimerRef.current = setTimeout(() => setCursorInverted(true), RIBBON_REVEAL_MS);
+      invertTimerRef.current = setTimeout(() => setCursorInverted(true), GROW_MS);
     }
   }
 
@@ -129,12 +129,12 @@ export default function FilteredWorkGrid({
         className="pointer-events-none fixed left-0 top-0 z-[60] hidden md:block"
       >
         <div
-          className={`flex items-center justify-center rounded-full text-center font-mono uppercase tracking-[0.15em] transition-all duration-300 ease-out ${
+          className={`flex items-center justify-center rounded-full text-center transition-all duration-300 ease-out ${
             cursorActive
-              ? `h-28 w-28 px-3 text-[10px] leading-snug opacity-100 ${
-                  cursorInverted ? "bg-ink text-paper" : "bg-cobalt text-paper"
+              ? `h-28 w-28 text-4xl opacity-100 ${
+                  cursorInverted ? "bg-ink" : "bg-cobalt"
                 }`
-              : "h-0 w-0 bg-cobalt text-[10px] opacity-0"
+              : "h-0 w-0 bg-cobalt text-4xl opacity-0"
           }`}
         >
           {t.cursorLabel}

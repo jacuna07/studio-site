@@ -59,9 +59,15 @@ export default function HomePage() {
           <div className="mt-16 flex justify-center">
             <Link
               href="/work"
-              className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
+              className="group inline-flex items-center gap-2 font-mono text-2xl uppercase tracking-[0.2em] hover:text-cobalt transition-colors"
             >
-              More cool stuff
+              <span className="relative">
+                More cool stuff
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full"
+                />
+              </span>
               <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
                 →
               </span>
