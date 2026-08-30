@@ -13,12 +13,9 @@ import totoppo from "./totoppo";
 import baseProgramming from "./base-programming";
 import valerios from "./valerios";
 import amimed from "./amimed";
-import sama from "./sama";
 import nahmud from "./nahmud";
 import sunari from "./sunari";
 import zero from "./zero";
-import nftFisher from "./nft-fisher";
-import lemur from "./lemur";
 import renu from "./renu";
 
 export const projects: Project[] = [
@@ -36,12 +33,9 @@ export const projects: Project[] = [
   baseProgramming,
   valerios,
   amimed,
-  sama,
   nahmud,
   sunari,
   zero,
-  nftFisher,
-  lemur,
   renu,
 ];
 

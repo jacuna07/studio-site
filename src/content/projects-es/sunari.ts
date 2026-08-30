@@ -16,7 +16,7 @@ const project: Project = {
     "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
   ],
   hero: {
-    src: "/images/sunari/cover.svg",
+    src: "/images/sunari/cover.jpg",
     alt: "Sunari. Imagen de portada",
   },
   gallery: [

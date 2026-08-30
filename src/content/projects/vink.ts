@@ -16,7 +16,7 @@ const project: Project = {
     "[PLACEHOLDER] Replace with a short paragraph on the approach and the outcome.",
   ],
   hero: {
-    src: "/images/vink/cover.svg",
+    src: "/images/vink/cover.jpg",
     alt: "Vink. Cover image",
   },
   gallery: [
