@@ -64,7 +64,7 @@ export default function AboutPageEs() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
             {team.map((person) => (
               <div key={person.name}>
-                <div className="relative aspect-square bg-mist overflow-hidden flex items-center justify-center">
+                <div className="relative aspect-square overflow-hidden rounded-2xl bg-mist flex items-center justify-center">
                   <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-stone">
                     Foto. Marcador de posición
                   </span>

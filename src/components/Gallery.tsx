@@ -13,7 +13,7 @@ export default function Gallery({ images }: { images: GalleryImage[] }) {
       {images.map((img, i) => (
         <div
           key={i}
-          className={`relative overflow-hidden bg-mist ${aspectClass[img.aspect]}`}
+          className={`relative overflow-hidden rounded-2xl bg-mist ${aspectClass[img.aspect]}`}
         >
           <Image src={img.src} alt={img.alt} fill className="object-cover" />
         </div>
