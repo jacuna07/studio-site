@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Container from "@/components/Container";
+import IconInstagram from "@/components/icons/IconInstagram";
+import IconLinkedin from "@/components/icons/IconLinkedin";
 
 export const metadata: Metadata = { title: "Nosotros. Tresunotres" };
 
@@ -7,12 +10,16 @@ const team = [
   {
     name: "Adrián Jiménez",
     role: "Cofundador y Diseñador",
-    bio: "Más de diez años construyendo sistemas de marca, la mayoría junto a Javier.",
+    photo: { src: "/images/about/adrian.jpg", alt: "Retrato de Adrián Jiménez" },
+    instagram: "#",
+    linkedin: "#",
   },
   {
     name: "Javier Acuña",
     role: "Cofundador y Diseñador",
-    bio: "Más de diez años construyendo sistemas de marca, la mayoría junto a Adrián.",
+    photo: { src: "/images/about/javier.jpg", alt: "Retrato de Javier Acuña" },
+    instagram: "#",
+    linkedin: "#",
   },
 ];
 
@@ -21,7 +28,7 @@ export default function AboutPageEs() {
     <section className="py-16">
       <Container className="max-w-3xl">
         <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-8">
-          Nosotros
+          Un proceso a la medida, refinado desde la base.
         </h1>
 
         <div className="space-y-6 text-stone text-lg">
@@ -37,7 +44,7 @@ export default function AboutPageEs() {
 
         <div className="mt-16">
           <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-4">
-            Cómo trabajamos
+            Qué hacemos
           </h2>
           <div className="space-y-4 text-stone">
             <p>
@@ -64,16 +71,34 @@ export default function AboutPageEs() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
             {team.map((person) => (
               <div key={person.name}>
-                <div className="relative aspect-square overflow-hidden rounded-2xl bg-mist flex items-center justify-center">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-stone">
-                    Foto. Marcador de posición
-                  </span>
+                <div className="relative aspect-square overflow-hidden rounded-2xl bg-mist">
+                  <Image
+                    src={person.photo.src}
+                    alt={person.photo.alt}
+                    fill
+                    className="object-cover"
+                  />
                 </div>
                 <h3 className="font-display text-lg mt-4">{person.name}</h3>
                 <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-stone mt-1">
                   {person.role}
                 </p>
-                <p className="text-stone mt-3">{person.bio}</p>
+                <div className="flex items-center gap-3 mt-3">
+                  <a
+                    href={person.instagram}
+                    aria-label={`${person.name} en Instagram`}
+                    className="text-stone hover:text-cobalt transition-colors"
+                  >
+                    <IconInstagram className="h-5 w-5" />
+                  </a>
+                  <a
+                    href={person.linkedin}
+                    aria-label={`${person.name} en LinkedIn`}
+                    className="text-stone hover:text-cobalt transition-colors"
+                  >
+                    <IconLinkedin className="h-5 w-5" />
+                  </a>
+                </div>
               </div>
             ))}
           </div>
