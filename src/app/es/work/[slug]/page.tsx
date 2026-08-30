@@ -127,6 +127,19 @@ export default function ProjectPageEs({ params }: Props) {
             </span>
           </Link>
         </div>
+
+        <div className="mt-10 flex justify-center">
+          <Link
+            href="/es/work"
+            className="group relative inline-block font-mono text-xs uppercase tracking-[0.2em] text-stone hover:text-cobalt transition-colors"
+          >
+            Todo el trabajo
+            <span
+              aria-hidden="true"
+              className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full"
+            />
+          </Link>
+        </div>
       </Container>
     </article>
   );
