@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Container from "@/components/Container";
 import WorkGrid from "@/components/WorkGrid";
+import CursorRevealGrid from "@/components/CursorRevealGrid";
 import { getFeaturedProjects } from "@/content/projects-es";
 
 export default function HomePageEs() {
@@ -50,11 +51,13 @@ export default function HomePageEs() {
               Ver todo
             </Link>
           </div>
-          <WorkGrid projects={projects} locale="es" />
+          <CursorRevealGrid>
+            <WorkGrid projects={projects} locale="es" />
+          </CursorRevealGrid>
           <div className="mt-16 flex justify-center">
             <Link
               href="/es/work"
-              className="group inline-flex items-center gap-2 font-mono text-2xl uppercase tracking-[0.2em] hover:text-cobalt transition-colors"
+              className="group inline-flex items-center gap-2 font-mono text-base uppercase tracking-[0.2em] hover:text-cobalt transition-colors"
             >
               <span className="relative">
                 Más cosas geniales
