@@ -23,7 +23,13 @@ export default function HomePageEs() {
             </span>
             <span className="block animate-line" style={{ animationDelay: "750ms" }}>
               Tu marca disfruta{" "}
-              <span className="text-cobalt">el protagonismo.</span>
+              <Link href="/es/work" className="group relative inline-block text-cobalt">
+                el protagonismo.
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full"
+                />
+              </Link>
             </span>
           </h1>
           <div className="mt-16 flex justify-center">

@@ -83,9 +83,13 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
               <Link
                 key={l.href}
                 href={l.href}
-                className="hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] underline-offset-4 hover:underline transition-colors"
+                className="group relative inline-block hover:text-cobalt transition-colors"
               >
                 {l.label}
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full"
+                />
               </Link>
             ))}
           </nav>
