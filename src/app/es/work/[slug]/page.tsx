@@ -31,7 +31,7 @@ export default function ProjectPageEs({ params }: Props) {
 
   return (
     <article>
-      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-2xl bg-mist">
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-mist">
         <Image
           src={project.hero.src}
           alt={project.hero.alt}

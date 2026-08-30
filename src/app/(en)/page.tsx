@@ -29,13 +29,13 @@ export default function HomePage() {
             </span>
             <span className="block animate-line" style={{ animationDelay: "1050ms" }}>
               Your brand enjoys{" "}
-              <Link href="/work" className="group relative inline-block text-cobalt">
+              <a href="#work" className="group relative inline-block text-cobalt">
                 the spotlight.
                 <span
                   aria-hidden="true"
                   className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full"
                 />
-              </Link>
+              </a>
             </span>
           </h1>
           <div className="mt-16 flex justify-center">
