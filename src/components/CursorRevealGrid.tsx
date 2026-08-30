@@ -75,8 +75,8 @@ export default function CursorRevealGrid({ children }: { children: ReactNode }) 
         <div
           className={`flex items-center justify-center rounded-full text-center transition-all duration-300 ease-out ${
             cursorActive
-              ? `h-28 w-28 text-4xl opacity-100 ${cursorInverted ? "bg-ink" : "bg-cobalt"}`
-              : "h-0 w-0 bg-cobalt text-4xl opacity-0"
+              ? `h-16 w-16 text-2xl opacity-100 ${cursorInverted ? "bg-ink" : "bg-cobalt"}`
+              : "h-0 w-0 bg-cobalt text-2xl opacity-0"
           }`}
         >
           {"\u{1F440}"}
