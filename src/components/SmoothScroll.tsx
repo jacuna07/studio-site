@@ -22,9 +22,9 @@ const SETTLE_PX = 0.5;
  * those stay fully native, which keeps the page accessible and avoids the
  * usual pitfalls of scroll-hijacking libraries (broken screen readers,
  * broken find-in-page, broken position:fixed children). It also backs off
- * entirely for reduced-motion users and skips any element that scrolls on
- * its own (the Work page's horizontal industry-filter pills, a scrollable
- * textarea, etc.), so those keep their native wheel behavior untouched.
+ * entirely for reduced-motion users and skips the Work page's horizontal
+ * industry-filter pills (see isExemptTarget below), which keep their
+ * native wheel behavior untouched.
  *
  * Renders nothing — it's a behavior-only component, mount it once near the
  * root of the app.
@@ -50,20 +50,26 @@ export default function SmoothScroll() {
       return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
     }
 
-    function isInsideScrollable(target: EventTarget | null): boolean {
-      let node = target instanceof Element ? target : null;
-      while (node && node !== document.body && node !== document.documentElement) {
-        const style = getComputedStyle(node);
-        const scrollsY =
-          (style.overflowY === "auto" || style.overflowY === "scroll") &&
-          node.scrollHeight > node.clientHeight;
-        const scrollsX =
-          (style.overflowX === "auto" || style.overflowX === "scroll") &&
-          node.scrollWidth > node.clientWidth;
-        if (scrollsY || scrollsX) return true;
-        node = node.parentElement;
-      }
-      return false;
+    // The only element in the site that scrolls on its own is the Work
+    // page's horizontal industry-filter row (class "scrollbar-hide"). A
+    // plain closest() check is effectively free; an earlier version of this
+    // walked the DOM calling getComputedStyle on every ancestor for every
+    // single wheel event, which forces a synchronous layout each time --
+    // at trackpad wheel-event frequency that was expensive enough to jam
+    // the main thread and made scrolling feel laggy/uncontrollable. If a
+    // new horizontally-scrollable widget is added later, give it this same
+    // class (or extend the selector below).
+    function isExemptTarget(target: EventTarget | null): boolean {
+      return target instanceof Element ? !!target.closest(".scrollbar-hide") : false;
+    }
+
+    // Normalize deltaY to pixels: most trackpads/modern mice report pixel
+    // deltas already (deltaMode 0), but older "notched" mice can report in
+    // lines (1) or pages (2), which would otherwise under-scroll badly.
+    function normalizedDeltaY(e: WheelEvent): number {
+      if (e.deltaMode === 1) return e.deltaY * 16;
+      if (e.deltaMode === 2) return e.deltaY * window.innerHeight;
+      return e.deltaY;
     }
 
     function step() {
@@ -83,10 +89,10 @@ export default function SmoothScroll() {
     }
 
     function onWheel(e: WheelEvent) {
-      if (isInsideScrollable(e.target)) return;
+      if (isExemptTarget(e.target)) return;
 
       e.preventDefault();
-      const next = targetRef.current + e.deltaY * SPEED;
+      const next = targetRef.current + normalizedDeltaY(e) * SPEED;
       targetRef.current = Math.max(0, Math.min(next, maxScroll()));
 
       if (!isAnimatingRef.current) {
