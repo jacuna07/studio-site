@@ -62,7 +62,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
   return (
     <header
       id="top"
-      className={`fixed top-0 inset-x-0 z-50 bg-ink transition-transform duration-300 ${
+      className={`fixed top-0 inset-x-0 z-50 bg-ink/80 backdrop-blur-md transition-transform duration-300 ${
         visible || open ? "translate-y-0" : "-translate-y-full"
       }`}
     >
