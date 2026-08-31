@@ -6,9 +6,10 @@ import { useEffect, useRef } from "react";
 // Nudge above 1 for a lighter feel, below 1 for heavier.
 const SPEED = 1;
 // How far the visual scroll position closes the gap to the target each
-// frame (0-1). Lower = slower, heavier ease; higher = snappier. This is the
-// main "feel" knob.
-const EASE = 0.09;
+// frame (0-1). Lower = slower, heavier ease; higher = snappier, closer to
+// native. This is the main "feel" knob -- currently set light/fast as a
+// starting point to tune from.
+const EASE = 0.35;
 // Once the remaining distance is under this many pixels, snap to the target
 // and stop the animation loop rather than chasing forever.
 const SETTLE_PX = 0.5;
