@@ -16,7 +16,7 @@ const project: Project = {
     "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
   ],
   hero: {
-    src: "/images/zero/cover.svg",
+    src: "/images/zero/cover.jpg",
     alt: "Zero. Imagen de portada",
   },
   gallery: [

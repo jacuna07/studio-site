@@ -2,7 +2,7 @@ import type { Project } from "../projects/types";
 
 const project: Project = {
   slug: "lux",
-  title: "Lux",
+  title: "Lux Project",
   tagline: "[MARCADOR DE ESLOGAN] Una línea breve que capture la esencia de la marca.",
   client: "Lux",
   year: "2018",
@@ -16,8 +16,8 @@ const project: Project = {
     "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
   ],
   hero: {
-    src: "/images/lux/cover.svg",
-    alt: "Lux. Imagen de portada",
+    src: "/images/lux/cover.jpg",
+    alt: "Lux Project. Imagen de portada",
   },
   gallery: [
     {

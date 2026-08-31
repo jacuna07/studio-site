@@ -2,7 +2,7 @@ import type { Project } from "./types";
 
 const project: Project = {
   slug: "lux",
-  title: "Lux",
+  title: "Lux Project",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Lux",
   year: "2018",
@@ -16,8 +16,8 @@ const project: Project = {
     "[PLACEHOLDER] Replace with a short paragraph on the approach and the outcome.",
   ],
   hero: {
-    src: "/images/lux/cover.svg",
-    alt: "Lux. Cover image",
+    src: "/images/lux/cover.jpg",
+    alt: "Lux Project. Cover image",
   },
   gallery: [
     {
