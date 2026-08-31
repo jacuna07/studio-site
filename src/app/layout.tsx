@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Syne, Montserrat } from "next/font/google";
 import { SITE_IS_LIVE } from "@/lib/site-config";
+import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 const syne = Syne({
@@ -59,6 +60,7 @@ export default function RootLayout({
       <body
         className={`${syne.variable} ${montserrat.variable} font-sans bg-ink text-paper antialiased`}
       >
+        <SmoothScroll />
         {children}
       </body>
     </html>
