@@ -3,6 +3,7 @@ import Image from "next/image";
 import Container from "@/components/Container";
 import IconInstagram from "@/components/icons/IconInstagram";
 import IconLinkedin from "@/components/icons/IconLinkedin";
+import IconWhatsapp from "@/components/icons/IconWhatsapp";
 
 export const metadata: Metadata = { title: "Nosotros. Tresunotres" };
 
@@ -34,6 +35,7 @@ const team = [
     photo: { src: "/images/about/adrian.jpg", alt: "Retrato de Adrián Jiménez" },
     instagram: "#",
     linkedin: "#",
+    whatsapp: "#",
   },
   {
     name: "Javier Acuña",
@@ -41,6 +43,7 @@ const team = [
     photo: { src: "/images/about/javier.jpg", alt: "Retrato de Javier Acuña" },
     instagram: "#",
     linkedin: "#",
+    whatsapp: "#",
   },
 ];
 
@@ -147,6 +150,13 @@ export default function AboutPageEs() {
                   className="text-stone hover:text-cobalt transition-colors"
                 >
                   <IconLinkedin className="h-5 w-5" />
+                </a>
+                <a
+                  href={person.whatsapp}
+                  aria-label={`${person.name} en WhatsApp`}
+                  className="text-stone hover:text-cobalt transition-colors"
+                >
+                  <IconWhatsapp className="h-5 w-5" />
                 </a>
               </div>
             </div>
