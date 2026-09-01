@@ -95,7 +95,7 @@ export default function AboutPage() {
               tabIndex={0}
               className="group relative overflow-hidden rounded-2xl border border-paper/20 bg-cobalt h-[380px] md:h-[440px] focus:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
-              <div className="absolute inset-x-0 bottom-0 flex items-center p-6 md:p-8">
+              <div className="absolute inset-x-0 bottom-0 h-[35%] flex items-center p-6 md:p-8">
                 <p className="text-paper text-sm leading-snug">{item.description}</p>
               </div>
 
