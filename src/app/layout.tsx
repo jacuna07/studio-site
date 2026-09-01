@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Syne, Montserrat } from "next/font/google";
 import { SITE_IS_LIVE } from "@/lib/site-config";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -48,6 +48,10 @@ export const metadata: Metadata = {
     description: siteDescription,
     images: ["/images/og-cover.jpg"],
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0a0a",
 };
 
 export default function RootLayout({

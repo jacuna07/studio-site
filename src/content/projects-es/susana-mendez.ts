@@ -7,8 +7,6 @@ const project: Project = {
   client: "Susana Méndez",
   year: "2024",
   industry: "Legal",
-  featured: true,
-  featuredOrder: 3,
   summary:
     "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Susana Méndez.",
   brief:
