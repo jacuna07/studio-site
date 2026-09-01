@@ -30,14 +30,14 @@ const method = [
 const team = [
   {
     name: "Adrián Jiménez",
-    role: "Cofundador y Diseñador",
+    role: "Diseñador de marca",
     photo: { src: "/images/about/adrian.jpg", alt: "Retrato de Adrián Jiménez" },
     instagram: "#",
     linkedin: "#",
   },
   {
     name: "Javier Acuña",
-    role: "Cofundador y Diseñador",
+    role: "Diseñador de marca",
     photo: { src: "/images/about/javier.jpg", alt: "Retrato de Javier Acuña" },
     instagram: "#",
     linkedin: "#",

@@ -17,6 +17,7 @@ const copy: Record<
     backHeadlineLine2: string;
     instagram: string;
     linkedin: string;
+    whatsapp: string;
     contactHref: string;
     nav: { href: string; label: string }[];
     rights: string;
@@ -32,6 +33,7 @@ const copy: Record<
     backHeadlineLine2: "home.",
     instagram: "[INSTAGRAM]",
     linkedin: "[LINKEDIN]",
+    whatsapp: "[WHATSAPP]",
     contactHref: "/contact",
     nav: [
       { href: "/work", label: "Work" },
@@ -50,6 +52,7 @@ const copy: Record<
     backHeadlineLine2: "a casa.",
     instagram: "[INSTAGRAM]",
     linkedin: "[LINKEDIN]",
+    whatsapp: "[WHATSAPP]",
     contactHref: "/es/contact",
     nav: [
       { href: "/es/work", label: "Trabajo" },
@@ -111,6 +114,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
             >
               <div>{t.instagram}</div>
               <div>{t.linkedin}</div>
+              <div>{t.whatsapp}</div>
             </div>
           </div>
         </div>
