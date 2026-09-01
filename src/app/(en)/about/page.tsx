@@ -6,6 +6,27 @@ import IconLinkedin from "@/components/icons/IconLinkedin";
 
 export const metadata: Metadata = { title: "About. Tresunotres" };
 
+const method = [
+  {
+    number: "3",
+    label: "Creative minds",
+    description:
+      "[DESCRIPTION PLACEHOLDER] Replace with a short description of the studio's creative team and how it approaches each project.",
+  },
+  {
+    number: "1",
+    label: "High-end, polished product",
+    description:
+      "[DESCRIPTION PLACEHOLDER] Replace with a short description of the studio's commitment to a refined final product.",
+  },
+  {
+    number: "3",
+    label: "Refined phases",
+    description:
+      "[DESCRIPTION PLACEHOLDER] Replace with a short description of the studio's three-phase process.",
+  },
+];
+
 const team = [
   {
     name: "Adrián Jiménez",
@@ -100,6 +121,32 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
+        </div>
+      </Container>
+
+      <Container className="mt-16">
+        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-8">
+          Our method
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {method.map((item) => (
+            <div
+              key={item.label}
+              className="group relative overflow-hidden rounded-2xl border border-paper/20 bg-ink min-h-[320px] md:min-h-[400px]"
+            >
+              <div className="flex h-full flex-col justify-between p-8 pb-24 md:pb-28">
+                <span className="font-display font-extrabold text-6xl md:text-7xl text-paper">
+                  {item.number}
+                </span>
+                <span className="font-mono text-xs md:text-sm uppercase tracking-[0.2em] text-paper max-w-[14ch]">
+                  {item.label}
+                </span>
+              </div>
+              <div className="absolute inset-x-0 bottom-0 h-24 md:h-28 rounded-b-2xl bg-cobalt p-6 md:p-8 flex items-center translate-y-full opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100">
+                <p className="text-paper text-sm leading-snug">{item.description}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </Container>
     </section>
