@@ -94,13 +94,14 @@ export default function AboutPageEs() {
           {method.map((item) => (
             <div
               key={item.label}
-              className="group relative overflow-hidden rounded-2xl border border-paper/20 bg-cobalt h-[380px] md:h-[440px]"
+              tabIndex={0}
+              className="group relative overflow-hidden rounded-2xl border border-paper/20 bg-cobalt h-[380px] md:h-[440px] focus:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
             >
               <div className="absolute inset-x-0 bottom-0 flex items-center p-6 md:p-8">
                 <p className="text-paper text-sm leading-snug">{item.description}</p>
               </div>
 
-              <div className="absolute inset-x-0 top-0 flex h-full flex-col justify-between bg-ink p-8 transition-[height] duration-300 ease-out group-hover:h-[65%]">
+              <div className="absolute inset-x-0 top-0 flex h-[65%] md:h-full flex-col justify-between bg-ink p-8 transition-[height] duration-300 ease-out md:group-hover:h-[65%] md:group-focus:h-[65%]">
                 <span className="font-display font-bold text-6xl md:text-7xl leading-none text-paper -mt-2 md:-mt-3">
                   {item.number}
                 </span>
