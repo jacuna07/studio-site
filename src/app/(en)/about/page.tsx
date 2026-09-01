@@ -99,7 +99,7 @@ export default function AboutPage() {
               </div>
 
               <div className="absolute inset-x-0 top-0 flex h-full flex-col justify-between bg-ink p-8 transition-[height] duration-300 ease-out group-hover:h-[65%]">
-                <span className="font-display font-bold text-6xl md:text-7xl text-paper">
+                <span className="font-display font-bold text-6xl md:text-7xl leading-none text-paper -mt-2 md:-mt-3">
                   {item.number}
                 </span>
                 <span className="font-mono text-xs md:text-sm uppercase tracking-[0.2em] text-paper max-w-[14ch]">
