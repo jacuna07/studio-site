@@ -82,46 +82,6 @@ export default function AboutPage() {
             </p>
           </div>
         </div>
-
-        <div className="mt-16">
-          <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-8">
-            The team
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
-            {team.map((person) => (
-              <div key={person.name}>
-                <div className="relative aspect-square overflow-hidden rounded-2xl bg-mist">
-                  <Image
-                    src={person.photo.src}
-                    alt={person.photo.alt}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <h3 className="font-display text-lg mt-4">{person.name}</h3>
-                <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-stone mt-1">
-                  {person.role}
-                </p>
-                <div className="flex items-center gap-3 mt-3">
-                  <a
-                    href={person.instagram}
-                    aria-label={`${person.name} on Instagram`}
-                    className="text-stone hover:text-cobalt transition-colors"
-                  >
-                    <IconInstagram className="h-5 w-5" />
-                  </a>
-                  <a
-                    href={person.linkedin}
-                    aria-label={`${person.name} on LinkedIn`}
-                    className="text-stone hover:text-cobalt transition-colors"
-                  >
-                    <IconLinkedin className="h-5 w-5" />
-                  </a>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </Container>
 
       <Container className="mt-16">
@@ -132,18 +92,59 @@ export default function AboutPage() {
           {method.map((item) => (
             <div
               key={item.label}
-              className="group relative overflow-hidden rounded-2xl border border-paper/20 bg-ink min-h-[320px] md:min-h-[400px]"
+              className="group relative overflow-hidden rounded-2xl border border-paper/20 bg-cobalt h-[380px] md:h-[440px]"
             >
-              <div className="flex h-full flex-col justify-between p-8 pb-24 md:pb-28">
-                <span className="font-display font-extrabold text-6xl md:text-7xl text-paper">
+              <div className="absolute inset-x-0 bottom-0 flex items-center p-6 md:p-8">
+                <p className="text-paper text-sm leading-snug">{item.description}</p>
+              </div>
+
+              <div className="absolute inset-x-0 top-0 flex h-full flex-col justify-between bg-ink p-8 transition-[height] duration-300 ease-out group-hover:h-[65%]">
+                <span className="font-display font-bold text-6xl md:text-7xl text-paper">
                   {item.number}
                 </span>
                 <span className="font-mono text-xs md:text-sm uppercase tracking-[0.2em] text-paper max-w-[14ch]">
                   {item.label}
                 </span>
               </div>
-              <div className="absolute inset-x-0 bottom-0 h-24 md:h-28 rounded-b-2xl bg-cobalt p-6 md:p-8 flex items-center translate-y-full opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100">
-                <p className="text-paper text-sm leading-snug">{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </Container>
+
+      <Container className="max-w-3xl mt-16">
+        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-8">
+          The team
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+          {team.map((person) => (
+            <div key={person.name}>
+              <div className="relative aspect-square overflow-hidden rounded-2xl bg-mist">
+                <Image
+                  src={person.photo.src}
+                  alt={person.photo.alt}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <h3 className="font-display text-lg mt-4">{person.name}</h3>
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-stone mt-1">
+                {person.role}
+              </p>
+              <div className="flex items-center gap-3 mt-3">
+                <a
+                  href={person.instagram}
+                  aria-label={`${person.name} on Instagram`}
+                  className="text-stone hover:text-cobalt transition-colors"
+                >
+                  <IconInstagram className="h-5 w-5" />
+                </a>
+                <a
+                  href={person.linkedin}
+                  aria-label={`${person.name} on LinkedIn`}
+                  className="text-stone hover:text-cobalt transition-colors"
+                >
+                  <IconLinkedin className="h-5 w-5" />
+                </a>
               </div>
             </div>
           ))}
