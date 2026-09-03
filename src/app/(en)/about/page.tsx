@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Container from "@/components/Container";
-import IconInstagram from "@/components/icons/IconInstagram";
-import IconLinkedin from "@/components/icons/IconLinkedin";
 import IconWhatsapp from "@/components/icons/IconWhatsapp";
 
 export const metadata: Metadata = { title: "About. Tresunotres" };
@@ -12,19 +10,19 @@ const method = [
     number: "3",
     label: "Creative minds",
     description:
-      "[DESCRIPTION PLACEHOLDER] Replace with a short description of the studio's creative team and how it approaches each project.",
+      "Two seasoned brand designers, each with over a decade of experience across multiple fields, teaming up with you — the third pillar of the process.",
   },
   {
     number: "1",
     label: "High-end, polished product",
     description:
-      "[DESCRIPTION PLACEHOLDER] Replace with a short description of the studio's commitment to a refined final product.",
+      "One final product, refined at its core. Our commitment: never deliver something we don't love ourselves.",
   },
   {
     number: "3",
     label: "Refined phases",
     description:
-      "[DESCRIPTION PLACEHOLDER] Replace with a short description of the studio's three-phase process.",
+      "Three tailor-made phases, perfected over the years. No guesswork — just an efficient result.",
   },
 ];
 
@@ -33,16 +31,12 @@ const team = [
     name: "Adrián Jiménez",
     role: "Brand designer",
     photo: { src: "/images/about/adrian.jpg", alt: "Portrait of Adrián Jiménez" },
-    instagram: "#",
-    linkedin: "#",
     whatsapp: "#",
   },
   {
     name: "Javier Acuña",
     role: "Brand designer",
     photo: { src: "/images/about/javier.jpg", alt: "Portrait of Javier Acuña" },
-    instagram: "#",
-    linkedin: "#",
     whatsapp: "#",
   },
 ];
@@ -135,20 +129,6 @@ export default function AboutPage() {
                 {person.role}
               </p>
               <div className="flex items-center gap-3 mt-3">
-                <a
-                  href={person.instagram}
-                  aria-label={`${person.name} on Instagram`}
-                  className="text-stone hover:text-cobalt transition-colors"
-                >
-                  <IconInstagram className="h-5 w-5" />
-                </a>
-                <a
-                  href={person.linkedin}
-                  aria-label={`${person.name} on LinkedIn`}
-                  className="text-stone hover:text-cobalt transition-colors"
-                >
-                  <IconLinkedin className="h-5 w-5" />
-                </a>
                 <a
                   href={person.whatsapp}
                   aria-label={`${person.name} on WhatsApp`}

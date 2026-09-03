@@ -117,8 +117,8 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
         >
-          <span className={`block h-px w-6 bg-paper transition-transform duration-300 ${open ? "translate-y-[3px] rotate-45" : ""}`} />
-          <span className={`block h-px w-6 bg-paper transition-transform duration-300 ${open ? "-translate-y-[3px] -rotate-45" : ""}`} />
+          <span className={`block h-px w-6 bg-paper transition-transform duration-300 ease-out ${open ? "translate-y-[3px] rotate-45" : ""}`} />
+          <span className={`block h-px w-6 bg-paper transition-transform duration-300 ease-out ${open ? "-translate-y-[3px] -rotate-45" : ""}`} />
         </button>
       </Container>
 

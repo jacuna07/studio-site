@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Container from "@/components/Container";
-import IconInstagram from "@/components/icons/IconInstagram";
-import IconLinkedin from "@/components/icons/IconLinkedin";
 import IconWhatsapp from "@/components/icons/IconWhatsapp";
 
 export const metadata: Metadata = { title: "Nosotros. Tresunotres" };
@@ -12,19 +10,19 @@ const method = [
     number: "3",
     label: "Mentes creativas",
     description:
-      "[MARCADOR DE DESCRIPCIÓN] Reemplazar con una breve descripción del equipo creativo del estudio y su enfoque en cada proyecto.",
+      "Dos diseñadores de marca con más de una década de experiencia en múltiples campos, que se suman al cliente — el tercer pilar del proceso creativo.",
   },
   {
     number: "1",
     label: "Producto pulido y de alta gama",
     description:
-      "[MARCADOR DE DESCRIPCIÓN] Reemplazar con una breve descripción del compromiso del estudio con un producto final refinado.",
+      "Un producto final, refinado desde la base. Nuestro compromiso: nunca entregar algo que nosotros mismos no amemos.",
   },
   {
     number: "3",
     label: "Fases refinadas",
     description:
-      "[MARCADOR DE DESCRIPCIÓN] Reemplazar con una breve descripción del proceso de tres fases del estudio.",
+      "Tres fases a la medida, perfeccionadas con los años. Sin conjeturas — solo un resultado eficiente.",
   },
 ];
 
@@ -33,16 +31,12 @@ const team = [
     name: "Adrián Jiménez",
     role: "Diseñador de marca",
     photo: { src: "/images/about/adrian.jpg", alt: "Retrato de Adrián Jiménez" },
-    instagram: "#",
-    linkedin: "#",
     whatsapp: "#",
   },
   {
     name: "Javier Acuña",
     role: "Diseñador de marca",
     photo: { src: "/images/about/javier.jpg", alt: "Retrato de Javier Acuña" },
-    instagram: "#",
-    linkedin: "#",
     whatsapp: "#",
   },
 ];
@@ -137,20 +131,6 @@ export default function AboutPageEs() {
                 {person.role}
               </p>
               <div className="flex items-center gap-3 mt-3">
-                <a
-                  href={person.instagram}
-                  aria-label={`${person.name} en Instagram`}
-                  className="text-stone hover:text-cobalt transition-colors"
-                >
-                  <IconInstagram className="h-5 w-5" />
-                </a>
-                <a
-                  href={person.linkedin}
-                  aria-label={`${person.name} en LinkedIn`}
-                  className="text-stone hover:text-cobalt transition-colors"
-                >
-                  <IconLinkedin className="h-5 w-5" />
-                </a>
                 <a
                   href={person.whatsapp}
                   aria-label={`${person.name} en WhatsApp`}

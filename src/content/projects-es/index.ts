@@ -17,7 +17,6 @@ import nahmud from "./nahmud";
 import sunari from "./sunari";
 import zero from "./zero";
 import renu from "./renu";
-import datasysGroup from "./datasys-group";
 
 export const projects: Project[] = [
   oxygen,
@@ -38,7 +37,6 @@ export const projects: Project[] = [
   sunari,
   zero,
   renu,
-  datasysGroup,
 ];
 
 export function getAllProjects(): Project[] {
