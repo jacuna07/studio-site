@@ -122,39 +122,45 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         </button>
       </Container>
 
-      {open && (
-        <div className="md:hidden fixed inset-x-0 top-0 z-40 flex h-dvh flex-col justify-between bg-ink px-6 pt-24 pb-10">
-          <nav className="flex flex-col gap-6">
-            {t.links.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="font-display text-4xl font-normal hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
-              >
-                {l.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-stone">
+      <div
+        aria-hidden={!open}
+        className={`md:hidden fixed inset-x-0 top-0 z-40 flex h-dvh flex-col justify-between bg-ink px-6 pt-24 pb-10 transition-[opacity,transform] duration-300 ease-out ${
+          open ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-4 pointer-events-none"
+        }`}
+      >
+        <nav className="flex flex-col gap-6">
+          {t.links.map((l) => (
             <Link
-              href={enHref}
+              key={l.href}
+              href={l.href}
+              tabIndex={open ? 0 : -1}
               onClick={() => setOpen(false)}
-              className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
+              className="font-display text-4xl font-normal hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
             >
-              EN
+              {l.label}
             </Link>
-            <span>/</span>
-            <Link
-              href={esHref}
-              onClick={() => setOpen(false)}
-              className={locale === "es" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
-            >
-              SP
-            </Link>
-          </div>
+          ))}
+        </nav>
+        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-stone">
+          <Link
+            href={enHref}
+            tabIndex={open ? 0 : -1}
+            onClick={() => setOpen(false)}
+            className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
+          >
+            EN
+          </Link>
+          <span>/</span>
+          <Link
+            href={esHref}
+            tabIndex={open ? 0 : -1}
+            onClick={() => setOpen(false)}
+            className={locale === "es" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
+          >
+            SP
+          </Link>
         </div>
-      )}
+      </div>
     </header>
   );
 }
