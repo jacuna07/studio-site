@@ -76,7 +76,7 @@ export default function ProjectCard({
       </div>
 
       {/* Mobile only: no hover to reveal this, so show it as plain text below the image */}
-      <div className="md:hidden pt-4 pb-2">
+      <div className="md:hidden pt-2 pb-10">
         {overlay === "gradient" && showIndex && (
           <div className="font-mono text-[11px] tracking-[0.2em] text-stone mb-1">
             {String(index).padStart(2, "0")}
