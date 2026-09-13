@@ -3,18 +3,18 @@ import type { Project } from "./types";
 const project: Project = {
   slug: "oxygen",
   title: "Oxygen",
-  tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
+  tagline: "A brand that grew with the box.",
   client: "Oxygen",
   year: "2022",
   industry: "Fitness",
   featured: true,
   featuredOrder: 1,
-  summary: "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Oxygen project.",
-  brief:
-    "[BRIEF PLACEHOLDER] Replace with the one-line challenge or question that framed this project.",
+  summary: "An identity built for a fitness community that outgrew its own warehouse.",
+  brief: "A fitness box built by three brothers who went all in from the start.",
   overview: [
-    "[PLACEHOLDER] Replace with the real project brief: what the client needed, and why.",
-    "[PLACEHOLDER] Replace with a short paragraph on the approach and the outcome.",
+    "Oxygen's founders, two brothers and a cousin who runs with them like a third, rented a warehouse and built their box before anything else existed. They came to us for the brand from the very start with a clear picture of what the project would become.",
+    "We built an identity around what actually holds their community together: the people, not just the workouts. It gives Oxygen room to keep evolving.",
+    "That community is still at the center. Oxygen has since moved into a space built entirely for them.",
   ],
   hero: { src: "/images/oxygen/cover.jpg", alt: "Oxygen. Cover image" },
   gallery: [
