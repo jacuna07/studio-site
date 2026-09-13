@@ -72,7 +72,7 @@ export default function HomePage() {
               className="group inline-flex items-center gap-2 font-mono text-base uppercase tracking-[0.2em] hover:text-cobalt transition-colors"
             >
               <span className="relative">
-                More cool stuff
+                Discover more
                 <span
                   aria-hidden="true"
                   className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full"
