@@ -15,7 +15,20 @@ export default function Gallery({ images }: { images: GalleryImage[] }) {
           key={i}
           className={`relative overflow-hidden rounded-2xl bg-mist ${aspectClass[img.aspect]}`}
         >
-          <Image src={img.src} alt={img.alt} fill className="object-cover" />
+          {img.type === "video" ? (
+            <video
+              src={img.src}
+              poster={img.poster}
+              aria-label={img.alt}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          ) : (
+            <Image src={img.src} alt={img.alt} fill className="object-cover" />
+          )}
         </div>
       ))}
     </div>

@@ -32,13 +32,26 @@ export default function ProjectPageEs({ params }: Props) {
   return (
     <article>
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-mist">
-        <Image
-          src={project.hero.src}
-          alt={project.hero.alt}
-          fill
-          priority
-          className="object-cover"
-        />
+        {project.hero.video ? (
+          <video
+            src={project.hero.video}
+            poster={project.hero.src}
+            aria-label={project.hero.alt}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <Image
+            src={project.hero.src}
+            alt={project.hero.alt}
+            fill
+            priority
+            className="object-cover"
+          />
+        )}
       </div>
 
       <Container className="py-16">
