@@ -3,17 +3,17 @@ import type { Project } from "../projects/types";
 const project: Project = {
   slug: "totoppo",
   title: "Totoppo",
-  tagline: "[MARCADOR DE ESLOGAN] Una línea breve que capture la esencia de la marca.",
+  tagline: "Un espacio, una necesidad, y la pieza construida para llenar ambas.",
   client: "Totoppo",
   year: "2026",
   industry: "Muebles",
   summary:
-    "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Totoppo.",
+    "Un rebranding para Totoppo, un taller de muebles a medida que diseña cada pieza en torno al espacio y la necesidad del cliente, y que marca su paso de taller de una persona a un pequeño estudio.",
   brief:
-    "[MARCADOR DE BRIEF] Reemplazar con el reto o la pregunta de una línea que enmarcó este proyecto.",
+    "¿Cómo se rediseña la marca de un taller de una persona para convertirlo en un pequeño estudio, sin perder el espíritu artesanal y a medida que lo hizo conocido desde el principio?",
   overview: [
-    "[MARCADOR] Reemplazar con el brief real del proyecto: qué necesitaba el cliente y por qué.",
-    "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
+    "Totoppo construye muebles como siempre lo ha hecho: en torno a un espacio real y una necesidad real, pieza por pieza, nada de catálogo. Lo que empezó como una sola persona a cargo del diseño, la construcción y la entrega hoy es un equipo de cuatro. La identidad tenía que crecer con ellos.",
+    "La nueva marca conserva ese espíritu artesanal: un logotipo con el peso de algo hecho a mano, y un símbolo con forma de casa que remite a los espacios para los que se construyen los muebles. Es un sistema pensado para llevar a Totoppo a su siguiente etapa como estudio, sin perder al artesano detrás.",
   ],
   hero: {
     src: "/images/totoppo/cover.jpg",

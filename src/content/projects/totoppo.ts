@@ -3,17 +3,17 @@ import type { Project } from "./types";
 const project: Project = {
   slug: "totoppo",
   title: "Totoppo",
-  tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
+  tagline: "A space, a need, and the piece built to fill both.",
   client: "Totoppo",
   year: "2026",
   industry: "Furniture",
   summary:
-    "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Totoppo project.",
+    "A rebrand for Totoppo, a custom furniture workshop that designs every piece around a client's space and need. It marks the studio's move from a one-person shop to a small team.",
   brief:
-    "[BRIEF PLACEHOLDER] Replace with the one-line challenge or question that framed this project.",
+    "How do you rebrand a one-person workshop into a small studio, without losing the hands-on, made-to-measure spirit that built it in the first place?",
   overview: [
-    "[PLACEHOLDER] Replace with the real project brief: what the client needed, and why.",
-    "[PLACEHOLDER] Replace with a short paragraph on the approach and the outcome.",
+    "Totoppo builds furniture the way it always has: around a real space and a real need, piece by piece, nothing off the shelf. What started as one person handling design, building, and delivery alone has grown into a team of four. The identity needed to grow with it.",
+    "The new mark keeps that hands-on core: a wordmark with the weight of something built by hand, and a house-shaped mark that nods to the spaces the furniture is made for. It's a system built to carry Totoppo into its next chapter as a studio, without losing the maker behind it.",
   ],
   hero: {
     src: "/images/totoppo/cover.jpg",
