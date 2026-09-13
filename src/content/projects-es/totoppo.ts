@@ -21,23 +21,18 @@ const project: Project = {
   },
   gallery: [
     {
-      src: "/images/totoppo/gallery-1.svg",
-      alt: "Totoppo. Marcador de posición — aquí se necesita el sistema de logotipo.",
+      src: "/images/totoppo/gallery-1.jpg",
+      alt: "Totoppo. Marca gráfica sobre fondo vino.",
       aspect: "square",
     },
     {
-      src: "/images/totoppo/gallery-2.svg",
-      alt: "Totoppo. Marcador de posición — aquí se necesita color y tipografía.",
+      src: "/images/totoppo/gallery-2.jpg",
+      alt: "Totoppo. Silla en un interior ambientado.",
       aspect: "square",
     },
     {
-      src: "/images/totoppo/gallery-3.svg",
-      alt: "Totoppo. Marcador de posición — aquí se necesita foto de aplicación principal.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/totoppo/gallery-4.svg",
-      alt: "Totoppo. Marcador de posición — aquí se necesita foto de entorno o estilo de vida.",
+      src: "/images/totoppo/gallery-3.jpg",
+      alt: "Totoppo. Detalle de construcción del logotipo.",
       aspect: "wide",
     },
   ],

@@ -21,23 +21,18 @@ const project: Project = {
   },
   gallery: [
     {
-      src: "/images/totoppo/gallery-1.svg",
-      alt: "Totoppo. Placeholder — logo system needed here.",
+      src: "/images/totoppo/gallery-1.jpg",
+      alt: "Totoppo. Brand mark on maroon.",
       aspect: "square",
     },
     {
-      src: "/images/totoppo/gallery-2.svg",
-      alt: "Totoppo. Placeholder — color & type needed here.",
+      src: "/images/totoppo/gallery-2.jpg",
+      alt: "Totoppo. Chair in a styled interior.",
       aspect: "square",
     },
     {
-      src: "/images/totoppo/gallery-3.svg",
-      alt: "Totoppo. Placeholder — primary application photo needed here.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/totoppo/gallery-4.svg",
-      alt: "Totoppo. Placeholder — environment or lifestyle photo needed here.",
+      src: "/images/totoppo/gallery-3.jpg",
+      alt: "Totoppo. Logotype construction detail.",
       aspect: "wide",
     },
   ],
