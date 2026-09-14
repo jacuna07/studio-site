@@ -5,7 +5,7 @@ const project: Project = {
   title: "Susana Méndez",
   tagline: "Signed, not stamped.",
   client: "Susana Méndez",
-  year: "2024",
+  year: "2025",
   industry: "Law",
   summary:
     "An identity for an independent lawyer and notary, anchored by a mark that doubles as her own signature.",

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/Container";
 import Gallery from "@/components/Gallery";
+import ShareButton from "@/components/ShareButton";
 import {
   getAllProjects,
   getProjectBySlug,
@@ -66,6 +67,10 @@ export default function ProjectPage({ params }: Props) {
             <p className="font-display text-xl md:text-2xl italic text-stone mt-3 max-w-2xl">
               {project.tagline}
             </p>
+
+            <div className="mt-6">
+              <ShareButton title={project.title} text={project.tagline} locale="en" />
+            </div>
 
             <div className="mt-10">
               <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-3">
@@ -139,6 +144,10 @@ export default function ProjectPage({ params }: Props) {
               {next.title}
             </span>
           </Link>
+        </div>
+
+        <div className="mt-10 flex justify-center">
+          <ShareButton title={project.title} text={project.tagline} locale="en" />
         </div>
 
         <div className="mt-10 flex justify-center">

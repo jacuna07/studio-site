@@ -5,7 +5,7 @@ const project: Project = {
   title: "Susana Méndez",
   tagline: "Firmada, no sellada.",
   client: "Susana Méndez",
-  year: "2024",
+  year: "2025",
   industry: "Legal",
   summary:
     "Una identidad para una abogada y notaria independiente, anclada en una marca que también funciona como su propia firma.",
