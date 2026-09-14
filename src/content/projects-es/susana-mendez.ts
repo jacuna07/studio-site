@@ -3,17 +3,17 @@ import type { Project } from "../projects/types";
 const project: Project = {
   slug: "susana-mendez",
   title: "Susana Méndez",
-  tagline: "[MARCADOR DE ESLOGAN] Una línea breve que capture la esencia de la marca.",
+  tagline: "Firmada, no sellada.",
   client: "Susana Méndez",
   year: "2024",
   industry: "Legal",
   summary:
-    "[MARCADOR DE RESUMEN] Reemplazar con una descripción de una línea del proyecto Susana Méndez.",
+    "Una identidad para una abogada y notaria independiente, anclada en una marca que también funciona como su propia firma.",
   brief:
-    "[MARCADOR DE BRIEF] Reemplazar con el reto o la pregunta de una línea que enmarcó este proyecto.",
+    "Una abogada y notaria independiente, construida para destacar en una industria acostumbrada a verse siempre igual. Y una marca que funciona de la misma manera.",
   overview: [
-    "[MARCADOR] Reemplazar con el brief real del proyecto: qué necesitaba el cliente y por qué.",
-    "[MARCADOR] Reemplazar con un párrafo breve sobre el enfoque y el resultado.",
+    "Susana Méndez necesitaba una marca tan creíble como la de cualquier bufete, en una industria todavía dominada por hombres. Por eso la identidad se construyó a partir de una idea, no de una estética: sus iniciales y la balanza de la justicia, fundidas en un solo símbolo que funciona como su firma.",
+    "El resultado se lee tan personal como profesional, una marca que destaca por la misma razón que ella.",
   ],
   hero: {
     src: "/images/susana-mendez/cover.jpg",

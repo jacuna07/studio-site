@@ -3,16 +3,17 @@ import type { Project } from "./types";
 const project: Project = {
   slug: "susana-mendez",
   title: "Susana Méndez",
-  tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
+  tagline: "Signed, not stamped.",
   client: "Susana Méndez",
   year: "2024",
   industry: "Law",
-  summary: "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Susana Méndez project.",
+  summary:
+    "An identity for an independent lawyer and notary, anchored by a mark that doubles as her own signature.",
   brief:
-    "[BRIEF PLACEHOLDER] Replace with the one-line challenge or question that framed this project.",
+    "An independent lawyer and notary, built to stand out in an industry that's used to looking one way. And a brand that works the same way.",
   overview: [
-    "[PLACEHOLDER] Replace with the real project brief: what the client needed, and why.",
-    "[PLACEHOLDER] Replace with a short paragraph on the approach and the outcome.",
+    "Susana Méndez needed a brand that read as credible as any law office, in an industry still mostly run by men. So the identity is built around an idea, not a look: her initials, and the scales of justice, folded into a single mark serving as her own signature.",
+    "The result reads as personal as it does professional, a brand that stands out for the same reason she does.",
   ],
   hero: {
     src: "/images/susana-mendez/cover.jpg",

@@ -13,7 +13,7 @@ const project: Project = {
     "Una identidad para una comunidad de fitness a la que se le quedó pequeña su propia bodega.",
   brief: "Un box de fitness construido por tres hermanos que se jugaron todo desde el principio.",
   overview: [
-    "Los fundadores de Oxygen, dos hermanos y un primo que corre con ellos como si fuera el tercero, alquilaron una bodega y construyeron su box antes de que existiera cualquier otra cosa. Llegaron a nosotros por la marca desde el principio, con una idea clara de en qué se convertiría el proyecto.",
+    "Los fundadores de Oxygen, tres hermanos, alquilaron una bodega y construyeron su box antes de que existiera cualquier otra cosa. Llegaron a nosotros por la marca desde el principio, con una idea clara de en qué se convertiría el proyecto.",
     "Construimos una identidad en torno a lo que realmente mantiene unida a su comunidad: las personas, no solo los entrenamientos. Eso le da a Oxygen espacio para seguir evolucionando.",
     "Esa comunidad sigue siendo el centro. Oxygen se mudó desde entonces a un espacio construido enteramente para ellos.",
   ],

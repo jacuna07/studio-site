@@ -12,7 +12,7 @@ const project: Project = {
   summary: "An identity built for a fitness community that outgrew its own warehouse.",
   brief: "A fitness box built by three brothers who went all in from the start.",
   overview: [
-    "Oxygen's founders, two brothers and a cousin who runs with them like a third, rented a warehouse and built their box before anything else existed. They came to us for the brand from the very start with a clear picture of what the project would become.",
+    "Oxygen's founders, three brothers, rented a warehouse and built their box before anything else existed. They came to us for the brand from the very start with a clear picture of what the project would become.",
     "We built an identity around what actually holds their community together: the people, not just the workouts. It gives Oxygen room to keep evolving.",
     "That community is still at the center. Oxygen has since moved into a space built entirely for them.",
   ],
