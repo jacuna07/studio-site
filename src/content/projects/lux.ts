@@ -41,6 +41,7 @@ const project: Project = {
       aspect: "wide",
     },
   ],
+  theme: { bodyColor: "#EFA80A" },
 };
 
 export default project;

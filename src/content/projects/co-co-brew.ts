@@ -5,9 +5,10 @@ const project: Project = {
   title: "Co.Co Brew",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Co.Co Brew",
-  year: "2021",
+  year: "2023",
   industry: "Startups",
-  featured: false,
+  featured: true,
+  featuredOrder: 5,
   summary:
     "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Co.Co Brew project.",
   brief:
@@ -42,6 +43,7 @@ const project: Project = {
       aspect: "wide",
     },
   ],
+  theme: { bodyColor: "#9DED07" },
 };
 
 export default project;

@@ -7,8 +7,7 @@ const project: Project = {
   client: "Five Training Center",
   year: "2022",
   industry: "Fitness",
-  featured: true,
-  featuredOrder: 5,
+  featured: false,
   summary:
     "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Five Training Center project.",
   brief:
@@ -43,6 +42,7 @@ const project: Project = {
       aspect: "wide",
     },
   ],
+  theme: { bodyColor: "#5B5BA5" },
 };
 
 export default project;
