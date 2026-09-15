@@ -13,10 +13,13 @@ export default function WorkGrid({
   projects,
   locale = "en",
   variant = "chunked",
+  enableImageSwipe = false,
 }: {
   projects: Project[];
   locale?: "en" | "es";
   variant?: "chunked" | "grid";
+  /** Mobile only: swiping over a card's thumbnail cycles through its images. */
+  enableImageSwipe?: boolean;
 }) {
   if (variant === "grid") {
     return (
@@ -30,6 +33,7 @@ export default function WorkGrid({
             locale={locale}
             overlay="solid"
             showIndex={false}
+            enableImageSwipe={enableImageSwipe}
           />
         ))}
       </div>
@@ -47,6 +51,7 @@ export default function WorkGrid({
             locale={locale}
             overlay="solid"
             showIndex={false}
+            enableImageSwipe={enableImageSwipe}
           />
           {group.length > 1 && (
             <div className="grid grid-cols-1 md:grid-cols-2">
@@ -59,6 +64,7 @@ export default function WorkGrid({
                   locale={locale}
                   overlay="solid"
                   showIndex={false}
+                  enableImageSwipe={enableImageSwipe}
                 />
               ))}
             </div>

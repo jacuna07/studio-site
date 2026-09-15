@@ -58,7 +58,7 @@ export default function HomePageEs() {
             </Link>
           </div>
           <CursorRevealGrid>
-            <WorkGrid projects={projects} locale="es" />
+            <WorkGrid projects={projects} locale="es" enableImageSwipe />
           </CursorRevealGrid>
           <div className="mt-16 flex justify-center">
             <Link

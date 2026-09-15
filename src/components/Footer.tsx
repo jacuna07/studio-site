@@ -4,8 +4,18 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "./Container";
+import IconInstagram from "./icons/IconInstagram";
+import IconWhatsapp from "./icons/IconWhatsapp";
+import IconMail from "./icons/IconMail";
 
 type Locale = "en" | "es";
+
+// TODO: swap in the real Instagram profile URL — no real handle exists
+// anywhere in the codebase yet, so this is a placeholder.
+const INSTAGRAM_HREF = "#";
+// Reuses the first number already published on the Contact page.
+const WHATSAPP_HREF = "https://wa.me/50687060833";
+const EMAIL = "hola@tresunotres.com";
 
 const copy: Record<
   Locale,
@@ -15,9 +25,6 @@ const copy: Record<
     headlineLine2: string;
     backHeadlineLine1: string;
     backHeadlineLine2: string;
-    instagram: string;
-    linkedin: string;
-    whatsapp: string;
     contactHref: string;
     nav: { href: string; label: string }[];
     rights: string;
@@ -31,9 +38,6 @@ const copy: Record<
     headlineLine2: "about the next big thing.",
     backHeadlineLine1: "Take me",
     backHeadlineLine2: "home.",
-    instagram: "[INSTAGRAM]",
-    linkedin: "[LINKEDIN]",
-    whatsapp: "[WHATSAPP]",
     contactHref: "/contact",
     nav: [
       { href: "/work", label: "Work" },
@@ -42,7 +46,7 @@ const copy: Record<
     ],
     rights: "ALL RIGHTS RESERVED.",
     location: "SAN JOSÉ, COSTA RICA",
-    email: "hola@tresunotres.com",
+    email: EMAIL,
   },
   es: {
     home: "/es",
@@ -50,9 +54,6 @@ const copy: Record<
     headlineLine2: "sobre tu próximo proyecto.",
     backHeadlineLine1: "Llévame",
     backHeadlineLine2: "a casa.",
-    instagram: "[INSTAGRAM]",
-    linkedin: "[LINKEDIN]",
-    whatsapp: "[WHATSAPP]",
     contactHref: "/es/contact",
     nav: [
       { href: "/es/work", label: "Trabajo" },
@@ -61,7 +62,7 @@ const copy: Record<
     ],
     rights: "TODOS LOS DERECHOS RESERVADOS.",
     location: "SAN JOSÉ, COSTA RICA",
-    email: "hola@tresunotres.com",
+    email: EMAIL,
   },
 };
 
@@ -80,6 +81,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
   const secondaryHover = hot
     ? "hover:text-paper hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] underline-offset-4 hover:underline transition-colors"
     : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] underline-offset-4 hover:underline transition-colors";
+  const iconHover = hot ? "hover:text-paper transition-colors" : "hover:text-cobalt transition-colors";
 
   return (
     <footer
@@ -109,12 +111,28 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
                 </Link>
               ))}
             </div>
-            <div
-              className={`font-mono text-[11px] tracking-[0.2em] ${muted} flex flex-col gap-1 md:items-end transition-colors duration-300`}
-            >
-              <div>{t.instagram}</div>
-              <div>{t.linkedin}</div>
-              <div>{t.whatsapp}</div>
+            <div className={`flex items-center gap-4 ${muted} transition-colors duration-300`}>
+              <a
+                href={INSTAGRAM_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className={iconHover}
+              >
+                <IconInstagram className="h-[18px] w-[18px]" />
+              </a>
+              <a
+                href={WHATSAPP_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                className={iconHover}
+              >
+                <IconWhatsapp className="h-[18px] w-[18px]" />
+              </a>
+              <a href={`mailto:${EMAIL}`} aria-label="Email" className={iconHover}>
+                <IconMail className="h-[18px] w-[18px]" />
+              </a>
             </div>
           </div>
         </div>

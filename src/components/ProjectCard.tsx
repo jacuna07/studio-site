@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/content/projects/types";
@@ -9,6 +10,7 @@ export default function ProjectCard({
   locale = "en",
   overlay = "gradient",
   showIndex = true,
+  enableImageSwipe = false,
 }: {
   project: Project;
   index: number;
@@ -16,6 +18,8 @@ export default function ProjectCard({
   locale?: "en" | "es";
   overlay?: "gradient" | "solid";
   showIndex?: boolean;
+  /** Mobile only: swiping over the thumbnail cycles through the project's images. */
+  enableImageSwipe?: boolean;
 }) {
   const href = locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`;
 
@@ -26,14 +30,52 @@ export default function ProjectCard({
         ? "aspect-[5/4]"
         : "aspect-[4/3] md:aspect-[4/3]";
 
+  const frames = [
+    { src: project.hero.src, alt: project.hero.alt },
+    ...project.gallery.map((img) => ({
+      src: img.type === "video" ? img.poster ?? img.src : img.src,
+      alt: img.alt,
+    })),
+  ];
+
+  const [frameIndex, setFrameIndex] = useState(0);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const frame = frames[frameIndex] ?? frames[0];
+
+  function handleTouchStart(e: React.TouchEvent) {
+    if (!enableImageSwipe || e.touches.length !== 1) return;
+    touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+    if (!enableImageSwipe || !start || frames.length < 2) return;
+
+    const touch = e.changedTouches[0];
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+
+    // Mostly-horizontal swipe past a threshold, same gesture rule used
+    // elsewhere on the site (see Nav's swipe-to-open).
+    if (Math.abs(deltaX) < 40 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+
+    setFrameIndex((i) => {
+      const next = deltaX < 0 ? i + 1 : i - 1;
+      return (next + frames.length) % frames.length;
+    });
+  }
+
   return (
     <Link href={href} className="group block">
       <div
         className={`relative overflow-hidden bg-mist shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] ${aspectClass}`}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
       >
         <Image
-          src={project.hero.src}
-          alt={project.hero.alt}
+          src={frame.src}
+          alt={frame.alt}
           fill
           className="object-cover transition-transform duration-500 ease-out md:group-hover:scale-105"
         />

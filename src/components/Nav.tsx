@@ -65,7 +65,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
     let tracking = false;
 
     function onTouchStart(e: TouchEvent) {
-      if (open || e.touches.length !== 1) return;
+      if (e.touches.length !== 1) return;
       startX = e.touches[0].clientX;
       startY = e.touches[0].clientY;
       tracking = true;
@@ -77,11 +77,15 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
       const touch = e.changedTouches[0];
       const deltaX = touch.clientX - startX;
       const deltaY = touch.clientY - startY;
+      const isHorizontal = Math.abs(deltaX) > Math.abs(deltaY);
 
-      // Right-to-left swipe: mostly horizontal, moving left, past a
-      // threshold that rules out an ordinary vertical scroll.
-      if (deltaX < -60 && Math.abs(deltaX) > Math.abs(deltaY)) {
+      // Right-to-left swipe opens the menu; left-to-right closes it
+      // back, each past a threshold that rules out an ordinary
+      // vertical scroll.
+      if (!open && deltaX < -60 && isHorizontal) {
         setOpen(true);
+      } else if (open && deltaX > 60 && isHorizontal) {
+        setOpen(false);
       }
     }
 
@@ -165,7 +169,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
       <div
         aria-hidden={!open}
         className={`md:hidden fixed inset-x-0 top-0 z-40 flex h-dvh flex-col justify-between bg-ink px-6 pt-24 pb-10 transition-[opacity,transform] duration-300 ease-out ${
-          open ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-4 pointer-events-none"
+          open ? "opacity-100 translate-x-0 pointer-events-auto" : "opacity-0 translate-x-full pointer-events-none"
         }`}
       >
         <nav className="flex flex-col gap-6">
