@@ -31,26 +31,47 @@ body {
   }
 }
 
-/* This used to stagger the hero headline in, each line sliding up on
-   its own `animation-delay` (0-1050ms per line). Taking `opacity` out
-   of it last round (to stop the whole-page invisibility bug) created a
-   new, worse-looking bug specific to the *delayed* lines: with no
-   animation running yet during a line's delay, the browser paints it
-   at its plain, untransformed rest position — i.e. already fully
-   visible, in its correct final spot — and then, the instant the
-   delay elapses and the animation actually starts, it jumps to the
-   `from` keyframe (translateY(24px)) and slides back up. On a device
-   where these animations are already prone to stalling mid-run (the
-   whole reason for this file's recent history), that jump can freeze
-   partway, leaving a line visibly overlapping the one below it
-   indefinitely — confirmed on a real-device recording. `opacity: 0`
-   used to mask this by hiding the line for that same window, which is
-   exactly the static-hidden-state pattern that caused the *previous*
-   bug. Rather than keep chasing one animatable property at a time on
-   a device where CSS animations keep not finishing, this entrance is
-   now a no-op: the hero lines render immediately, in place, with no
-   stagger. */
+/* Staggers the homepage hero headline in, each line sliding up and
+   fading in on its own `animation-delay` (0-1050ms per line, set
+   inline in src/app/(en)/page.tsx and src/app/es/page.tsx).
+
+   This was pulled out for a few rounds while a recurring "big gap
+   before the footer" report was being chased, on the theory that
+   this animation (or others like it) could freeze mid-run on some
+   real device and leave content invisible. That turned out to be a
+   dead end — the gap was actually plain CSS spacing in Footer.tsx
+   (an asymmetric margin/padding around its top divider), unrelated
+   to any animation. So it's safe to bring this back.
+
+   The one real bug this entrance ever had was simpler than "freezes
+   sometimes": without `animation-fill-mode: both`, a line with a
+   delay renders at its untransformed rest position — fully visible,
+   in its final spot — for the entire delay, then jumps to the `from`
+   keyframe the instant the delay elapses and animates back up. That
+   jump is what read as an overlapping/garbled line before. `both`
+   fixes it at the source: it holds the `from` keyframe's state
+   (opacity 0, translateY(24px)) for the whole delay, so a line is
+   already sitting in its starting position before it ever animates,
+   and holds the `to` state once its animation finishes. */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .animate-line {
+  animation: fade-in-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-line {
+    animation: none;
+  }
 }
 
 /* The whole-page fade-in this used to drive (.animate-page-in) was
