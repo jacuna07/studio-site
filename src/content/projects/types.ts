@@ -36,9 +36,8 @@ export type Project = {
   /** Lower numbers appear first in the Home page's Featured module. */
   featuredOrder?: number;
   /**
-   * Optional per-project brand accent for the case study page's body
-   * copy (the "The idea" paragraphs). Falls back to the site's default
-   * stone gray when omitted.
+   * Optional per-project brand accent for the case study page's "The
+   * brief" line. Falls back to the site's default white when omitted.
    */
   theme?: { bodyColor: string };
 };

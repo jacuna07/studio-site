@@ -77,7 +77,14 @@ export default function ProjectPage({ params }: Props) {
               <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-3">
                 The brief
               </h2>
-              <p className="font-display text-xl md:text-2xl font-normal leading-snug max-w-2xl">
+              <p
+                className="font-display text-xl md:text-2xl font-normal leading-snug max-w-2xl text-[var(--body-color,#ffffff)]"
+                style={
+                  project.theme
+                    ? ({ "--body-color": project.theme.bodyColor } as CSSProperties)
+                    : undefined
+                }
+              >
                 {project.brief}
               </p>
             </div>
@@ -86,14 +93,7 @@ export default function ProjectPage({ params }: Props) {
               <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-3">
                 The idea
               </h2>
-              <div
-                className="space-y-4 text-[var(--body-color,#8a8a8a)]"
-                style={
-                  project.theme
-                    ? ({ "--body-color": project.theme.bodyColor } as CSSProperties)
-                    : undefined
-                }
-              >
+              <div className="space-y-4 text-paper">
                 {project.overview.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}
