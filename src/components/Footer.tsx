@@ -9,6 +9,7 @@ import IconWhatsapp from "./icons/IconWhatsapp";
 import IconMail from "./icons/IconMail";
 
 type Locale = "en" | "es";
+type NavSection = "home" | "work" | "about" | "contact";
 
 // TODO: swap in the real Instagram profile URL — no real handle exists
 // anywhere in the codebase yet, so this is a placeholder.
@@ -21,12 +22,14 @@ const copy: Record<
   Locale,
   {
     home: string;
+    workHref: string;
+    aboutHref: string;
+    contactHref: string;
     headlineLine1: string;
     headlineLine2: string;
     backHeadlineLine1: string;
     backHeadlineLine2: string;
-    contactHref: string;
-    nav: { href: string; label: string }[];
+    labels: Record<NavSection, string>;
     rights: string;
     location: string;
     email: string;
@@ -34,32 +37,28 @@ const copy: Record<
 > = {
   en: {
     home: "/",
+    workHref: "/work",
+    aboutHref: "/about",
+    contactHref: "/contact",
     headlineLine1: "Tell us",
     headlineLine2: "about the next big thing.",
     backHeadlineLine1: "Take me",
     backHeadlineLine2: "home.",
-    contactHref: "/contact",
-    nav: [
-      { href: "/work", label: "Work" },
-      { href: "/about", label: "About" },
-      { href: "/contact", label: "Contact" },
-    ],
+    labels: { home: "Home", work: "Work", about: "About", contact: "Contact" },
     rights: "ALL RIGHTS RESERVED.",
     location: "SAN JOSÉ, COSTA RICA",
     email: EMAIL,
   },
   es: {
     home: "/es",
+    workHref: "/es/work",
+    aboutHref: "/es/about",
+    contactHref: "/es/contact",
     headlineLine1: "Contanos",
     headlineLine2: "sobre tu próximo proyecto.",
     backHeadlineLine1: "Llévame",
     backHeadlineLine2: "a casa.",
-    contactHref: "/es/contact",
-    nav: [
-      { href: "/es/work", label: "Trabajo" },
-      { href: "/es/about", label: "Nosotros" },
-      { href: "/es/contact", label: "Contacto" },
-    ],
+    labels: { home: "Inicio", work: "Trabajo", about: "Nosotros", contact: "Contacto" },
     rights: "TODOS LOS DERECHOS RESERVADOS.",
     location: "SAN JOSÉ, COSTA RICA",
     email: EMAIL,
@@ -71,7 +70,29 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
   const pathname = usePathname() || "/";
   const [hot, setHot] = useState(false);
 
-  const isContactPage = pathname === t.contactHref;
+  // Footer nav always links to the site's other three sections, never
+  // back to the one you're already on.
+  const sections: { id: NavSection; href: string; label: string }[] = [
+    { id: "home", href: t.home, label: t.labels.home },
+    { id: "work", href: t.workHref, label: t.labels.work },
+    { id: "about", href: t.aboutHref, label: t.labels.about },
+    { id: "contact", href: t.contactHref, label: t.labels.contact },
+  ];
+
+  const currentSection: NavSection | null =
+    pathname === t.home
+      ? "home"
+      : pathname === t.workHref || pathname.startsWith(`${t.workHref}/`)
+        ? "work"
+        : pathname === t.aboutHref
+          ? "about"
+          : pathname === t.contactHref
+            ? "contact"
+            : null;
+
+  const navLinks = sections.filter((s) => s.id !== currentSection);
+
+  const isContactPage = currentSection === "contact";
   const ctaHref = isContactPage ? t.home : t.contactHref;
   const ctaLine1 = isContactPage ? t.backHeadlineLine1 : t.headlineLine1;
   const ctaLine2 = isContactPage ? t.backHeadlineLine2 : t.headlineLine2;
@@ -105,7 +126,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
           </div>
           <div className="flex flex-col gap-4 md:items-end">
             <div className="flex gap-6 font-sans text-sm uppercase tracking-wide">
-              {t.nav.map((l) => (
+              {navLinks.map((l) => (
                 <Link key={l.href} href={l.href} className={secondaryHover}>
                   {l.label}
                 </Link>

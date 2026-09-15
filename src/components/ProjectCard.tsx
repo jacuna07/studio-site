@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/content/projects/types";
@@ -42,13 +42,62 @@ export default function ProjectCard({
 
   const [frameIndex, setFrameIndex] = useState(0);
   const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const cardRef = useRef<HTMLDivElement | null>(null);
+  const autoTimerRef = useRef<number | null>(null);
   const frame = frames[frameIndex] ?? frames[0];
+
+  // While a swipe-enabled card sits near the middle of the viewport,
+  // auto-cycle its images slowly, like a video preview. It's a hint
+  // that the thumbnail is swipeable, and it pauses as soon as the
+  // visitor swipes it themselves or the card scrolls out of the
+  // center band.
+  useEffect(() => {
+    if (!enableImageSwipe || frames.length < 2) return;
+    const el = cardRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+
+    function clearAutoTimer() {
+      if (autoTimerRef.current !== null) {
+        window.clearInterval(autoTimerRef.current);
+        autoTimerRef.current = null;
+      }
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          clearAutoTimer();
+          autoTimerRef.current = window.setInterval(() => {
+            setFrameIndex((i) => (i + 1) % frames.length);
+          }, 1400);
+        } else {
+          clearAutoTimer();
+          setFrameIndex(0);
+        }
+      },
+      // Fires only while the card sits within the middle band of the
+      // viewport, not merely once it's visible at the edges.
+      { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+    );
+
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      clearAutoTimer();
+    };
+  }, [enableImageSwipe, frames.length]);
 
   function handleTouchStart(e: React.TouchEvent) {
     if (!enableImageSwipe || e.touches.length !== 1) return;
     // Stop this touch from bubbling up to Nav's window-level swipe
     // listener, so cycling a card's image doesn't also open the menu.
     e.stopPropagation();
+    // A manual swipe takes over from the auto-cycle; it won't resume
+    // until the card leaves and re-enters the center band.
+    if (autoTimerRef.current !== null) {
+      window.clearInterval(autoTimerRef.current);
+      autoTimerRef.current = null;
+    }
     touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
   }
 
@@ -75,6 +124,7 @@ export default function ProjectCard({
   return (
     <Link href={href} className="group block">
       <div
+        ref={cardRef}
         className={`relative overflow-hidden bg-mist shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] ${aspectClass}`}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
