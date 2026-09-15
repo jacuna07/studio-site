@@ -69,6 +69,7 @@ export default function CaseStudyBackSwipe({
     let rafId: number | null = null;
 
     function setArrowProgress(progress: number) {
+      if (!arrow) return;
       const clamped = Math.max(0, Math.min(1, progress));
       arrow.style.opacity = String(clamped);
       arrow.style.transform = `translateY(-50%) scale(${0.6 + clamped * 0.4})`;
@@ -82,6 +83,7 @@ export default function CaseStudyBackSwipe({
     }
 
     function tick() {
+      if (!front) return;
       displayDelta += (targetDelta - displayDelta) * FOLLOW;
       if (Math.abs(targetDelta - displayDelta) < 0.5) displayDelta = targetDelta;
       front.style.transform = `translateX(${displayDelta}px)`;
@@ -100,7 +102,7 @@ export default function CaseStudyBackSwipe({
     }
 
     function onTouchMove(e: TouchEvent) {
-      if (!tracking) return;
+      if (!tracking || !front) return;
       const touch = e.touches[0];
       const deltaX = touch.clientX - startX;
       const deltaY = touch.clientY - startY;
@@ -127,7 +129,7 @@ export default function CaseStudyBackSwipe({
     }
 
     function settle() {
-      if (!active) {
+      if (!active || !front) {
         tracking = false;
         return;
       }
