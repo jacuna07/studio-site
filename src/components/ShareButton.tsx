@@ -45,7 +45,7 @@ export default function ShareButton({
     <button
       type="button"
       onClick={handleShare}
-      className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-stone hover:text-cobalt transition-colors"
+      className="group inline-flex items-center gap-2 font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone hover:text-cobalt transition-colors"
     >
       <IconShare className="h-4 w-4" />
       <span className="relative">

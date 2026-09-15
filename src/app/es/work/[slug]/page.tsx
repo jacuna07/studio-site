@@ -59,10 +59,10 @@ export default function ProjectPageEs({ params }: Props) {
       <Container className="py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="md:col-span-2">
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-stone">
+            <span className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone">
               {project.industry}
             </span>
-            <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mt-2">
+            <h1 className="font-display font-normal text-[35px] md:text-[42px] tracking-normal mt-2">
               {project.title}
             </h1>
             <p className="font-display text-xl md:text-2xl italic text-stone mt-3 max-w-2xl">
@@ -74,11 +74,11 @@ export default function ProjectPageEs({ params }: Props) {
             </div>
 
             <div className="mt-10">
-              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-3">
+              <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-3">
                 El brief
               </h2>
               <p
-                className="font-display text-xl md:text-2xl font-normal leading-snug max-w-2xl text-[var(--body-color,#ffffff)]"
+                className="font-display text-[27px] md:text-[32px] font-normal leading-snug max-w-2xl text-[var(--body-color,#ffffff)]"
                 style={
                   project.theme
                     ? ({ "--body-color": project.theme.bodyColor } as CSSProperties)
@@ -90,7 +90,7 @@ export default function ProjectPageEs({ params }: Props) {
             </div>
 
             <div className="mt-10">
-              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-3">
+              <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-3">
                 La idea
               </h2>
               <div className="space-y-4 text-paper">
@@ -100,7 +100,7 @@ export default function ProjectPageEs({ params }: Props) {
               </div>
             </div>
           </div>
-          <dl className="font-mono text-sm space-y-6 md:border-l md:border-mist md:pl-10">
+          <dl className="font-mono text-sm font-bold space-y-6 md:border-l md:border-mist md:pl-10">
             <div>
               <dt className="uppercase tracking-[0.2em] text-stone text-xs">
                 Cliente
@@ -137,7 +137,7 @@ export default function ProjectPageEs({ params }: Props) {
 
         <div className="mt-20 border-t border-mist pt-10 flex items-center justify-between">
           <Link href={`/es/work/${prev.slug}`} className="group">
-            <span className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2">
+            <span className="block font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2">
               ← Anterior
             </span>
             <span className="font-display text-lg group-hover:text-cobalt group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
@@ -145,7 +145,7 @@ export default function ProjectPageEs({ params }: Props) {
             </span>
           </Link>
           <Link href={`/es/work/${next.slug}`} className="group text-right">
-            <span className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2">
+            <span className="block font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2">
               Siguiente →
             </span>
             <span className="font-display text-lg group-hover:text-cobalt group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">

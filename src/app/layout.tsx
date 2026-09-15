@@ -11,7 +11,7 @@ const syne = Syne({
 });
 const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-montserrat",
 });
 const siteTitle = "Tresunotres. Branding & Identity";
