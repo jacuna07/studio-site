@@ -43,6 +43,33 @@ export default function CaseStudyBackSwipe({
   const frontRef = useRef<HTMLDivElement | null>(null);
   const [previewMounted, setPreviewMounted] = useState(false);
 
+  // One time, shortly after a case study loads on a touch device: a
+  // subtle double nudge with a bounce, hinting that the page can be
+  // swiped away to reveal Work. Cancels itself the instant a real
+  // touch begins, so it never fights with the actual gesture.
+  useEffect(() => {
+    const front = frontRef.current;
+    if (!front) return;
+    if (typeof window === "undefined" || !window.matchMedia("(pointer: coarse)").matches) return;
+
+    const timer = window.setTimeout(() => {
+      front.classList.add("animate-swipe-hint");
+    }, 700);
+
+    function clearHint() {
+      front?.classList.remove("animate-swipe-hint");
+    }
+
+    front.addEventListener("animationend", clearHint);
+    window.addEventListener("touchstart", clearHint, { passive: true });
+
+    return () => {
+      window.clearTimeout(timer);
+      front.removeEventListener("animationend", clearHint);
+      window.removeEventListener("touchstart", clearHint);
+    };
+  }, []);
+
   useEffect(() => {
     const front = frontRef.current;
     if (!front) return;
@@ -170,7 +197,15 @@ export default function CaseStudyBackSwipe({
   return (
     <>
       {previewMounted && (
-        <div className="fixed inset-0 z-30 flex items-center bg-cobalt text-paper" aria-hidden="true">
+        <div
+          // top-20 (matches Nav's h-20 header) instead of inset-0: keeps
+          // this blue reveal from showing through the semi-transparent
+          // header bar. The strip directly behind the header stays the
+          // page's own dark background instead, matching the header's
+          // usual blurred-dark look.
+          className="fixed inset-x-0 bottom-0 top-20 z-30 flex items-center bg-cobalt text-paper"
+          aria-hidden="true"
+        >
           <div className="flex items-center gap-3 pl-6">
             <IconArrowLeft className="h-8 w-8 shrink-0" />
             <span className="font-display text-2xl md:text-3xl font-normal">{workTitle}</span>

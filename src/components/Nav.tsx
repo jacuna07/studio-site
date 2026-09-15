@@ -111,7 +111,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
   return (
     <header
       id="top"
-      className={`fixed top-0 inset-x-0 z-50 bg-ink/80 backdrop-blur-md transition-transform duration-300 ${
+      className={`fixed top-0 inset-x-0 z-50 bg-ink/80 backdrop-blur-md transition-transform duration-300 will-change-transform ${
         visible || open ? "translate-y-0" : "-translate-y-full"
       }`}
     >
@@ -123,7 +123,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         >
           <span className="sr-only">Tresunotres</span>
           <Wordmark className="hidden md:block h-[15px] w-auto" />
-          <CircledWordmark className="md:hidden h-[60px] w-[60px]" />
+          <CircledWordmark className="md:hidden h-[60px] w-[60px] animate-slow-spin" />
         </Link>
 
         <div className="hidden md:flex items-center gap-10">
@@ -177,19 +177,6 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           open ? "opacity-100 translate-x-0 pointer-events-auto" : "opacity-0 translate-x-full pointer-events-none"
         }`}
       >
-        <nav className="flex flex-col gap-6">
-          {t.links.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              tabIndex={open ? 0 : -1}
-              onClick={() => setOpen(false)}
-              className="font-display text-4xl font-normal hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
         <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-stone">
           <Link
             href={enHref}
@@ -209,6 +196,21 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
             SP
           </Link>
         </div>
+        {/* Links last so they sit at the bottom of the drawer, within
+            easy thumb reach on a phone. */}
+        <nav className="flex flex-col gap-6">
+          {t.links.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              tabIndex={open ? 0 : -1}
+              onClick={() => setOpen(false)}
+              className="font-display text-4xl font-normal hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
       </div>
     </header>
   );
