@@ -9,7 +9,7 @@ export default function WorkPage() {
   const projects = getAllProjects();
 
   return (
-    <section className="py-16">
+    <section className="py-16 animate-page-in">
       <Container>
         <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-12">
           Work

@@ -10,9 +10,6 @@ const COMMIT_RATIO = 0.35;
 // Small deadzone (px) before a touch is confirmed as this gesture, so an
 // ordinary vertical scroll or a tap never triggers it.
 const DEADZONE = 10;
-// How far (px) the drag has to travel for the back-arrow badge to reach
-// full opacity/scale.
-const ARROW_RANGE = 90;
 const SPRING_MS = 280;
 // How quickly the on-screen position catches up to the raw finger
 // position each animation frame (0-1). Damping this, rather than
@@ -24,13 +21,14 @@ const FOLLOW = 0.28;
 /**
  * Mobile only: on a case study page, dragging left to right peels the
  * current screen away like a native app's edge-swipe-back, revealing a
- * solid "back to Work" card underneath in real time, with a circular
- * back arrow fading in near the left edge as an extra hint. Releasing
- * past ~35% of the screen width commits to the Work archive; releasing
- * short springs the case study back into place. Deactivates while the
- * nav drawer is open, since the same gesture there closes the menu
- * instead (see Nav's own swipe handling and the `navOpen` flag it sets
- * on the body).
+ * solid "back to Work" card underneath in real time. Releasing past
+ * ~35% of the screen width commits to the Work archive; releasing short
+ * springs the case study back into place. The drag is clamped so the
+ * screen can never travel past its resting position, however hard or
+ * fast the touch moves, so the blue card never shows on the wrong edge.
+ * Deactivates while the nav drawer is open, since the same gesture
+ * there closes the menu instead (see Nav's own swipe handling and the
+ * `navOpen` flag it sets on the body).
  */
 export default function CaseStudyBackSwipe({
   workHref,
@@ -43,31 +41,23 @@ export default function CaseStudyBackSwipe({
 }) {
   const router = useRouter();
   const frontRef = useRef<HTMLDivElement | null>(null);
-  const arrowRef = useRef<HTMLDivElement | null>(null);
   const [previewMounted, setPreviewMounted] = useState(false);
 
   useEffect(() => {
     const front = frontRef.current;
-    const arrow = arrowRef.current;
-    if (!front || !arrow) return;
+    if (!front) return;
 
     let startX = 0;
     let startY = 0;
     let tracking = false;
     let active = false;
-    // targetDelta: where the finger actually is. displayDelta: where the
-    // front layer is currently drawn, easing toward targetDelta each
+    // targetDelta: where the finger actually is (clamped to >= 0, so it
+    // can never sit left of the resting position). displayDelta: where
+    // the front layer is currently drawn, easing toward targetDelta each
     // frame (see FOLLOW).
     let targetDelta = 0;
     let displayDelta = 0;
     let rafId: number | null = null;
-
-    function setArrowProgress(progress: number) {
-      if (!arrow) return;
-      const clamped = Math.max(0, Math.min(1, progress));
-      arrow.style.opacity = String(clamped);
-      arrow.style.transform = `translateY(-50%) scale(${0.6 + clamped * 0.4})`;
-    }
 
     function stopLoop() {
       if (rafId !== null) {
@@ -80,8 +70,10 @@ export default function CaseStudyBackSwipe({
       if (!front) return;
       displayDelta += (targetDelta - displayDelta) * FOLLOW;
       if (Math.abs(targetDelta - displayDelta) < 0.5) displayDelta = targetDelta;
-      front.style.transform = `translateX(${displayDelta}px)`;
-      setArrowProgress(displayDelta / ARROW_RANGE);
+      // Belt and suspenders: never let the drawn position dip below 0,
+      // whatever the easing math above works out to.
+      const clamped = Math.max(0, displayDelta);
+      front.style.transform = `translateX(${clamped}px)`;
       rafId = requestAnimationFrame(tick);
     }
 
@@ -126,6 +118,8 @@ export default function CaseStudyBackSwipe({
       // top button. Calling preventDefault on the touch avoids that
       // entirely, since it never touches layout.
       e.preventDefault();
+      // Clamped to >= 0: the finger can never drag the screen past its
+      // resting position, so the reveal can only ever show on the left.
       targetDelta = Math.max(0, deltaX);
     }
 
@@ -145,13 +139,11 @@ export default function CaseStudyBackSwipe({
 
       if (shouldCommit) {
         front.style.transform = `translateX(${vw}px)`;
-        setArrowProgress(1);
         window.setTimeout(() => {
           router.push(workHref);
         }, SPRING_MS);
       } else {
         front.style.transform = "translateX(0px)";
-        setArrowProgress(0);
         window.setTimeout(() => {
           front.style.transition = "";
           front.style.transform = "";
@@ -178,25 +170,22 @@ export default function CaseStudyBackSwipe({
   return (
     <>
       {previewMounted && (
-        <div
-          className="fixed inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-cobalt text-paper"
-          aria-hidden="true"
-        >
-          <IconArrowLeft className="h-12 w-12" />
-          <span className="font-display text-3xl md:text-4xl font-normal">{workTitle}</span>
+        <div className="fixed inset-0 z-30 flex items-center bg-cobalt text-paper" aria-hidden="true">
+          <div className="flex items-center gap-3 pl-6">
+            <IconArrowLeft className="h-8 w-8 shrink-0" />
+            <span className="font-display text-2xl md:text-3xl font-normal">{workTitle}</span>
+          </div>
         </div>
       )}
 
       <div
-        ref={arrowRef}
-        aria-hidden="true"
-        className="pointer-events-none fixed left-5 top-1/2 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-cobalt text-paper opacity-0"
-        style={{ transform: "translateY(-50%) scale(0.6)" }}
+        ref={frontRef}
+        // touch-pan-y + overscroll-x-none: tell the browser never to take
+        // over horizontal touches on this content itself (no native pan
+        // or overscroll glow), since we handle horizontal drags entirely
+        // in JS above. Vertical scrolling is untouched.
+        className="relative z-40 touch-pan-y overscroll-x-none bg-ink"
       >
-        <IconArrowLeft className="h-7 w-7" />
-      </div>
-
-      <div ref={frontRef} className="relative z-40 bg-ink">
         {children}
       </div>
     </>
