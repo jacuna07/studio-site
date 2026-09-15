@@ -37,7 +37,15 @@ export default function FilteredWorkGrid({
   return (
     <div>
       <div className="relative mb-10">
-        <div className="scrollbar-hide flex gap-x-6 overflow-x-auto whitespace-nowrap font-mono text-xs uppercase tracking-[0.2em] sm:flex-wrap sm:gap-y-3 sm:overflow-visible sm:whitespace-normal">
+        <div
+          className="scrollbar-hide flex gap-x-6 overflow-x-auto whitespace-nowrap font-mono text-xs uppercase tracking-[0.2em] sm:flex-wrap sm:gap-y-3 sm:overflow-visible sm:whitespace-normal"
+          // Stop this horizontal drag from also bubbling up to Nav's
+          // window-level swipe-to-open listener, same fix as the
+          // featured thumbnails: without it, scrolling the pills can
+          // also pop the mobile menu open or closed.
+          onTouchStart={(e) => e.stopPropagation()}
+          onTouchEnd={(e) => e.stopPropagation()}
+        >
           <button
             type="button"
             onClick={() => setActive(null)}

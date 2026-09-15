@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import Container from "./Container";
 import Wordmark from "./icons/Wordmark";
 import CircledWordmark from "./icons/CircledWordmark";
+import { SPANISH_ENABLED } from "@/lib/site-config";
 
 type Locale = "en" | "es";
 
@@ -149,21 +150,23 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
               </Link>
             ))}
           </nav>
-          <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-stone">
-            <Link
-              href={enHref}
-              className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
-            >
-              EN
-            </Link>
-            <span>/</span>
-            <Link
-              href={esHref}
-              className={locale === "es" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
-            >
-              SP
-            </Link>
-          </div>
+          {SPANISH_ENABLED && (
+            <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-stone">
+              <Link
+                href={enHref}
+                className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
+              >
+                EN
+              </Link>
+              <span>/</span>
+              <Link
+                href={esHref}
+                className={locale === "es" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
+              >
+                SP
+              </Link>
+            </div>
+          )}
         </div>
 
         <button
@@ -180,32 +183,42 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
 
       <div
         aria-hidden={!open}
-        className={`md:hidden fixed inset-x-0 top-0 z-40 flex h-dvh flex-col justify-between bg-ink px-6 pt-24 pb-10 transition-[opacity,transform] duration-300 ease-out ${
+        // Opening stays snappy (300ms, ease-out); closing eases out
+        // more gently over 500ms (the full 700ms the brief floated felt
+        // sluggish for a menu people reopen often, so this splits the
+        // difference — easy to push back up to 700ms if it still feels
+        // too quick).
+        className={`md:hidden fixed inset-x-0 top-0 z-40 flex h-dvh flex-col bg-ink px-6 pt-24 pb-10 transition-[opacity,transform] ${
+          open ? "duration-300 ease-out" : "duration-500 ease-in-out"
+        } ${
           open ? "opacity-100 translate-x-0 pointer-events-auto" : "opacity-0 translate-x-full pointer-events-none"
         }`}
       >
-        <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-stone">
-          <Link
-            href={enHref}
-            tabIndex={open ? 0 : -1}
-            onClick={() => setOpen(false)}
-            className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
-          >
-            EN
-          </Link>
-          <span>/</span>
-          <Link
-            href={esHref}
-            tabIndex={open ? 0 : -1}
-            onClick={() => setOpen(false)}
-            className={locale === "es" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
-          >
-            SP
-          </Link>
-        </div>
-        {/* Links last so they sit at the bottom of the drawer, within
-            easy thumb reach on a phone. */}
-        <nav className="flex flex-col gap-6">
+        {SPANISH_ENABLED && (
+          <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-stone">
+            <Link
+              href={enHref}
+              tabIndex={open ? 0 : -1}
+              onClick={() => setOpen(false)}
+              className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
+            >
+              EN
+            </Link>
+            <span>/</span>
+            <Link
+              href={esHref}
+              tabIndex={open ? 0 : -1}
+              onClick={() => setOpen(false)}
+              className={locale === "es" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
+            >
+              SP
+            </Link>
+          </div>
+        )}
+        {/* mt-auto so the links sit at the bottom of the drawer, within
+            easy thumb reach on a phone, whether or not the language
+            switcher above is showing. */}
+        <nav className="flex flex-col gap-6 mt-auto">
           {drawerLinks.map((l) => (
             <Link
               key={l.href}

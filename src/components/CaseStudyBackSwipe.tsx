@@ -19,24 +19,28 @@ const SPRING_MS = 280;
 const FOLLOW = 0.28;
 
 /**
- * Mobile only: on a case study page, dragging left to right peels the
- * current screen away like a native app's edge-swipe-back, revealing a
- * solid "back to Work" card underneath in real time. Releasing past
- * ~35% of the screen width commits to the Work archive; releasing short
- * springs the case study back into place. The drag is clamped so the
- * screen can never travel past its resting position, however hard or
- * fast the touch moves, so the blue card never shows on the wrong edge.
- * Deactivates while the nav drawer is open, since the same gesture
- * there closes the menu instead (see Nav's own swipe handling and the
- * `navOpen` flag it sets on the body).
+ * Mobile only: dragging left to right peels the current page away like
+ * a native app's edge-swipe-back, revealing a solid "back to Work" card
+ * underneath in real time. Releasing past ~35% of the screen width
+ * commits to the Work archive; releasing short springs the page back
+ * into place. The drag is clamped so the screen can never travel past
+ * its resting position, however hard or fast the touch moves, so the
+ * blue card never shows on the wrong edge. Deactivates while the nav
+ * drawer is open, since the same gesture there closes the menu instead
+ * (see Nav's own swipe handling and the `navOpen` flag it sets on the
+ * body). Used on case study pages (with the one-time hint below) and
+ * on About/Contact (gesture only, no hint: `hint={false}`).
  */
 export default function CaseStudyBackSwipe({
   workHref,
   workTitle,
+  hint = true,
   children,
 }: {
   workHref: string;
   workTitle: string;
+  /** Show the one-time swipe-hint nudge on mount. Default true. */
+  hint?: boolean;
   children: React.ReactNode;
 }) {
   const router = useRouter();
@@ -51,6 +55,7 @@ export default function CaseStudyBackSwipe({
   // not it turns into the actual gesture), so it can never start, or
   // keep playing, at the same time as a real swipe.
   useEffect(() => {
+    if (!hint) return;
     const front = frontRef.current;
     if (!front) return;
     if (typeof window === "undefined" || !window.matchMedia("(pointer: coarse)").matches) return;
@@ -84,7 +89,7 @@ export default function CaseStudyBackSwipe({
       front.removeEventListener("animationend", clearHint);
       window.removeEventListener("touchstart", cancelHint);
     };
-  }, []);
+  }, [hint]);
 
   useEffect(() => {
     const front = frontRef.current;

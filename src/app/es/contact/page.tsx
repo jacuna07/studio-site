@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Container from "@/components/Container";
 import ContactForm from "@/components/ContactForm";
 import IconWhatsapp from "@/components/icons/IconWhatsapp";
+import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
 
 export const metadata: Metadata = { title: "Contacto. Tresunotres" };
 
@@ -12,6 +13,7 @@ const whatsappNumbers = [
 
 export default function ContactPageEs() {
   return (
+    <CaseStudyBackSwipe workHref="/es/work" workTitle="Trabajo" hint={false}>
     <section className="py-16 animate-page-in">
       <Container className="max-w-2xl">
         <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-4">
@@ -44,5 +46,6 @@ export default function ContactPageEs() {
         </div>
       </Container>
     </section>
+    </CaseStudyBackSwipe>
   );
 }

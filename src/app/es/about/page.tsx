@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Container from "@/components/Container";
 import IconWhatsapp from "@/components/icons/IconWhatsapp";
+import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
 
 export const metadata: Metadata = { title: "Nosotros. Tresunotres" };
 
@@ -43,6 +44,7 @@ const team = [
 
 export default function AboutPageEs() {
   return (
+    <CaseStudyBackSwipe workHref="/es/work" workTitle="Trabajo" hint={false}>
     <section className="py-16 animate-page-in">
       <Container className="max-w-3xl">
         <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-8">
@@ -144,5 +146,6 @@ export default function AboutPageEs() {
         </div>
       </Container>
     </section>
+    </CaseStudyBackSwipe>
   );
 }
