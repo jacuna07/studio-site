@@ -21,23 +21,38 @@ const project: Project = {
   },
   gallery: [
     {
-      src: "/images/susana-mendez/gallery-1.svg",
-      alt: "Susana Méndez. Marcador de posición — aquí se necesita el sistema de logotipo.",
+      src: "/images/susana-mendez/gallery-1.jpg",
+      alt: "Susana Méndez. Cuadrícula de construcción de la marca M.",
       aspect: "square",
     },
     {
-      src: "/images/susana-mendez/gallery-2.svg",
-      alt: "Susana Méndez. Marcador de posición — aquí se necesita color y tipografía.",
+      src: "/images/susana-mendez/gallery-2.jpg",
+      alt: "Susana Méndez. El wordmark M en la pantalla de bloqueo de un teléfono.",
       aspect: "square",
     },
     {
-      src: "/images/susana-mendez/gallery-3.svg",
-      alt: "Susana Méndez. Marcador de posición — aquí se necesita foto de aplicación principal.",
+      src: "/images/susana-mendez/gallery-3.jpg",
+      alt: "Susana Méndez. Tarjetas de presentación apiladas para Susana Méndez, Abogada & Notaria.",
+      aspect: "wide",
+    },
+    {
+      src: "/images/susana-mendez/gallery-4.jpg",
+      alt: "Susana Méndez. Papelería membretada con la marca M.",
       aspect: "portrait",
     },
     {
-      src: "/images/susana-mendez/gallery-4.svg",
-      alt: "Susana Méndez. Marcador de posición — aquí se necesita foto de entorno o estilo de vida.",
+      src: "/images/susana-mendez/gallery-5.jpg",
+      alt: "Susana Méndez. Señalética exterior iluminada con la marca M, montada en una fachada de concreto.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/susana-mendez/gallery-6.jpg",
+      alt: "Susana Méndez. Colgador de puerta con el mensaje \"Reunión en proceso\" y la marca M.",
+      aspect: "wide",
+    },
+    {
+      src: "/images/susana-mendez/gallery-7.jpg",
+      alt: "Susana Méndez. Composición del wordmark y eslogan de Susana Méndez.",
       aspect: "wide",
     },
   ],
