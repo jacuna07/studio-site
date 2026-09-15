@@ -167,7 +167,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
           </div>
 
           <div
-            className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-8 text-[10px] font-mono tracking-[0.2em] ${muted} transition-colors duration-300`}
+            className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-4 text-[10px] font-mono tracking-[0.2em] ${muted} transition-colors duration-300`}
           >
             <p>
               &copy; {new Date().getFullYear()} TRESUNOTRES. {t.rights}
