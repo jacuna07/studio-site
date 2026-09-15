@@ -31,27 +31,26 @@ body {
   }
 }
 
-/* No `opacity` in this keyframe on purpose — see the long comment on
-   .animate-case-study-in below for why. This one only ever slides in
-   from slightly below; it can never make content invisible, only
-   offset by a few px if something interrupts it. */
-@keyframes fade-in-up {
-  from {
-    transform: translateY(24px);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
+/* This used to stagger the hero headline in, each line sliding up on
+   its own `animation-delay` (0-1050ms per line). Taking `opacity` out
+   of it last round (to stop the whole-page invisibility bug) created a
+   new, worse-looking bug specific to the *delayed* lines: with no
+   animation running yet during a line's delay, the browser paints it
+   at its plain, untransformed rest position — i.e. already fully
+   visible, in its correct final spot — and then, the instant the
+   delay elapses and the animation actually starts, it jumps to the
+   `from` keyframe (translateY(24px)) and slides back up. On a device
+   where these animations are already prone to stalling mid-run (the
+   whole reason for this file's recent history), that jump can freeze
+   partway, leaving a line visibly overlapping the one below it
+   indefinitely — confirmed on a real-device recording. `opacity: 0`
+   used to mask this by hiding the line for that same window, which is
+   exactly the static-hidden-state pattern that caused the *previous*
+   bug. Rather than keep chasing one animatable property at a time on
+   a device where CSS animations keep not finishing, this entrance is
+   now a no-op: the hero lines render immediately, in place, with no
+   stagger. */
 .animate-line {
-  animation: fade-in-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-line {
-    animation: none;
-  }
 }
 
 /* The whole-page fade-in this used to drive (.animate-page-in) was
