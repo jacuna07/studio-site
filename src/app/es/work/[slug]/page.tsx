@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -85,7 +86,14 @@ export default function ProjectPageEs({ params }: Props) {
               <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-3">
                 La idea
               </h2>
-              <div className="space-y-4 text-stone">
+              <div
+                className="space-y-4 text-[var(--body-color,#8a8a8a)]"
+                style={
+                  project.theme
+                    ? ({ "--body-color": project.theme.bodyColor } as CSSProperties)
+                    : undefined
+                }
+              >
                 {project.overview.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}
