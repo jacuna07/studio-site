@@ -3,19 +3,20 @@ import type { Project } from "./types";
 const project: Project = {
   slug: "co-co-brew",
   title: "Co.Co Brew",
-  tagline: "One mark, three ways to spend your day.",
+  tagline: "Brewed, but never poured.",
   client: "Co.Co Brew",
   year: "2023",
   industry: "Startups",
   featured: true,
   featuredOrder: 5,
   summary:
-    "An identity system flexible enough to hold three different businesses under one brand.",
+    "A flexible brand system for Co.Co, an ambitious coworking, coffee, and craft beer concept built to grow into whatever came next.",
   brief:
-    "A coffee and craft beer bar that grew into three different businesses under one name.",
+    "A coworking concept from seven partners, built around a word big enough to hold coffee, beer, ideas, and the people behind them.",
   overview: [
-    "Co.Co started as a coffee and craft beer bar, then grew into CoCo [workspaces], a coworking space with monthly rentals from $25, and CoCo [tech]. We built one identity flexible enough to hold all three without losing what makes each one its own.",
-    "A shared wordmark and an asterisk mark carry across every vertical, cups, cans, business cards, signage, and social. Each one keeps its own bracketed tag, [brew], [workspaces], [tech], so the difference reads at a glance while the brand stays one thing.",
+    "Seven partners came to us with an idea bigger than a coworking space: one roof for craft beer, specialty coffee, and the events and connections that come from sharing a room with the right people. They built it around a single word, Brew, meant to work four ways: brew coffee, brew beer, brew ideas, brew connections.",
+    "We built Co.Co as a holding name, flexible enough to carry whatever came next: Co.Co [brew], Co.Co [workspaces], Co.Co [tech], each bracket standing in for a different piece of the idea. The identity was designed to grow the same way the concept did, one piece at a time.",
+    "The space never opened. What survived is that system itself, one of the most complete identities in our own portfolio.",
   ],
   hero: {
     src: "/images/co-co-brew/cover.jpg",
@@ -36,12 +37,12 @@ const project: Project = {
     },
     {
       src: "/images/co-co-brew/gallery-cup.jpg",
-      alt: "Co.Co Brew. A specialty coffee to go cup on a wood counter.",
+      alt: "Co.Co Brew. A product render for the brew vertical's to go cup.",
       aspect: "wide",
     },
     {
       src: "/images/co-co-brew/gallery-cards-cans.jpg",
-      alt: "Co.Co Brew. Business cards and craft beer cans on a black notebook background.",
+      alt: "Co.Co Brew. A mockup of business cards and craft beer can packaging.",
       aspect: "portrait",
     },
     {
@@ -51,7 +52,7 @@ const project: Project = {
     },
     {
       src: "/images/co-co-brew/gallery-staircase.jpg",
-      alt: "Co.Co Brew. A silhouette climbing an illuminated staircase, the brew logo lockup beside it.",
+      alt: "Co.Co Brew. A concept render imagining the space, the brew logo lockup alongside it.",
       aspect: "wide",
     },
     {
