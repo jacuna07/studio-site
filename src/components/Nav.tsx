@@ -54,8 +54,13 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    // Exposed so other swipe gestures on the page (e.g. the case study
+    // back-to-work swipe) can tell whether the nav's own swipe-to-close
+    // should take priority.
+    document.body.dataset.navOpen = open ? "true" : "false";
     return () => {
       document.body.style.overflow = "";
+      document.body.dataset.navOpen = "false";
     };
   }, [open]);
 

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Container from "@/components/Container";
 import Gallery from "@/components/Gallery";
 import ShareButton from "@/components/ShareButton";
+import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
 import {
   getAllProjects,
   getProjectBySlug,
@@ -33,6 +34,7 @@ export default function ProjectPageEs({ params }: Props) {
 
   return (
     <article>
+      <CaseStudyBackSwipe workHref="/es/work" />
       <div className="relative aspect-[16/9] w-full overflow-hidden bg-mist">
         {project.hero.video ? (
           <video

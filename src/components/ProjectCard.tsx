@@ -69,7 +69,7 @@ export default function ProjectCard({
           clearAutoTimer();
           autoTimerRef.current = window.setInterval(() => {
             setFrameIndex((i) => (i + 1) % frames.length);
-          }, 1400);
+          }, 700);
         } else {
           clearAutoTimer();
           setFrameIndex(0);
