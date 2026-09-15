@@ -43,10 +43,13 @@ const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
  * Mobile only, swipe-to-go-back. Dragging right, starting anywhere on
  * the page, grows a small pill a bit above the thumb — from a plain
  * circle into a rounded capsule that reveals its label as the drag
- * continues — tinted translucent with a backdrop blur to match the
- * site header's own frosted-glass treatment (bg-ink/80 +
- * backdrop-blur-md there; bg-cobalt/65 here). It's anchored
- * horizontally to wherever the touch actually started, not to a fixed
+ * continues — filled solid cobalt. (A translucent, backdrop-blurred
+ * version was tried to match the header's own frosted-glass treatment,
+ * but the blur never rendered reliably on real devices — likely
+ * because backdrop-filter can fail to live-sample behind an element
+ * whose size is changing every animation frame — so it was dropped
+ * for a plain solid fill instead.) It's anchored horizontally to
+ * wherever the touch actually started, not to a fixed
  * point, and grows toward a fixed, content-sized width (measured once
  * from the arrow + label themselves, padded equally on both sides)
  * rather than toward however far the finger happens to travel, so it
@@ -363,14 +366,14 @@ export default function CaseStudyBackSwipe({
           was one of the suspects when a blank gap reappeared before
           the Footer, so it's kept at a plain, in-bounds resting
           position instead). show() and fadeOut() control visibility
-          imperatively. Translucent + backdrop-blurred to match the
-          header's own frosted-glass treatment, and overflow-hidden so
-          the label is clipped cleanly while the pill is still
+          imperatively. Solid cobalt fill (see the note above on why
+          the frosted-glass attempt was dropped), and overflow-hidden
+          so the label is clipped cleanly while the pill is still
           narrower than its content. */}
       <div
         ref={pillRef}
         aria-hidden="true"
-        className="fixed z-40 flex items-center overflow-hidden rounded-full bg-cobalt/65 text-paper backdrop-blur-md pointer-events-none"
+        className="fixed z-40 flex items-center overflow-hidden rounded-full bg-cobalt text-paper pointer-events-none"
         style={{
           top: 0,
           left: 0,
@@ -378,7 +381,6 @@ export default function CaseStudyBackSwipe({
           height: R * 2,
           opacity: 0,
           paddingLeft: PAD,
-          WebkitBackdropFilter: "blur(12px)",
         }}
       >
         <div ref={contentRef} className="inline-flex items-center gap-2">

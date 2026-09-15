@@ -113,7 +113,12 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
         hot ? "bg-cobalt border-cobalt" : "bg-ink " + divider
       }`}
     >
-      <Container className="pt-20 pb-10">
+      {/* Symmetric top/bottom padding on the outer module, and the
+          same gap (mt-16 above / pt-16 below) on either side of the
+          divider that splits the two modules beneath it — kept equal
+          so the divider reads as a centered break rather than sitting
+          closer to one module than the other. */}
+      <Container className="py-20">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-12">
           <div>
             <Link
@@ -127,49 +132,51 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
               {ctaLine2}
             </Link>
           </div>
-          <div className="flex flex-col gap-4 md:items-end">
-            <div className="flex gap-6 font-sans text-sm uppercase tracking-wide">
-              {navLinks.map((l) => (
-                <Link key={l.href} href={l.href} className={secondaryHover}>
-                  {l.label}
-                </Link>
-              ))}
-            </div>
-            <div className={`flex items-center gap-4 ${muted} transition-colors duration-300`}>
-              <a
-                href={INSTAGRAM_HREF}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className={iconHover}
-              >
-                <IconInstagram className="h-[18px] w-[18px]" />
-              </a>
-              <a
-                href={WHATSAPP_HREF}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="WhatsApp"
-                className={iconHover}
-              >
-                <IconWhatsapp className="h-[18px] w-[18px]" />
-              </a>
-              <a href={`mailto:${EMAIL}`} aria-label="Email" className={iconHover}>
-                <IconMail className="h-[18px] w-[18px]" />
-              </a>
-            </div>
+          <div className="flex gap-6 font-sans text-sm uppercase tracking-wide">
+            {navLinks.map((l) => (
+              <Link key={l.href} href={l.href} className={secondaryHover}>
+                {l.label}
+              </Link>
+            ))}
           </div>
         </div>
-        <div
-          className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-16 pt-6 border-t text-[10px] font-mono tracking-[0.2em] ${muted} ${divider} transition-colors duration-300`}
-        >
-          <p>
-            &copy; {new Date().getFullYear()} TRESUNOTRES. {t.rights}
-          </p>
-          <a href={`mailto:${t.email}`} className={`uppercase ${secondaryHover}`}>
-            {t.email}
-          </a>
-          <p>{t.location}</p>
+
+        <div className={`mt-16 pt-16 border-t ${divider} transition-colors duration-300`}>
+          <div className={`flex items-center gap-4 ${muted} transition-colors duration-300`}>
+            <a
+              href={INSTAGRAM_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className={iconHover}
+            >
+              <IconInstagram className="h-[18px] w-[18px]" />
+            </a>
+            <a
+              href={WHATSAPP_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="WhatsApp"
+              className={iconHover}
+            >
+              <IconWhatsapp className="h-[18px] w-[18px]" />
+            </a>
+            <a href={`mailto:${EMAIL}`} aria-label="Email" className={iconHover}>
+              <IconMail className="h-[18px] w-[18px]" />
+            </a>
+          </div>
+
+          <div
+            className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-8 text-[10px] font-mono tracking-[0.2em] ${muted} transition-colors duration-300`}
+          >
+            <p>
+              &copy; {new Date().getFullYear()} TRESUNOTRES. {t.rights}
+            </p>
+            <a href={`mailto:${t.email}`} className={`uppercase ${secondaryHover}`}>
+              {t.email}
+            </a>
+            <p>{t.location}</p>
+          </div>
         </div>
       </Container>
     </footer>
