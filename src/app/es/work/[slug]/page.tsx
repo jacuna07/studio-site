@@ -33,12 +33,7 @@ export default function ProjectPageEs({ params }: Props) {
   const prev = getPreviousProject(project.slug);
 
   return (
-    <CaseStudyBackSwipe
-      workHref="/es/work"
-      workTitle="Trabajo"
-      locale="es"
-      projects={getAllProjects()}
-    >
+    <CaseStudyBackSwipe workHref="/es/work" workTitle="Trabajo">
       <article>
         <div className="relative aspect-[16/9] w-full overflow-hidden bg-mist">
           {project.hero.video ? (

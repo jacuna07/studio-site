@@ -2,10 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import Container from "./Container";
-import FilteredWorkGrid from "./FilteredWorkGrid";
 import IconArrowLeft from "./icons/IconArrowLeft";
-import type { Project } from "@/content/projects/types";
 
 // Fraction of the viewport width the drag has to cross before release
 // commits to the navigation instead of springing back.
@@ -26,25 +23,22 @@ const FOLLOW = 0.28;
 
 /**
  * Mobile only: on a case study page, dragging left to right peels the
- * current screen away like a native app's edge-swipe-back, revealing the
- * real Work archive underneath in real time, with a circular back arrow
- * fading in near the left edge as a hint. Releasing past ~35% of the
- * screen width commits to the Work archive; releasing short springs the
- * case study back into place. Deactivates while the nav drawer is open,
- * since the same gesture there closes the menu instead (see Nav's own
- * swipe handling and the `navOpen` flag it sets on the body).
+ * current screen away like a native app's edge-swipe-back, revealing a
+ * solid "back to Work" card underneath in real time, with a circular
+ * back arrow fading in near the left edge as an extra hint. Releasing
+ * past ~35% of the screen width commits to the Work archive; releasing
+ * short springs the case study back into place. Deactivates while the
+ * nav drawer is open, since the same gesture there closes the menu
+ * instead (see Nav's own swipe handling and the `navOpen` flag it sets
+ * on the body).
  */
 export default function CaseStudyBackSwipe({
   workHref,
   workTitle,
-  locale = "en",
-  projects,
   children,
 }: {
   workHref: string;
   workTitle: string;
-  locale?: "en" | "es";
-  projects: Project[];
   children: React.ReactNode;
 }) {
   const router = useRouter();
@@ -119,12 +113,19 @@ export default function CaseStudyBackSwipe({
         active = true;
         displayDelta = 0;
         front.style.transition = "none";
-        document.body.style.overflow = "hidden";
         setPreviewMounted(true);
         stopLoop();
         rafId = requestAnimationFrame(tick);
       }
 
+      // Now that this touch is confirmed as our gesture, stop the page
+      // itself from scrolling. This is deliberately NOT done by toggling
+      // body overflow: that can make a mobile browser briefly resize its
+      // visible viewport (the address bar area), which nudges anything
+      // pinned to the top/bottom edge, like the nav bar and the back-to-
+      // top button. Calling preventDefault on the touch avoids that
+      // entirely, since it never touches layout.
+      e.preventDefault();
       targetDelta = Math.max(0, deltaX);
     }
 
@@ -146,9 +147,6 @@ export default function CaseStudyBackSwipe({
         front.style.transform = `translateX(${vw}px)`;
         setArrowProgress(1);
         window.setTimeout(() => {
-          // Unlock scroll before navigating, or the destination page
-          // (which shares this same <body>) would land frozen/unscrollable.
-          document.body.style.overflow = "";
           router.push(workHref);
         }, SPRING_MS);
       } else {
@@ -157,14 +155,15 @@ export default function CaseStudyBackSwipe({
         window.setTimeout(() => {
           front.style.transition = "";
           front.style.transform = "";
-          document.body.style.overflow = "";
           setPreviewMounted(false);
         }, SPRING_MS);
       }
     }
 
     window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    // Not passive: engaging the gesture calls preventDefault above, to
+    // lock page scroll for the rest of the touch without touching layout.
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
     window.addEventListener("touchend", settle, { passive: true });
     window.addEventListener("touchcancel", settle, { passive: true });
     return () => {
@@ -173,22 +172,18 @@ export default function CaseStudyBackSwipe({
       window.removeEventListener("touchend", settle);
       window.removeEventListener("touchcancel", settle);
       stopLoop();
-      document.body.style.overflow = "";
     };
   }, [router, workHref]);
 
   return (
     <>
       {previewMounted && (
-        <div className="fixed inset-0 z-30 overflow-hidden bg-ink" aria-hidden="true">
-          <section className="h-full overflow-hidden py-16">
-            <Container>
-              <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-12">
-                {workTitle}
-              </h1>
-              <FilteredWorkGrid projects={projects} locale={locale} />
-            </Container>
-          </section>
+        <div
+          className="fixed inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-cobalt text-paper"
+          aria-hidden="true"
+        >
+          <IconArrowLeft className="h-12 w-12" />
+          <span className="font-display text-3xl md:text-4xl font-normal">{workTitle}</span>
         </div>
       )}
 
