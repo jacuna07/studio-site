@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Container from "./Container";
 import FilteredWorkGrid from "./FilteredWorkGrid";
+import IconArrowLeft from "./icons/IconArrowLeft";
 import type { Project } from "@/content/projects/types";
 
 // Fraction of the viewport width the drag has to cross before release
@@ -16,6 +17,12 @@ const DEADZONE = 10;
 // full opacity/scale.
 const ARROW_RANGE = 90;
 const SPRING_MS = 280;
+// How quickly the on-screen position catches up to the raw finger
+// position each animation frame (0-1). Damping this, rather than
+// mirroring the finger 1:1, smooths out the natural jitter of a real
+// finger (including quick direction reversals) into one continuous
+// motion instead of a jumpy one.
+const FOLLOW = 0.28;
 
 /**
  * Mobile only: on a case study page, dragging left to right peels the
@@ -54,13 +61,32 @@ export default function CaseStudyBackSwipe({
     let startY = 0;
     let tracking = false;
     let active = false;
-    let currentDelta = 0;
+    // targetDelta: where the finger actually is. displayDelta: where the
+    // front layer is currently drawn, easing toward targetDelta each
+    // frame (see FOLLOW).
+    let targetDelta = 0;
+    let displayDelta = 0;
+    let rafId: number | null = null;
 
     function setArrowProgress(progress: number) {
-      if (!arrow) return;
       const clamped = Math.max(0, Math.min(1, progress));
       arrow.style.opacity = String(clamped);
       arrow.style.transform = `translateY(-50%) scale(${0.6 + clamped * 0.4})`;
+    }
+
+    function stopLoop() {
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    }
+
+    function tick() {
+      displayDelta += (targetDelta - displayDelta) * FOLLOW;
+      if (Math.abs(targetDelta - displayDelta) < 0.5) displayDelta = targetDelta;
+      front.style.transform = `translateX(${displayDelta}px)`;
+      setArrowProgress(displayDelta / ARROW_RANGE);
+      rafId = requestAnimationFrame(tick);
     }
 
     function onTouchStart(e: TouchEvent) {
@@ -70,11 +96,11 @@ export default function CaseStudyBackSwipe({
       startY = e.touches[0].clientY;
       tracking = true;
       active = false;
-      currentDelta = 0;
+      targetDelta = 0;
     }
 
     function onTouchMove(e: TouchEvent) {
-      if (!tracking || !front) return;
+      if (!tracking) return;
       const touch = e.touches[0];
       const deltaX = touch.clientX - startX;
       const deltaY = touch.clientY - startY;
@@ -83,32 +109,34 @@ export default function CaseStudyBackSwipe({
         if (Math.abs(deltaX) < DEADZONE && Math.abs(deltaY) < DEADZONE) return;
         const isHorizontal = Math.abs(deltaX) > Math.abs(deltaY);
         if (!isHorizontal || deltaX <= 0) {
-          // A vertical scroll or a leftward move: not this gesture: let
+          // A vertical scroll or a leftward move: not this gesture, let
           // the browser handle it normally (e.g. ordinary scrolling).
           tracking = false;
           return;
         }
         active = true;
+        displayDelta = 0;
         front.style.transition = "none";
         document.body.style.overflow = "hidden";
         setPreviewMounted(true);
+        stopLoop();
+        rafId = requestAnimationFrame(tick);
       }
 
-      currentDelta = Math.max(0, deltaX);
-      front.style.transform = `translateX(${currentDelta}px)`;
-      setArrowProgress(currentDelta / ARROW_RANGE);
+      targetDelta = Math.max(0, deltaX);
     }
 
     function settle() {
-      if (!active || !front) {
+      if (!active) {
         tracking = false;
         return;
       }
       tracking = false;
       active = false;
+      stopLoop();
 
       const vw = window.innerWidth;
-      const shouldCommit = currentDelta > vw * COMMIT_RATIO;
+      const shouldCommit = targetDelta > vw * COMMIT_RATIO;
 
       front.style.transition = `transform ${SPRING_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`;
 
@@ -116,13 +144,15 @@ export default function CaseStudyBackSwipe({
         front.style.transform = `translateX(${vw}px)`;
         setArrowProgress(1);
         window.setTimeout(() => {
+          // Unlock scroll before navigating, or the destination page
+          // (which shares this same <body>) would land frozen/unscrollable.
+          document.body.style.overflow = "";
           router.push(workHref);
         }, SPRING_MS);
       } else {
         front.style.transform = "translateX(0px)";
         setArrowProgress(0);
         window.setTimeout(() => {
-          if (!front) return;
           front.style.transition = "";
           front.style.transform = "";
           document.body.style.overflow = "";
@@ -140,6 +170,8 @@ export default function CaseStudyBackSwipe({
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("touchend", settle);
       window.removeEventListener("touchcancel", settle);
+      stopLoop();
+      document.body.style.overflow = "";
     };
   }, [router, workHref]);
 
@@ -161,10 +193,10 @@ export default function CaseStudyBackSwipe({
       <div
         ref={arrowRef}
         aria-hidden="true"
-        className="pointer-events-none fixed left-4 top-1/2 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-cobalt text-paper opacity-0"
+        className="pointer-events-none fixed left-5 top-1/2 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-cobalt text-paper opacity-0"
         style={{ transform: "translateY(-50%) scale(0.6)" }}
       >
-        <span className="text-lg leading-none">←</span>
+        <IconArrowLeft className="h-7 w-7" />
       </div>
 
       <div ref={frontRef} className="relative z-40 bg-ink">
