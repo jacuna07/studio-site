@@ -46,6 +46,9 @@ export default function ProjectCard({
 
   function handleTouchStart(e: React.TouchEvent) {
     if (!enableImageSwipe || e.touches.length !== 1) return;
+    // Stop this touch from bubbling up to Nav's window-level swipe
+    // listener, so cycling a card's image doesn't also open the menu.
+    e.stopPropagation();
     touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
   }
 
@@ -53,6 +56,7 @@ export default function ProjectCard({
     const start = touchStartRef.current;
     touchStartRef.current = null;
     if (!enableImageSwipe || !start || frames.length < 2) return;
+    e.stopPropagation();
 
     const touch = e.changedTouches[0];
     const deltaX = touch.clientX - start.x;
@@ -75,12 +79,27 @@ export default function ProjectCard({
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <Image
-          src={frame.src}
-          alt={frame.alt}
-          fill
-          className="object-cover transition-transform duration-500 ease-out md:group-hover:scale-105"
-        />
+        {enableImageSwipe ? (
+          frames.map((f, i) => (
+            <Image
+              key={f.src}
+              src={f.src}
+              alt={f.alt}
+              fill
+              priority={i === 0}
+              className={`object-cover transition-[opacity,transform] duration-500 ease-out md:group-hover:scale-105 ${
+                i === frameIndex ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          ))
+        ) : (
+          <Image
+            src={frame.src}
+            alt={frame.alt}
+            fill
+            className="object-cover transition-transform duration-500 ease-out md:group-hover:scale-105"
+          />
+        )}
         {overlay === "solid" ? (
           <div className="absolute inset-x-0 bottom-0 overflow-hidden hidden md:block">
             <div

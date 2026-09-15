@@ -7,8 +7,6 @@ const project: Project = {
   client: "Nahara Pilates",
   year: "2025",
   industry: "Fitness",
-  featured: true,
-  featuredOrder: 4,
   summary:
     "[SUMMARY PLACEHOLDER] Replace with a one-line description of the Nahara Pilates project.",
   brief:

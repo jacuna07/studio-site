@@ -7,6 +7,8 @@ const project: Project = {
   client: "Susana Méndez",
   year: "2025",
   industry: "Legal",
+  featured: true,
+  featuredOrder: 6,
   summary:
     "Una identidad para una abogada y notaria independiente, anclada en una marca que también funciona como su propia firma.",
   brief:

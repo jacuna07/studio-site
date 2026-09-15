@@ -7,6 +7,8 @@ const project: Project = {
   client: "Totoppo",
   year: "2026",
   industry: "Muebles",
+  featured: true,
+  featuredOrder: 4,
   summary:
     "Un rebranding para Totoppo, un taller de muebles a medida que diseña cada pieza en torno al espacio y la necesidad del cliente, y que marca su paso de taller de una persona a un pequeño estudio.",
   brief:
