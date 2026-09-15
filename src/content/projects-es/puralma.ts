@@ -3,7 +3,7 @@ import type { Project } from "../projects/types";
 const project: Project = {
   slug: "puralma",
   title: "Puralma",
-  tagline: "Una identidad tan audaz como la comida.",
+  tagline: "Una identidad tan audaz como su comida.",
   client: "Puralma",
   year: "2026",
   industry: "Alimentos y Restaurantes",

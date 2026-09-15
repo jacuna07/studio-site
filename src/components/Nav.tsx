@@ -59,6 +59,46 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
     };
   }, [open]);
 
+  useEffect(() => {
+    let startX = 0;
+    let startY = 0;
+    let tracking = false;
+
+    function onTouchStart(e: TouchEvent) {
+      if (open || e.touches.length !== 1) return;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      tracking = true;
+    }
+
+    function onTouchEnd(e: TouchEvent) {
+      if (!tracking) return;
+      tracking = false;
+      const touch = e.changedTouches[0];
+      const deltaX = touch.clientX - startX;
+      const deltaY = touch.clientY - startY;
+
+      // Right-to-left swipe: mostly horizontal, moving left, past a
+      // threshold that rules out an ordinary vertical scroll.
+      if (deltaX < -60 && Math.abs(deltaX) > Math.abs(deltaY)) {
+        setOpen(true);
+      }
+    }
+
+    function onTouchCancel() {
+      tracking = false;
+    }
+
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("touchcancel", onTouchCancel, { passive: true });
+    return () => {
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchcancel", onTouchCancel);
+    };
+  }, [open]);
+
   return (
     <header
       id="top"

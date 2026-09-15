@@ -62,10 +62,10 @@ export default function ProjectPageEs({ params }: Props) {
             <span className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone">
               {project.industry}
             </span>
-            <h1 className="font-display font-normal text-[42px] md:text-[50px] tracking-normal mt-2">
+            <h1 className="font-display font-normal text-[42px] md:text-[50px] leading-tight tracking-normal mt-2">
               {project.title}
             </h1>
-            <p className="font-display text-xl md:text-2xl italic text-stone mt-1 max-w-2xl">
+            <p className="font-display text-xl md:text-2xl italic text-stone mt-0 max-w-2xl">
               {project.tagline}
             </p>
 
