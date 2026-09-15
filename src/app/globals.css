@@ -64,9 +64,20 @@ body {
 }
 
 /* A gentler entrance for a page as a whole (e.g. landing on Work after
-   the case study swipe-back), rather than the line-by-line reveal above. */
+   the case study swipe-back), rather than the line-by-line reveal above.
+   Deliberately NOT setting `opacity: 0` here as a static rule (only the
+   animation's own `from` keyframe does that): a real device recording
+   showed whole pages — hero, grid, everything between the always-visible
+   Nav and Footer — stuck fully transparent for well over a second, which
+   only makes sense if the fade-in animation itself failed to actually
+   start on that paint. With a static `opacity: 0` outside the animation,
+   that failure mode means the content stays invisible forever (nothing
+   left to ever set it back to 1). Leaving the element's default opacity
+   alone and letting the animation itself carry the 0 -> 1 transition
+   means the exact same successful case looks identical, but a paint that
+   skips the animation now fails toward *visible* content instead of a
+   silent, permanent gap. */
 .animate-page-in {
-  opacity: 0;
   animation: fade-in 0.45s ease-out forwards;
 }
 
@@ -118,9 +129,15 @@ body {
 }
 
 /* Opening a case study: the content slides up into place from just
-   below, rather than simply appearing. */
+   below, rather than simply appearing. Same reasoning as
+   .animate-page-in above for not setting a static `opacity: 0`: this
+   wraps the entire article (hero image through the bottom nav), so if
+   the animation itself ever fails to run, this is the exact shape of
+   the "big gap before the footer" bug reported from a real device —
+   Nav and Footer sit outside this wrapper and always render, while
+   everything between them, though correctly laid out, stayed invisible
+   with no animation left to ever reveal it. */
 .animate-case-study-in {
-  opacity: 0;
   animation: case-study-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
