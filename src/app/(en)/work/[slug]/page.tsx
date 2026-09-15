@@ -33,32 +33,37 @@ export default function ProjectPage({ params }: Props) {
   const prev = getPreviousProject(project.slug);
 
   return (
-    <article>
-      <CaseStudyBackSwipe workHref="/work" />
-      <div className="relative aspect-[16/9] w-full overflow-hidden bg-mist">
-        {project.hero.video ? (
-          <video
-            src={project.hero.video}
-            poster={project.hero.src}
-            aria-label={project.hero.alt}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 h-full w-full object-cover"
-          />
-        ) : (
-          <Image
-            src={project.hero.src}
-            alt={project.hero.alt}
-            fill
-            priority
-            className="object-cover"
-          />
-        )}
-      </div>
+    <CaseStudyBackSwipe
+      workHref="/work"
+      workTitle="Work"
+      locale="en"
+      projects={getAllProjects()}
+    >
+      <article>
+        <div className="relative aspect-[16/9] w-full overflow-hidden bg-mist">
+          {project.hero.video ? (
+            <video
+              src={project.hero.video}
+              poster={project.hero.src}
+              aria-label={project.hero.alt}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          ) : (
+            <Image
+              src={project.hero.src}
+              alt={project.hero.alt}
+              fill
+              priority
+              className="object-cover"
+            />
+          )}
+        </div>
 
-      <Container className="py-16">
+        <Container className="py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="md:col-span-2">
             <span className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone">
@@ -178,6 +183,7 @@ export default function ProjectPage({ params }: Props) {
           </Link>
         </div>
       </Container>
-    </article>
+      </article>
+    </CaseStudyBackSwipe>
   );
 }
