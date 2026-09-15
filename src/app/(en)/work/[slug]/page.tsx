@@ -62,10 +62,10 @@ export default function ProjectPage({ params }: Props) {
             <span className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone">
               {project.industry}
             </span>
-            <h1 className="font-display font-normal text-[35px] md:text-[42px] tracking-normal mt-2">
+            <h1 className="font-display font-normal text-[42px] md:text-[50px] tracking-normal mt-2">
               {project.title}
             </h1>
-            <p className="font-display text-xl md:text-2xl italic text-stone mt-3 max-w-2xl">
+            <p className="font-display text-xl md:text-2xl italic text-stone mt-1 max-w-2xl">
               {project.tagline}
             </p>
 
@@ -100,21 +100,21 @@ export default function ProjectPage({ params }: Props) {
               </div>
             </div>
           </div>
-          <dl className="font-mono text-sm font-bold space-y-6 md:border-l md:border-mist md:pl-10">
+          <dl className="font-mono text-sm space-y-6 md:border-l md:border-mist md:pl-10">
             <div>
-              <dt className="uppercase tracking-[0.2em] text-stone text-xs">
+              <dt className="font-bold uppercase tracking-[0.2em] text-stone text-xs">
                 Client
               </dt>
               <dd className="mt-1">{project.client}</dd>
             </div>
             <div>
-              <dt className="uppercase tracking-[0.2em] text-stone text-xs">
+              <dt className="font-bold uppercase tracking-[0.2em] text-stone text-xs">
                 Year
               </dt>
               <dd className="mt-1">{project.year}</dd>
             </div>
             <div>
-              <dt className="uppercase tracking-[0.2em] text-stone text-xs">
+              <dt className="font-bold uppercase tracking-[0.2em] text-stone text-xs">
                 Industry
               </dt>
               <dd className="mt-1">{project.industry}</dd>
