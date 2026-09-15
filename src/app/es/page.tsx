@@ -2,6 +2,7 @@ import Link from "next/link";
 import Container from "@/components/Container";
 import WorkGrid from "@/components/WorkGrid";
 import CursorRevealGrid from "@/components/CursorRevealGrid";
+import ScrollToWorkArrow from "@/components/ScrollToWorkArrow";
 import { getFeaturedProjects } from "@/content/projects-es";
 
 export default function HomePageEs() {
@@ -33,13 +34,7 @@ export default function HomePageEs() {
             </span>
           </h1>
           <div className="mt-16 flex justify-center">
-            <a
-              href="#work"
-              aria-label="Ir al trabajo"
-              className="text-6xl md:text-7xl text-stone md:hover:text-cobalt transition-colors"
-            >
-              ↓
-            </a>
+            <ScrollToWorkArrow label="Ir al trabajo" />
           </div>
         </Container>
       </section>
