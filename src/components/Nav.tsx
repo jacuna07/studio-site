@@ -73,15 +73,6 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
   }, [open]);
 
   useEffect(() => {
-    // Exposed so the case study swipe-back gesture can tell, at the
-    // moment it starts, whether the header bar is currently on screen
-    // (it hides itself on scroll-down). When it isn't, that gesture's
-    // reveal card can extend all the way to the top instead of leaving
-    // a gap for a header that isn't there to peek through.
-    document.body.dataset.navVisible = visible || open ? "true" : "false";
-  }, [visible, open]);
-
-  useEffect(() => {
     let startX = 0;
     let startY = 0;
     let tracking = false;

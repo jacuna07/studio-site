@@ -106,49 +106,6 @@ body {
   }
 }
 
-/* Two nudges to the right, decaying in size, using ONE consistent
-   easing curve throughout (the same ease-out used elsewhere on this
-   site) instead of switching curves per leg. Mixing a bouncy
-   "overshoot" curve with a plain one at each keyframe (an earlier
-   version of this) gave every leg a different velocity at the seams,
-   which read as stiff/mechanical rather than springy — and, since an
-   overshoot curve overshoots whichever direction it's travelling, the
-   return-to-rest legs could dip slightly past 0, briefly dragging the
-   page past its own left edge and showing the blue reveal on the
-   wrong, right side. This curve (a standard "ease out quint") never
-   overshoots its target in either direction, so that's structurally
-   impossible now, and one curve throughout reads as one continuous
-   motion instead of several stitched-together ones. */
-@keyframes swipe-hint {
-  0% {
-    transform: translateX(0);
-  }
-  30% {
-    transform: translateX(16px);
-  }
-  55% {
-    transform: translateX(0);
-  }
-  80% {
-    transform: translateX(9px);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-/* One time, on landing on a case study: a subtle double nudge to the
-   right, hinting that swiping right reveals Work. */
-.animate-swipe-hint {
-  animation: swipe-hint 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-swipe-hint {
-    animation: none;
-  }
-}
-
 @keyframes case-study-in {
   from {
     opacity: 0;
