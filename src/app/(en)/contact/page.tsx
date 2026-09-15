@@ -13,7 +13,7 @@ const whatsappNumbers = [
 
 export default function ContactPage() {
   return (
-    <CaseStudyBackSwipe workHref="/work" workTitle="Work" hint={false}>
+    <CaseStudyBackSwipe targetHref="/work" targetLabel="Work" hint={false}>
     <section className="py-16 animate-page-in">
       <Container className="max-w-2xl">
         <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-4">

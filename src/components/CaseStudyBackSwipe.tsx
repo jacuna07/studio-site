@@ -4,18 +4,12 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import IconArrowLeft from "./icons/IconArrowLeft";
 
-// How far into the screen, as a fraction of its width, a touch can
-// start and still arm this gesture. Swiping anywhere between the left
-// edge and the horizontal middle counts — not just a narrow strip
-// right at the edge.
-const TRIGGER_ZONE_RATIO = 0.5;
-// Small deadzone (px) before a touch inside the trigger zone is
-// confirmed as this gesture, so an ordinary vertical scroll or a tap
-// never triggers it.
+// Small deadzone (px) before a touch is confirmed as this gesture, so
+// an ordinary vertical scroll or a tap never triggers it.
 const DEADZONE = 10;
-// Drag distance, in px, needed to commit to the Work page on release.
-// The pill is also fully grown to its final size by this point (see
-// paint()), so dragging further doesn't make it any bigger.
+// Drag distance, in px, needed to commit to the target page on
+// release. The pill is also fully grown to its final size by this
+// point (see paint()), so dragging further doesn't make it any bigger.
 const COMMIT_DISTANCE = 150;
 // Radius of the resting circle, and half the pill's fixed height —
 // both ends stay this same radius as it grows, so it reads as a
@@ -46,30 +40,29 @@ const COMMIT_HOLD_MS = 140;
 const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 /**
- * Mobile only, swipe-to-go-back-to-Work. Dragging right, starting
- * anywhere between the left edge and the horizontal middle of the
- * screen, grows a small pill a bit above the thumb — from a plain
- * circle into a rounded capsule that reveals "Work" as the drag
+ * Mobile only, swipe-to-go-back. Dragging right, starting anywhere on
+ * the page, grows a small pill a bit above the thumb — from a plain
+ * circle into a rounded capsule that reveals its label as the drag
  * continues — tinted translucent with a backdrop blur to match the
  * site header's own frosted-glass treatment (bg-ink/80 +
- * backdrop-blur-md there; bg-cobalt/80 here). It's anchored
+ * backdrop-blur-md there; bg-cobalt/65 here). It's anchored
  * horizontally to wherever the touch actually started, not to a fixed
  * point, and grows toward a fixed, content-sized width (measured once
  * from the arrow + label themselves, padded equally on both sides)
  * rather than toward however far the finger happens to travel, so it
  * never keeps stretching the further you drag. Releasing past
- * COMMIT_DISTANCE commits to the Work archive; releasing short fades
- * the pill out right where it was, in place, rather than springing it
+ * COMMIT_DISTANCE commits to `targetHref`; releasing short fades the
+ * pill out right where it was, in place, rather than springing it
  * back.
  *
  * An earlier version of this built the pill from three separately
  * positioned circles blended with an SVG "goo" filter (blur +
  * contrast) for a more liquid, metaball-like merge. In practice that
  * filter's contrast boost is calibrated for a fully opaque shape, and
- * applying it to a translucent fill (for the frosted-glass look this
- * round) came out as a smeary, blurred gradient rather than a clean
- * edge. A single plain capsule, growing in width with the same
- * springy easing, reads just as smooth without that failure mode.
+ * applying it to a translucent fill (for the frosted-glass look)
+ * came out as a smeary, blurred gradient rather than a clean edge. A
+ * single plain capsule, growing in width with the same springy
+ * easing, reads just as smooth without that failure mode.
  *
  * Everything here is imperative (refs + direct style writes), not
  * React state — there's nothing about this gesture that needs a
@@ -78,17 +71,19 @@ const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
  * mounted and ready to read, instead of only existing once a gesture
  * has already begun.
  *
- * Used on case study pages (with the one-time hint below) and on
- * About/Contact (gesture only, no hint: `hint={false}`).
+ * Used on case study pages and the Work archive (with the one-time
+ * hint below, pointing back to Work and Home respectively) and on
+ * About/Contact (gesture only, no hint: `hint={false}`, pointing back
+ * to Work).
  */
 export default function CaseStudyBackSwipe({
-  workHref,
-  workTitle,
+  targetHref,
+  targetLabel,
   hint = true,
   children,
 }: {
-  workHref: string;
-  workTitle: string;
+  targetHref: string;
+  targetLabel: string;
   /** Show the one-time swipe hint nudge on mount. Default true. */
   hint?: boolean;
   children: React.ReactNode;
@@ -156,11 +151,11 @@ export default function CaseStudyBackSwipe({
     }
   }
 
-  // One time, shortly after a case study loads on a touch device: a
-  // quick preview of the gesture, growing the pill part way toward
-  // Work and back down, using the same paint() the real drag uses so
-  // the hint can never look different from the real thing. Any real
-  // touch anywhere cancels it outright.
+  // One time, shortly after a page with the hint enabled loads on a
+  // touch device: a quick preview of the gesture, growing the pill
+  // part way toward its target and back down, using the same paint()
+  // the real drag uses so the hint can never look different from the
+  // real thing. Any real touch anywhere cancels it outright.
   useEffect(() => {
     if (!hint) return;
     if (typeof window === "undefined" || !window.matchMedia("(pointer: coarse)").matches) return;
@@ -263,9 +258,6 @@ export default function CaseStudyBackSwipe({
       if (e.touches.length !== 1) return;
       if (document.body.dataset.navOpen === "true") return;
       const touch = e.touches[0];
-      // Only arm from the left half of the screen — see
-      // TRIGGER_ZONE_RATIO above.
-      if (touch.clientX > window.innerWidth * TRIGGER_ZONE_RATIO) return;
       startX = touch.clientX;
       startY = touch.clientY;
       tracking = true;
@@ -336,7 +328,7 @@ export default function CaseStudyBackSwipe({
         paint(COMMIT_DISTANCE);
         window.setTimeout(() => {
           fadeOut();
-          router.push(workHref);
+          router.push(targetHref);
         }, COMMIT_HOLD_MS);
       } else {
         // Fade out exactly where it was released, in place — no
@@ -358,23 +350,36 @@ export default function CaseStudyBackSwipe({
       window.removeEventListener("touchcancel", settle);
       stopLoop();
     };
-  }, [router, workHref]);
+  }, [router, targetHref]);
 
   return (
     <>
       {/* Always mounted (never conditionally rendered) so the arrow +
           label content can be measured the instant the page loads,
           well before any gesture starts — see fitWidthRef. Hidden by
-          default via opacity + an off-screen resting position; show()
-          and fadeOut() control both imperatively. Translucent +
-          backdrop-blurred to match the header's own frosted-glass
-          treatment, and overflow-hidden so the label is clipped
-          cleanly while the pill is still narrower than its content. */}
+          default via opacity alone (not also pushed off-screen with a
+          large negative offset: even though this is position:fixed
+          and so out of normal document flow, a stray large offset
+          was one of the suspects when a blank gap reappeared before
+          the Footer, so it's kept at a plain, in-bounds resting
+          position instead). show() and fadeOut() control visibility
+          imperatively. Translucent + backdrop-blurred to match the
+          header's own frosted-glass treatment, and overflow-hidden so
+          the label is clipped cleanly while the pill is still
+          narrower than its content. */}
       <div
         ref={pillRef}
         aria-hidden="true"
-        className="fixed z-40 flex items-center overflow-hidden rounded-full bg-cobalt/80 text-paper backdrop-blur-md pointer-events-none"
-        style={{ top: -9999, left: -9999, width: R * 2, height: R * 2, opacity: 0, paddingLeft: PAD }}
+        className="fixed z-40 flex items-center overflow-hidden rounded-full bg-cobalt/65 text-paper backdrop-blur-md pointer-events-none"
+        style={{
+          top: 0,
+          left: 0,
+          width: R * 2,
+          height: R * 2,
+          opacity: 0,
+          paddingLeft: PAD,
+          WebkitBackdropFilter: "blur(12px)",
+        }}
       >
         <div ref={contentRef} className="inline-flex items-center gap-2">
           <IconArrowLeft className="h-5 w-5 shrink-0" />
@@ -383,7 +388,7 @@ export default function CaseStudyBackSwipe({
             className="font-display text-base font-normal whitespace-nowrap"
             style={{ opacity: 0 }}
           >
-            {workTitle}
+            {targetLabel}
           </span>
         </div>
       </div>

@@ -45,6 +45,17 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
   const isHome = pathname === t.home;
   const drawerLinks = isHome ? t.links : [{ href: t.home, label: t.homeLabel }, ...t.links];
 
+  // A link is "active" on an exact match (Home, About, Contact) or
+  // anywhere under it (Work's own case study pages, e.g. /work/oxygen
+  // still highlights Work). Used to mark the current page in the
+  // drawer now that :hover can't do it on mobile. Home is exact-match
+  // only — without that special case, the Spanish home ("/es") would
+  // match the "/es/" prefix of every other Spanish page too.
+  function isActive(href: string) {
+    if (href === t.home) return pathname === href;
+    return pathname === href || pathname.startsWith(`${href}/`);
+  }
+
   useEffect(() => {
     let lastY = window.scrollY;
 
@@ -233,7 +244,10 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
             mobile, an element with an unguarded :hover style needs a
             first tap just to enter that state and a second to actually
             follow the link, which is exactly the "have to tap twice"
-            feel this was causing on the drawer's own links. */}
+            feel this was causing on the drawer's own links. The
+            current page is marked in cobalt (the same treatment hover
+            gets on desktop) instead — that highlight doesn't depend on
+            :hover, so it isn't affected by the same mobile quirk. */}
         <nav className="flex flex-col gap-6 mt-auto">
           {drawerLinks.map((l) => (
             <Link
@@ -241,7 +255,11 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
               href={l.href}
               tabIndex={open ? 0 : -1}
               onClick={() => setOpen(false)}
-              className="font-display text-4xl font-normal md:hover:text-cobalt md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
+              className={`font-display text-4xl font-normal transition-colors ${
+                isActive(l.href)
+                  ? "text-cobalt [text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor]"
+                  : "md:hover:text-cobalt md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor]"
+              }`}
             >
               {l.label}
             </Link>

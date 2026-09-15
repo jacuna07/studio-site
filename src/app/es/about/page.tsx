@@ -44,7 +44,7 @@ const team = [
 
 export default function AboutPageEs() {
   return (
-    <CaseStudyBackSwipe workHref="/es/work" workTitle="Trabajo" hint={false}>
+    <CaseStudyBackSwipe targetHref="/es/work" targetLabel="Trabajo" hint={false}>
     <section className="py-16 animate-page-in">
       <Container className="max-w-3xl">
         <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-8">
