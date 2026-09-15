@@ -129,9 +129,20 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
 
   return (
     <>
+      {/* No `will-change-transform` here anymore: it was added early on
+          as a defensive guess for a burger-icon nudge bug that was
+          later actually fixed elsewhere (locking horizontal
+          overflow/overscroll, preventDefault on the swipe gesture), so
+          it had gone vestigial. It also permanently promotes this
+          header (already its own compositor layer from backdrop-blur)
+          onto a persistent GPU layer — one candidate, among others
+          still being investigated, for why whole sections of a page
+          have been failing to paint on one real device while this
+          fixed header and the Footer (styled without transform/blur)
+          keep rendering fine. Removing it costs nothing either way. */}
       <header
         id="top"
-        className={`fixed top-0 inset-x-0 z-50 bg-ink/80 backdrop-blur-md transition-transform duration-300 will-change-transform ${
+        className={`fixed top-0 inset-x-0 z-50 bg-ink/80 backdrop-blur-md transition-transform duration-300 ${
           visible || open ? "translate-y-0" : "-translate-y-full"
         }`}
       >
