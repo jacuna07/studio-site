@@ -27,7 +27,16 @@ export default function Gallery({ images }: { images: GalleryImage[] }) {
               className="absolute inset-0 h-full w-full object-cover"
             />
           ) : (
-            <Image src={img.src} alt={img.alt} fill className="object-cover" />
+            <Image
+              src={img.src}
+              alt={img.alt}
+              fill
+              // "wide" images span both columns at md (see aspectClass
+              // above), so they're still a full-width row there; square
+              // and portrait images sit in one of the two columns.
+              sizes={img.aspect === "wide" ? "100vw" : "(min-width: 768px) 50vw, 100vw"}
+              className="object-cover"
+            />
           )}
         </div>
       ))}

@@ -32,6 +32,25 @@ export default function ProjectCard({
         ? "aspect-[5/4]"
         : "aspect-[4/3] md:aspect-[4/3]";
 
+  // Matches each card's actual rendered width per breakpoint (see WorkGrid's
+  // grid classes) so next/image requests a source close to what's really
+  // painted instead of defaulting to a full-viewport-width image for a card
+  // that's only a third of the screen on desktop. Wide cards are the
+  // exception: they're always a full-width row on their own, at every
+  // breakpoint.
+  const sizes =
+    aspect === "wide"
+      ? "100vw"
+      : aspect === "uniform"
+        ? "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+        : "(min-width: 768px) 50vw, 100vw";
+
+  // Only the very first card on a page sits above the fold at every
+  // breakpoint (WorkGrid always gives it index 1). Loading it eagerly, with
+  // a preload hint, keeps the page's first meaningful image from queuing
+  // behind every other lazy-loaded card image on the page.
+  const isFirstCard = index === 1;
+
   const frames = [
     { src: project.hero.src, alt: project.hero.alt },
     ...project.gallery.map((img) => ({
@@ -136,7 +155,8 @@ export default function ProjectCard({
               src={f.src}
               alt={f.alt}
               fill
-              priority={i === 0}
+              sizes={sizes}
+              priority={i === 0 && isFirstCard}
               className={`object-cover transition-[opacity,transform] duration-500 ease-out md:group-hover:scale-105 ${
                 i === frameIndex ? "opacity-100" : "opacity-0"
               }`}
@@ -147,6 +167,8 @@ export default function ProjectCard({
             src={frame.src}
             alt={frame.alt}
             fill
+            sizes={sizes}
+            priority={isFirstCard}
             className="object-cover transition-transform duration-500 ease-out md:group-hover:scale-105"
           />
         )}
