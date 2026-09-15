@@ -73,6 +73,15 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
   }, [open]);
 
   useEffect(() => {
+    // Exposed so the case study swipe-back gesture can tell, at the
+    // moment it starts, whether the header bar is currently on screen
+    // (it hides itself on scroll-down). When it isn't, that gesture's
+    // reveal card can extend all the way to the top instead of leaving
+    // a gap for a header that isn't there to peek through.
+    document.body.dataset.navVisible = visible || open ? "true" : "false";
+  }, [visible, open]);
+
+  useEffect(() => {
     let startX = 0;
     let startY = 0;
     let tracking = false;
@@ -117,12 +126,13 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
   }, [open]);
 
   return (
-    <header
-      id="top"
-      className={`fixed top-0 inset-x-0 z-50 bg-ink/80 backdrop-blur-md transition-transform duration-300 will-change-transform ${
-        visible || open ? "translate-y-0" : "-translate-y-full"
-      }`}
-    >
+    <>
+      <header
+        id="top"
+        className={`fixed top-0 inset-x-0 z-50 bg-ink/80 backdrop-blur-md transition-transform duration-300 will-change-transform ${
+          visible || open ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
       <Container className="relative z-50 flex items-center justify-between h-20">
         <Link
           href={t.home}
@@ -180,7 +190,18 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           <span className={`block h-px w-6 bg-paper transition-transform duration-300 ease-out ${open ? "-translate-y-[3px] -rotate-45" : ""}`} />
         </button>
       </Container>
+      </header>
 
+      {/* Deliberately a sibling of <header>, not a child: the header
+          itself slides up out of view on scroll (its own translate-y
+          transition), and nesting the drawer inside it meant opening
+          the menu while that was mid-transition made the drawer's
+          position compound with the header's, visibly "correcting"
+          itself as the header settled. Anchoring the drawer directly
+          to the viewport instead, with its own z-index between the
+          header (z-50, so its close button stays on top and usable)
+          and ordinary page content (z-40), keeps it independent of
+          whatever the header is doing. */}
       <div
         aria-hidden={!open}
         // Opening stays snappy (300ms, ease-out); closing eases out
@@ -188,7 +209,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         // sluggish for a menu people reopen often, so this splits the
         // difference — easy to push back up to 700ms if it still feels
         // too quick).
-        className={`md:hidden fixed inset-x-0 top-0 z-40 flex h-dvh flex-col bg-ink px-6 pt-24 pb-10 transition-[opacity,transform] ${
+        className={`md:hidden fixed inset-x-0 top-0 z-[45] flex h-dvh flex-col bg-ink px-6 pt-24 pb-10 transition-[opacity,transform] ${
           open ? "duration-300 ease-out" : "duration-500 ease-in-out"
         } ${
           open ? "opacity-100 translate-x-0 pointer-events-auto" : "opacity-0 translate-x-full pointer-events-none"
@@ -232,6 +253,6 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           ))}
         </nav>
       </div>
-    </header>
+    </>
   );
 }

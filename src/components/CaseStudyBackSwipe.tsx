@@ -46,6 +46,12 @@ export default function CaseStudyBackSwipe({
   const router = useRouter();
   const frontRef = useRef<HTMLDivElement | null>(null);
   const [previewMounted, setPreviewMounted] = useState(false);
+  // Whether the reveal card should extend all the way to the top of the
+  // screen instead of leaving room for the header. Decided once, at the
+  // moment the card mounts, from the `navVisible` flag Nav keeps on the
+  // body (see Nav.tsx): if the header is currently hidden (scrolled
+  // down), there's no header to peek through, so the card can go flush.
+  const [revealFlush, setRevealFlush] = useState(false);
 
   // One time, shortly after a case study loads on a touch device: a
   // subtle double nudge with a bounce, hinting that the page can be
@@ -64,6 +70,7 @@ export default function CaseStudyBackSwipe({
 
     const timer = window.setTimeout(() => {
       if (cancelled) return;
+      setRevealFlush(document.body.dataset.navVisible === "false");
       setPreviewMounted(true);
       front?.classList.add("animate-swipe-hint");
     }, 700);
@@ -153,6 +160,7 @@ export default function CaseStudyBackSwipe({
         active = true;
         displayDelta = 0;
         front.style.transition = "none";
+        setRevealFlush(document.body.dataset.navVisible === "false");
         setPreviewMounted(true);
         stopLoop();
         rafId = requestAnimationFrame(tick);
@@ -219,12 +227,16 @@ export default function CaseStudyBackSwipe({
     <>
       {previewMounted && (
         <div
-          // top-20 (matches Nav's h-20 header) instead of inset-0: keeps
+          // top-20 (matches Nav's h-20 header) instead of top-0: keeps
           // this blue reveal from showing through the semi-transparent
-          // header bar. The strip directly behind the header stays the
-          // page's own dark background instead, matching the header's
-          // usual blurred-dark look.
-          className="fixed inset-x-0 bottom-0 top-20 z-30 flex items-center bg-cobalt text-paper"
+          // header bar when it's on screen. The strip directly behind
+          // the header then stays the page's own dark background
+          // instead, matching the header's usual blurred-dark look.
+          // When the header is currently hidden (scrolled down), there's
+          // nothing to protect, so the card goes flush to the top instead.
+          className={`fixed inset-x-0 bottom-0 z-30 flex items-center bg-cobalt text-paper ${
+            revealFlush ? "top-0" : "top-20"
+          }`}
           aria-hidden="true"
         >
           <div className="flex items-center gap-3 pl-6">

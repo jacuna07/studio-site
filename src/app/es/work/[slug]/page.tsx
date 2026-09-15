@@ -7,6 +7,7 @@ import Container from "@/components/Container";
 import Gallery from "@/components/Gallery";
 import ShareButton from "@/components/ShareButton";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
+import IconArrowLeft from "@/components/icons/IconArrowLeft";
 import {
   getAllProjects,
   getProjectBySlug,
@@ -139,16 +140,18 @@ export default function ProjectPageEs({ params }: Props) {
 
         <div className="mt-20 border-t border-mist pt-10 flex items-center justify-between">
           <Link href={`/es/work/${prev.slug}`} className="group">
-            <span className="block font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2">
-              ← Anterior
+            <span className="flex items-center gap-2 font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2">
+              <IconArrowLeft className="h-3 w-3 shrink-0" />
+              Anterior
             </span>
             <span className="font-display text-lg group-hover:text-cobalt group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
               {prev.title}
             </span>
           </Link>
           <Link href={`/es/work/${next.slug}`} className="group text-right">
-            <span className="block font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2">
-              Siguiente →
+            <span className="flex items-center justify-end gap-2 font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2">
+              Siguiente
+              <IconArrowLeft className="h-3 w-3 shrink-0 rotate-180" />
             </span>
             <span className="font-display text-lg group-hover:text-cobalt group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
               {next.title}
