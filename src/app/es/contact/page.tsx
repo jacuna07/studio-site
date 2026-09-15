@@ -36,7 +36,7 @@ export default function ContactPageEs() {
                 href={n.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-2xl border border-paper/20 bg-ink px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-paper transition-colors hover:border-cobalt hover:bg-cobalt"
+                className="inline-flex items-center gap-2 rounded-2xl border border-paper/20 bg-ink px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-paper transition-colors md:hover:border-cobalt md:hover:bg-cobalt"
               >
                 <IconWhatsapp className="h-4 w-4" />
                 {n.label}

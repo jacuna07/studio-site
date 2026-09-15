@@ -27,7 +27,7 @@ export default function HomePageEs() {
                 el protagonismo.
                 <span
                   aria-hidden="true"
-                  className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full"
+                  className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
                 />
               </a>
             </span>
@@ -36,7 +36,7 @@ export default function HomePageEs() {
             <a
               href="#work"
               aria-label="Ir al trabajo"
-              className="text-6xl md:text-7xl text-stone hover:text-cobalt transition-colors"
+              className="text-6xl md:text-7xl text-stone md:hover:text-cobalt transition-colors"
             >
               ↓
             </a>
@@ -52,7 +52,7 @@ export default function HomePageEs() {
             </h2>
             <Link
               href="/es/work"
-              className="font-mono text-xs uppercase tracking-[0.2em] hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
+              className="font-mono text-xs uppercase tracking-[0.2em] md:hover:text-cobalt md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
             >
               Ver todo
             </Link>
@@ -63,16 +63,16 @@ export default function HomePageEs() {
           <div className="mt-16 flex justify-center">
             <Link
               href="/es/work"
-              className="group inline-flex items-center gap-2 font-mono text-base uppercase tracking-[0.2em] hover:text-cobalt transition-colors"
+              className="group inline-flex items-center gap-2 font-mono text-base uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
             >
               <span className="relative">
                 Descubre más
                 <span
                   aria-hidden="true"
-                  className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full"
+                  className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
                 />
               </span>
-              <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
+              <span aria-hidden="true" className="transition-transform duration-300 md:group-hover:translate-x-1">
                 →
               </span>
             </Link>

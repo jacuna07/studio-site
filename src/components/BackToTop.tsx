@@ -41,7 +41,7 @@ export default function BackToTop({ locale = "en" }: { locale?: Locale }) {
       href="#top"
       onClick={handleClick}
       aria-label={label[locale]}
-      className={`fixed bottom-6 right-6 z-40 flex h-16 w-16 items-center justify-center rounded-2xl border border-paper/20 bg-ink text-3xl text-paper transition-all duration-300 hover:border-cobalt hover:bg-cobalt hover:text-paper ${
+      className={`fixed bottom-6 right-6 z-40 flex h-16 w-16 items-center justify-center rounded-2xl border border-paper/20 bg-ink text-3xl text-paper transition-all duration-300 md:hover:border-cobalt md:hover:bg-cobalt md:hover:text-paper ${
         show ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-4 pointer-events-none"
       }`}
     >

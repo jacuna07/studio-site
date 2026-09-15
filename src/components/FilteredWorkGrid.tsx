@@ -29,10 +29,13 @@ export default function FilteredWorkGrid({
 
   const filtered = active ? projects.filter((p) => p.industry === active) : projects;
 
+  // md: only — on mobile these are tapped, not hovered, and an
+  // unguarded :hover style needs a first tap just to enter that state
+  // and a second to actually select the filter.
   const pillClass = (isActive: boolean) =>
     isActive
       ? "text-paper font-bold underline underline-offset-4"
-      : "text-stone hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors";
+      : "text-stone md:hover:text-cobalt md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors";
 
   return (
     <div>

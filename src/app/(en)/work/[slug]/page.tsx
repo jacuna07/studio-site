@@ -129,6 +129,10 @@ export default function ProjectPage({ params }: Props) {
           <Gallery images={project.gallery} />
         </div>
 
+        <div className="mt-16 flex justify-center">
+          <ShareButton title={project.title} text={project.tagline} locale="en" />
+        </div>
+
         {project.quote && (
           <blockquote className="mt-16 border-t border-mist pt-10 text-xl md:text-2xl font-medium max-w-2xl">
             &ldquo;{project.quote.text}&rdquo;
@@ -163,10 +167,6 @@ export default function ProjectPage({ params }: Props) {
               {next.title}
             </span>
           </Link>
-        </div>
-
-        <div className="mt-10 flex justify-center">
-          <ShareButton title={project.title} text={project.tagline} locale="en" />
         </div>
 
         <div className="mt-10 flex justify-center">

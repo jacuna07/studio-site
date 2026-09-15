@@ -136,7 +136,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
       <Container className="relative z-50 flex items-center justify-between h-20">
         <Link
           href={t.home}
-          className="block text-paper hover:text-cobalt transition-colors"
+          className="block text-paper md:hover:text-cobalt transition-colors"
           onClick={() => setOpen(false)}
         >
           <span className="sr-only">Tresunotres</span>
@@ -221,7 +221,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
               href={enHref}
               tabIndex={open ? 0 : -1}
               onClick={() => setOpen(false)}
-              className={locale === "en" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
+              className={locale === "en" ? "text-paper" : "md:hover:text-cobalt md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
             >
               EN
             </Link>
@@ -230,7 +230,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
               href={esHref}
               tabIndex={open ? 0 : -1}
               onClick={() => setOpen(false)}
-              className={locale === "es" ? "text-paper" : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
+              className={locale === "es" ? "text-paper" : "md:hover:text-cobalt md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"}
             >
               SP
             </Link>
@@ -238,7 +238,11 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         )}
         {/* mt-auto so the links sit at the bottom of the drawer, within
             easy thumb reach on a phone, whether or not the language
-            switcher above is showing. */}
+            switcher above is showing. Hover only on desktop (md:) — on
+            mobile, an element with an unguarded :hover style needs a
+            first tap just to enter that state and a second to actually
+            follow the link, which is exactly the "have to tap twice"
+            feel this was causing on the drawer's own links. */}
         <nav className="flex flex-col gap-6 mt-auto">
           {drawerLinks.map((l) => (
             <Link
@@ -246,7 +250,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
               href={l.href}
               tabIndex={open ? 0 : -1}
               onClick={() => setOpen(false)}
-              className="font-display text-4xl font-normal hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
+              className="font-display text-4xl font-normal md:hover:text-cobalt md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
             >
               {l.label}
             </Link>

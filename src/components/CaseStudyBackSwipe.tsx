@@ -52,15 +52,20 @@ export default function CaseStudyBackSwipe({
   // body (see Nav.tsx): if the header is currently hidden (scrolled
   // down), there's no header to peek through, so the card can go flush.
   const [revealFlush, setRevealFlush] = useState(false);
-  // The reveal card's height, in px, measured once at mount time from
-  // `front`'s own bounding box (its bottom edge, relative to the
-  // viewport). `front` only wraps this page's own content, not the
-  // site Footer below it, so a page shorter than the viewport, or a
-  // gesture triggered after scrolling near the bottom of a long one,
-  // used to let a plain full-height card show past `front`'s real
-  // content into whatever sits underneath (the Footer). Capping the
-  // card's height to match `front`'s actual bottom edge keeps it
-  // exactly as tall as what's really being peeled away, never more.
+  // The reveal card's height, in px, measured once at mount time as
+  // the smaller of two things: `front`'s own bounding box (its bottom
+  // edge, relative to the viewport) and the viewport's own height.
+  // `front` only wraps this page's own content, not the site Footer
+  // below it, so without the first cap, a page shorter than the
+  // viewport, or a gesture triggered after scrolling near the bottom
+  // of a long one, could let the card show past `front`'s real content
+  // into whatever sits underneath. Without the second cap, near the
+  // top of a long page `front`'s bottom edge sits far below the
+  // viewport, so the card's centered "Work" label centered inside a
+  // box that tall would land well below the screen instead of in the
+  // middle of it. Capping to whichever is smaller keeps the card
+  // exactly as tall as what's both really being peeled away and
+  // actually visible on screen.
   const [revealHeight, setRevealHeight] = useState(0);
 
   // One time, shortly after a case study loads on a touch device: a
@@ -83,7 +88,8 @@ export default function CaseStudyBackSwipe({
       const flush = document.body.dataset.navVisible === "false";
       setRevealFlush(flush);
       const rect = front?.getBoundingClientRect();
-      if (rect) setRevealHeight(Math.max(0, rect.bottom - (flush ? 0 : 80)));
+      const topPx = flush ? 0 : 80;
+      if (rect) setRevealHeight(Math.max(0, Math.min(rect.bottom, window.innerHeight) - topPx));
       setPreviewMounted(true);
       front?.classList.add("animate-swipe-hint");
     }, 700);
@@ -176,7 +182,8 @@ export default function CaseStudyBackSwipe({
         const flush = document.body.dataset.navVisible === "false";
         setRevealFlush(flush);
         const revealRect = front.getBoundingClientRect();
-        setRevealHeight(Math.max(0, revealRect.bottom - (flush ? 0 : 80)));
+        const revealTopPx = flush ? 0 : 80;
+        setRevealHeight(Math.max(0, Math.min(revealRect.bottom, window.innerHeight) - revealTopPx));
         setPreviewMounted(true);
         stopLoop();
         rafId = requestAnimationFrame(tick);

@@ -99,10 +99,13 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
 
   const muted = hot ? "text-paper/80" : "text-stone";
   const divider = hot ? "border-paper/20" : "border-mist";
+  // md: only — on mobile, an element with an unguarded :hover style
+  // needs a first tap just to enter that state and a second to
+  // actually follow the link.
   const secondaryHover = hot
-    ? "hover:text-paper hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] underline-offset-4 hover:underline transition-colors"
-    : "hover:text-cobalt hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] underline-offset-4 hover:underline transition-colors";
-  const iconHover = hot ? "hover:text-paper transition-colors" : "hover:text-cobalt transition-colors";
+    ? "md:hover:text-paper md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] underline-offset-4 md:hover:underline transition-colors"
+    : "md:hover:text-cobalt md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] underline-offset-4 md:hover:underline transition-colors";
+  const iconHover = hot ? "md:hover:text-paper transition-colors" : "md:hover:text-cobalt transition-colors";
 
   return (
     <footer

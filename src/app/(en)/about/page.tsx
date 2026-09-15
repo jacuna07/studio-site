@@ -134,7 +134,7 @@ export default function AboutPage() {
                 <a
                   href={person.whatsapp}
                   aria-label={`${person.name} on WhatsApp`}
-                  className="text-stone hover:text-cobalt transition-colors"
+                  className="text-stone md:hover:text-cobalt transition-colors"
                 >
                   <IconWhatsapp className="h-5 w-5" />
                 </a>
