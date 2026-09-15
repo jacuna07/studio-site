@@ -43,7 +43,7 @@ const team = [
 
 export default function AboutPageEs() {
   return (
-    <section className="py-16">
+    <section className="py-16 animate-page-in">
       <Container className="max-w-3xl">
         <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-8">
           Un proceso a la medida, refinado desde la base.

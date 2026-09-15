@@ -7,9 +7,22 @@
   scrollbar-gutter: stable;
 }
 
+html {
+  /* Belt and suspenders for the case study swipe-back gesture: while
+     dragging, the moving layer is briefly translated well past the
+     right edge of the viewport, which can otherwise read as extra
+     scrollable width and let the browser rubber-band the whole page
+     sideways (visible as fixed header elements, like the burger icon,
+     nudging over for a frame). Locking horizontal scroll and overscroll
+     on the document itself rules that out entirely. */
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -123,5 +136,30 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .animate-swipe-hint {
     animation: none;
+  }
+}
+
+@keyframes case-study-in {
+  from {
+    opacity: 0;
+    transform: translateY(48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Opening a case study: the content slides up into place from just
+   below, rather than simply appearing. */
+.animate-case-study-in {
+  opacity: 0;
+  animation: case-study-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-case-study-in {
+    animation: none;
+    opacity: 1;
   }
 }

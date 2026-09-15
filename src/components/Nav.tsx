@@ -9,9 +9,10 @@ import CircledWordmark from "./icons/CircledWordmark";
 
 type Locale = "en" | "es";
 
-const copy: Record<Locale, { home: string; links: { href: string; label: string }[] }> = {
+const copy: Record<Locale, { home: string; homeLabel: string; links: { href: string; label: string }[] }> = {
   en: {
     home: "/",
+    homeLabel: "Home",
     links: [
       { href: "/work", label: "Work" },
       { href: "/about", label: "About" },
@@ -20,6 +21,7 @@ const copy: Record<Locale, { home: string; links: { href: string; label: string 
   },
   es: {
     home: "/es",
+    homeLabel: "Inicio",
     links: [
       { href: "/es/work", label: "Trabajo" },
       { href: "/es/about", label: "Nosotros" },
@@ -36,6 +38,11 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
 
   const enHref = locale === "en" ? pathname : pathname.replace(/^\/es/, "") || "/";
   const esHref = locale === "es" ? pathname : `/es${pathname === "/" ? "" : pathname}`;
+
+  // Everywhere except the homepage itself (Work, About, Contact, and
+  // case study pages), the drawer also offers a way back Home.
+  const isHome = pathname === t.home;
+  const drawerLinks = isHome ? t.links : [{ href: t.home, label: t.homeLabel }, ...t.links];
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -199,7 +206,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         {/* Links last so they sit at the bottom of the drawer, within
             easy thumb reach on a phone. */}
         <nav className="flex flex-col gap-6">
-          {t.links.map((l) => (
+          {drawerLinks.map((l) => (
             <Link
               key={l.href}
               href={l.href}

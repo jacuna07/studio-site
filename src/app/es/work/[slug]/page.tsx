@@ -34,7 +34,7 @@ export default function ProjectPageEs({ params }: Props) {
 
   return (
     <CaseStudyBackSwipe workHref="/es/work" workTitle="Trabajo">
-      <article>
+      <article className="animate-case-study-in">
         <div className="relative aspect-[16/9] w-full overflow-hidden bg-mist">
           {project.hero.video ? (
             <video

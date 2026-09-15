@@ -45,28 +45,44 @@ export default function CaseStudyBackSwipe({
 
   // One time, shortly after a case study loads on a touch device: a
   // subtle double nudge with a bounce, hinting that the page can be
-  // swiped away to reveal Work. Cancels itself the instant a real
-  // touch begins, so it never fights with the actual gesture.
+  // swiped away to reveal Work. The blue "Work" card shows behind it
+  // too, same as a real drag, so the nudge doesn't just look like a
+  // glitch. Any real touch on the page cancels it outright (whether or
+  // not it turns into the actual gesture), so it can never start, or
+  // keep playing, at the same time as a real swipe.
   useEffect(() => {
     const front = frontRef.current;
     if (!front) return;
     if (typeof window === "undefined" || !window.matchMedia("(pointer: coarse)").matches) return;
 
+    let cancelled = false;
+
     const timer = window.setTimeout(() => {
-      front.classList.add("animate-swipe-hint");
+      if (cancelled) return;
+      setPreviewMounted(true);
+      front?.classList.add("animate-swipe-hint");
     }, 700);
 
     function clearHint() {
       front?.classList.remove("animate-swipe-hint");
+      setPreviewMounted(false);
+    }
+
+    function cancelHint() {
+      if (cancelled) return;
+      cancelled = true;
+      window.clearTimeout(timer);
+      clearHint();
     }
 
     front.addEventListener("animationend", clearHint);
-    window.addEventListener("touchstart", clearHint, { passive: true });
+    window.addEventListener("touchstart", cancelHint, { passive: true });
 
     return () => {
+      cancelled = true;
       window.clearTimeout(timer);
       front.removeEventListener("animationend", clearHint);
-      window.removeEventListener("touchstart", clearHint);
+      window.removeEventListener("touchstart", cancelHint);
     };
   }, []);
 

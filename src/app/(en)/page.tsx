@@ -8,7 +8,7 @@ export default function HomePage() {
   const projects = getFeaturedProjects().slice(0, 6);
 
   return (
-    <>
+    <div className="animate-page-in">
       <section className="min-h-[calc(100vh-5rem)] flex flex-col justify-center py-20">
         <Container>
           <h1 className="font-display font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.2] max-w-5xl">
@@ -85,6 +85,6 @@ export default function HomePage() {
           </div>
         </Container>
       </section>
-    </>
+    </div>
   );
 }
