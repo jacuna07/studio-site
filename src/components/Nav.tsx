@@ -222,7 +222,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         // sluggish for a menu people reopen often, so this splits the
         // difference — easy to push back up to 700ms if it still feels
         // too quick).
-        className={`md:hidden fixed inset-x-0 top-0 z-[45] flex h-dvh flex-col bg-ink px-6 pt-24 pb-10 transition-[opacity,transform] ${
+        className={`md:hidden fixed inset-x-0 top-0 z-[45] flex h-dvh flex-col bg-ink/80 backdrop-blur-md px-6 pt-24 pb-10 transition-[opacity,transform] ${
           open ? "duration-300 ease-out" : "duration-500 ease-in-out"
         } ${
           open ? "opacity-100 translate-x-0 pointer-events-auto" : "opacity-0 translate-x-full pointer-events-none"
