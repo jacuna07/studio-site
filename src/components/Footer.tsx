@@ -109,15 +109,21 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
 
   return (
     <footer
-      className={`border-t mt-24 transition-colors duration-300 ${
+      className={`border-t mt-4 transition-colors duration-300 ${
         hot ? "bg-cobalt border-cobalt" : "bg-ink " + divider
       }`}
     >
-      {/* Symmetric top/bottom padding on the outer module, and the
-          same gap (mt-16 above / pt-16 below) on either side of the
-          divider that splits the two modules beneath it — kept equal
-          so the divider reads as a centered break rather than sitting
-          closer to one module than the other. */}
+      {/* This divider (the footer's top border) sits between two
+          things: whatever page content precedes it, and this
+          Container's own py-20 (80px) top padding. Every page that
+          ends in a footer closes its own content with 64px of bottom
+          padding (the shared "py-16" sections/containers across Home,
+          Work, About, Contact, and case studies), so mt-4 (16px) here
+          brings the total space *before* the divider to 64+16=80px —
+          matching the 80px *after* it exactly, the same principle
+          already used below for the second divider (mt-16 above /
+          pt-16 below, split evenly so it reads as a centered break
+          rather than sitting closer to one module than the other). */}
       <Container className="py-20">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-12">
           <div>
