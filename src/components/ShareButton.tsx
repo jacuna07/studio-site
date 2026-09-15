@@ -45,14 +45,17 @@ export default function ShareButton({
     <button
       type="button"
       onClick={handleShare}
-      className="group inline-flex items-center gap-2 font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone hover:text-cobalt transition-colors"
+      // Hover only on desktop (md:) — no real hover on mobile, and a
+      // tapped button can otherwise get visually "stuck" in its hover
+      // state on some mobile browsers.
+      className="group inline-flex items-center gap-2 font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone md:hover:text-cobalt transition-colors"
     >
       <IconShare className="h-4 w-4" />
       <span className="relative">
         {copied ? t.copied : t.share}
         <span
           aria-hidden="true"
-          className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full"
+          className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
         />
       </span>
     </button>

@@ -52,6 +52,16 @@ export default function CaseStudyBackSwipe({
   // body (see Nav.tsx): if the header is currently hidden (scrolled
   // down), there's no header to peek through, so the card can go flush.
   const [revealFlush, setRevealFlush] = useState(false);
+  // The reveal card's height, in px, measured once at mount time from
+  // `front`'s own bounding box (its bottom edge, relative to the
+  // viewport). `front` only wraps this page's own content, not the
+  // site Footer below it, so a page shorter than the viewport, or a
+  // gesture triggered after scrolling near the bottom of a long one,
+  // used to let a plain full-height card show past `front`'s real
+  // content into whatever sits underneath (the Footer). Capping the
+  // card's height to match `front`'s actual bottom edge keeps it
+  // exactly as tall as what's really being peeled away, never more.
+  const [revealHeight, setRevealHeight] = useState(0);
 
   // One time, shortly after a case study loads on a touch device: a
   // subtle double nudge with a bounce, hinting that the page can be
@@ -70,7 +80,10 @@ export default function CaseStudyBackSwipe({
 
     const timer = window.setTimeout(() => {
       if (cancelled) return;
-      setRevealFlush(document.body.dataset.navVisible === "false");
+      const flush = document.body.dataset.navVisible === "false";
+      setRevealFlush(flush);
+      const rect = front?.getBoundingClientRect();
+      if (rect) setRevealHeight(Math.max(0, rect.bottom - (flush ? 0 : 80)));
       setPreviewMounted(true);
       front?.classList.add("animate-swipe-hint");
     }, 700);
@@ -160,7 +173,10 @@ export default function CaseStudyBackSwipe({
         active = true;
         displayDelta = 0;
         front.style.transition = "none";
-        setRevealFlush(document.body.dataset.navVisible === "false");
+        const flush = document.body.dataset.navVisible === "false";
+        setRevealFlush(flush);
+        const revealRect = front.getBoundingClientRect();
+        setRevealHeight(Math.max(0, revealRect.bottom - (flush ? 0 : 80)));
         setPreviewMounted(true);
         stopLoop();
         rafId = requestAnimationFrame(tick);
@@ -234,9 +250,12 @@ export default function CaseStudyBackSwipe({
           // instead, matching the header's usual blurred-dark look.
           // When the header is currently hidden (scrolled down), there's
           // nothing to protect, so the card goes flush to the top instead.
-          className={`fixed inset-x-0 bottom-0 z-30 flex items-center bg-cobalt text-paper ${
+          // Height is capped (not bottom-0) to match `front`'s own real
+          // extent — see the revealHeight comment above.
+          className={`fixed inset-x-0 z-30 flex items-center bg-cobalt text-paper ${
             revealFlush ? "top-0" : "top-20"
           }`}
+          style={{ height: `${revealHeight}px` }}
           aria-hidden="true"
         >
           <div className="flex items-center gap-3 pl-6">

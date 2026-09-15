@@ -144,7 +144,10 @@ export default function ProjectPageEs({ params }: Props) {
               <IconArrowLeft className="h-3 w-3 shrink-0" />
               Anterior
             </span>
-            <span className="font-display text-lg group-hover:text-cobalt group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
+            {/* Hover only on desktop (md:) — on mobile there's no real
+                hover, and a tapped link can otherwise get visually
+                "stuck" in its hover state on some mobile browsers. */}
+            <span className="font-display text-lg md:group-hover:text-cobalt md:group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
               {prev.title}
             </span>
           </Link>
@@ -153,7 +156,7 @@ export default function ProjectPageEs({ params }: Props) {
               Siguiente
               <IconArrowLeft className="h-3 w-3 shrink-0 rotate-180" />
             </span>
-            <span className="font-display text-lg group-hover:text-cobalt group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
+            <span className="font-display text-lg md:group-hover:text-cobalt md:group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
               {next.title}
             </span>
           </Link>
@@ -166,16 +169,16 @@ export default function ProjectPageEs({ params }: Props) {
         <div className="mt-10 flex justify-center">
           <Link
             href="/es/work"
-            className="group inline-flex items-center gap-2 font-mono text-base uppercase tracking-[0.2em] hover:text-cobalt transition-colors"
+            className="group inline-flex items-center gap-2 font-mono text-base uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
           >
             <span className="relative">
               Ver más proyectos
               <span
                 aria-hidden="true"
-                className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full"
+                className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
               />
             </span>
-            <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
+            <span aria-hidden="true" className="transition-transform duration-300 md:group-hover:translate-x-1">
               →
             </span>
           </Link>

@@ -106,40 +106,41 @@ body {
   }
 }
 
-/* Two nudges to the right, each with its own easing: a bouncy overshoot
-   on the way out (the "bounce" feel), and a plain, non-overshooting
-   ease back to rest. Using the bounce curve on the RETURN leg too used
-   to overshoot slightly past 0 (since an overshoot ease overshoots
-   whichever direction it's travelling), which briefly dragged the page
-   past its own left edge and showed the blue reveal on the wrong,
-   right side. Keeping the bounce only on the outward legs fixes that
-   and, going by feel, reads as smoother too. */
+/* Two nudges to the right, decaying in size, using ONE consistent
+   easing curve throughout (the same ease-out used elsewhere on this
+   site) instead of switching curves per leg. Mixing a bouncy
+   "overshoot" curve with a plain one at each keyframe (an earlier
+   version of this) gave every leg a different velocity at the seams,
+   which read as stiff/mechanical rather than springy — and, since an
+   overshoot curve overshoots whichever direction it's travelling, the
+   return-to-rest legs could dip slightly past 0, briefly dragging the
+   page past its own left edge and showing the blue reveal on the
+   wrong, right side. This curve (a standard "ease out quint") never
+   overshoots its target in either direction, so that's structurally
+   impossible now, and one curve throughout reads as one continuous
+   motion instead of several stitched-together ones. */
 @keyframes swipe-hint {
   0% {
     transform: translateX(0);
   }
-  25% {
-    transform: translateX(18px);
-    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  30% {
+    transform: translateX(16px);
   }
-  50% {
+  55% {
     transform: translateX(0);
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   }
-  75% {
-    transform: translateX(10px);
-    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+  80% {
+    transform: translateX(9px);
   }
   100% {
     transform: translateX(0);
-    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   }
 }
 
 /* One time, on landing on a case study: a subtle double nudge to the
-   right with a bounce, hinting that swiping right reveals Work. */
+   right, hinting that swiping right reveals Work. */
 .animate-swipe-hint {
-  animation: swipe-hint 1.2s ease-out 1;
+  animation: swipe-hint 0.7s cubic-bezier(0.22, 1, 0.36, 1) 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
