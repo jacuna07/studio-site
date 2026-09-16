@@ -52,6 +52,16 @@ const project: Project = {
       alt: "Totoppo. Business cards for the studio and its head carpenter, on a bed of wood shavings.",
       aspect: "wide",
     },
+    {
+      src: "/images/totoppo/gallery-7.jpg",
+      alt: "Totoppo. A cover card mockup with the wordmark and house mark, on a wood surface.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/totoppo/gallery-8.jpg",
+      alt: "Totoppo. A before and after comparison: the previous Totoppo Woodworks logo beside the new totoppo muebles mark.",
+      aspect: "wide",
+    },
   ],
   theme: { bodyColor: "#ebe9db" },
 };

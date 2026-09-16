@@ -52,6 +52,16 @@ const project: Project = {
       alt: "Totoppo. Tarjetas de presentación del estudio y su carpintero principal, sobre una cama de viruta de madera.",
       aspect: "wide",
     },
+    {
+      src: "/images/totoppo/gallery-7.jpg",
+      alt: "Totoppo. Una maqueta física de la portada de marca, con el logotipo y el símbolo de casa, sobre una superficie de madera.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/totoppo/gallery-8.jpg",
+      alt: "Totoppo. Una comparación de antes y después: el logotipo anterior de Totoppo Woodworks junto a la nueva marca totoppo muebles.",
+      aspect: "wide",
+    },
   ],
 };
 
