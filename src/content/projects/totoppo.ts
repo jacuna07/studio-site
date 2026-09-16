@@ -37,6 +37,21 @@ const project: Project = {
       alt: "Totoppo. Logotype construction detail.",
       aspect: "wide",
     },
+    {
+      src: "/images/totoppo/gallery-4.jpg",
+      alt: "Totoppo. A presentation cover reading \"No creemos en catálogos,\" over a close up of a hand carving wood.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/totoppo/gallery-5.jpg",
+      alt: "Totoppo. The house mark on a woven canvas tag.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/totoppo/gallery-6.jpg",
+      alt: "Totoppo. Business cards for the studio and its head carpenter, on a bed of wood shavings.",
+      aspect: "wide",
+    },
   ],
   theme: { bodyColor: "#ebe9db" },
 };

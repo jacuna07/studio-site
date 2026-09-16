@@ -37,6 +37,21 @@ const project: Project = {
       alt: "Totoppo. Detalle de construcción del logotipo.",
       aspect: "wide",
     },
+    {
+      src: "/images/totoppo/gallery-4.jpg",
+      alt: "Totoppo. Una portada de presentación que dice \"No creemos en catálogos,\" sobre un primer plano de una mano tallando madera.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/totoppo/gallery-5.jpg",
+      alt: "Totoppo. El símbolo con forma de casa en una etiqueta de lona tejida.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/totoppo/gallery-6.jpg",
+      alt: "Totoppo. Tarjetas de presentación del estudio y su carpintero principal, sobre una cama de viruta de madera.",
+      aspect: "wide",
+    },
   ],
 };
 
