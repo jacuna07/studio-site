@@ -56,6 +56,14 @@ export default function MethodCarousel({ items }: { items: MethodItem[] }) {
     <div>
       <div
         ref={trackRef}
+        // Stops a touch that starts on the carousel from bubbling up to
+        // the window-level swipe listeners in Nav (drawer open) and
+        // CaseStudyBackSwipe (back to work) — same fix ProjectCard uses
+        // for its own swipe-to-cycle images, and for the same reason:
+        // without it, swiping through cards here also triggers whichever
+        // of those two gestures reads the same horizontal drag.
+        onTouchStart={(e) => e.stopPropagation()}
+        onTouchEnd={(e) => e.stopPropagation()}
         className="flex gap-6 overflow-x-auto snap-x snap-mandatory -mx-6 px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:grid md:grid-cols-3 md:overflow-visible md:mx-0 md:px-0 md:pb-0 md:gap-6"
       >
         {items.map((item, index) => (
