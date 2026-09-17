@@ -75,6 +75,18 @@ const project: Project = {
       alt: "Puralma. A taco on a blue corn tortilla, on a patterned napkin.",
       aspect: "wide",
     },
+    {
+      src: "/images/puralma/gallery-12.jpg",
+      alt: "Puralma. A circular brand stamp with the flower mark, wordmark, and \"Brunch, Cake, Coffee, Fun.\"",
+      aspect: "square",
+    },
+    {
+      src: "/images/puralma/gallery-13.mp4",
+      poster: "/images/puralma/gallery-13-poster.jpg",
+      alt: "Puralma. The flower mark rotating in place.",
+      aspect: "square",
+      type: "video",
+    },
   ],
   theme: { bodyColor: "#F9B4ED" },
 };

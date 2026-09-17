@@ -78,6 +78,18 @@ const project: Project = {
       alt: "Puralma. Un taco en tortilla de maíz azul, sobre una servilleta con el patrón de la marca.",
       aspect: "wide",
     },
+    {
+      src: "/images/puralma/gallery-12.jpg",
+      alt: "Puralma. Un sello circular con el símbolo de flor, el logotipo y \"Brunch, Cake, Coffee, Fun.\"",
+      aspect: "square",
+    },
+    {
+      src: "/images/puralma/gallery-13.mp4",
+      poster: "/images/puralma/gallery-13-poster.jpg",
+      alt: "Puralma. El símbolo de flor girando sobre su eje.",
+      aspect: "square",
+      type: "video",
+    },
   ],
   theme: { bodyColor: "#F9B4ED" },
 };
