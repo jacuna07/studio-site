@@ -62,7 +62,7 @@ const project: Project = {
     },
     {
       src: "/images/puralma/gallery-9.jpg",
-      alt: "Puralma. A tote bag reading \"Kind but revolutionary,\" with the brand's manifesto.",
+      alt: "Puralma. A tote bag reading \"Kind but revolutionary,\" carried over the shoulder.",
       aspect: "wide",
     },
     {

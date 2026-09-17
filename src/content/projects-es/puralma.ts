@@ -65,7 +65,7 @@ const project: Project = {
     },
     {
       src: "/images/puralma/gallery-9.jpg",
-      alt: "Puralma. Una bolsa de tela con la frase \"Kind but revolutionary\" y el manifiesto de la marca.",
+      alt: "Puralma. Una bolsa de tela con la frase \"Kind but revolutionary\", cargada al hombro.",
       aspect: "wide",
     },
     {
