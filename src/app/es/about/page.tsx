@@ -3,6 +3,7 @@ import Image from "next/image";
 import Container from "@/components/Container";
 import IconWhatsapp from "@/components/icons/IconWhatsapp";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
+import MethodCarousel from "@/components/MethodCarousel";
 
 export const metadata: Metadata = { title: "Nosotros. Tresunotres" };
 
@@ -89,28 +90,7 @@ export default function AboutPageEs() {
         <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-8">
           Nuestro método
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {method.map((item) => (
-            <div
-              key={item.label}
-              tabIndex={0}
-              className="group relative overflow-hidden rounded-2xl border border-paper/20 bg-cobalt h-[380px] md:h-[440px] focus:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
-            >
-              <div className="absolute inset-x-0 bottom-0 h-[35%] flex items-center p-6 md:p-8">
-                <p className="text-paper text-sm leading-snug">{item.description}</p>
-              </div>
-
-              <div className="absolute inset-x-0 top-0 flex h-[65%] md:h-full flex-col justify-between bg-ink p-8 transition-[height] duration-300 ease-out md:group-hover:h-[65%] md:group-focus:h-[65%]">
-                <span className="font-display font-bold text-6xl md:text-7xl leading-none text-paper -mt-2 md:-mt-3">
-                  {item.number}
-                </span>
-                <span className="font-mono text-xs md:text-sm uppercase tracking-[0.2em] text-paper max-w-[14ch]">
-                  {item.label}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+        <MethodCarousel items={method} />
       </Container>
 
       <Container className="max-w-3xl mt-16">

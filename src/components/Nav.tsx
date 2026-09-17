@@ -83,6 +83,25 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
     };
   }, [open]);
 
+  // The drawer is a plain fixed overlay, not a native modal, so pinch or
+  // double-tap zoom still reaches it and leaves it misaligned/clipped
+  // against the zoomed viewport. Locking the page's zoom for as long as
+  // the drawer is open, via the viewport meta tag, matches how a native
+  // modal would behave; the original content is restored the moment the
+  // drawer closes so zoom works normally everywhere else.
+  useEffect(() => {
+    const meta = document.querySelector('meta[name="viewport"]');
+    if (!meta) return;
+    const original = meta.getAttribute("content");
+    if (open) {
+      const base = original ?? "width=device-width, initial-scale=1";
+      meta.setAttribute("content", `${base}, maximum-scale=1, user-scalable=no`);
+    }
+    return () => {
+      if (original !== null) meta.setAttribute("content", original);
+    };
+  }, [open]);
+
   useEffect(() => {
     let startX = 0;
     let startY = 0;
