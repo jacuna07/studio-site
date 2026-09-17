@@ -25,70 +25,70 @@ const project: Project = {
   gallery: [
     {
       src: "/images/puralma/gallery-1.jpg",
-      alt: "Puralma. El símbolo de flor y el lema, \"With love, from the tropics.\"",
-      aspect: "square",
-    },
-    {
-      src: "/images/puralma/gallery-2.jpg",
-      alt: "Puralma. Afiches de marca: \"100% Plant Based\" y \"Kind but revolutionary.\"",
-      aspect: "wide",
-    },
-    {
-      src: "/images/puralma/gallery-3.jpg",
-      alt: "Puralma. Una corcholata abierta que revela la frase \"Kind never tasted this good.\"",
-      aspect: "square",
-    },
-    {
-      src: "/images/puralma/gallery-4.jpg",
-      alt: "Puralma. Vasos de papel de la marca apilados sobre una mesa.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/puralma/gallery-5.jpg",
-      alt: "Puralma. Empaques para llevar con el símbolo de flor, repetidos en cuadrícula.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/puralma/gallery-6.jpg",
-      alt: "Puralma. Papel de regalo con el patrón de flor y logotipo de la marca.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/puralma/gallery-7.jpg",
-      alt: "Puralma. Una tela con el patrón de la marca, capturada en movimiento.",
-      aspect: "wide",
-    },
-    {
-      src: "/images/puralma/gallery-8.jpg",
-      alt: "Puralma. Un afiche del Run Club junto a una agua fresca de sandía.",
-      aspect: "wide",
-    },
-    {
-      src: "/images/puralma/gallery-9.jpg",
-      alt: "Puralma. Una bolsa de tela con la frase \"Kind but revolutionary\", cargada al hombro.",
-      aspect: "wide",
-    },
-    {
-      src: "/images/puralma/gallery-10.jpg",
-      alt: "Puralma. Señalización exterior con el logotipo y el símbolo de flor.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/puralma/gallery-11.jpg",
-      alt: "Puralma. Un taco en tortilla de maíz azul, sobre una servilleta con el patrón de la marca.",
-      aspect: "wide",
-    },
-    {
-      src: "/images/puralma/gallery-12.jpg",
       alt: "Puralma. Un sello circular con el símbolo de flor, el logotipo y \"Brunch, Cake, Coffee, Fun.\"",
       aspect: "square",
     },
     {
-      src: "/images/puralma/gallery-13.mp4",
-      poster: "/images/puralma/gallery-13-poster.jpg",
+      src: "/images/puralma/gallery-2.mp4",
+      poster: "/images/puralma/gallery-2-poster.jpg",
       alt: "Puralma. El símbolo de flor girando sobre su eje.",
       aspect: "square",
       type: "video",
+    },
+    {
+      src: "/images/puralma/gallery-3.jpg",
+      alt: "Puralma. El símbolo de flor y el lema, \"With love, from the tropics.\"",
+      aspect: "square",
+    },
+    {
+      src: "/images/puralma/gallery-4.jpg",
+      alt: "Puralma. Una corcholata abierta que revela la frase \"Kind never tasted this good.\"",
+      aspect: "square",
+    },
+    {
+      src: "/images/puralma/gallery-5.jpg",
+      alt: "Puralma. Afiches de marca: \"100% Plant Based\" y \"Kind but revolutionary.\"",
+      aspect: "wide",
+    },
+    {
+      src: "/images/puralma/gallery-6.jpg",
+      alt: "Puralma. Vasos de papel de la marca apilados sobre una mesa.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/puralma/gallery-7.jpg",
+      alt: "Puralma. Papel de regalo con el patrón de flor y logotipo de la marca.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/puralma/gallery-8.jpg",
+      alt: "Puralma. Una tela con el patrón de la marca, capturada en movimiento.",
+      aspect: "wide",
+    },
+    {
+      src: "/images/puralma/gallery-9.jpg",
+      alt: "Puralma. Empaques para llevar con el símbolo de flor, repetidos en cuadrícula.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/puralma/gallery-10.jpg",
+      alt: "Puralma. Un afiche del Run Club junto a una agua fresca de sandía.",
+      aspect: "wide",
+    },
+    {
+      src: "/images/puralma/gallery-11.jpg",
+      alt: "Puralma. Una bolsa de tela con la frase \"Kind but revolutionary\", cargada al hombro.",
+      aspect: "wide",
+    },
+    {
+      src: "/images/puralma/gallery-12.jpg",
+      alt: "Puralma. Señalización exterior con el logotipo y el símbolo de flor.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/puralma/gallery-13.jpg",
+      alt: "Puralma. Un taco en tortilla de maíz azul, sobre una servilleta con el patrón de la marca.",
+      aspect: "wide",
     },
   ],
   theme: { bodyColor: "#F9B4ED" },
