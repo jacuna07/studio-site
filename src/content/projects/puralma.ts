@@ -19,7 +19,79 @@ const project: Project = {
     "The result is a brand that reads as confidently as the food tastes: ready for a bigger stage, without losing the kindness that built it.",
   ],
   hero: { src: "/images/puralma/cover.jpg", alt: "Puralma. Cover image" },
-  gallery: [],
+  gallery: [
+    {
+      src: "/images/puralma/00-gallery.jpg",
+      alt: "Puralma. A circular brand stamp with the flower mark, wordmark, and \"Brunch, Cake, Coffee, Fun.\"",
+      aspect: "square",
+    },
+    {
+      src: "/images/puralma/00-gallery.mp4",
+      alt: "Puralma. The flower mark rotating in place.",
+      aspect: "square",
+      type: "video",
+    },
+    {
+      src: "/images/puralma/01-gallery.jpg",
+      alt: "Puralma. The flower mark and tagline, \"With love, from the tropics.\"",
+      aspect: "square",
+    },
+    {
+      src: "/images/puralma/02-gallery.jpg",
+      alt: "Puralma. A bottle cap opened to reveal \"Kind never tasted this good.\"",
+      aspect: "square",
+    },
+    {
+      src: "/images/puralma/03-gallery.jpg",
+      alt: "Puralma. Brand posters: \"100% Plant Based\" and \"Kind but revolutionary.\"",
+      aspect: "wide",
+    },
+    {
+      src: "/images/puralma/04-gallery.jpg",
+      alt: "Puralma. Branded paper cups stacked on a counter.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/puralma/05-gallery.jpg",
+      alt: "Puralma. Wrapping paper in the brand's flower and wordmark pattern.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/puralma/06-gallery.jpg",
+      alt: "Puralma. A textile in the brand's pattern, caught mid-fall.",
+      aspect: "wide",
+    },
+    {
+      src: "/images/puralma/07-gallery.jpg",
+      alt: "Puralma. Takeout containers banded with the flower mark, repeated in a grid.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/puralma/08-gallery.jpg",
+      alt: "Puralma. A Run Club event poster beside a watermelon agua fresca.",
+      aspect: "wide",
+    },
+    {
+      src: "/images/puralma/09-gallery.jpg",
+      alt: "Puralma. A tote bag reading \"Kind but revolutionary,\" carried over the shoulder.",
+      aspect: "wide",
+    },
+    {
+      src: "/images/puralma/10-gallery.jpg",
+      alt: "Puralma. A tote bag with the flower mark and manifesto, leaning against a wall.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/puralma/11-gallery.jpg",
+      alt: "Puralma. Exterior signage with the wordmark and flower mark.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/puralma/12-gallery.jpg",
+      alt: "Puralma. A taco on a blue corn tortilla, on a patterned napkin.",
+      aspect: "wide",
+    },
+  ],
   theme: { bodyColor: "#F9B4ED" },
 };
 
