@@ -65,7 +65,7 @@ export default function ProjectPageEs({ params }: Props) {
             <span className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone">
               {project.industry}
             </span>
-            <h1 className="font-display font-normal text-[42px] md:text-[50px] leading-tight tracking-normal mt-2">
+            <h1 className="font-display font-normal text-[42px] md:text-[56px] leading-tight tracking-normal mt-2">
               {project.title}
             </h1>
             <p className="font-display text-xl md:text-2xl italic text-stone mt-0 max-w-2xl">
@@ -92,7 +92,7 @@ export default function ProjectPageEs({ params }: Props) {
               <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-3">
                 La idea
               </h2>
-              <div className="space-y-4 text-paper">
+              <div className="space-y-4 text-paper md:text-lg">
                 {project.overview.map((paragraph, i) => (
                   <p key={i}>{paragraph}</p>
                 ))}
@@ -138,7 +138,7 @@ export default function ProjectPageEs({ params }: Props) {
         </div>
 
         {project.quote && (
-          <blockquote className="mt-16 border-t border-mist pt-10 text-xl md:text-2xl font-medium max-w-2xl">
+          <blockquote className="mt-16 border-t border-mist pt-10 text-xl md:text-[36px] font-medium max-w-2xl">
             &ldquo;{project.quote.text}&rdquo;
             <footer className="mt-4 text-sm text-stone">
               {project.quote.author}

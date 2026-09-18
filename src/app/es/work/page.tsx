@@ -13,7 +13,7 @@ export default function WorkPageEs() {
     <CaseStudyBackSwipe targetHref="/es" targetLabel="Inicio" hint={false}>
       <section className="py-16 animate-page-in">
         <Container>
-          <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-12">
+          <h1 className="font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-12">
             Trabajo
           </h1>
           <FilteredWorkGrid projects={projects} locale="es" />
