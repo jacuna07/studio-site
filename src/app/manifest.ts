@@ -8,8 +8,8 @@ export default function manifest(): MetadataRoute.Manifest {
       "A branding studio portfolio showcasing identity, packaging, and visual design work.",
     start_url: "/",
     display: "standalone",
-    background_color: "#0a0a0a",
-    theme_color: "#0a0a0a",
+    background_color: "#0B0C10",
+    theme_color: "#0B0C10",
     icons: [
       {
         src: "/icon-192.png",
