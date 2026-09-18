@@ -47,39 +47,43 @@ export default function AboutPage() {
   return (
     <CaseStudyBackSwipe targetHref="/work" targetLabel="Work" hint={false}>
     <section className="py-16 animate-page-in">
-      <Container className="max-w-3xl">
-        <h1 className="font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-8">
-          A tailor-made process, refined at the core.
-        </h1>
+      <Container>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="md:col-span-2">
+            <h1 className="font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-8">
+              A tailor-made process, refined at the core.
+            </h1>
 
-        <div className="space-y-6 text-stone text-lg">
-          <p>
-            Tresunotres is a brand design studio based in Costa Rica. Most
-            studios design the brand and hope the product catches up. We
-            start on the other side, inside the product or service itself,
-            using its actual structure as the base the brand is built on. The
-            visible identity comes after, once that foundation holds.
-          </p>
-        </div>
+            <div className="space-y-6 text-paper text-lg">
+              <p>
+                Tresunotres is a brand design studio based in Costa Rica. Most
+                studios design the brand and hope the product catches up. We
+                start on the other side, inside the product or service itself,
+                using its actual structure as the base the brand is built on. The
+                visible identity comes after, once that foundation holds.
+              </p>
+            </div>
 
-        <div className="mt-16">
-          <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-4">
-            What we do
-          </h2>
-          <div className="space-y-4 text-stone md:text-lg">
-            <p>
-              We work in the shadows, by design. Once a project starts, we
-              stay close. Hand in hand with the client through the whole
-              process, rather than disappearing to design in isolation and
-              resurfacing with a finished deck.
-            </p>
-            <p>
-              Every project we&apos;ve taken on so far has come to us through
-              word of mouth. A past client recommending us to someone they
-              trust. We&apos;ve kept it that way on purpose. It keeps the
-              studio small, and it means every client gets both of us, start
-              to finish.
-            </p>
+            <div className="mt-16">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-4">
+                What we do
+              </h2>
+              <div className="space-y-4 text-paper md:text-lg">
+                <p>
+                  We work in the shadows, by design. Once a project starts, we
+                  stay close. Hand in hand with the client through the whole
+                  process, rather than disappearing to design in isolation and
+                  resurfacing with a finished deck.
+                </p>
+                <p>
+                  Every project we&apos;ve taken on so far has come to us through
+                  word of mouth. A past client recommending us to someone they
+                  trust. We&apos;ve kept it that way on purpose. It keeps the
+                  studio small, and it means every client gets both of us, start
+                  to finish.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </Container>

@@ -47,41 +47,45 @@ export default function AboutPageEs() {
   return (
     <CaseStudyBackSwipe targetHref="/es/work" targetLabel="Trabajo" hint={false}>
     <section className="py-16 animate-page-in">
-      <Container className="max-w-3xl">
-        <h1 className="font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-8">
-          Un proceso a la medida, refinado desde la base.
-        </h1>
+      <Container>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="md:col-span-2">
+            <h1 className="font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-8">
+              Un proceso a la medida, refinado desde la base.
+            </h1>
 
-        <div className="space-y-6 text-stone text-lg">
-          <p>
-            Tresunotres es un estudio de diseño de marca con sede en Costa
-            Rica. La mayoría de los estudios diseñan la marca y esperan que
-            el producto los alcance. Nosotros empezamos por el otro lado,
-            dentro del producto o servicio mismo, usando su estructura real
-            como la base sobre la que se construye la marca. La identidad
-            visible llega después, una vez que esa base sostiene.
-          </p>
-        </div>
+            <div className="space-y-6 text-paper text-lg">
+              <p>
+                Tresunotres es un estudio de diseño de marca con sede en Costa
+                Rica. La mayoría de los estudios diseñan la marca y esperan que
+                el producto los alcance. Nosotros empezamos por el otro lado,
+                dentro del producto o servicio mismo, usando su estructura real
+                como la base sobre la que se construye la marca. La identidad
+                visible llega después, una vez que esa base sostiene.
+              </p>
+            </div>
 
-        <div className="mt-16">
-          <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-4">
-            Qué hacemos
-          </h2>
-          <div className="space-y-4 text-stone md:text-lg">
-            <p>
-              Trabajamos en las sombras, a propósito. Una vez que un
-              proyecto empieza, nos mantenemos cerca. De la mano con el
-              cliente durante todo el proceso, en lugar de desaparecer a
-              diseñar en aislamiento y reaparecer con una presentación
-              terminada.
-            </p>
-            <p>
-              Cada proyecto que hemos tomado hasta ahora ha llegado por
-              recomendación. Un cliente anterior que nos recomienda a
-              alguien en quien confía. Lo hemos mantenido así a propósito.
-              Mantiene el estudio pequeño, y significa que cada cliente nos
-              tiene a los dos, de principio a fin.
-            </p>
+            <div className="mt-16">
+              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-4">
+                Qué hacemos
+              </h2>
+              <div className="space-y-4 text-paper md:text-lg">
+                <p>
+                  Trabajamos en las sombras, a propósito. Una vez que un
+                  proyecto empieza, nos mantenemos cerca. De la mano con el
+                  cliente durante todo el proceso, en lugar de desaparecer a
+                  diseñar en aislamiento y reaparecer con una presentación
+                  terminada.
+                </p>
+                <p>
+                  Cada proyecto que hemos tomado hasta ahora ha llegado por
+                  recomendación. Un cliente anterior que nos recomienda a
+                  alguien en quien confía. Lo hemos mantenido así a propósito.
+                  Mantiene el estudio pequeño, y significa que cada cliente nos
+                  tiene a los dos, de principio a fin.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </Container>
