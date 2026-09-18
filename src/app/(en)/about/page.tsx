@@ -48,7 +48,7 @@ export default function AboutPage() {
     <CaseStudyBackSwipe targetHref="/work" targetLabel="Work" hint={false}>
     <section className="py-16 animate-page-in">
       <Container className="max-w-3xl">
-        <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-8">
+        <h1 className="font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-8">
           A tailor-made process, refined at the core.
         </h1>
 
@@ -66,7 +66,7 @@ export default function AboutPage() {
           <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-4">
             What we do
           </h2>
-          <div className="space-y-4 text-stone">
+          <div className="space-y-4 text-stone md:text-lg">
             <p>
               We work in the shadows, by design. Once a project starts, we
               stay close. Hand in hand with the client through the whole
