@@ -99,7 +99,7 @@ export default function ProjectPageEs({ params }: Props) {
               </div>
             </div>
           </div>
-          <dl className="font-mono text-sm space-y-6 md:rounded-2xl md:border md:border-mist md:p-8">
+          <dl className="font-mono text-sm space-y-6 md:self-start md:rounded-2xl md:border md:border-mist md:p-8">
             <div>
               <dt className="font-bold uppercase tracking-[0.2em] text-stone text-xs">
                 Cliente
