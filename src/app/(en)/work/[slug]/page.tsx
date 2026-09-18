@@ -72,10 +72,6 @@ export default function ProjectPage({ params }: Props) {
               {project.tagline}
             </p>
 
-            <div className="mt-6">
-              <ShareButton title={project.title} text={project.tagline} locale="en" />
-            </div>
-
             <div className="mt-10">
               <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-3">
                 The brief
@@ -103,7 +99,7 @@ export default function ProjectPage({ params }: Props) {
               </div>
             </div>
           </div>
-          <dl className="font-mono text-sm space-y-6 md:border-l md:border-mist md:pl-10">
+          <dl className="font-mono text-sm space-y-6 md:rounded-2xl md:border md:border-mist md:p-8">
             <div>
               <dt className="font-bold uppercase tracking-[0.2em] text-stone text-xs">
                 Client
@@ -122,6 +118,14 @@ export default function ProjectPage({ params }: Props) {
               </dt>
               <dd className="mt-1">{project.industry}</dd>
             </div>
+            <div>
+              <ShareButton
+                title={project.title}
+                text={project.tagline}
+                locale="en"
+                label="Share project"
+              />
+            </div>
           </dl>
         </div>
 
@@ -130,7 +134,7 @@ export default function ProjectPage({ params }: Props) {
         </div>
 
         <div className="mt-16 flex justify-center">
-          <ShareButton title={project.title} text={project.tagline} locale="en" />
+          <ShareButton title={project.title} text={project.tagline} locale="en" size="lg" />
         </div>
 
         {project.quote && (
@@ -144,29 +148,29 @@ export default function ProjectPage({ params }: Props) {
 
         <div className="mt-20 border-t border-mist pt-10 flex items-center justify-between">
           <Link href={`/work/${prev.slug}`} className="group flex items-center gap-2">
-            <IconArrowLeft className="h-3 w-3 shrink-0" />
+            <IconArrowLeft className="h-3 w-3 md:h-4 md:w-4 shrink-0" />
             {/* Hover only on desktop (md:) — on mobile there's no real
                 hover, and a tapped link can otherwise get visually
                 "stuck" in its hover state on some mobile browsers. */}
-            <span className="font-display text-lg md:group-hover:text-cobalt md:group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
+            <span className="font-display text-lg md:text-xl md:group-hover:text-cobalt md:group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
               {prev.title}
             </span>
           </Link>
           <Link href={`/work/${next.slug}`} className="group flex items-center gap-2 text-right">
-            <span className="font-display text-lg md:group-hover:text-cobalt md:group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
+            <span className="font-display text-lg md:text-xl md:group-hover:text-cobalt md:group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
               {next.title}
             </span>
             {/* Same icon as Previous, mirrored: guarantees the two
                 arrows are pixel-identical instead of relying on a
                 font's left/right glyphs matching each other. */}
-            <IconArrowLeft className="h-3 w-3 shrink-0 rotate-180" />
+            <IconArrowLeft className="h-3 w-3 md:h-4 md:w-4 shrink-0 rotate-180" />
           </Link>
         </div>
 
         <div className="mt-10 flex justify-center">
           <Link
             href="/work"
-            className="group inline-flex items-center gap-2 font-mono text-base uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
+            className="group inline-flex items-center gap-2 font-mono text-base md:text-lg uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
           >
             <span className="relative">
               See all projects
