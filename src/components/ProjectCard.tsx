@@ -52,10 +52,12 @@ export default function ProjectCard({
   const isFirstCard = index === 1;
 
   const frames = [
-    { src: project.hero.src, alt: project.hero.alt },
+    { src: project.hero.src, alt: project.hero.alt, type: "image" as const, poster: undefined },
     ...project.gallery.map((img) => ({
-      src: img.type === "video" ? img.poster ?? img.src : img.src,
+      src: img.src,
       alt: img.alt,
+      type: img.type ?? "image",
+      poster: img.poster,
     })),
   ];
 
@@ -149,19 +151,35 @@ export default function ProjectCard({
         onTouchEnd={handleTouchEnd}
       >
         {enableImageSwipe ? (
-          frames.map((f, i) => (
-            <Image
-              key={f.src}
-              src={f.src}
-              alt={f.alt}
-              fill
-              sizes={sizes}
-              priority={i === 0 && isFirstCard}
-              className={`object-cover transition-[opacity,transform] duration-500 ease-out md:group-hover:scale-105 ${
-                i === frameIndex ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          ))
+          frames.map((f, i) =>
+            f.type === "video" ? (
+              <video
+                key={f.src}
+                src={f.src}
+                poster={f.poster}
+                autoPlay
+                muted
+                loop
+                playsInline
+                aria-label={f.alt}
+                className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-500 ease-out md:group-hover:scale-105 ${
+                  i === frameIndex ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            ) : (
+              <Image
+                key={f.src}
+                src={f.src}
+                alt={f.alt}
+                fill
+                sizes={sizes}
+                priority={i === 0 && isFirstCard}
+                className={`object-cover transition-[opacity,transform] duration-500 ease-out md:group-hover:scale-105 ${
+                  i === frameIndex ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            )
+          )
         ) : (
           <Image
             src={frame.src}

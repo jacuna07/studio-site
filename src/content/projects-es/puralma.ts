@@ -24,25 +24,16 @@ const project: Project = {
   },
   gallery: [
     {
-      src: "/images/puralma/00-gallery.jpg",
+      src: "/images/puralma/01-gallery.jpg",
       alt: "Puralma. Un sello circular con el símbolo de flor, el logotipo y \"Brunch, Cake, Coffee, Fun.\"",
       aspect: "square",
     },
     {
-      src: "/images/puralma/00-gallery.mp4",
+      src: "/images/puralma/02-gallery.mp4",
+      poster: "/images/puralma/02-gallery-poster.jpg",
       alt: "Puralma. El símbolo de flor girando sobre su eje.",
       aspect: "square",
       type: "video",
-    },
-    {
-      src: "/images/puralma/01-gallery.jpg",
-      alt: "Puralma. El símbolo de flor y el lema, \"With love, from the tropics.\"",
-      aspect: "square",
-    },
-    {
-      src: "/images/puralma/02-gallery.jpg",
-      alt: "Puralma. Una corcholata abierta que revela la frase \"Kind never tasted this good.\"",
-      aspect: "square",
     },
     {
       src: "/images/puralma/03-gallery.jpg",
@@ -56,42 +47,52 @@ const project: Project = {
     },
     {
       src: "/images/puralma/05-gallery.jpg",
-      alt: "Puralma. Papel de regalo con el patrón de flor y logotipo de la marca.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/puralma/06-gallery.jpg",
-      alt: "Puralma. Una tela con el patrón de la marca, capturada en movimiento.",
-      aspect: "wide",
-    },
-    {
-      src: "/images/puralma/07-gallery.jpg",
-      alt: "Puralma. Empaques para llevar con el símbolo de flor, repetidos en cuadrícula.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/puralma/08-gallery.jpg",
-      alt: "Puralma. Un afiche del Run Club junto a una agua fresca de sandía.",
-      aspect: "wide",
-    },
-    {
-      src: "/images/puralma/09-gallery.jpg",
       alt: "Puralma. Una bolsa de tela con la frase \"Kind but revolutionary\", cargada al hombro.",
       aspect: "wide",
     },
     {
-      src: "/images/puralma/10-gallery.jpg",
-      alt: "Puralma. Una bolsa de tela con el símbolo de flor y el manifiesto, recostada contra una pared.",
+      src: "/images/puralma/06-gallery.jpg",
+      alt: "Puralma. Empaques para llevar con el símbolo de flor, repetidos en cuadrícula.",
       aspect: "portrait",
     },
     {
-      src: "/images/puralma/11-gallery.jpg",
+      src: "/images/puralma/07-gallery.jpg",
+      alt: "Puralma. Papel de regalo con el patrón de flor y logotipo de la marca.",
+      aspect: "portrait",
+    },
+    {
+      src: "/images/puralma/08-gallery.jpg",
+      alt: "Puralma. Una tela con el patrón de la marca, capturada en movimiento.",
+      aspect: "wide",
+    },
+    {
+      src: "/images/puralma/09-gallery.jpg",
       alt: "Puralma. Señalización exterior con el logotipo y el símbolo de flor.",
       aspect: "portrait",
     },
     {
-      src: "/images/puralma/12-gallery.jpg",
+      src: "/images/puralma/10-gallery.jpg",
+      alt: "Puralma. Un afiche del Run Club junto a una agua fresca de sandía.",
+      aspect: "wide",
+    },
+    {
+      src: "/images/puralma/11-gallery.jpg",
       alt: "Puralma. Un taco en tortilla de maíz azul, sobre una servilleta con el patrón de la marca.",
+      aspect: "wide",
+    },
+    {
+      src: "/images/puralma/12-gallery.jpg",
+      alt: "Puralma. El símbolo de flor y el lema, \"With love, from the tropics.\"",
+      aspect: "square",
+    },
+    {
+      src: "/images/puralma/13-gallery.jpg",
+      alt: "Puralma. Una corcholata abierta que revela la frase \"Kind never tasted this good.\"",
+      aspect: "square",
+    },
+    {
+      src: "/images/puralma/14-gallery.jpg",
+      alt: "Puralma. Una comparación de antes y después: el logotipo anterior junto al nuevo símbolo de flor y logotipo.",
       aspect: "wide",
     },
   ],
