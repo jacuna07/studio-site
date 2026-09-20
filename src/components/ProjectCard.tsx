@@ -13,6 +13,7 @@ export default function ProjectCard({
   overlay = "gradient",
   showIndex = true,
   enableImageSwipe = false,
+  enableHoverLoop = false,
 }: {
   project: Project;
   index: number;
@@ -22,6 +23,8 @@ export default function ProjectCard({
   showIndex?: boolean;
   /** Mobile only: swiping over the thumbnail cycles through the project's images. */
   enableImageSwipe?: boolean;
+  /** Desktop only: hovering the card cycles through the project's images. */
+  enableHoverLoop?: boolean;
 }) {
   const href = locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`;
 
@@ -108,6 +111,42 @@ export default function ProjectCard({
     };
   }, [enableImageSwipe, frames.length]);
 
+  // Clears any timer left running (from either cycling mechanism below)
+  // if the card unmounts mid-hover or mid-intersection.
+  useEffect(() => {
+    return () => {
+      if (autoTimerRef.current !== null) {
+        window.clearInterval(autoTimerRef.current);
+        autoTimerRef.current = null;
+      }
+    };
+  }, []);
+
+  // Desktop only: hovering the card with a real pointer cycles through its
+  // images, like a quick preview reel. Gated on the "hover: hover" media
+  // feature (not just viewport width) so a touch tap never triggers it.
+  function handleMouseEnter() {
+    if (!enableHoverLoop || frames.length < 2) return;
+    if (typeof window === "undefined") return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+
+    if (autoTimerRef.current !== null) {
+      window.clearInterval(autoTimerRef.current);
+    }
+    autoTimerRef.current = window.setInterval(() => {
+      setFrameIndex((i) => (i + 1) % frames.length);
+    }, 900);
+  }
+
+  function handleMouseLeave() {
+    if (!enableHoverLoop) return;
+    if (autoTimerRef.current !== null) {
+      window.clearInterval(autoTimerRef.current);
+      autoTimerRef.current = null;
+    }
+    setFrameIndex(0);
+  }
+
   function handleTouchStart(e: React.TouchEvent) {
     if (!enableImageSwipe || e.touches.length !== 1) return;
     // Stop this touch from bubbling up to Nav's window-level swipe
@@ -149,8 +188,10 @@ export default function ProjectCard({
         className={`relative overflow-hidden bg-mist shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] ${aspectClass}`}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
-        {enableImageSwipe ? (
+        {enableImageSwipe || enableHoverLoop ? (
           frames.map((f, i) =>
             f.type === "video" ? (
               <video

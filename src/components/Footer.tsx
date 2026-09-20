@@ -148,7 +148,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
         </div>
 
         <div className={`mt-16 pt-16 border-t ${divider} transition-colors duration-300`}>
-          <div className={`flex items-center gap-4 ${muted} transition-colors duration-300`}>
+          <div className={`flex items-center gap-4 md:gap-5 ${muted} transition-colors duration-300`}>
             <a
               href={INSTAGRAM_HREF}
               target="_blank"
@@ -156,7 +156,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
               aria-label="Instagram"
               className={iconHover}
             >
-              <IconInstagram className="h-[18px] w-[18px]" />
+              <IconInstagram className="h-[18px] w-[18px] md:h-6 md:w-6" />
             </a>
             <a
               href={WHATSAPP_HREF}
@@ -165,15 +165,15 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
               aria-label="WhatsApp"
               className={iconHover}
             >
-              <IconWhatsapp className="h-[18px] w-[18px]" />
+              <IconWhatsapp className="h-[18px] w-[18px] md:h-6 md:w-6" />
             </a>
             <a href={`mailto:${EMAIL}`} aria-label="Email" className={iconHover}>
-              <IconMail className="h-[18px] w-[18px]" />
+              <IconMail className="h-[18px] w-[18px] md:h-6 md:w-6" />
             </a>
           </div>
 
           <div
-            className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-4 text-[10px] font-mono tracking-[0.2em] ${muted} transition-colors duration-300`}
+            className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-4 text-[10px] md:text-xs font-mono tracking-[0.2em] ${muted} transition-colors duration-300`}
           >
             <p>
               &copy; {new Date().getFullYear()} TRESUNOTRES. {t.rights}

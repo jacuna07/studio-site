@@ -14,12 +14,15 @@ export default function WorkGrid({
   locale = "en",
   variant = "chunked",
   enableImageSwipe = false,
+  enableHoverLoop = false,
 }: {
   projects: Project[];
   locale?: "en" | "es";
   variant?: "chunked" | "grid";
   /** Mobile only: swiping over a card's thumbnail cycles through its images. */
   enableImageSwipe?: boolean;
+  /** Desktop only: hovering a card cycles through its images. */
+  enableHoverLoop?: boolean;
 }) {
   if (variant === "grid") {
     return (
@@ -34,6 +37,7 @@ export default function WorkGrid({
             overlay="solid"
             showIndex={false}
             enableImageSwipe={enableImageSwipe}
+            enableHoverLoop={enableHoverLoop}
           />
         ))}
       </div>

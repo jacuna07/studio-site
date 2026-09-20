@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Container from "@/components/Container";
 import IconWhatsapp from "@/components/icons/IconWhatsapp";
+import IconInstagram from "@/components/icons/IconInstagram";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
 import MethodCarousel from "@/components/MethodCarousel";
 
@@ -34,12 +35,14 @@ const team = [
     role: "Diseñador de marca",
     photo: { src: "/images/about/adrian.jpg", alt: "Retrato de Adrián Jiménez" },
     whatsapp: "#",
+    instagram: "https://www.instagram.com/adro_jimenez/",
   },
   {
     name: "Javier Acuña",
     role: "Diseñador de marca",
     photo: { src: "/images/about/javier.jpg", alt: "Retrato de Javier Acuña" },
     whatsapp: "#",
+    instagram: "https://www.instagram.com/acuna07/",
   },
 ];
 
@@ -123,6 +126,16 @@ export default function AboutPageEs() {
                   className="text-stone md:hover:text-cobalt transition-colors"
                 >
                   <IconWhatsapp className="h-5 w-5" />
+                </a>
+                {/* Desktop only, sits right of the WhatsApp icon. */}
+                <a
+                  href={person.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${person.name} en Instagram`}
+                  className="hidden text-stone transition-colors md:inline-flex md:hover:text-cobalt"
+                >
+                  <IconInstagram className="h-5 w-5" />
                 </a>
               </div>
             </div>

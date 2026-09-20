@@ -74,7 +74,7 @@ export default function FilteredWorkGrid({
       </div>
 
       <CursorRevealGrid>
-        <WorkGrid projects={filtered} locale={locale} variant="grid" />
+        <WorkGrid projects={filtered} locale={locale} variant="grid" enableHoverLoop />
       </CursorRevealGrid>
     </div>
   );
