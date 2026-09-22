@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Container from "@/components/Container";
 import WorkGrid from "@/components/WorkGrid";
+import FeaturedCarousel from "@/components/FeaturedCarousel";
 import CursorRevealGrid from "@/components/CursorRevealGrid";
 import ScrollToWorkArrow from "@/components/ScrollToWorkArrow";
 import { getFeaturedProjects } from "@/content/projects-es";
@@ -53,8 +54,11 @@ export default function HomePageEs() {
             </Link>
           </div>
           <CursorRevealGrid>
-            <WorkGrid projects={projects} locale="es" enableImageSwipe />
+            <div className="hidden md:block">
+              <WorkGrid projects={projects} locale="es" enableImageSwipe />
+            </div>
           </CursorRevealGrid>
+          <FeaturedCarousel projects={projects} locale="es" />
           <div className="mt-16 flex justify-center">
             <Link
               href="/es/work"
