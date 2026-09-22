@@ -7,8 +7,8 @@ import IconArrowLeft from "./icons/IconArrowLeft";
 import type { Project } from "@/content/projects/types";
 
 const copy = {
-  en: { discover: "See project", more: "More work", seeAll: "See all projects" },
-  es: { discover: "Ver proyecto", more: "Más trabajo", seeAll: "Ver todos los proyectos" },
+  en: { discover: "See project", seeAll: "See all projects" },
+  es: { discover: "Ver proyecto", seeAll: "Ver todos los proyectos" },
 };
 
 // How often the active slide's image cycles to its next frame — matches
@@ -141,7 +141,7 @@ export default function FeaturedCarousel({
               data-slide
               className="group block w-[85%] shrink-0 snap-start"
             >
-              <div className="relative aspect-[4/3] overflow-hidden bg-mist">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-mist">
                 {frames ? (
                   frames.map((f, fi) =>
                     f.type === "video" ? (
@@ -194,9 +194,6 @@ export default function FeaturedCarousel({
 
         {hasMoreSlide && (
           <div data-slide className="w-[85%] shrink-0 snap-start">
-            <div className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-4">
-              {t.more}
-            </div>
             <div className="max-h-[300px] overflow-y-auto snap-y snap-mandatory divide-y divide-mist">
               {moreProjects.map((project) => (
                 <Link
@@ -204,7 +201,7 @@ export default function FeaturedCarousel({
                   href={locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`}
                   className="flex items-center gap-4 py-3 snap-start"
                 >
-                  <div className="relative h-24 w-24 shrink-0 overflow-hidden bg-mist">
+                  <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-mist">
                     <Image
                       src={project.hero.src}
                       alt={project.hero.alt}
@@ -225,7 +222,7 @@ export default function FeaturedCarousel({
                 href={locale === "es" ? "/es/work" : "/work"}
                 className="flex items-center gap-4 py-3 snap-start"
               >
-                <div className="flex h-24 w-24 shrink-0 items-center justify-center bg-mist">
+                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-mist">
                   <IconArrowLeft className="h-5 w-5 rotate-180" />
                 </div>
                 <div className="font-mono text-xs uppercase tracking-[0.2em]">{t.seeAll}</div>
