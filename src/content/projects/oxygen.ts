@@ -8,7 +8,7 @@ const project: Project = {
   year: "2022",
   industry: "Fitness",
   featured: true,
-  featuredOrder: 1,
+  featuredOrder: 5,
   summary: "An identity built for a fitness community that outgrew its own warehouse.",
   brief: "A fitness box built by three brothers who went all in from the start.",
   overview: [
