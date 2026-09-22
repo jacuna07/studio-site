@@ -7,8 +7,8 @@ import IconArrowLeft from "./icons/IconArrowLeft";
 import type { Project } from "@/content/projects/types";
 
 const copy = {
-  en: { discover: "See project" },
-  es: { discover: "Ver proyecto" },
+  en: { discover: "See project", more: "More work", seeAll: "See all projects" },
+  es: { discover: "Ver proyecto", more: "Más trabajo", seeAll: "Ver todos los proyectos" },
 };
 
 // How often the active slide's image cycles to its next frame — matches
@@ -45,9 +45,12 @@ function getFrames(project: Project) {
  */
 export default function FeaturedCarousel({
   projects,
+  moreProjects = [],
   locale = "en",
 }: {
   projects: Project[];
+  /** Shown as a trailing "more work" panel once the visitor swipes past the last project. */
+  moreProjects?: Project[];
   locale?: "en" | "es";
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -55,6 +58,8 @@ export default function FeaturedCarousel({
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeFrame, setActiveFrame] = useState(0);
   const t = copy[locale];
+  const hasMoreSlide = moreProjects.length > 0;
+  const slideCount = projects.length + (hasMoreSlide ? 1 : 0);
 
   useEffect(() => {
     const el = trackRef.current;
@@ -69,14 +74,14 @@ export default function FeaturedCarousel({
       const gap = 16;
       const step = card ? card.getBoundingClientRect().width + gap : el.clientWidth;
       const index = step > 0 ? Math.round(el.scrollLeft / step) : 0;
-      const clamped = Math.min(Math.max(index, 0), Math.max(projects.length - 1, 0));
+      const clamped = Math.min(Math.max(index, 0), Math.max(slideCount - 1, 0));
       setActiveIndex((prev) => (clamped === prev ? prev : clamped));
     }
 
     handleScroll();
     el.addEventListener("scroll", handleScroll, { passive: true });
     return () => el.removeEventListener("scroll", handleScroll);
-  }, [projects.length]);
+  }, [slideCount]);
 
   // Restarts the active card's frame cycle from its hero image whenever a
   // new slide becomes active.
@@ -111,7 +116,7 @@ export default function FeaturedCarousel({
     if (e.changedTouches.length === 1) e.stopPropagation();
   }
 
-  const barWidth = Math.max(progress * 100, projects.length > 0 ? 100 / projects.length : 0);
+  const barWidth = Math.max(progress * 100, slideCount > 0 ? 100 / slideCount : 0);
 
   return (
     <div className="md:hidden">
@@ -186,6 +191,48 @@ export default function FeaturedCarousel({
             </Link>
           );
         })}
+
+        {hasMoreSlide && (
+          <div data-slide className="w-[85%] shrink-0 snap-start">
+            <div className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-4">
+              {t.more}
+            </div>
+            <div className="max-h-[300px] overflow-y-auto snap-y snap-mandatory divide-y divide-mist">
+              {moreProjects.map((project) => (
+                <Link
+                  key={project.slug}
+                  href={locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`}
+                  className="flex items-center gap-4 py-3 snap-start"
+                >
+                  <div className="relative h-24 w-24 shrink-0 overflow-hidden bg-mist">
+                    <Image
+                      src={project.hero.src}
+                      alt={project.hero.alt}
+                      fill
+                      sizes="96px"
+                      className="object-cover"
+                    />
+                  </div>
+                  <div>
+                    <div className="font-display text-lg leading-snug">{project.title}</div>
+                    <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-stone mt-1">
+                      {project.industry}
+                    </div>
+                  </div>
+                </Link>
+              ))}
+              <Link
+                href={locale === "es" ? "/es/work" : "/work"}
+                className="flex items-center gap-4 py-3 snap-start"
+              >
+                <div className="flex h-24 w-24 shrink-0 items-center justify-center bg-mist">
+                  <IconArrowLeft className="h-5 w-5 rotate-180" />
+                </div>
+                <div className="font-mono text-xs uppercase tracking-[0.2em]">{t.seeAll}</div>
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="mt-8 flex items-center gap-6">

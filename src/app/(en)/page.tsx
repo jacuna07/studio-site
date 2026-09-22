@@ -4,10 +4,18 @@ import WorkGrid from "@/components/WorkGrid";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
 import CursorRevealGrid from "@/components/CursorRevealGrid";
 import ScrollToWorkArrow from "@/components/ScrollToWorkArrow";
-import { getFeaturedProjects } from "@/content/projects";
+import { getAllProjects, getFeaturedProjects } from "@/content/projects";
 
 export default function HomePage() {
   const projects = getFeaturedProjects().slice(0, 6);
+  // A handful of non-featured projects, shown as a "more work" panel at
+  // the end of the mobile carousel once the visitor swipes past the last
+  // featured project.
+  const featuredSlugs = new Set(projects.map((p) => p.slug));
+  const moreProjects = getAllProjects()
+    .filter((p) => !featuredSlugs.has(p.slug))
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3);
 
   return (
     <div className="animate-page-in">
@@ -64,7 +72,7 @@ export default function HomePage() {
               <WorkGrid projects={projects} enableImageSwipe />
             </div>
           </CursorRevealGrid>
-          <FeaturedCarousel projects={projects} />
+          <FeaturedCarousel projects={projects} moreProjects={moreProjects} />
           <div className="mt-16 flex justify-center">
             <Link
               href="/work"
