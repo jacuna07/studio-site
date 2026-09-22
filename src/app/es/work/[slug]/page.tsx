@@ -167,7 +167,7 @@ export default function ProjectPageEs({ params }: Props) {
         <div className="mt-10 flex justify-center">
           <Link
             href="/es/work"
-            className="group font-mono font-bold text-base md:text-lg uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
+            className="group font-mono text-base md:text-lg uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
           >
             <span className="relative">
               Ver más proyectos
