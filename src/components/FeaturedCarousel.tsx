@@ -144,9 +144,9 @@ export default function FeaturedCarousel({
               key={project.slug}
               href={locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`}
               data-slide
-              className="group block w-[85%] md:w-[360px] shrink-0 snap-start"
+              className="group block w-[85%] md:w-[calc((100%-2rem)/2.2)] shrink-0 snap-start"
             >
-              <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-mist">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-lg md:rounded-none bg-mist">
                 {frames ? (
                   frames.map((f, fi) =>
                     f.type === "video" ? (
@@ -169,7 +169,7 @@ export default function FeaturedCarousel({
                         src={f.src}
                         alt={f.alt}
                         fill
-                        sizes="(min-width: 768px) 360px, 85vw"
+                        sizes="(min-width: 768px) 45vw, 85vw"
                         priority={i === 0 && fi === 0}
                         className={`object-cover transition-opacity duration-500 ease-out ${
                           fi === activeFrame ? "opacity-100" : "opacity-0"
@@ -182,23 +182,26 @@ export default function FeaturedCarousel({
                     src={project.hero.src}
                     alt={project.hero.alt}
                     fill
-                    sizes="(min-width: 768px) 360px, 85vw"
+                    sizes="(min-width: 768px) 45vw, 85vw"
                     className="object-cover"
                   />
                 )}
               </div>
               <div className="font-display text-2xl leading-snug mt-5">{project.title}</div>
               <p className="text-stone mt-3">{project.summary}</p>
-              <span className="mt-5 inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em]">
+              <span className="relative inline-block mt-5 font-mono font-bold text-xs uppercase tracking-[0.2em] md:group-hover:text-cobalt transition-colors">
                 {t.discover}
-                <span aria-hidden="true">→</span>
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
+                />
               </span>
             </Link>
           );
         })}
 
         {hasMoreSlide && (
-          <div data-slide className="w-[85%] md:w-[360px] shrink-0 snap-start">
+          <div data-slide className="w-[85%] md:w-[calc((100%-2rem)/2.2)] shrink-0 snap-start">
             {/* Mobile: a vertically scrollable list of extra projects. */}
             <div className="md:hidden max-h-[300px] overflow-y-auto snap-y snap-mandatory divide-y divide-mist">
               {moreProjects.map((project) => (
@@ -239,11 +242,10 @@ export default function FeaturedCarousel({
                 as the other cards' images. */}
             <Link
               href={workHref}
-              className="group hidden md:flex aspect-[4/3] items-center justify-center rounded-lg bg-mist"
+              className="group hidden md:flex aspect-[4/3] items-center justify-center bg-mist"
             >
-              <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] md:group-hover:text-cobalt transition-colors">
+              <span className="font-mono font-bold text-xs uppercase tracking-[0.2em] md:group-hover:text-cobalt transition-colors">
                 {t.seeAll}
-                <span aria-hidden="true">→</span>
               </span>
             </Link>
           </div>

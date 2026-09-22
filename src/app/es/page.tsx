@@ -63,7 +63,7 @@ export default function HomePageEs() {
           <div className="mt-16 flex justify-center">
             <Link
               href="/es/work"
-              className="group inline-flex items-center gap-2 font-mono text-base uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
+              className="group font-mono font-bold text-base uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
             >
               <span className="relative">
                 Descubre más
@@ -71,9 +71,6 @@ export default function HomePageEs() {
                   aria-hidden="true"
                   className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
                 />
-              </span>
-              <span aria-hidden="true" className="transition-transform duration-300 md:group-hover:translate-x-1">
-                →
               </span>
             </Link>
           </div>
