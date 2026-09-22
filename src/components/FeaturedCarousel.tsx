@@ -244,7 +244,7 @@ export default function FeaturedCarousel({
               href={workHref}
               className="group hidden md:flex aspect-[4/3] items-center justify-center bg-mist md:hover:bg-cobalt transition-colors"
             >
-              <span className="font-mono text-xs uppercase tracking-[0.2em] md:group-hover:text-paper transition-colors">
+              <span className="font-mono text-2xl uppercase tracking-[0.2em] md:group-hover:text-paper transition-colors">
                 {t.seeAll}
               </span>
             </Link>
