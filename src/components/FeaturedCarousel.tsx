@@ -189,7 +189,7 @@ export default function FeaturedCarousel({
               </div>
               <div className="font-display text-2xl leading-snug mt-5">{project.title}</div>
               <p className="text-stone mt-3">{project.summary}</p>
-              <span className="relative inline-block mt-5 font-mono font-bold text-xs uppercase tracking-[0.2em] md:group-hover:text-cobalt transition-colors">
+              <span className="relative inline-block mt-5 font-mono text-xs uppercase tracking-[0.2em] md:group-hover:text-cobalt transition-colors">
                 {t.discover}
                 <span
                   aria-hidden="true"
@@ -242,9 +242,9 @@ export default function FeaturedCarousel({
                 as the other cards' images. */}
             <Link
               href={workHref}
-              className="group hidden md:flex aspect-[4/3] items-center justify-center bg-mist"
+              className="group hidden md:flex aspect-[4/3] items-center justify-center bg-mist md:hover:bg-cobalt transition-colors"
             >
-              <span className="font-mono font-bold text-xs uppercase tracking-[0.2em] md:group-hover:text-cobalt transition-colors">
+              <span className="font-mono text-xs uppercase tracking-[0.2em] md:group-hover:text-paper transition-colors">
                 {t.seeAll}
               </span>
             </Link>
