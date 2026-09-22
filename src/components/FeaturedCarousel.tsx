@@ -33,15 +33,19 @@ function getFrames(project: Project) {
 }
 
 /**
- * Mobile-only horizontal gallery for the Home page's Featured module,
- * modeled on mclaren.com's project carousel: one card at a time (with a
- * peek of the next), title/summary/link underneath, and a scroll-progress
- * bar with prev/next controls below that. Desktop keeps the existing
- * WorkGrid layout — this never renders past the md breakpoint.
+ * Horizontal gallery for the Home page's Featured module, modeled on
+ * mclaren.com's project carousel: one card at a time on mobile (with a
+ * peek of the next) and several fixed-width cards on desktop, each with
+ * title/summary/link underneath, plus a scroll-progress bar with prev/next
+ * controls below the track. Renders at every breakpoint.
  *
  * The currently active (centered) slide auto-cycles through its own
  * hero + gallery frames, same effect as ProjectCard's image swipe on the
  * desktop grid; other slides stay on their hero image.
+ *
+ * The trailing slide differs by breakpoint: on mobile it's a vertically
+ * scrollable "more work" panel of extra projects; on desktop it's a
+ * single "See all projects" card.
  */
 export default function FeaturedCarousel({
   projects,
@@ -117,9 +121,10 @@ export default function FeaturedCarousel({
   }
 
   const barWidth = Math.max(progress * 100, slideCount > 0 ? 100 / slideCount : 0);
+  const workHref = locale === "es" ? "/es/work" : "/work";
 
   return (
-    <div className="md:hidden">
+    <div>
       <div
         ref={trackRef}
         onTouchStart={handleTouchStart}
@@ -139,9 +144,9 @@ export default function FeaturedCarousel({
               key={project.slug}
               href={locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`}
               data-slide
-              className="group block w-[85%] shrink-0 snap-start"
+              className="group block w-[85%] md:w-[360px] shrink-0 snap-start"
             >
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-mist">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-mist">
                 {frames ? (
                   frames.map((f, fi) =>
                     f.type === "video" ? (
@@ -164,7 +169,7 @@ export default function FeaturedCarousel({
                         src={f.src}
                         alt={f.alt}
                         fill
-                        sizes="85vw"
+                        sizes="(min-width: 768px) 360px, 85vw"
                         priority={i === 0 && fi === 0}
                         className={`object-cover transition-opacity duration-500 ease-out ${
                           fi === activeFrame ? "opacity-100" : "opacity-0"
@@ -177,7 +182,7 @@ export default function FeaturedCarousel({
                     src={project.hero.src}
                     alt={project.hero.alt}
                     fill
-                    sizes="85vw"
+                    sizes="(min-width: 768px) 360px, 85vw"
                     className="object-cover"
                   />
                 )}
@@ -193,15 +198,16 @@ export default function FeaturedCarousel({
         })}
 
         {hasMoreSlide && (
-          <div data-slide className="w-[85%] shrink-0 snap-start">
-            <div className="max-h-[300px] overflow-y-auto snap-y snap-mandatory divide-y divide-mist">
+          <div data-slide className="w-[85%] md:w-[360px] shrink-0 snap-start">
+            {/* Mobile: a vertically scrollable list of extra projects. */}
+            <div className="md:hidden max-h-[300px] overflow-y-auto snap-y snap-mandatory divide-y divide-mist">
               {moreProjects.map((project) => (
                 <Link
                   key={project.slug}
                   href={locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`}
-                  className="flex items-center gap-4 py-3 snap-start"
+                  className="flex items-center gap-4 py-3 first:pt-0 snap-start"
                 >
-                  <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-mist">
+                  <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-mist">
                     <Image
                       src={project.hero.src}
                       alt={project.hero.alt}
@@ -219,15 +225,27 @@ export default function FeaturedCarousel({
                 </Link>
               ))}
               <Link
-                href={locale === "es" ? "/es/work" : "/work"}
+                href={workHref}
                 className="flex items-center gap-4 py-3 snap-start"
               >
-                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl bg-mist">
+                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-lg bg-mist">
                   <IconArrowLeft className="h-5 w-5 rotate-180" />
                 </div>
                 <div className="font-mono text-xs uppercase tracking-[0.2em]">{t.seeAll}</div>
               </Link>
             </div>
+
+            {/* Desktop: a single "see all projects" card, same footprint
+                as the other cards' images. */}
+            <Link
+              href={workHref}
+              className="group hidden md:flex aspect-[4/3] items-center justify-center rounded-lg bg-mist"
+            >
+              <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] md:group-hover:text-cobalt transition-colors">
+                {t.seeAll}
+                <span aria-hidden="true">→</span>
+              </span>
+            </Link>
           </div>
         )}
       </div>

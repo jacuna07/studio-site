@@ -16,7 +16,7 @@ type NavSection = "home" | "work" | "about" | "contact";
 const INSTAGRAM_HREF = "#";
 // Reuses the first number already published on the Contact page.
 const WHATSAPP_HREF = "https://wa.me/50687060833";
-const EMAIL = "hola@tresunotres.com";
+const EMAIL = "hola@tresunotres.co";
 
 const copy: Record<
   Locale,
