@@ -107,7 +107,7 @@ export default function FeaturedCarousel({
     const card = el.querySelector<HTMLElement>("[data-slide]");
     const gap = 16;
     const amount = card ? card.getBoundingClientRect().width + gap : el.clientWidth * 0.85;
-    el.scrollBy({ left: amount * direction, behavior: "smooth" });
+    el.scrollBy({ left: amount * direction, behavior: "auto" });
   }
 
   // Keeps the horizontal drag that scrolls this carousel from also being
