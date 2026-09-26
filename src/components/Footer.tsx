@@ -38,7 +38,7 @@ const copy: Record<
   en: {
     home: "/",
     workHref: "/work",
-    aboutHref: "/about",
+    aboutHref: "/studio",
     contactHref: "/contact",
     headlineLine1: "Tell us",
     headlineLine2: "about the next big thing.",

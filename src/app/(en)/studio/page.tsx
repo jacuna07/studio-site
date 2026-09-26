@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import Container from "@/components/Container";
 import IconWhatsapp from "@/components/icons/IconWhatsapp";
 import IconInstagram from "@/components/icons/IconInstagram";
@@ -20,8 +21,8 @@ const method = [
     description: (
       <>
         Two seasoned brand designers who&apos;ve been working together for
-        over a decade, with a decade of experience across multiple fields,
-        teaming up with you:{" "}
+        over a decade, with experience across multiple fields, teaming up
+        with you:{" "}
         <strong className="font-bold">the third pillar of the process</strong>.
       </>
     ),
@@ -65,7 +66,7 @@ const team = [
   },
 ];
 
-export default function AboutPage() {
+export default function StudioPage() {
   return (
     <CaseStudyBackSwipe targetHref="/work" targetLabel="Work" hint={false}>
     <section className="py-16 animate-page-in">
@@ -94,6 +95,11 @@ export default function AboutPage() {
             <div className="mt-16 md:mt-20">
               <h2 className={`${sectionLabel} mb-4 md:mb-6`}>What we do</h2>
               <div className="space-y-4 md:space-y-6 text-paper md:text-[22px] md:leading-[1.5]">
+                <p>
+                  We care about your product{" "}
+                  <strong className="font-bold">as much as you do</strong>. Some
+                  days, a little more.
+                </p>
                 <p>
                   We work in the shadows, by design. Once a project starts, we
                   stay close. Hand in hand with the client through the whole
@@ -158,6 +164,23 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
+      </Container>
+
+      {/* Closing wink: 3-1-3, and the client as "the third pillar" from
+          the method cards. Same size as the page's H1 so the two
+          bookend the page, and the same cobalt link treatment as the
+          Home hero's "the spotlight." */}
+      <Container className="mt-24 md:mt-32">
+        <p className="font-display font-normal text-3xl md:text-[56px] md:leading-tight">
+          There&apos;s always room for{" "}
+          <Link href="/contact" className="group relative inline-block text-cobalt">
+            a third.
+            <span
+              aria-hidden="true"
+              className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
+            />
+          </Link>
+        </p>
       </Container>
     </section>
     </CaseStudyBackSwipe>

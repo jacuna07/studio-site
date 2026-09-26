@@ -16,7 +16,7 @@ const copy: Record<Locale, { home: string; homeLabel: string; links: { href: str
     homeLabel: "Home",
     links: [
       { href: "/work", label: "Work" },
-      { href: "/about", label: "Studio" },
+      { href: "/studio", label: "Studio" },
       { href: "/contact", label: "Contact" },
     ],
   },

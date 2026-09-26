@@ -8,6 +8,13 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
+  async redirects() {
+    return [
+      // The About page was renamed Studio and moved to /studio; old
+      // links (bookmarks, shared URLs) land on the new address.
+      { source: "/about", destination: "/studio", permanent: true },
+    ];
+  },
   async headers() {
     const csp = [
       "default-src 'self'",
