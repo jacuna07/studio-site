@@ -12,20 +12,33 @@ const method = [
   {
     number: "3",
     label: "Creative minds",
-    description:
-      "Two seasoned brand designers, each with over a decade of experience across multiple fields, teaming up with you — the third pillar of the process.",
+    description: (
+      <>
+        Two seasoned brand designers that have been working together for
+        over a decade, with vast experience across multiple fields, teaming
+        up with you: <strong className="font-bold">the third pillar of the process</strong>.
+      </>
+    ),
   },
   {
     number: "1",
     label: "High-end, polished product",
-    description:
-      "One final product, refined at its core. Our commitment: never deliver something we don't love ourselves.",
+    description: (
+      <>
+        One final product, <strong className="font-bold">refined at its core</strong>. Our
+        commitment: never deliver something we won&apos;t love ourselves.
+      </>
+    ),
   },
   {
     number: "3",
     label: "Refined phases",
-    description:
-      "Three tailor-made phases, perfected over the years. No guesswork — just an efficient result.",
+    description: (
+      <>
+        Three tailor-made phases, perfected over the years.{" "}
+        <strong className="font-bold">No guesswork</strong>. Just a precise result.
+      </>
+    ),
   },
 ];
 
@@ -59,16 +72,17 @@ export default function AboutPage() {
 
             <div className="space-y-6 text-paper text-lg">
               <p>
-                Tresunotres is a brand design studio based in Costa Rica. Most
-                studios design the brand and hope the product catches up. We
-                start on the other side, inside the product or service itself,
-                using its actual structure as the base the brand is built on. The
-                visible identity comes after, once that foundation holds.
+                <strong className="font-bold">Tresunotres</strong> (313) is a brand design
+                studio based in Costa Rica. Most studios design the brand and
+                hope the product catches up. We start on the other side, inside
+                the product or service itself, using its actual structure as
+                the base the brand is built on. The visible identity comes
+                after, once that foundation holds.
               </p>
             </div>
 
             <div className="mt-16">
-              <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-4">
+              <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-4">
                 What we do
               </h2>
               <div className="space-y-4 text-paper md:text-lg">
@@ -76,14 +90,15 @@ export default function AboutPage() {
                   We work in the shadows, by design. Once a project starts, we
                   stay close. Hand in hand with the client through the whole
                   process, rather than disappearing to design in isolation and
-                  resurfacing with a finished deck.
+                  resurfacing with a finished deck. No surprises, just a system
+                  proved to work as expected.
                 </p>
                 <p>
                   Every project we&apos;ve taken on so far has come to us through
                   word of mouth. A past client recommending us to someone they
                   trust. We&apos;ve kept it that way on purpose. It keeps the
-                  studio small, and it means every client gets both of us, start
-                  to finish.
+                  studio small, and it means every client gets both of us,{" "}
+                  <strong className="font-bold">start to finish</strong>.
                 </p>
               </div>
             </div>
@@ -92,7 +107,7 @@ export default function AboutPage() {
       </Container>
 
       <Container className="mt-16">
-        <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-8">
+        <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-8">
           Our method
         </h2>
         <MethodCarousel items={method} />
