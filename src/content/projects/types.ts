@@ -40,4 +40,13 @@ export type Project = {
    * brief" line. Falls back to the site's default white when omitted.
    */
   theme?: { bodyColor: string };
+  /**
+   * The "in progress" toggle. Set to true while a case study isn't ready:
+   * the project keeps its card (and cover) on the Work grid, but its page
+   * shows the "still in the works" screen (InProgressCaseStudy) instead of
+   * the case study, it's left out of the Home page's Featured module, and
+   * search engines are asked not to index it. Delete the line (or set it
+   * to false) once the case study is ready to go live.
+   */
+  inProgress?: boolean;
 };

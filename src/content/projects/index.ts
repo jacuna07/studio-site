@@ -43,10 +43,39 @@ export function getAllProjects(): Project[] {
   return projects;
 }
 
+/**
+ * Featured projects in their Home page order. In-progress projects are
+ * left out even when marked featured, so the module only ever links to
+ * finished case studies; they reappear automatically once the
+ * `inProgress` toggle comes off.
+ */
 export function getFeaturedProjects(): Project[] {
   return projects
-    .filter((p) => p.featured)
+    .filter((p) => p.featured && !p.inProgress)
     .sort((a, b) => (a.featuredOrder ?? 0) - (b.featuredOrder ?? 0));
+}
+
+/**
+ * Every 16:9 still across all projects (covers plus "wide" gallery
+ * images, videos excluded), for the Home hero's background slideshow.
+ */
+export function getBackdropImages(): { src: string; alt: string }[] {
+  const seen = new Set<string>();
+  const images: { src: string; alt: string }[] = [];
+  for (const p of projects) {
+    const candidates = [
+      { src: p.hero.src, alt: p.hero.alt },
+      ...p.gallery
+        .filter((g) => g.aspect === "wide" && (g.type ?? "image") === "image")
+        .map((g) => ({ src: g.src, alt: g.alt })),
+    ];
+    for (const img of candidates) {
+      if (seen.has(img.src)) continue;
+      seen.add(img.src);
+      images.push(img);
+    }
+  }
+  return images;
 }
 
 export function getProjectBySlug(slug: string): Project | undefined {

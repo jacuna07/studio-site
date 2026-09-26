@@ -2,6 +2,7 @@ import type { Project } from "./types";
 
 const project: Project = {
   slug: "sunari",
+  inProgress: true,
   title: "Sunari",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Sunari",
@@ -19,28 +20,7 @@ const project: Project = {
     src: "/images/sunari/cover.jpg",
     alt: "Sunari. Cover image",
   },
-  gallery: [
-    {
-      src: "/images/sunari/gallery-1.svg",
-      alt: "Sunari. Placeholder — logo system needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/sunari/gallery-2.svg",
-      alt: "Sunari. Placeholder — color & type needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/sunari/gallery-3.svg",
-      alt: "Sunari. Placeholder — primary application photo needed here.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/sunari/gallery-4.svg",
-      alt: "Sunari. Placeholder — environment or lifestyle photo needed here.",
-      aspect: "wide",
-    },
-  ],
+  gallery: [],
   theme: { bodyColor: "#d19880" },
 };
 

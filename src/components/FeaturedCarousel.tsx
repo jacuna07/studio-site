@@ -44,8 +44,10 @@ function getFrames(project: Project) {
  * desktop grid; other slides stay on their hero image.
  *
  * The trailing slide differs by breakpoint: on mobile it's a vertically
- * scrollable "more work" panel of extra projects; on desktop it's a
- * single "See all projects" card.
+ * scrollable "more work" panel of extra projects (just the "See all
+ * projects" row when `moreProjects` is empty); on desktop it's a single
+ * "See all projects" card. It's always there, so every carousel ends
+ * with a way through to the full Work page.
  */
 export default function FeaturedCarousel({
   projects,
@@ -62,8 +64,8 @@ export default function FeaturedCarousel({
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeFrame, setActiveFrame] = useState(0);
   const t = copy[locale];
-  const hasMoreSlide = moreProjects.length > 0;
-  const slideCount = projects.length + (hasMoreSlide ? 1 : 0);
+  // +1 for the trailing "more work" / "See all projects" slide.
+  const slideCount = projects.length + 1;
 
   useEffect(() => {
     const el = trackRef.current;
@@ -200,56 +202,56 @@ export default function FeaturedCarousel({
           );
         })}
 
-        {hasMoreSlide && (
-          <div data-slide className="w-[85%] md:w-[calc((100%-2rem)/2.2)] shrink-0 snap-start">
-            {/* Mobile: a vertically scrollable list of extra projects. */}
-            <div className="md:hidden max-h-[300px] overflow-y-auto snap-y snap-mandatory divide-y divide-mist">
-              {moreProjects.map((project) => (
-                <Link
-                  key={project.slug}
-                  href={locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`}
-                  className="flex items-center gap-4 py-3 first:pt-0 snap-start"
-                >
-                  <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-mist">
-                    <Image
-                      src={project.hero.src}
-                      alt={project.hero.alt}
-                      fill
-                      sizes="96px"
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <div className="font-display text-lg leading-snug">{project.title}</div>
-                    <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-stone mt-1">
-                      {project.industry}
-                    </div>
-                  </div>
-                </Link>
-              ))}
+        <div data-slide className="w-[85%] md:w-[calc((100%-2rem)/2.2)] shrink-0 snap-start">
+          {/* Mobile: a vertically scrollable list of extra projects. */}
+          <div className="md:hidden max-h-[300px] overflow-y-auto snap-y snap-mandatory divide-y divide-mist">
+            {moreProjects.map((project) => (
               <Link
-                href={workHref}
-                className="flex items-center gap-4 py-3 snap-start"
+                key={project.slug}
+                href={locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`}
+                className="flex items-center gap-4 py-3 first:pt-0 snap-start"
               >
-                <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-lg bg-mist">
-                  <IconArrowLeft className="h-5 w-5 rotate-180" />
+                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-mist">
+                  <Image
+                    src={project.hero.src}
+                    alt={project.hero.alt}
+                    fill
+                    sizes="96px"
+                    className="object-cover"
+                  />
                 </div>
-                <div className="font-mono text-xs uppercase tracking-[0.2em]">{t.seeAll}</div>
+                <div>
+                  <div className="font-display text-lg leading-snug">{project.title}</div>
+                  <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-stone mt-1">
+                    {project.industry}
+                  </div>
+                </div>
               </Link>
-            </div>
-
-            {/* Desktop: a single "see all projects" card, same footprint
-                as the other cards' images. */}
+            ))}
             <Link
               href={workHref}
-              className="group hidden md:flex aspect-[4/3] items-center justify-center bg-mist md:hover:bg-cobalt transition-colors"
+              // first:pt-0 keeps it top-aligned with the other cards when
+              // it's the only row (no moreProjects passed in).
+              className="flex items-center gap-4 py-3 first:pt-0 snap-start"
             >
-              <span className="font-mono text-2xl uppercase tracking-[0.2em] md:group-hover:text-paper transition-colors">
-                {t.seeAll}
-              </span>
+              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-lg bg-mist">
+                <IconArrowLeft className="h-5 w-5 rotate-180" />
+              </div>
+              <div className="font-mono text-xs uppercase tracking-[0.2em]">{t.seeAll}</div>
             </Link>
           </div>
-        )}
+
+          {/* Desktop: a single "see all projects" card, same footprint
+              as the other cards' images. */}
+          <Link
+            href={workHref}
+            className="group hidden md:flex aspect-[4/3] items-center justify-center bg-mist md:hover:bg-cobalt transition-colors"
+          >
+            <span className="font-mono text-2xl uppercase tracking-[0.2em] md:group-hover:text-paper transition-colors">
+              {t.seeAll}
+            </span>
+          </Link>
+        </div>
       </div>
 
       <div className="mt-8 flex items-center gap-6">

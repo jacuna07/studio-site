@@ -2,6 +2,7 @@ import type { Project } from "./types";
 
 const project: Project = {
   slug: "gora-dental",
+  inProgress: true,
   title: "Gora Dental",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Gora Dental",
@@ -19,28 +20,7 @@ const project: Project = {
     src: "/images/gora-dental/cover.jpg",
     alt: "Gora Dental. Cover image",
   },
-  gallery: [
-    {
-      src: "/images/gora-dental/gallery-1.svg",
-      alt: "Gora Dental. Placeholder — logo system needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/gora-dental/gallery-2.svg",
-      alt: "Gora Dental. Placeholder — color & type needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/gora-dental/gallery-3.svg",
-      alt: "Gora Dental. Placeholder — primary application photo needed here.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/gora-dental/gallery-4.svg",
-      alt: "Gora Dental. Placeholder — environment or lifestyle photo needed here.",
-      aspect: "wide",
-    },
-  ],
+  gallery: [],
   theme: { bodyColor: "#edcfb8" },
 };
 

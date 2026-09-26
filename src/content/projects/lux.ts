@@ -2,6 +2,7 @@ import type { Project } from "./types";
 
 const project: Project = {
   slug: "lux",
+  inProgress: true,
   title: "Lux Project",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Lux",
@@ -19,28 +20,7 @@ const project: Project = {
     src: "/images/lux/cover.jpg",
     alt: "Lux Project. Cover image",
   },
-  gallery: [
-    {
-      src: "/images/lux/gallery-1.svg",
-      alt: "Lux. Placeholder — logo system needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/lux/gallery-2.svg",
-      alt: "Lux. Placeholder — color & type needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/lux/gallery-3.svg",
-      alt: "Lux. Placeholder — primary application photo needed here.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/lux/gallery-4.svg",
-      alt: "Lux. Placeholder — environment or lifestyle photo needed here.",
-      aspect: "wide",
-    },
-  ],
+  gallery: [],
   theme: { bodyColor: "#EFA80A" },
 };
 

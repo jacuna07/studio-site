@@ -2,6 +2,7 @@ import type { Project } from "./types";
 
 const project: Project = {
   slug: "valerios",
+  inProgress: true,
   title: "Valerios",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Valerios",
@@ -19,28 +20,7 @@ const project: Project = {
     src: "/images/valerios/cover.jpg",
     alt: "Valerios. Cover image",
   },
-  gallery: [
-    {
-      src: "/images/valerios/gallery-1.svg",
-      alt: "Valerios. Placeholder — logo system needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/valerios/gallery-2.svg",
-      alt: "Valerios. Placeholder — color & type needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/valerios/gallery-3.svg",
-      alt: "Valerios. Placeholder — primary application photo needed here.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/valerios/gallery-4.svg",
-      alt: "Valerios. Placeholder — environment or lifestyle photo needed here.",
-      aspect: "wide",
-    },
-  ],
+  gallery: [],
   theme: { bodyColor: "#12c79e" },
 };
 

@@ -2,6 +2,7 @@ import type { Project } from "./types";
 
 const project: Project = {
   slug: "base-programming",
+  inProgress: true,
   title: "Base Programming",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Base Programming",
@@ -21,28 +22,7 @@ const project: Project = {
     src: "/images/base-programming/cover.jpg",
     alt: "Base Programming. Cover image",
   },
-  gallery: [
-    {
-      src: "/images/base-programming/gallery-1.svg",
-      alt: "Base Programming. Placeholder — logo system needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/base-programming/gallery-2.svg",
-      alt: "Base Programming. Placeholder — color & type needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/base-programming/gallery-3.svg",
-      alt: "Base Programming. Placeholder — primary application photo needed here.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/base-programming/gallery-4.svg",
-      alt: "Base Programming. Placeholder — environment or lifestyle photo needed here.",
-      aspect: "wide",
-    },
-  ],
+  gallery: [],
   theme: { bodyColor: "#D24C6D" },
 };
 

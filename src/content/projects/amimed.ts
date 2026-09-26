@@ -2,6 +2,7 @@ import type { Project } from "./types";
 
 const project: Project = {
   slug: "amimed",
+  inProgress: true,
   title: "Amimed",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Amimed",
@@ -19,28 +20,7 @@ const project: Project = {
     src: "/images/amimed/cover.jpg",
     alt: "Amimed. Cover image",
   },
-  gallery: [
-    {
-      src: "/images/amimed/gallery-1.svg",
-      alt: "Amimed. Placeholder — logo system needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/amimed/gallery-2.svg",
-      alt: "Amimed. Placeholder — color & type needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/amimed/gallery-3.svg",
-      alt: "Amimed. Placeholder — primary application photo needed here.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/amimed/gallery-4.svg",
-      alt: "Amimed. Placeholder — environment or lifestyle photo needed here.",
-      aspect: "wide",
-    },
-  ],
+  gallery: [],
   theme: { bodyColor: "#c3dae7" },
 };
 

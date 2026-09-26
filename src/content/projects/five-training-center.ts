@@ -2,6 +2,7 @@ import type { Project } from "./types";
 
 const project: Project = {
   slug: "five-training-center",
+  inProgress: true,
   title: "Five Training Center",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Five Training Center",
@@ -20,28 +21,7 @@ const project: Project = {
     src: "/images/five-training-center/cover.jpg",
     alt: "Five Training Center. Cover image",
   },
-  gallery: [
-    {
-      src: "/images/five-training-center/gallery-1.svg",
-      alt: "Five Training Center. Placeholder — logo system needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/five-training-center/gallery-2.svg",
-      alt: "Five Training Center. Placeholder — color & type needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/five-training-center/gallery-3.svg",
-      alt: "Five Training Center. Placeholder — primary application photo needed here.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/five-training-center/gallery-4.svg",
-      alt: "Five Training Center. Placeholder — environment or lifestyle photo needed here.",
-      aspect: "wide",
-    },
-  ],
+  gallery: [],
   theme: { bodyColor: "#5B5BA5" },
 };
 

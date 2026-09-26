@@ -2,6 +2,7 @@ import type { Project } from "./types";
 
 const project: Project = {
   slug: "nahara-pilates",
+  inProgress: true,
   title: "Nahara Pilates",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Nahara Pilates",
@@ -19,28 +20,7 @@ const project: Project = {
     src: "/images/nahara-pilates/cover.jpg",
     alt: "Nahara Pilates. Cover image",
   },
-  gallery: [
-    {
-      src: "/images/nahara-pilates/gallery-1.svg",
-      alt: "Nahara Pilates. Placeholder — logo system needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/nahara-pilates/gallery-2.svg",
-      alt: "Nahara Pilates. Placeholder — color & type needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/nahara-pilates/gallery-3.svg",
-      alt: "Nahara Pilates. Placeholder — primary application photo needed here.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/nahara-pilates/gallery-4.svg",
-      alt: "Nahara Pilates. Placeholder — environment or lifestyle photo needed here.",
-      aspect: "wide",
-    },
-  ],
+  gallery: [],
   theme: { bodyColor: "#d5d6ff" },
 };
 

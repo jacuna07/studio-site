@@ -2,6 +2,7 @@ import type { Project } from "./types";
 
 const project: Project = {
   slug: "renu",
+  inProgress: true,
   title: "Renū",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Renū",
@@ -19,28 +20,7 @@ const project: Project = {
     src: "/images/renu/cover.jpg",
     alt: "Renū. Cover image",
   },
-  gallery: [
-    {
-      src: "/images/renu/gallery-1.svg",
-      alt: "Renū. Placeholder — logo system needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/renu/gallery-2.svg",
-      alt: "Renū. Placeholder — color & type needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/renu/gallery-3.svg",
-      alt: "Renū. Placeholder — primary application photo needed here.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/renu/gallery-4.svg",
-      alt: "Renū. Placeholder — environment or lifestyle photo needed here.",
-      aspect: "wide",
-    },
-  ],
+  gallery: [],
   theme: { bodyColor: "#a4d4ad" },
 };
 

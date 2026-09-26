@@ -8,6 +8,7 @@ import Gallery from "@/components/Gallery";
 import ShareButton from "@/components/ShareButton";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
 import IconArrowLeft from "@/components/icons/IconArrowLeft";
+import InProgressCaseStudy from "@/components/InProgressCaseStudy";
 import {
   getAllProjects,
   getProjectBySlug,
@@ -24,12 +25,23 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const project = getProjectBySlug(params.slug);
   if (!project) return {};
+  if (project.inProgress) {
+    // The project's own copy may still be placeholder text, so it's kept
+    // out of the description, and the page is kept out of search results
+    // until the case study is ready.
+    return {
+      title: `${project.title}. Tresunotres`,
+      description: `The ${project.title} case study is still in the works.`,
+      robots: { index: false, follow: true },
+    };
+  }
   return { title: `${project.title}. Tresunotres`, description: project.summary };
 }
 
 export default function ProjectPage({ params }: Props) {
   const project = getProjectBySlug(params.slug);
   if (!project) notFound();
+  if (project.inProgress) return <InProgressCaseStudy project={project} />;
   const next = getAdjacentProject(project.slug);
   const prev = getPreviousProject(project.slug);
 
@@ -129,9 +141,11 @@ export default function ProjectPage({ params }: Props) {
           </dl>
         </div>
 
-        <div className="mt-16">
-          <Gallery images={project.gallery} />
-        </div>
+        {project.gallery.length > 0 && (
+          <div className="mt-16">
+            <Gallery images={project.gallery} />
+          </div>
+        )}
 
         <div className="mt-16 flex justify-center">
           <ShareButton title={project.title} text={project.tagline} locale="en" size="lg" />

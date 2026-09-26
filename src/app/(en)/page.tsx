@@ -2,10 +2,12 @@ import Link from "next/link";
 import Container from "@/components/Container";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
 import ScrollToWorkArrow from "@/components/ScrollToWorkArrow";
-import { getAllProjects, getFeaturedProjects } from "@/content/projects";
+import HeroBackdrop from "@/components/HeroBackdrop";
+import { getAllProjects, getBackdropImages, getFeaturedProjects } from "@/content/projects";
 
 export default function HomePage() {
   const projects = getFeaturedProjects().slice(0, 6);
+  const backdropImages = getBackdropImages();
   // A handful of non-featured projects, shown as a "more work" panel at
   // the end of the mobile carousel once the visitor swipes past the last
   // featured project.
@@ -17,8 +19,9 @@ export default function HomePage() {
 
   return (
     <div className="animate-page-in">
-      <section className="min-h-[calc(100vh-5rem)] flex flex-col justify-center py-20">
-        <Container>
+      <section className="relative overflow-hidden min-h-[calc(100vh-5rem)] flex flex-col justify-center py-20">
+        <HeroBackdrop images={backdropImages} />
+        <Container className="relative">
           <h1 className="font-display font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.2] max-w-5xl">
             <span className="block animate-line" style={{ animationDelay: "0ms" }}>
               Based in Costa Rica.

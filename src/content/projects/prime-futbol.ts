@@ -2,6 +2,7 @@ import type { Project } from "./types";
 
 const project: Project = {
   slug: "prime-futbol",
+  inProgress: true,
   title: "Prime Fútbol",
   tagline: "[TAGLINE PLACEHOLDER] A short line capturing the brand's essence.",
   client: "Prime Fútbol",
@@ -19,28 +20,7 @@ const project: Project = {
     src: "/images/prime-futbol/cover.jpg",
     alt: "Prime Fútbol. Cover image",
   },
-  gallery: [
-    {
-      src: "/images/prime-futbol/gallery-1.svg",
-      alt: "Prime Fútbol. Placeholder — logo system needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/prime-futbol/gallery-2.svg",
-      alt: "Prime Fútbol. Placeholder — color & type needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/prime-futbol/gallery-3.svg",
-      alt: "Prime Fútbol. Placeholder — primary application photo needed here.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/prime-futbol/gallery-4.svg",
-      alt: "Prime Fútbol. Placeholder — environment or lifestyle photo needed here.",
-      aspect: "wide",
-    },
-  ],
+  gallery: [],
   theme: { bodyColor: "#ab955a" },
 };
 

@@ -17,28 +17,7 @@ const project: Project = {
     "That community is still at the center. Oxygen has since moved into a space built entirely for them.",
   ],
   hero: { src: "/images/oxygen/cover.jpg", alt: "Oxygen. Cover image" },
-  gallery: [
-    {
-      src: "/images/oxygen/gallery-1.svg",
-      alt: "Oxygen. Placeholder — logo system needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/oxygen/gallery-2.svg",
-      alt: "Oxygen. Placeholder — color & type needed here.",
-      aspect: "square",
-    },
-    {
-      src: "/images/oxygen/gallery-3.svg",
-      alt: "Oxygen. Placeholder — primary application photo needed here.",
-      aspect: "portrait",
-    },
-    {
-      src: "/images/oxygen/gallery-4.svg",
-      alt: "Oxygen. Placeholder — environment or lifestyle photo needed here.",
-      aspect: "wide",
-    },
-  ],
+  gallery: [],
   theme: { bodyColor: "#80ffd8" },
 };
 
