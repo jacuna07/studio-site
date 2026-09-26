@@ -84,9 +84,9 @@ export default function StudioPage() {
             <div className="space-y-6 text-paper text-lg md:text-[30px] md:leading-[1.3]">
               <p>
                 <strong className="font-bold">Tresunotres</strong> (313) is a brand design
-                studio in Costa Rica, run by two friends who&apos;ve been
-                designing together since 2014. Every brand we make starts
-                inside the product.
+                studio based in Costa Rica. We build brands the way you&apos;d
+                build anything meant to last. We dig into the product first,
+                and the identity only goes up once the foundation is set.
               </p>
             </div>
 
@@ -100,10 +100,8 @@ export default function StudioPage() {
                 </p>
                 <p>
                   We work in the shadows, by design. Once a project starts, we
-                  stay close. Hand in hand with the client through the whole
-                  process, rather than disappearing to design in isolation and
-                  resurfacing with a finished deck. No surprises. Just a process
-                  built to hold up.
+                  stay close, hand in hand with the client through the whole
+                  process. No surprises. Just a process built to hold up.
                 </p>
                 <p>
                   Every project we&apos;ve taken on so far has come to us through
