@@ -85,10 +85,8 @@ export default function StudioPage() {
               <p>
                 <strong className="font-bold">Tresunotres</strong> (313) is a brand design
                 studio based in Costa Rica. Most studios design the brand and
-                hope the product catches up. We start on the other side, inside
-                the product or service itself, using its actual structure as
-                the base the brand is built on. The visible identity comes
-                after, once that foundation holds.
+                hope the product catches up. We start inside the product and
+                build the brand on top of it.
               </p>
             </div>
 
