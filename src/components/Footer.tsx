@@ -44,7 +44,7 @@ const copy: Record<
     headlineLine2: "about the next big thing.",
     backHeadlineLine1: "Take me",
     backHeadlineLine2: "home.",
-    labels: { home: "Home", work: "Work", about: "About", contact: "Contact" },
+    labels: { home: "Home", work: "Work", about: "Studio", contact: "Contact" },
     rights: "ALL RIGHTS RESERVED.",
     location: "SAN JOSÉ, COSTA RICA",
     email: EMAIL,
@@ -138,7 +138,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
               {ctaLine2}
             </Link>
           </div>
-          <div className="flex gap-6 font-sans text-sm uppercase tracking-wide">
+          <div className="flex gap-6 md:gap-8 font-sans text-sm md:text-lg uppercase tracking-wide">
             {navLinks.map((l) => (
               <Link key={l.href} href={l.href} className={secondaryHover}>
                 {l.label}
@@ -173,7 +173,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
           </div>
 
           <div
-            className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-4 text-[10px] md:text-xs font-mono tracking-[0.2em] ${muted} transition-colors duration-300`}
+            className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-4 md:mt-6 text-[10px] md:text-sm font-mono tracking-[0.2em] ${muted} transition-colors duration-300`}
           >
             <p>
               &copy; {new Date().getFullYear()} TRESUNOTRES. {t.rights}

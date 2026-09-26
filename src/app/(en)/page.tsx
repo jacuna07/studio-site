@@ -55,7 +55,7 @@ export default function HomePage() {
       <section id="work" className="py-16 border-t border-mist">
         <Container>
           <div className="flex items-end justify-between mb-10">
-            <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone">
+            <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone">
               Featured
             </h2>
             <Link

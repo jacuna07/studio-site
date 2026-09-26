@@ -25,7 +25,7 @@ export default function ContactPage() {
         <ContactForm />
 
         <div className="mt-16">
-          <h2 className="font-mono text-xs uppercase tracking-[0.2em] text-stone mb-4">
+          <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-4">
             More questions?
           </h2>
           <p className="text-stone mb-6">Feel free to reach us via WhatsApp:</p>

@@ -74,17 +74,19 @@ export default function MethodCarousel({ items }: { items: MethodItem[] }) {
               cardRefs.current[index] = el;
             }}
             tabIndex={0}
-            className="group relative overflow-hidden rounded-2xl border border-paper/20 bg-cobalt h-[380px] md:h-[440px] focus:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink shrink-0 w-[85%] snap-center md:w-auto md:shrink"
+            className="group relative overflow-hidden rounded-2xl border border-paper/20 bg-cobalt h-[380px] md:h-[480px] focus:outline-none focus-visible:ring-2 focus-visible:ring-cobalt focus-visible:ring-offset-2 focus-visible:ring-offset-ink shrink-0 w-[85%] snap-center md:w-auto md:shrink"
           >
-            <div className="absolute inset-x-0 bottom-0 h-[35%] flex items-center p-6 md:p-8">
-              <p className="text-paper text-sm leading-snug">{item.description}</p>
+            {/* Desktop reveals a 50/50 split (was 65/35) so the larger
+                18px description has room for up to ~7 lines. */}
+            <div className="absolute inset-x-0 bottom-0 h-[35%] md:h-1/2 flex items-center p-6 md:px-8 md:py-6">
+              <p className="text-paper text-sm md:text-lg leading-snug">{item.description}</p>
             </div>
 
-            <div className="absolute inset-x-0 top-0 flex h-[65%] md:h-full flex-col justify-between bg-ink p-8 transition-[height] duration-300 ease-out md:group-hover:h-[65%] md:group-focus:h-[65%]">
+            <div className="absolute inset-x-0 top-0 flex h-[65%] md:h-full flex-col justify-between bg-ink p-8 transition-[height] duration-300 ease-out md:group-hover:h-1/2 md:group-focus:h-1/2">
               <span className="font-display font-bold text-6xl md:text-7xl leading-none text-paper -mt-2 md:-mt-3">
                 {item.number}
               </span>
-              <span className="font-mono text-xs md:text-sm uppercase tracking-[0.2em] text-paper max-w-[14ch]">
+              <span className="font-mono text-xs md:text-base uppercase tracking-[0.2em] text-paper max-w-[14ch]">
                 {item.label}
               </span>
             </div>
