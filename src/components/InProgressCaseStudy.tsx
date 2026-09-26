@@ -18,7 +18,9 @@ export default function InProgressCaseStudy({ project }: { project: Project }) {
   const finished = getFeaturedProjects().filter((p) => p.slug !== project.slug);
 
   return (
-    <CaseStudyBackSwipe targetHref="/work" targetLabel="Work">
+    // hint={false}: the swipe-back hint would otherwise sit on top of the
+    // carousel, which has its own horizontal swipe. The gesture still works.
+    <CaseStudyBackSwipe targetHref="/work" targetLabel="Work" hint={false}>
       <section className="py-16 animate-page-in">
         <Container>
           <div className="max-w-4xl">
