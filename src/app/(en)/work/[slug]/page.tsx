@@ -7,8 +7,8 @@ import Container from "@/components/Container";
 import Gallery from "@/components/Gallery";
 import ShareButton from "@/components/ShareButton";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
-import IconArrowLeft from "@/components/icons/IconArrowLeft";
 import InProgressCaseStudy from "@/components/InProgressCaseStudy";
+import AdjacentProjectLink from "@/components/AdjacentProjectLink";
 import {
   getAllProjects,
   getProjectBySlug,
@@ -73,7 +73,9 @@ export default function ProjectPage({ params }: Props) {
 
         <Container className="py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          <div className="md:col-span-2">
+          {/* max-w-copy: keeps the case study text at a reading width on
+              big screens now that the grid is wider (unchanged at 1440). */}
+          <div className="md:col-span-2 max-w-copy">
             <span className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone">
               {project.industry}
             </span>
@@ -161,24 +163,20 @@ export default function ProjectPage({ params }: Props) {
         )}
 
         <div className="mt-20 border-t border-mist pt-10 flex items-center justify-between">
-          <Link href={`/work/${prev.slug}`} className="group flex items-center gap-2">
-            <IconArrowLeft className="h-3 w-3 md:h-4 md:w-4 shrink-0" />
-            {/* Hover only on desktop (md:) — on mobile there's no real
-                hover, and a tapped link can otherwise get visually
-                "stuck" in its hover state on some mobile browsers. */}
-            <span className="font-display text-lg md:text-xl md:group-hover:text-cobalt md:group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
-              {prev.title}
-            </span>
-          </Link>
-          <Link href={`/work/${next.slug}`} className="group flex items-center gap-2 text-right">
-            <span className="font-display text-lg md:text-xl md:group-hover:text-cobalt md:group-hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors">
-              {next.title}
-            </span>
-            {/* Same icon as Previous, mirrored: guarantees the two
-                arrows are pixel-identical instead of relying on a
-                font's left/right glyphs matching each other. */}
-            <IconArrowLeft className="h-3 w-3 md:h-4 md:w-4 shrink-0 rotate-180" />
-          </Link>
+          {/* On desktop, hovering either link shows a small preview of
+              that project's cover next to the cursor. */}
+          <AdjacentProjectLink
+            href={`/work/${prev.slug}`}
+            title={prev.title}
+            cover={prev.hero}
+            direction="prev"
+          />
+          <AdjacentProjectLink
+            href={`/work/${next.slug}`}
+            title={next.title}
+            cover={next.hero}
+            direction="next"
+          />
         </div>
 
         <div className="mt-10 flex justify-center">

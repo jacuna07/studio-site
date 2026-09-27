@@ -72,7 +72,7 @@ export default function StudioPage() {
     <section className="py-16 animate-page-in">
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          <div className="md:col-span-2">
+          <div className="md:col-span-2 max-w-copy">
             <h1 className="font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-8 md:mb-10">
               A tailor-made process, refined at the core.
             </h1>
@@ -121,44 +121,49 @@ export default function StudioPage() {
         <MethodCarousel items={method} />
       </Container>
 
-      <Container className="max-w-3xl mt-16 md:mt-24">
-        <h2 className={`${sectionLabel} mb-8`}>The team</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
-          {team.map((person) => (
-            <div key={person.name}>
-              <div className="relative aspect-square overflow-hidden rounded-2xl bg-mist">
-                <Image
-                  src={person.photo.src}
-                  alt={person.photo.alt}
-                  fill
-                  className="object-cover"
-                />
+      {/* The team keeps the width it has always rendered at (the old
+          max-w-3xl on this Container never actually applied), left aligned
+          with the wider grid rather than growing with it. */}
+      <Container className="mt-16 md:mt-24">
+        <div className="max-w-[1360px]">
+          <h2 className={`${sectionLabel} mb-8`}>The team</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+            {team.map((person) => (
+              <div key={person.name}>
+                <div className="relative aspect-square overflow-hidden rounded-2xl bg-mist">
+                  <Image
+                    src={person.photo.src}
+                    alt={person.photo.alt}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <h3 className="font-display text-lg md:text-2xl mt-4 md:mt-5">{person.name}</h3>
+                <p className="font-mono text-[11px] md:text-sm uppercase tracking-[0.2em] text-stone mt-1 md:mt-2">
+                  {person.role}
+                </p>
+                <div className="flex items-center gap-3 mt-3 md:mt-4">
+                  <a
+                    href={person.whatsapp}
+                    aria-label={`${person.name} on WhatsApp`}
+                    className="text-stone md:hover:text-cobalt transition-colors"
+                  >
+                    <IconWhatsapp className="h-5 w-5 md:h-6 md:w-6" />
+                  </a>
+                  {/* Desktop only, sits right of the WhatsApp icon. */}
+                  <a
+                    href={person.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${person.name} on Instagram`}
+                    className="hidden text-stone transition-colors md:inline-flex md:hover:text-cobalt"
+                  >
+                    <IconInstagram className="h-5 w-5 md:h-6 md:w-6" />
+                  </a>
+                </div>
               </div>
-              <h3 className="font-display text-lg md:text-2xl mt-4 md:mt-5">{person.name}</h3>
-              <p className="font-mono text-[11px] md:text-sm uppercase tracking-[0.2em] text-stone mt-1 md:mt-2">
-                {person.role}
-              </p>
-              <div className="flex items-center gap-3 mt-3 md:mt-4">
-                <a
-                  href={person.whatsapp}
-                  aria-label={`${person.name} on WhatsApp`}
-                  className="text-stone md:hover:text-cobalt transition-colors"
-                >
-                  <IconWhatsapp className="h-5 w-5 md:h-6 md:w-6" />
-                </a>
-                {/* Desktop only, sits right of the WhatsApp icon. */}
-                <a
-                  href={person.instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${person.name} on Instagram`}
-                  className="hidden text-stone transition-colors md:inline-flex md:hover:text-cobalt"
-                >
-                  <IconInstagram className="h-5 w-5 md:h-6 md:w-6" />
-                </a>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </Container>
 

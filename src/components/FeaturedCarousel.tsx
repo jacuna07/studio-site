@@ -131,11 +131,11 @@ export default function FeaturedCarousel({
         ref={trackRef}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
-        // Bleeds only on the right, so slides can scroll past the edge
-        // for the "peek" effect while the left edge stays exactly where
-        // Container's own padding already sits, matching the rest of the
-        // page's copy — no negative margin on the left to get wrong.
-        className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mr-6 pr-6"
+        // Bleeds only on the right (by exactly the Container's padding), so
+        // the peeking slide runs to the edge of the screen while the left
+        // edge stays where Container's own padding already sits, matching
+        // the rest of the page's copy. Mobile unchanged.
+        className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mr-6 pr-6 md:-mr-8 md:pr-8"
       >
         {projects.map((project, i) => {
           const isActive = i === activeIndex;

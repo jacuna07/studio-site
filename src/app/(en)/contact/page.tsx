@@ -15,45 +15,50 @@ export default function ContactPage() {
   return (
     <CaseStudyBackSwipe targetHref="/work" targetLabel="Work" hint={false}>
     <section className="py-16 animate-page-in">
-      <Container className="max-w-2xl">
-        <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-4">
-          Contact
-        </h1>
-        <p className="text-stone mb-10">
-          We want to hear about what excites you.
-        </p>
-        <ContactForm />
+      <Container>
+        {/* Holds the page at the width it has always rendered at (the old
+            max-w-2xl here never actually applied), now left aligned with
+            the wider grid instead of stretching with it. */}
+        <div className="max-w-[1360px]">
+          <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-4">
+            Contact
+          </h1>
+          <p className="text-stone mb-10">
+            We want to hear about what excites you.
+          </p>
+          <ContactForm />
 
-        <div className="mt-16">
-          <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-4">
-            More questions?
-          </h2>
-          <p className="text-stone mb-6">Feel free to reach us via WhatsApp:</p>
-          <div className="flex flex-wrap gap-4">
-            {whatsappNumbers.map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 rounded-2xl border border-paper/20 bg-ink px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-paper transition-colors md:hover:border-cobalt md:hover:bg-cobalt"
-              >
-                <IconWhatsapp className="h-4 w-4 flex-shrink-0" />
-                {/* Desktop only: hovering swaps the phone number for who it reaches.
-                    Both labels sit in the same grid cell so the pill never resizes. */}
-                <span className="grid">
-                  <span className="col-start-1 row-start-1 transition-opacity duration-200 md:group-hover:opacity-0">
-                    {n.label}
+          <div className="mt-16">
+            <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-4">
+              More questions?
+            </h2>
+            <p className="text-stone mb-6">Feel free to reach us via WhatsApp:</p>
+            <div className="flex flex-wrap gap-4">
+              {whatsappNumbers.map((n) => (
+                <a
+                  key={n.href}
+                  href={n.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center gap-2 rounded-2xl border border-paper/20 bg-ink px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-paper transition-colors md:hover:border-cobalt md:hover:bg-cobalt"
+                >
+                  <IconWhatsapp className="h-4 w-4 flex-shrink-0" />
+                  {/* Desktop only: hovering swaps the phone number for who it reaches.
+                      Both labels sit in the same grid cell so the pill never resizes. */}
+                  <span className="grid">
+                    <span className="col-start-1 row-start-1 transition-opacity duration-200 md:group-hover:opacity-0">
+                      {n.label}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="col-start-1 row-start-1 opacity-0 transition-opacity duration-200 hidden md:inline md:group-hover:opacity-100"
+                    >
+                      {n.hoverLabel}
+                    </span>
                   </span>
-                  <span
-                    aria-hidden="true"
-                    className="col-start-1 row-start-1 opacity-0 transition-opacity duration-200 hidden md:inline md:group-hover:opacity-100"
-                  >
-                    {n.hoverLabel}
-                  </span>
-                </span>
-              </a>
-            ))}
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </Container>

@@ -30,7 +30,6 @@ const copy: Record<
     backHeadlineLine1: string;
     backHeadlineLine2: string;
     labels: Record<NavSection, string>;
-    rights: string;
     location: string;
     email: string;
   }
@@ -45,7 +44,6 @@ const copy: Record<
     backHeadlineLine1: "Take me",
     backHeadlineLine2: "home.",
     labels: { home: "Home", work: "Work", about: "Studio", contact: "Contact" },
-    rights: "ALL RIGHTS RESERVED.",
     location: "SAN JOSÉ, COSTA RICA",
     email: EMAIL,
   },
@@ -59,7 +57,6 @@ const copy: Record<
     backHeadlineLine1: "Llévame",
     backHeadlineLine2: "a casa.",
     labels: { home: "Inicio", work: "Trabajo", about: "Nosotros", contact: "Contacto" },
-    rights: "TODOS LOS DERECHOS RESERVADOS.",
     location: "SAN JOSÉ, COSTA RICA",
     email: EMAIL,
   },
@@ -176,7 +173,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
             className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-4 md:mt-6 text-[10px] md:text-sm font-mono tracking-[0.2em] ${muted} transition-colors duration-300`}
           >
             <p>
-              &copy; {new Date().getFullYear()} TRESUNOTRES. {t.rights}
+              &copy; {new Date().getFullYear()} TRESUNOTRES.
             </p>
             <a href={`mailto:${t.email}`} className={`uppercase ${secondaryHover}`}>
               {t.email}
