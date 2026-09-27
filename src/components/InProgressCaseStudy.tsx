@@ -47,9 +47,24 @@ export default function InProgressCaseStudy({ project }: { project: Project }) {
           <FeaturedCarousel projects={finished} />
         </Container>
 
-        {/* Same closing treatment as the Studio page's sign-off. */}
-        <Container className="mt-24 md:mt-32">
-          <p className="font-display font-normal text-3xl md:text-[56px] md:leading-tight">
+        <Container className="mt-16">
+          {/* Same "See all projects" link as the bottom of a case study,
+              left aligned here so it lines up with the closing line. */}
+          <Link
+            href="/work"
+            className="group font-mono text-base md:text-lg uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
+          >
+            <span className="relative">
+              See all projects
+              <span
+                aria-hidden="true"
+                className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
+              />
+            </span>
+          </Link>
+
+          {/* Same closing treatment as the Studio page's sign-off. */}
+          <p className="mt-24 md:mt-32 font-display font-normal text-3xl md:text-[56px] md:leading-tight">
             Curious about {project.title}?
             <br />
             <Link href="/contact" className="group relative inline-block text-cobalt">
