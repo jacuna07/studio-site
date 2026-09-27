@@ -27,12 +27,18 @@ export default function InProgressCaseStudy({ project }: { project: Project }) {
             <span className="font-mono font-bold text-xs md:text-sm uppercase tracking-[0.2em] text-stone">
               {project.title}
             </span>
-            <h1 className="font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mt-3 md:mt-4">
+            {/* Takes the project's own accent (the color its case study
+                uses for "The brief"); white when it doesn't have one. */}
+            <h1
+              className="font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mt-3 md:mt-4"
+              style={project.theme ? { color: project.theme.bodyColor } : undefined}
+            >
               This case study is still in the works.
             </h1>
-            <p className="mt-6 md:mt-8 max-w-2xl text-lg md:text-[22px] md:leading-[1.5] text-paper">
-              We&apos;re enjoying the process a little too much to call it
-              finished. In the meantime, here&apos;s some work that is.
+            <p className="mt-6 md:mt-8 text-lg md:text-[22px] md:leading-[1.5] text-paper">
+              We&apos;re enjoying the process a little too much to call it finished.
+              <br />
+              In the meantime, here&apos;s some work that is:
             </p>
           </div>
         </Container>
@@ -44,7 +50,8 @@ export default function InProgressCaseStudy({ project }: { project: Project }) {
         {/* Same closing treatment as the Studio page's sign-off. */}
         <Container className="mt-24 md:mt-32">
           <p className="font-display font-normal text-3xl md:text-[56px] md:leading-tight">
-            Curious about {project.title}?{" "}
+            Curious about {project.title}?
+            <br />
             <Link href="/contact" className="group relative inline-block text-cobalt">
               Ask us about it.
               <span
