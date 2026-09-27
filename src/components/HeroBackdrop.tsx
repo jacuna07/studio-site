@@ -5,9 +5,10 @@ import Image from "next/image";
 
 type BackdropImage = { src: string; alt: string };
 
-// How long each image holds before crossfading into the next one.
-const HOLD_MS = 5000;
-const FADE_MS = 1500;
+// How long each image holds before crossfading into the next one, and
+// how long the crossfade itself takes.
+const HOLD_MS = 2000;
+const FADE_MS = 1000;
 
 function shuffle<T>(items: T[]): T[] {
   const a = [...items];
@@ -19,15 +20,18 @@ function shuffle<T>(items: T[]): T[] {
 }
 
 /**
- * Background for the Home hero: a slow, random slideshow of 16:9 stills
- * from across all projects (see getBackdropImages), desaturated and held
- * at 20% opacity so the headline on top stays the focus.
+ * Background for the Home hero: a random slideshow of 16:9 stills from
+ * across all projects (see getBackdropImages), desaturated and held at
+ * 10% opacity so the headline on top stays the focus.
  *
  * - The order is shuffled after mount rather than on the server, so every
  *   visit gets its own sequence without a hydration mismatch.
  * - At most three images are mounted at a time: the one fading out, the
- *   one showing, and the next one (already loading, still invisible), so
- *   the page never downloads the whole set up front.
+ *   one showing, and the next one (loading, still invisible), so the page
+ *   never downloads the whole set up front.
+ * - An image only fades in once it has actually loaded, the first one
+ *   included. Otherwise the fade could run on an empty frame and the
+ *   picture would just pop in when the download finished.
  * - Everything is a CSS transition, no keyframe animation (see the notes
  *   in globals.css). If a transition ever failed to run, the worst case
  *   is a missing or static background; the headline is unaffected.
@@ -36,21 +40,28 @@ function shuffle<T>(items: T[]): T[] {
  */
 export default function HeroBackdrop({ images }: { images: BackdropImage[] }) {
   const [order, setOrder] = useState<BackdropImage[] | null>(null);
-  // -1 = first image mounted but not shown yet, so it can fade in.
+  // -1 = first image mounted (and loading) but not shown yet.
   const [step, setStep] = useState(-1);
+  const [loaded, setLoaded] = useState<Set<string>>(() => new Set());
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
     if (images.length === 0) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setReducedMotion(reduce);
+    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     setOrder(shuffle(images));
-    if (reduce) {
-      setStep(0);
-      return;
-    }
-    // Two frames so the first image is painted at opacity 0 before it
-    // switches to visible, which is what lets its fade-in transition run.
+  }, [images]);
+
+  const n = order?.length ?? 0;
+  const current = step < 0 ? -1 : step % n;
+  const next = n === 0 ? -1 : step < 0 ? 0 : (step + 1) % n;
+  const prev = step >= 1 ? (step - 1) % n : -1;
+  const nextLoaded = next >= 0 && !!order && loaded.has(order[next].src);
+
+  // First image: fade in as soon as it has loaded. Two frames of delay so
+  // it has been painted at opacity 0 first, which is what lets the fade
+  // transition run instead of jumping straight to visible.
+  useEffect(() => {
+    if (step !== -1 || !nextLoaded) return;
     let raf2 = 0;
     const raf1 = requestAnimationFrame(() => {
       raf2 = requestAnimationFrame(() => setStep(0));
@@ -59,49 +70,56 @@ export default function HeroBackdrop({ images }: { images: BackdropImage[] }) {
       cancelAnimationFrame(raf1);
       cancelAnimationFrame(raf2);
     };
-  }, [images]);
+  }, [step, nextLoaded]);
 
+  // After that: hold, then move on, but only once the next image is ready.
   useEffect(() => {
-    if (!order || order.length < 2 || reducedMotion || step < 0) return;
+    if (step < 0 || n < 2 || reducedMotion || !nextLoaded) return;
     const id = window.setTimeout(() => setStep((s) => s + 1), HOLD_MS);
     return () => window.clearTimeout(id);
-  }, [order, reducedMotion, step]);
+  }, [step, n, reducedMotion, nextLoaded]);
 
   if (!order) return null;
 
-  const n = order.length;
-  const current = step < 0 ? -1 : step % n;
-  const next = (Math.max(step, 0) + (step < 0 ? 0 : 1)) % n;
-  const prev = step >= 1 ? (step - 1) % n : -1;
   const mounted = Array.from(new Set([prev, current, next].filter((i) => i >= 0)));
 
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 overflow-hidden opacity-20 grayscale"
+      className="pointer-events-none absolute inset-0 overflow-hidden opacity-10 grayscale"
     >
       {mounted.map((i) => {
+        const src = order[i].src;
         const isCurrent = i === current;
         const isUpcoming = i === next && !isCurrent;
         // The upcoming image waits unzoomed and invisible; once current it
-        // fades in and starts a slow zoom, and it keeps that zoom while it
-        // fades back out as the previous image.
+        // fades in and starts a very slight zoom, and it keeps that zoom
+        // while it fades back out as the previous image.
         const zoomed = !reducedMotion && !isUpcoming;
         return (
           <Image
-            key={order[i].src}
-            src={order[i].src}
+            key={src}
+            src={src}
             alt=""
             fill
             sizes="100vw"
             quality={60}
+            loading="eager"
+            onLoad={() =>
+              setLoaded((s) => {
+                if (s.has(src)) return s;
+                const copy = new Set(s);
+                copy.add(src);
+                return copy;
+              })
+            }
             className={`object-cover ${isCurrent ? "opacity-100" : "opacity-0"} ${
-              zoomed ? "scale-[1.06]" : "scale-100"
+              zoomed ? "scale-[1.04]" : "scale-100"
             }`}
             style={{
               transition: reducedMotion
                 ? "none"
-                : `opacity ${FADE_MS}ms ease-out, transform ${HOLD_MS + FADE_MS}ms linear`,
+                : `opacity ${FADE_MS}ms ease-out, transform ${HOLD_MS + FADE_MS * 2}ms linear`,
             }}
           />
         );
