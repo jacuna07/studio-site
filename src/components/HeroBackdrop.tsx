@@ -21,18 +21,10 @@ function shuffle<T>(items: T[]): T[] {
 
 /**
  * Background for the Home hero: a random slideshow of 16:9 stills from
- * across all projects (see getBackdropImages), desaturated at 20%
- * opacity, with an ink (#0B0C10) gradient on top that darkens only the
- * area behind the headline.
- *
- * - Why a gradient and not a flat overlay: a flat ink layer at X% is
- *   mathematically the same as lowering the images' opacity (20% under a
- *   50% overlay looks exactly like 10%), so it can't fix legibility
- *   without also flattening the photos. The gradient calms the busy
- *   texture behind the text while the rest of the frame keeps the full
- *   20% contrast. Desktop: 75% on the left edge, easing to clear by 80%
- *   of the width. Mobile, where the text spans the full width: a 60%
- *   band across the middle, clear at the top and bottom.
+ * across all projects (see getBackdropImages), desaturated and held at
+ * 15% opacity: the balance between the headline staying easy to read
+ * (20% got too busy behind it) and the photos keeping some contrast (10%
+ * went flat).
  *
  * - The order is shuffled after mount rather than on the server, so every
  *   visit gets its own sequence without a hydration mismatch.
@@ -94,48 +86,46 @@ export default function HeroBackdrop({ images }: { images: BackdropImage[] }) {
   const mounted = Array.from(new Set([prev, current, next].filter((i) => i >= 0)));
 
   return (
-    <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div className="absolute inset-0 opacity-20 grayscale">
-        {mounted.map((i) => {
-          const src = order[i].src;
-          const isCurrent = i === current;
-          const isUpcoming = i === next && !isCurrent;
-          // The upcoming image waits unzoomed and invisible; once current it
-          // fades in and starts a very slight zoom, and it keeps that zoom
-          // while it fades back out as the previous image.
-          const zoomed = !reducedMotion && !isUpcoming;
-          return (
-            <Image
-              key={src}
-              src={src}
-              alt=""
-              fill
-              sizes="100vw"
-              quality={60}
-              loading="eager"
-              onLoad={() =>
-                setLoaded((s) => {
-                  if (s.has(src)) return s;
-                  const copy = new Set(s);
-                  copy.add(src);
-                  return copy;
-                })
-              }
-              className={`object-cover ${isCurrent ? "opacity-100" : "opacity-0"} ${
-                zoomed ? "scale-[1.04]" : "scale-100"
-              }`}
-              style={{
-                transition: reducedMotion
-                  ? "none"
-                  : `opacity ${FADE_MS}ms ease-out, transform ${HOLD_MS + FADE_MS * 2}ms linear`,
-              }}
-            />
-          );
-        })}
-      </div>
-      {/* Ink gradient behind the headline (outside the 20% layer so it
-          renders at full strength). See the note at the top. */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(11,12,16,0)_0%,rgba(11,12,16,0.6)_25%,rgba(11,12,16,0.6)_80%,rgba(11,12,16,0)_100%)] md:bg-[linear-gradient(to_right,rgba(11,12,16,0.75)_0%,rgba(11,12,16,0.6)_40%,rgba(11,12,16,0)_80%)]" />
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute inset-0 overflow-hidden opacity-[0.15] grayscale"
+    >
+      {mounted.map((i) => {
+        const src = order[i].src;
+        const isCurrent = i === current;
+        const isUpcoming = i === next && !isCurrent;
+        // The upcoming image waits unzoomed and invisible; once current it
+        // fades in and starts a very slight zoom, and it keeps that zoom
+        // while it fades back out as the previous image.
+        const zoomed = !reducedMotion && !isUpcoming;
+        return (
+          <Image
+            key={src}
+            src={src}
+            alt=""
+            fill
+            sizes="100vw"
+            quality={60}
+            loading="eager"
+            onLoad={() =>
+              setLoaded((s) => {
+                if (s.has(src)) return s;
+                const copy = new Set(s);
+                copy.add(src);
+                return copy;
+              })
+            }
+            className={`object-cover ${isCurrent ? "opacity-100" : "opacity-0"} ${
+              zoomed ? "scale-[1.04]" : "scale-100"
+            }`}
+            style={{
+              transition: reducedMotion
+                ? "none"
+                : `opacity ${FADE_MS}ms ease-out, transform ${HOLD_MS + FADE_MS * 2}ms linear`,
+            }}
+          />
+        );
+      })}
     </div>
   );
 }
