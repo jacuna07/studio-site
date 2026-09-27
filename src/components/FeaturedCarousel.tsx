@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import IconArrowLeft from "./icons/IconArrowLeft";
+import { useCursorPreview } from "./useCursorPreview";
 import type { Project } from "@/content/projects/types";
 
 const copy = {
@@ -52,11 +53,18 @@ function getFrames(project: Project) {
 export default function FeaturedCarousel({
   projects,
   moreProjects = [],
+  previewCovers = [],
   locale = "en",
 }: {
   projects: Project[];
   /** Shown as a trailing "more work" panel once the visitor swipes past the last project. */
   moreProjects?: Project[];
+  /**
+   * Covers to flick through, in a random order, in a small preview that
+   * follows the cursor over the desktop "See all projects" card. No
+   * preview when empty.
+   */
+  previewCovers?: { src: string }[];
   locale?: "en" | "es";
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -66,6 +74,9 @@ export default function FeaturedCarousel({
   const t = copy[locale];
   // +1 for the trailing "more work" / "See all projects" slide.
   const slideCount = projects.length + 1;
+  // The card sits at the right end of the track, so the preview goes to
+  // the left of the cursor.
+  const seeAllPreview = useCursorPreview({ images: previewCovers, side: "left" });
 
   useEffect(() => {
     const el = trackRef.current;
@@ -242,15 +253,19 @@ export default function FeaturedCarousel({
           </div>
 
           {/* Desktop: a single "see all projects" card, same footprint
-              as the other cards' images. */}
+              as the other cards' images. On hover it turns cobalt and a
+              small preview flicks through random project covers next to
+              the cursor. */}
           <Link
             href={workHref}
+            {...(previewCovers.length > 0 ? seeAllPreview.handlers : {})}
             className="group hidden md:flex aspect-[4/3] items-center justify-center bg-mist md:hover:bg-cobalt transition-colors"
           >
             <span className="font-mono text-2xl uppercase tracking-[0.2em] md:group-hover:text-paper transition-colors">
               {t.seeAll}
             </span>
           </Link>
+          {previewCovers.length > 0 && seeAllPreview.preview}
         </div>
       </div>
 

@@ -8,6 +8,8 @@ import { getAllProjects, getBackdropImages, getFeaturedProjects } from "@/conten
 export default function HomePage() {
   const projects = getFeaturedProjects().slice(0, 6);
   const backdropImages = getBackdropImages();
+  // Every project on the Work page, for the "See all projects" card's hover preview.
+  const workCovers = getAllProjects().map((p) => ({ src: p.hero.src }));
   // A handful of non-featured projects, shown as a "more work" panel at
   // the end of the mobile carousel once the visitor swipes past the last
   // featured project.
@@ -68,7 +70,11 @@ export default function HomePage() {
               View all
             </Link>
           </div>
-          <FeaturedCarousel projects={projects} moreProjects={moreProjects} />
+          <FeaturedCarousel
+            projects={projects}
+            moreProjects={moreProjects}
+            previewCovers={workCovers}
+          />
           <div className="mt-16 flex justify-center">
             <Link
               href="/work"

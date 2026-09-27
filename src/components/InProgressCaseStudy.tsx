@@ -2,7 +2,7 @@ import Link from "next/link";
 import Container from "./Container";
 import FeaturedCarousel from "./FeaturedCarousel";
 import CaseStudyBackSwipe from "./CaseStudyBackSwipe";
-import { getFeaturedProjects } from "@/content/projects";
+import { getAllProjects, getFeaturedProjects } from "@/content/projects";
 import type { Project } from "@/content/projects/types";
 
 /**
@@ -44,7 +44,10 @@ export default function InProgressCaseStudy({ project }: { project: Project }) {
         </Container>
 
         <Container className="mt-12 md:mt-16">
-          <FeaturedCarousel projects={finished} />
+          <FeaturedCarousel
+            projects={finished}
+            previewCovers={getAllProjects().map((p) => ({ src: p.hero.src }))}
+          />
         </Container>
 
         <Container className="mt-16">

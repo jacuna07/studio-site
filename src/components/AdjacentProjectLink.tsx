@@ -1,32 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import Image from "next/image";
 import Link from "next/link";
 import IconArrowLeft from "./icons/IconArrowLeft";
-
-// Size of the floating cover preview, and how far it sits from the cursor.
-const PREVIEW_W = 240;
-const PREVIEW_H = 135; // 16:9, same as the covers
-const OFFSET = 16;
+import { useCursorPreview } from "./useCursorPreview";
 
 /**
  * The "previous / next project" links at the end of a case study. On
  * desktop, hovering one shows a small preview of that project's cover
- * that follows the cursor (inspired by thisistinge.com's hover images,
- * but deliberately small: a quick peek, not a takeover).
- *
- * The preview sits above the cursor, and toward the middle of the page:
- * to the right of it for "previous" (left edge), to the left for "next"
- * (right edge), so it never runs off screen. It's positioned by writing
- * a transform on mousemove (no re-render per move), and only appears on
- * devices with a real hover pointer; touch screens just get the link.
- *
- * The preview is portaled to <body>: the case study page wraps everything
- * in an entrance animation that leaves a transform on the page, and a
- * transformed ancestor would make `position: fixed` relative to the page
- * instead of the screen, so the preview would drift from the cursor.
+ * next to the cursor (see useCursorPreview): to the right of it for
+ * "previous" (left edge of the page), to the left for "next" (right edge).
  */
 export default function AdjacentProjectLink({
   href,
@@ -39,37 +21,18 @@ export default function AdjacentProjectLink({
   cover: { src: string; alt: string };
   direction: "prev" | "next";
 }) {
-  const posRef = useRef<HTMLDivElement>(null);
-  const canHoverRef = useRef(false);
-  const [visible, setVisible] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    canHoverRef.current = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-    setMounted(true);
-  }, []);
-
-  function place(e: React.MouseEvent) {
-    const el = posRef.current;
-    if (!el) return;
-    const x = direction === "prev" ? e.clientX + OFFSET : e.clientX - PREVIEW_W - OFFSET;
-    const y = e.clientY - PREVIEW_H - OFFSET;
-    el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-  }
-
   const isNext = direction === "next";
+  const { handlers, preview } = useCursorPreview({
+    images: [cover],
+    side: isNext ? "left" : "right",
+    eager: true,
+  });
 
   return (
     <>
       <Link
         href={href}
-        onMouseEnter={(e) => {
-          if (!canHoverRef.current) return;
-          place(e);
-          setVisible(true);
-        }}
-        onMouseMove={(e) => canHoverRef.current && place(e)}
-        onMouseLeave={() => setVisible(false)}
+        {...handlers}
         className={`group flex items-center gap-2 ${isNext ? "text-right" : ""}`}
       >
         {!isNext && <IconArrowLeft className="h-3 w-3 md:h-4 md:w-4 shrink-0" />}
@@ -84,25 +47,7 @@ export default function AdjacentProjectLink({
             glyphs matching each other. */}
         {isNext && <IconArrowLeft className="h-3 w-3 md:h-4 md:w-4 shrink-0 rotate-180" />}
       </Link>
-
-      {mounted &&
-        createPortal(
-          <div
-            ref={posRef}
-            aria-hidden="true"
-            className="pointer-events-none fixed left-0 top-0 z-[60] hidden md:block"
-            style={{ width: PREVIEW_W, height: PREVIEW_H }}
-          >
-            <div
-              className={`relative h-full w-full overflow-hidden rounded-lg bg-mist transition-[opacity,transform] duration-200 ease-out ${
-                visible ? "opacity-100 scale-100" : "opacity-0 scale-95"
-              }`}
-            >
-              <Image src={cover.src} alt="" fill sizes={`${PREVIEW_W}px`} className="object-cover" />
-            </div>
-          </div>,
-          document.body
-        )}
+      {preview}
     </>
   );
 }
