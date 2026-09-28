@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/Container";
 import ContactForm from "@/components/ContactForm";
 import IconWhatsapp from "@/components/icons/IconWhatsapp";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
 
-export const metadata: Metadata = { title: "Contact. Tresunotres" };
+export const metadata: Metadata = pageMetadata({
+  page: "Contact",
+  description: "Tell us about the next big thing. Brand design studio based in Costa Rica.",
+  path: "/contact",
+});
 
 const whatsappNumbers = [
   { label: "+506 8706 0833", hoverLabel: "Message Adrian", href: "https://wa.me/50687060833" },

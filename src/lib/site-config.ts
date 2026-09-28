@@ -1,10 +1,13 @@
-// Flip this to true once the site is ready for a public, indexed launch.
-// While it's false, search engines are told not to index or crawl the
-// site (see src/app/robots.ts and the `robots` metadata in
-// src/app/layout.tsx) — most project pages still carry placeholder
-// copy and imagery, and we don't want that showing up in search
-// results or link previews before real launch.
-export const SITE_IS_LIVE = false;
+// The live address. Every share preview, canonical link and sitemap entry
+// is built from this (tresunotres.co without "www" redirects here).
+export const SITE_URL = "https://www.tresunotres.co";
+
+// Search engines may list the site (switched on 2026-09-28, at launch).
+// Set back to false to hide the whole site from search again: see
+// src/app/robots.ts and the `robots` metadata in src/app/layout.tsx.
+// In-progress case studies stay hidden from search either way (they
+// set their own noindex and are left out of the sitemap).
+export const SITE_IS_LIVE = true;
 
 // Flip this to true to bring the Spanish version of the site back.
 // While it's false, every /es route redirects to its English

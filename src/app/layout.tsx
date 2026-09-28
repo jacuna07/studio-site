@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Syne, Montserrat } from "next/font/google";
-import { SITE_IS_LIVE } from "@/lib/site-config";
+import { SITE_IS_LIVE, SITE_URL } from "@/lib/site-config";
+import { DEFAULT_SHARE_IMAGE, HOME_TITLE, SITE_DESCRIPTION, SITE_NAME } from "@/lib/metadata";
 import "./globals.css";
 
 const syne = Syne({
@@ -13,39 +14,29 @@ const montserrat = Montserrat({
   weight: ["400", "500", "600", "700"],
   variable: "--font-montserrat",
 });
-const siteTitle = "Tresunotres. Branding & Identity";
-const siteDescription =
-  "A branding studio portfolio showcasing identity, packaging, and visual design work.";
-const previewTitle = "Tresunotres – Site Preview";
-
+// Site-wide defaults, which are also the Home page's own title and share
+// preview. Other pages set theirs with pageMetadata() (src/lib/metadata.ts).
 export const metadata: Metadata = {
-  metadataBase: new URL("https://studio-site-ochre.vercel.app"),
-  title: siteTitle,
-  description: siteDescription,
+  metadataBase: new URL(SITE_URL),
+  title: HOME_TITLE,
+  description: SITE_DESCRIPTION,
   robots: SITE_IS_LIVE
     ? { index: true, follow: true }
     : { index: false, follow: false, nocache: true },
   openGraph: {
-    title: previewTitle,
-    description: siteDescription,
+    title: HOME_TITLE,
+    description: SITE_DESCRIPTION,
     url: "/",
-    siteName: "Tresunotres",
-    images: [
-      {
-        url: "/images/og-cover.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Tresunotres",
-      },
-    ],
+    siteName: SITE_NAME,
+    images: [DEFAULT_SHARE_IMAGE],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: previewTitle,
-    description: siteDescription,
-    images: ["/images/og-cover.jpg"],
+    title: HOME_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_SHARE_IMAGE.url],
   },
 };
 

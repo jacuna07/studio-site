@@ -9,6 +9,7 @@ import ShareButton from "@/components/ShareButton";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
 import InProgressCaseStudy from "@/components/InProgressCaseStudy";
 import AdjacentProjectLink from "@/components/AdjacentProjectLink";
+import { pageMetadata, projectShareImage } from "@/lib/metadata";
 import {
   getAllProjects,
   getProjectBySlug,
@@ -25,17 +26,23 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: Props): Metadata {
   const project = getProjectBySlug(params.slug);
   if (!project) return {};
+  // "[Project] | Tresunotres.co", shared with the project's own cover.
+  const base = {
+    page: project.title,
+    path: `/work/${project.slug}`,
+    image: projectShareImage(project.slug, project.hero),
+  };
   if (project.inProgress) {
     // The project's own copy may still be placeholder text, so it's kept
     // out of the description, and the page is kept out of search results
-    // until the case study is ready.
-    return {
-      title: `${project.title}. Tresunotres`,
+    // (and the sitemap) until the case study is ready.
+    return pageMetadata({
+      ...base,
       description: `The ${project.title} case study is still in the works.`,
-      robots: { index: false, follow: true },
-    };
+      noindex: true,
+    });
   }
-  return { title: `${project.title}. Tresunotres`, description: project.summary };
+  return pageMetadata({ ...base, description: project.summary });
 }
 
 export default function ProjectPage({ params }: Props) {

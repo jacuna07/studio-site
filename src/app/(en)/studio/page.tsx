@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/Container";
@@ -7,7 +8,12 @@ import IconInstagram from "@/components/icons/IconInstagram";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
 import MethodCarousel from "@/components/MethodCarousel";
 
-export const metadata: Metadata = { title: "Studio. Tresunotres" };
+export const metadata: Metadata = pageMetadata({
+  page: "Studio",
+  description:
+    "Tresunotres (313) is a brand design studio based in Costa Rica. We build brands the way you'd build anything meant to last.",
+  path: "/studio",
+});
 
 // Section labels ("What we do", "Our method", "The team"): bold, and a
 // step up from 12px to 14px on desktop so they read as real headings.

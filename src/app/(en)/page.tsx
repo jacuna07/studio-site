@@ -1,9 +1,14 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/Container";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
 import ScrollToWorkArrow from "@/components/ScrollToWorkArrow";
 import HeroBackdrop from "@/components/HeroBackdrop";
 import { getAllProjects, getBackdropImages, getFeaturedProjects } from "@/content/projects";
+
+// Title, description and share preview come from the root layout's
+// site-wide defaults ("Tresunotres | Brand Design Studio").
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default function HomePage() {
   const projects = getFeaturedProjects().slice(0, 6);
