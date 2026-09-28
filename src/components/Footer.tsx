@@ -26,6 +26,8 @@ const copy: Record<
     ctaEmoji?: string;
     /** On the Contact page itself, the CTA points back home instead. */
     backLines: string[];
+    /** On an in-progress project page: ask about that project (to Contact). */
+    askLines: (title: string) => string[];
     contactLabel: string;
     moreLabel: string;
     labels: Record<Exclude<NavSection, "home">, string>;
@@ -41,6 +43,7 @@ const copy: Record<
     ctaLines: ["Say hi"],
     ctaEmoji: "👋",
     backLines: ["Take me", "home."],
+    askLines: (title) => [`Curious about ${title}?`, "Ask us about it."],
     contactLabel: "Get in touch",
     moreLabel: "Where to next?",
     labels: { work: "Work", about: "Studio", contact: "Contact" },
@@ -54,6 +57,7 @@ const copy: Record<
     contactHref: "/es/contact",
     ctaLines: ["Contanos", "sobre tu próximo proyecto."],
     backLines: ["Llévame", "a casa."],
+    askLines: (title) => [`¿Te da curiosidad ${title}?`, "Preguntanos."],
     contactLabel: "Escribinos",
     moreLabel: "¿Querés ver más?",
     labels: { work: "Trabajo", about: "Nosotros", contact: "Contacto" },
@@ -120,9 +124,20 @@ function LinkGroup({
   );
 }
 
-export default function Footer({ locale = "en" }: { locale?: Locale }) {
+export type FooterProjectPage = { slug: string; title: string; inProgress: boolean };
+
+export default function Footer({
+  locale = "en",
+  projectPages = [],
+}: {
+  locale?: Locale;
+  /** Every project page (from the layout), so the footer can tell when
+   *  it's on a case study or an in-progress page. */
+  projectPages?: FooterProjectPage[];
+}) {
   const t = copy[locale];
   const pathname = usePathname() || "/";
+  const project = projectPages.find((p) => pathname === `${t.workHref}/${p.slug}`);
 
   const currentSection: NavSection | null =
     pathname === t.home
@@ -135,10 +150,21 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
             ? "contact"
             : null;
 
+  // The big CTA: "Say hi 👋" (to Contact) almost everywhere; "Take me
+  // home." on Contact itself; and on an in-progress project page, an
+  // invitation to ask about that project.
   const isContactPage = currentSection === "contact";
   const ctaHref = isContactPage ? t.home : t.contactHref;
-  const ctaLines = isContactPage ? t.backLines : t.ctaLines;
-  const ctaEmoji = isContactPage ? undefined : t.ctaEmoji;
+  const ctaLines = isContactPage
+    ? t.backLines
+    : project?.inProgress
+      ? t.askLines(project.title)
+      : t.ctaLines;
+  const ctaEmoji = isContactPage || project?.inProgress ? undefined : t.ctaEmoji;
+
+  // Pages that close with their own "See all projects" block (Home, case
+  // studies, in-progress pages): the footer stacks straight onto it.
+  const flush = currentSection === "home" || !!project;
 
   const contactLinks: FooterLink[] = [
     { href: `mailto:${EMAIL}`, label: EMAIL, external: true },
@@ -155,10 +181,10 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
   return (
     // Spacing: every page closes its content with 64px of bottom padding
     // (the shared "py-16" sections), so mt-4 (16px) makes the space
-    // before the footer's top divider 80px. Home is the exception: it ends
-    // with its own CTA block ("See all projects"), so the footer stacks
-    // straight onto it and the two blocks share a divider.
-    <footer className={currentSection === "home" ? "" : "mt-4"}>
+    // before the footer's top divider 80px. Pages that end with their own
+    // "See all projects" block (see `flush`) have no gap: the two blocks
+    // stack and share a divider.
+    <footer className={flush ? "" : "mt-4"}>
       {/* The big CTA. Hovering it turns this block cobalt, down to the
           divider below; the bottom of the footer always stays ink. */}
       <CtaBlock href={ctaHref}>

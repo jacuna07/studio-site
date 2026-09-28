@@ -1,5 +1,4 @@
-import Link from "next/link";
-import CoverPreviewLink from "./CoverPreviewLink";
+import SeeAllProjectsCta from "./SeeAllProjectsCta";
 import Container from "./Container";
 import FeaturedCarousel from "./FeaturedCarousel";
 import CaseStudyBackSwipe from "./CaseStudyBackSwipe";
@@ -10,8 +9,9 @@ import type { Project } from "@/content/projects/types";
  * Shown in place of a case study while its project has `inProgress: true`
  * (see src/content/projects/types.ts). The project's card still sits on
  * the Work grid, so a visitor can land here: this page says so plainly,
- * points them at finished work (the Home page's Featured carousel), and
- * offers a way to ask about this project directly.
+ * points them at finished work (the Home page's Featured carousel and
+ * the "See all projects" block), and the footer's CTA offers a way to ask
+ * about this project directly.
  */
 export default function InProgressCaseStudy({ project }: { project: Project }) {
   // Featured already excludes in-progress projects; the slug check is a
@@ -50,39 +50,12 @@ export default function InProgressCaseStudy({ project }: { project: Project }) {
             previewCovers={getAllCovers()}
           />
         </Container>
-
-        <Container className="mt-16">
-          {/* Same "See all projects" link as the bottom of a case study
-              (covers flick by on hover), left aligned here so it lines up
-              with the closing line. */}
-          <CoverPreviewLink
-            href="/work"
-            covers={getAllCovers()}
-            className="group font-mono text-base md:text-lg uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
-          >
-            <span className="relative">
-              See all projects
-              <span
-                aria-hidden="true"
-                className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
-              />
-            </span>
-          </CoverPreviewLink>
-
-          {/* Same closing treatment as the Studio page's sign-off. */}
-          <p className="mt-24 md:mt-32 font-display font-normal text-3xl md:text-[56px] md:leading-tight">
-            Curious about {project.title}?
-            <br />
-            <Link href="/contact" className="group relative inline-block text-cobalt">
-              Ask us about it.
-              <span
-                aria-hidden="true"
-                className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
-              />
-            </Link>
-          </p>
-        </Container>
       </section>
+
+      {/* Same closing block as the Home page and every case study. The
+          footer's CTA right below it asks "Curious about <project>? /
+          Ask us about it." on these pages (see Footer.tsx). */}
+      <SeeAllProjectsCta className="mt-4" />
     </CaseStudyBackSwipe>
   );
 }

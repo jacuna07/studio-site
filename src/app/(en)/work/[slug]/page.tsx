@@ -8,10 +8,9 @@ import ShareButton from "@/components/ShareButton";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
 import InProgressCaseStudy from "@/components/InProgressCaseStudy";
 import AdjacentProjectLink from "@/components/AdjacentProjectLink";
-import CoverPreviewLink from "@/components/CoverPreviewLink";
+import SeeAllProjectsCta from "@/components/SeeAllProjectsCta";
 import { pageMetadata, projectShareImage } from "@/lib/metadata";
 import {
-  getAllCovers,
   getAllProjects,
   getProjectImagery,
   getProjectBySlug,
@@ -199,22 +198,10 @@ export default function ProjectPage({ params }: Props) {
           />
         </div>
 
-        <div className="mt-10 flex justify-center">
-          <CoverPreviewLink
-            href="/work"
-            covers={getAllCovers()}
-            className="group font-mono text-base md:text-lg uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
-          >
-            <span className="relative">
-              See all projects
-              <span
-                aria-hidden="true"
-                className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
-              />
-            </span>
-          </CoverPreviewLink>
-        </div>
       </Container>
+
+      {/* Same closing block as the Home page, right above the footer. */}
+      <SeeAllProjectsCta className="mt-4" />
       </article>
     </CaseStudyBackSwipe>
   );

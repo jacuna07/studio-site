@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/Container";
-import CtaBlock from "@/components/CtaBlock";
-import IconArrowLeft from "@/components/icons/IconArrowLeft";
+import SeeAllProjectsCta from "@/components/SeeAllProjectsCta";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
 import ScrollToWorkArrow from "@/components/ScrollToWorkArrow";
 import HeroBackdrop from "@/components/HeroBackdrop";
@@ -15,8 +14,8 @@ export const metadata: Metadata = { alternates: { canonical: "/" } };
 export default function HomePage() {
   const projects = getFeaturedProjects().slice(0, 6);
   const backdropImages = getBackdropImages();
-  // Every project on the Work page, for the hover previews on the
-  // carousel's "See all projects" card and the block below it.
+  // Every project on the Work page, for the hover preview on the
+  // carousel's "See all projects" card.
   const workCovers = getAllCovers();
   // A handful of non-featured projects, shown as a "more work" panel at
   // the end of the mobile carousel once the visitor swipes past the last
@@ -86,17 +85,8 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* Same big block as the footer's "Say hi 👋" (which stacks
-          right under it), plus the cover preview
-          every link to the Work page has. mt-4: same 80px before the
-          divider as the footer (see Footer.tsx). */}
-      <CtaBlock href="/work" covers={workCovers} className="mt-4">
-        See all{" "}
-        <span className="whitespace-nowrap">
-          projects
-          <IconArrowLeft className="inline-block ml-[0.25em] h-[0.7em] w-[0.7em] rotate-180 align-[-0.05em]" />
-        </span>
-      </CtaBlock>
+      {/* Closes the page right above the footer's "Say hi 👋" block. */}
+      <SeeAllProjectsCta className="mt-4" />
     </div>
   );
 }
