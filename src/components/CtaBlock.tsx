@@ -11,8 +11,8 @@ import { COVER_CYCLE_MS } from "./CoverPreviewLink";
  * dividers, sitting at the bottom left of the block (inset from the
  * bottom by the same 24px / 32px as the page's side margins). Hovering
  * the link turns the whole block cobalt. The footer's
- * "Tell us about the next big thing." uses it, and so does the Home
- * page's "See all projects" block right above it.
+ * "Say hi 👋" uses it, and so does the Home page's "See all projects"
+ * block right above it.
  *
  * Pass `covers` to also get the small cursor preview that flicks through
  * project covers (see useCursorPreview), as on every link to the Work page.

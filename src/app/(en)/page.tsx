@@ -86,8 +86,8 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* Same big block as the footer's "Tell us about the next big
-          thing." (which stacks right under it), plus the cover preview
+      {/* Same big block as the footer's "Say hi 👋" (which stacks
+          right under it), plus the cover preview
           every link to the Work page has. mt-4: same 80px before the
           divider as the footer (see Footer.tsx). */}
       <CtaBlock href="/work" covers={workCovers} className="mt-4">

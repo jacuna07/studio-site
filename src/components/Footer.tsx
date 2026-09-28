@@ -21,10 +21,11 @@ const copy: Record<
     workHref: string;
     aboutHref: string;
     contactHref: string;
-    headlineLine1: string;
-    headlineLine2: string;
-    backHeadlineLine1: string;
-    backHeadlineLine2: string;
+    /** The big CTA's lines (to Contact), plus an optional emoji after the last. */
+    ctaLines: string[];
+    ctaEmoji?: string;
+    /** On the Contact page itself, the CTA points back home instead. */
+    backLines: string[];
     contactLabel: string;
     moreLabel: string;
     labels: Record<Exclude<NavSection, "home">, string>;
@@ -37,12 +38,11 @@ const copy: Record<
     workHref: "/work",
     aboutHref: "/studio",
     contactHref: "/contact",
-    headlineLine1: "Tell us",
-    headlineLine2: "about the next big thing.",
-    backHeadlineLine1: "Take me",
-    backHeadlineLine2: "home.",
+    ctaLines: ["Say hi"],
+    ctaEmoji: "👋",
+    backLines: ["Take me", "home."],
     contactLabel: "Get in touch",
-    moreLabel: "Fancy more?",
+    moreLabel: "Where to next?",
     labels: { work: "Work", about: "Studio", contact: "Contact" },
     homeLabel: "Tresunotres, home",
     location: "San José, Costa Rica",
@@ -52,10 +52,8 @@ const copy: Record<
     workHref: "/es/work",
     aboutHref: "/es/about",
     contactHref: "/es/contact",
-    headlineLine1: "Contanos",
-    headlineLine2: "sobre tu próximo proyecto.",
-    backHeadlineLine1: "Llévame",
-    backHeadlineLine2: "a casa.",
+    ctaLines: ["Contanos", "sobre tu próximo proyecto."],
+    backLines: ["Llévame", "a casa."],
     contactLabel: "Escribinos",
     moreLabel: "¿Querés ver más?",
     labels: { work: "Trabajo", about: "Nosotros", contact: "Contacto" },
@@ -139,8 +137,8 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
 
   const isContactPage = currentSection === "contact";
   const ctaHref = isContactPage ? t.home : t.contactHref;
-  const ctaLine1 = isContactPage ? t.backHeadlineLine1 : t.headlineLine1;
-  const ctaLine2 = isContactPage ? t.backHeadlineLine2 : t.headlineLine2;
+  const ctaLines = isContactPage ? t.backLines : t.ctaLines;
+  const ctaEmoji = isContactPage ? undefined : t.ctaEmoji;
 
   const contactLinks: FooterLink[] = [
     { href: `mailto:${EMAIL}`, label: EMAIL, external: true },
@@ -164,17 +162,25 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
       {/* The big CTA. Hovering it turns this block cobalt, down to the
           divider below; the bottom of the footer always stays ink. */}
       <CtaBlock href={ctaHref}>
-        {ctaLine1}
-        <br />
-        {ctaLine2}
+        {ctaLines.map((line, i) => (
+          <span key={line} className="block">
+            {line}
+            {/* The emoji is decoration: hidden from screen readers so the
+                link just reads "Say hi". The non-breaking space keeps it
+                from wrapping onto a line of its own. */}
+            {ctaEmoji && i === ctaLines.length - 1 && (
+              <span aria-hidden="true">{"\u00a0"}{ctaEmoji}</span>
+            )}
+          </span>
+        ))}
       </CtaBlock>
 
       <div className="border-t border-mist">
         {/* Phones: everything stacked, contact and pages up top, the
             wordmark sign-off 80px below. Desktop: one row sitting at the
             bottom of a 360px band (lots of room above, as on Tinge), inset
-            32px from the bottom like the side margins. From lg up, "Fancy
-            more?" starts a quarter of the way across the page; below that
+            32px from the bottom like the side margins. From lg up, "Where to
+            next?" starts a quarter of the way across the page; below that
             (tablets) the two groups just sit 64px apart. */}
         <Container className="flex flex-col pt-8 pb-6 md:min-h-[360px] md:flex-row md:items-end md:justify-between md:gap-8 md:pt-12 md:pb-8">
           <div className="flex flex-col gap-8 md:flex-row md:gap-16 lg:w-1/2 lg:gap-0">
