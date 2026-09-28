@@ -115,7 +115,12 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
       </CtaBlock>
 
       <div className="border-t border-mist">
-        <Container className="pt-16 pb-20">
+        {/* Content sits at the bottom (inset by the same 24px / 32px as
+            the side margins), in a section that keeps the height it had
+            when the content sat higher up: 241px on phones, 216px on
+            desktop. pt-12 only matters if a narrow phone wraps the nav
+            links onto a second line and the content outgrows that. */}
+        <Container className="flex min-h-[241px] flex-col justify-end pt-12 pb-6 md:min-h-[216px] md:pb-8">
           {/* Wraps (links drop below the icons) only if a narrow phone
               can't fit both on one line. */}
           <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-6">
@@ -157,7 +162,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
             </nav>
           </div>
 
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-4 md:mt-6 text-[10px] md:text-sm font-mono tracking-[0.2em] text-stone">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-1 mt-2 text-[10px] md:text-sm font-mono tracking-[0.2em] text-stone">
             <p>
               &copy; {new Date().getFullYear()} TRESUNOTRES
             </p>
