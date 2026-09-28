@@ -28,8 +28,8 @@ body {
 /* Text selection in the brand cobalt instead of the browser's default
    light blue. Selected text turns white so it stays readable, including
    cobalt text (links) that would otherwise vanish into the highlight.
-   On surfaces that are already cobalt (the footer's hover state, the
-   method cards' text area), the highlight flips to ink so it shows. */
+   On surfaces that are already cobalt (the big CTA blocks' hover state,
+   the method cards' text area), the highlight flips to ink so it shows. */
 ::selection {
   background-color: #3057ff;
   color: #ffffff;

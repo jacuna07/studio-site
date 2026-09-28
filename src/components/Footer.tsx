@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "./Container";
+import CtaBlock from "./CtaBlock";
 import IconInstagram from "./icons/IconInstagram";
 import IconWhatsapp from "./icons/IconWhatsapp";
 import IconMail from "./icons/IconMail";
@@ -65,10 +65,7 @@ const copy: Record<
 export default function Footer({ locale = "en" }: { locale?: Locale }) {
   const t = copy[locale];
   const pathname = usePathname() || "/";
-  const [hot, setHot] = useState(false);
 
-  // Footer nav always links to the site's other three sections, never
-  // back to the one you're already on.
   const sections: { id: NavSection; href: string; label: string }[] = [
     { id: "home", href: t.home, label: t.labels.home },
     { id: "work", href: t.workHref, label: t.labels.work },
@@ -94,94 +91,83 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
   const ctaLine1 = isContactPage ? t.backHeadlineLine1 : t.headlineLine1;
   const ctaLine2 = isContactPage ? t.backHeadlineLine2 : t.headlineLine2;
 
-  const muted = hot ? "text-paper/80" : "text-stone";
-  const divider = hot ? "border-paper/20" : "border-mist";
   // md: only — on mobile, an element with an unguarded :hover style
   // needs a first tap just to enter that state and a second to
   // actually follow the link.
-  const secondaryHover = hot
-    ? "md:hover:text-paper md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] underline-offset-4 md:hover:underline transition-colors"
-    : "md:hover:text-cobalt md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] underline-offset-4 md:hover:underline transition-colors";
-  const iconHover = hot ? "md:hover:text-paper transition-colors" : "md:hover:text-cobalt transition-colors";
+  const linkHover =
+    "md:hover:text-cobalt md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] underline-offset-4 md:hover:underline transition-colors";
+  const iconHover = "md:hover:text-cobalt transition-colors";
 
   return (
-    <footer
-      className={`border-t mt-4 transition-colors duration-300 ${
-        hot ? "bg-cobalt border-cobalt" : "bg-ink " + divider
-      }`}
-    >
-      {/* This divider (the footer's top border) sits between two
-          things: whatever page content precedes it, and this
-          Container's own py-20 (80px) top padding. Every page that
-          ends in a footer closes its own content with 64px of bottom
-          padding (the shared "py-16" sections/containers across Home,
-          Work, About, Contact, and case studies), so mt-4 (16px) here
-          brings the total space *before* the divider to 64+16=80px —
-          matching the 80px *after* it exactly, the same principle
-          already used below for the second divider (mt-16 above /
-          pt-16 below, split evenly so it reads as a centered break
-          rather than sitting closer to one module than the other). */}
-      <Container className="py-20">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-12">
-          <div>
-            <Link
-              href={ctaHref}
-              onMouseEnter={() => setHot(true)}
-              onMouseLeave={() => setHot(false)}
-              className="font-display text-4xl md:text-6xl font-normal leading-[1.08] inline-block text-paper"
-            >
-              {ctaLine1}
-              <br />
-              {ctaLine2}
-            </Link>
-          </div>
-          <div className="flex gap-6 md:gap-8 font-sans text-sm md:text-lg uppercase tracking-wide">
-            {navLinks.map((l) => (
-              <Link key={l.href} href={l.href} className={secondaryHover}>
-                {l.label}
-              </Link>
-            ))}
-          </div>
-        </div>
+    // Spacing: every page closes its content with 64px of bottom padding
+    // (the shared "py-16" sections), so mt-4 (16px) makes the space
+    // before the footer's top divider 80px, matching the CTA block's own
+    // 80px inside. Home is the exception: it ends with its own CTA block
+    // ("See all projects"), so the footer stacks straight onto it and the
+    // two blocks share a divider.
+    <footer className={currentSection === "home" ? "" : "mt-4"}>
+      {/* The big CTA. Hovering it turns this block cobalt, down to the
+          divider below; the bottom of the footer always stays ink. */}
+      <CtaBlock href={ctaHref}>
+        {ctaLine1}
+        <br />
+        {ctaLine2}
+      </CtaBlock>
 
-        <div className={`mt-16 pt-16 border-t ${divider} transition-colors duration-300`}>
-          <div className={`flex items-center gap-4 md:gap-5 ${muted} transition-colors duration-300`}>
-            <a
-              href={INSTAGRAM_HREF}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className={iconHover}
+      <div className="border-t border-mist">
+        <Container className="pt-16 pb-20">
+          {/* Wraps (links drop below the icons) only if a narrow phone
+              can't fit both on one line. */}
+          <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-6">
+            <div className="flex items-center gap-4 md:gap-5 text-stone">
+              <a
+                href={INSTAGRAM_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className={iconHover}
+              >
+                <IconInstagram className="h-[18px] w-[18px] md:h-6 md:w-6" />
+              </a>
+              <a
+                href={WHATSAPP_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                className={iconHover}
+              >
+                <IconWhatsapp className="h-[18px] w-[18px] md:h-6 md:w-6" />
+              </a>
+              <a href={`mailto:${EMAIL}`} aria-label="Email" className={iconHover}>
+                <IconMail className="h-[18px] w-[18px] md:h-6 md:w-6" />
+              </a>
+            </div>
+
+            {/* Always links to the site's other sections, never back to
+                the one you're already on. */}
+            <nav
+              aria-label="Footer"
+              className="flex gap-6 md:gap-8 font-sans text-sm md:text-lg uppercase tracking-wide"
             >
-              <IconInstagram className="h-[18px] w-[18px] md:h-6 md:w-6" />
-            </a>
-            <a
-              href={WHATSAPP_HREF}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="WhatsApp"
-              className={iconHover}
-            >
-              <IconWhatsapp className="h-[18px] w-[18px] md:h-6 md:w-6" />
-            </a>
-            <a href={`mailto:${EMAIL}`} aria-label="Email" className={iconHover}>
-              <IconMail className="h-[18px] w-[18px] md:h-6 md:w-6" />
-            </a>
+              {navLinks.map((l) => (
+                <Link key={l.href} href={l.href} className={linkHover}>
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
           </div>
 
-          <div
-            className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-4 md:mt-6 text-[10px] md:text-sm font-mono tracking-[0.2em] ${muted} transition-colors duration-300`}
-          >
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-4 md:mt-6 text-[10px] md:text-sm font-mono tracking-[0.2em] text-stone">
             <p>
               &copy; {new Date().getFullYear()} TRESUNOTRES
             </p>
-            <a href={`mailto:${t.email}`} className={`uppercase ${secondaryHover}`}>
+            <a href={`mailto:${t.email}`} className={`uppercase ${linkHover}`}>
               {t.email}
             </a>
             <p>{t.location}</p>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </div>
     </footer>
   );
 }

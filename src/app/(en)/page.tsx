@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/Container";
-import CoverPreviewLink from "@/components/CoverPreviewLink";
+import CtaBlock from "@/components/CtaBlock";
+import IconArrowLeft from "@/components/icons/IconArrowLeft";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
 import ScrollToWorkArrow from "@/components/ScrollToWorkArrow";
 import HeroBackdrop from "@/components/HeroBackdrop";
@@ -15,7 +16,7 @@ export default function HomePage() {
   const projects = getFeaturedProjects().slice(0, 6);
   const backdropImages = getBackdropImages();
   // Every project on the Work page, for the hover previews on the
-  // "See all projects" card and the "Discover more" link.
+  // carousel's "See all projects" card and the block below it.
   const workCovers = getAllCovers();
   // A handful of non-featured projects, shown as a "more work" panel at
   // the end of the mobile carousel once the visitor swipes past the last
@@ -82,23 +83,20 @@ export default function HomePage() {
             moreProjects={moreProjects}
             previewCovers={workCovers}
           />
-          <div className="mt-16 flex justify-center">
-            <CoverPreviewLink
-              href="/work"
-              covers={workCovers}
-              className="group font-mono text-base uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
-            >
-              <span className="relative">
-                Discover more
-                <span
-                  aria-hidden="true"
-                  className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
-                />
-              </span>
-            </CoverPreviewLink>
-          </div>
         </Container>
       </section>
+
+      {/* Same big block as the footer's "Tell us about the next big
+          thing." (which stacks right under it), plus the cover preview
+          every link to the Work page has. mt-4: same 80px before the
+          divider as the footer (see Footer.tsx). */}
+      <CtaBlock href="/work" covers={workCovers} className="mt-4">
+        See all{" "}
+        <span className="whitespace-nowrap">
+          projects
+          <IconArrowLeft className="inline-block ml-[0.25em] h-[0.7em] w-[0.7em] rotate-180 align-[-0.05em]" />
+        </span>
+      </CtaBlock>
     </div>
   );
 }
