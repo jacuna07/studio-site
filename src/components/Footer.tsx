@@ -173,7 +173,7 @@ export default function Footer({ locale = "en" }: { locale?: Locale }) {
             className={`flex flex-col md:flex-row items-start md:items-center justify-between gap-2 mt-4 md:mt-6 text-[10px] md:text-sm font-mono tracking-[0.2em] ${muted} transition-colors duration-300`}
           >
             <p>
-              &copy; {new Date().getFullYear()} TRESUNOTRES.
+              &copy; {new Date().getFullYear()} TRESUNOTRES
             </p>
             <a href={`mailto:${t.email}`} className={`uppercase ${secondaryHover}`}>
               {t.email}

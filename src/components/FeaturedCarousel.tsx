@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import IconArrowLeft from "./icons/IconArrowLeft";
 import { useCursorPreview } from "./useCursorPreview";
+import { COVER_CYCLE_MS } from "./CoverPreviewLink";
 import type { Project } from "@/content/projects/types";
 
 const copy = {
@@ -71,12 +72,19 @@ export default function FeaturedCarousel({
   const [progress, setProgress] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeFrame, setActiveFrame] = useState(0);
+  const [scrubbing, setScrubbing] = useState(false);
+  const scrubbingRef = useRef(false); // same flag, readable mid-gesture
+  const snapTimerRef = useRef<number | undefined>(undefined);
   const t = copy[locale];
   // +1 for the trailing "more work" / "See all projects" slide.
   const slideCount = projects.length + 1;
   // The card sits at the right end of the track, so the preview goes to
   // the left of the cursor.
-  const seeAllPreview = useCursorPreview({ images: previewCovers, side: "left" });
+  const seeAllPreview = useCursorPreview({
+    images: previewCovers,
+    side: "left",
+    cycleMs: COVER_CYCLE_MS,
+  });
 
   useEffect(() => {
     const el = trackRef.current;
@@ -122,6 +130,69 @@ export default function FeaturedCarousel({
     const amount = card ? card.getBoundingClientRect().width + gap : el.clientWidth * 0.85;
     el.scrollBy({ left: amount * direction, behavior: "smooth" });
   }
+
+  // Desktop only: press anywhere on the progress bar and drag to scrub
+  // through the carousel. The fill follows the cursor (pointer position
+  // across the bar = scroll position across the track); on release it
+  // glides to the nearest card. Snapping is paused while scrubbing, since
+  // mandatory snapping would otherwise yank every step back to a card.
+  function scrubTo(e: React.PointerEvent<HTMLDivElement>) {
+    const el = trackRef.current;
+    if (!el) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const ratio = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
+    el.scrollLeft = ratio * (el.scrollWidth - el.clientWidth);
+  }
+
+  function handleBarPointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    const el = trackRef.current;
+    if (!el || e.pointerType !== "mouse" || e.button !== 0) return;
+    if (!window.matchMedia("(min-width: 768px)").matches) return;
+    e.preventDefault(); // no text selection while dragging
+    e.currentTarget.setPointerCapture(e.pointerId);
+    window.clearTimeout(snapTimerRef.current);
+    el.style.scrollSnapType = "none";
+    document.body.style.cursor = "grabbing";
+    scrubbingRef.current = true;
+    setScrubbing(true);
+    scrubTo(e);
+  }
+
+  function handleBarPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    if (scrubbingRef.current) scrubTo(e);
+  }
+
+  function handleBarPointerUp() {
+    const el = trackRef.current;
+    if (!scrubbingRef.current || !el) return;
+    scrubbingRef.current = false;
+    setScrubbing(false);
+    document.body.style.cursor = "";
+
+    // Glide to whichever card's snap position is closest, then hand
+    // control back to CSS snapping once the glide is done.
+    const max = el.scrollWidth - el.clientWidth;
+    const trackLeft = el.getBoundingClientRect().left;
+    let target = el.scrollLeft;
+    let best = Infinity;
+    el.querySelectorAll<HTMLElement>("[data-slide]").forEach((slide) => {
+      const left = Math.min(
+        Math.max(el.scrollLeft + slide.getBoundingClientRect().left - trackLeft, 0),
+        max
+      );
+      const distance = Math.abs(left - el.scrollLeft);
+      if (distance < best) {
+        best = distance;
+        target = left;
+      }
+    });
+    el.scrollTo({ left: target, behavior: "smooth" });
+    snapTimerRef.current = window.setTimeout(() => {
+      el.style.scrollSnapType = "";
+    }, 500);
+  }
+
+  useEffect(() => () => window.clearTimeout(snapTimerRef.current), []);
 
   // Keeps the horizontal drag that scrolls this carousel from also being
   // read by Nav's window-level swipe-to-open listener — same fix
@@ -270,11 +341,24 @@ export default function FeaturedCarousel({
       </div>
 
       <div className="mt-8 flex items-center gap-6">
-        <div className="h-[2px] flex-1 bg-mist">
-          <div
-            className="h-full bg-cobalt transition-[width] duration-150 ease-out"
-            style={{ width: `${barWidth}%` }}
-          />
+        {/* The padding gives the 2px bar a comfortable grab area; the
+            negative margin cancels it out of the layout. Dragging only
+            kicks in for a mouse on desktop (see handleBarPointerDown). */}
+        <div
+          onPointerDown={handleBarPointerDown}
+          onPointerMove={handleBarPointerMove}
+          onPointerUp={handleBarPointerUp}
+          onPointerCancel={handleBarPointerUp}
+          className={`flex-1 -my-3 py-3 ${scrubbing ? "md:cursor-grabbing" : "md:cursor-grab"}`}
+        >
+          <div className="h-[2px] bg-mist">
+            <div
+              className={`h-full bg-cobalt ${
+                scrubbing ? "" : "transition-[width] duration-150 ease-out"
+              }`}
+              style={{ width: `${barWidth}%` }}
+            />
+          </div>
         </div>
         <div className="flex items-center gap-3 shrink-0">
           <button

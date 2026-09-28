@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Container from "@/components/Container";
+import CoverPreviewLink from "@/components/CoverPreviewLink";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
 import ScrollToWorkArrow from "@/components/ScrollToWorkArrow";
 import HeroBackdrop from "@/components/HeroBackdrop";
-import { getAllProjects, getBackdropImages, getFeaturedProjects } from "@/content/projects";
+import { getAllCovers, getAllProjects, getBackdropImages, getFeaturedProjects } from "@/content/projects";
 
 // Title, description and share preview come from the root layout's
 // site-wide defaults ("Tresunotres | Brand Design Studio").
@@ -13,8 +14,9 @@ export const metadata: Metadata = { alternates: { canonical: "/" } };
 export default function HomePage() {
   const projects = getFeaturedProjects().slice(0, 6);
   const backdropImages = getBackdropImages();
-  // Every project on the Work page, for the "See all projects" card's hover preview.
-  const workCovers = getAllProjects().map((p) => ({ src: p.hero.src }));
+  // Every project on the Work page, for the hover previews on the
+  // "See all projects" card and the "Discover more" link.
+  const workCovers = getAllCovers();
   // A handful of non-featured projects, shown as a "more work" panel at
   // the end of the mobile carousel once the visitor swipes past the last
   // featured project.
@@ -81,8 +83,9 @@ export default function HomePage() {
             previewCovers={workCovers}
           />
           <div className="mt-16 flex justify-center">
-            <Link
+            <CoverPreviewLink
               href="/work"
+              covers={workCovers}
               className="group font-mono text-base uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
             >
               <span className="relative">
@@ -92,7 +95,7 @@ export default function HomePage() {
                   className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
                 />
               </span>
-            </Link>
+            </CoverPreviewLink>
           </div>
         </Container>
       </section>

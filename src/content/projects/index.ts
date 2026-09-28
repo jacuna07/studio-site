@@ -56,6 +56,27 @@ export function getFeaturedProjects(): Project[] {
 }
 
 /**
+ * Every project's cover (everything on the Work page), for the hover
+ * previews on the "See all projects" / "Discover more" CTAs.
+ */
+export function getAllCovers(): { src: string }[] {
+  return projects.map((p) => ({ src: p.hero.src }));
+}
+
+/**
+ * One project's stills in page order: cover first, then its gallery
+ * images (videos left out). Drives the prev/next hover preview.
+ */
+export function getProjectImagery(project: Project): { src: string }[] {
+  return [
+    { src: project.hero.src },
+    ...project.gallery
+      .filter((g) => (g.type ?? "image") === "image")
+      .map((g) => ({ src: g.src })),
+  ];
+}
+
+/**
  * Every 16:9 still across all projects (covers plus "wide" gallery
  * images, videos excluded), for the Home hero's background slideshow.
  */

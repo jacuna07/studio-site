@@ -6,25 +6,29 @@ import { useCursorPreview } from "./useCursorPreview";
 
 /**
  * The "previous / next project" links at the end of a case study. On
- * desktop, hovering one shows a small preview of that project's cover
- * next to the cursor (see useCursorPreview): to the right of it for
- * "previous" (left edge of the page), to the left for "next" (right edge).
+ * desktop, hovering one shows a small preview next to the cursor (see
+ * useCursorPreview) that steps through that project's imagery in order,
+ * cover first: to the right of the cursor for "previous" (left edge of the
+ * page), to the left for "next" (right edge). The cover loads with the
+ * page; the rest on first hover. In-progress projects only have a cover.
  */
 export default function AdjacentProjectLink({
   href,
   title,
-  cover,
+  images,
   direction,
 }: {
   href: string;
   title: string;
-  cover: { src: string; alt: string };
+  /** The project's stills, cover first (see getProjectImagery). */
+  images: { src: string }[];
   direction: "prev" | "next";
 }) {
   const isNext = direction === "next";
   const { handlers, preview } = useCursorPreview({
-    images: [cover],
+    images,
     side: isNext ? "left" : "right",
+    shuffle: false,
     eager: true,
   });
 

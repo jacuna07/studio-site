@@ -25,6 +25,28 @@ body {
   overflow-x: hidden;
 }
 
+/* Text selection in the brand cobalt instead of the browser's default
+   light blue. Selected text turns white so it stays readable, including
+   cobalt text (links) that would otherwise vanish into the highlight.
+   On surfaces that are already cobalt (the footer's hover state, the
+   method cards' text area), the highlight flips to ink so it shows. */
+::selection {
+  background-color: #3057ff;
+  color: #ffffff;
+}
+.bg-cobalt::selection,
+.bg-cobalt ::selection {
+  background-color: #0b0c10;
+  color: #ffffff;
+}
+/* ...but ink panels nested inside a cobalt surface (the method cards'
+   top half) go back to cobalt. */
+.bg-cobalt .bg-ink::selection,
+.bg-cobalt .bg-ink ::selection {
+  background-color: #3057ff;
+  color: #ffffff;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;

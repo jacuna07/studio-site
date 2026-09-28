@@ -11,7 +11,7 @@ const OFFSET = 16;
 
 type PreviewImage = { src: string };
 
-function shuffle<T>(items: T[]): T[] {
+function shuffleList<T>(items: T[]): T[] {
   const a = [...items];
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -23,20 +23,22 @@ function shuffle<T>(items: T[]): T[] {
 /**
  * A small image preview that follows the cursor while it's over an
  * element (inspired by thisistinge.com's hover images, kept deliberately
- * small). Used by the case study prev/next links and the Featured
- * carousel's "See all projects" card.
+ * small). Used by the case study prev/next links (a project's own
+ * imagery, in order) and every "See all projects" / "Discover more" CTA
+ * (all project covers, shuffled, flicking fast).
  *
  * Returns mouse handlers to spread onto the hovered element, plus the
- * preview itself to render anywhere next to it.
+ * preview itself to render next to it.
  *
  * - `side`: which side of the cursor the preview sits on ("left" for
- *   things near the right edge of the screen, "right" for the left edge),
- *   always above the cursor, so it never runs off screen.
- * - One image: just shows it. Several: shows them in a random order,
- *   switching every `cycleMs` while hovered.
- * - `eager`: mount (and so download) the images right away. Otherwise
- *   they're only mounted on the first hover, which keeps a long list of
- *   covers from loading with the page.
+ *   things near the right edge of the screen, "right" otherwise), always
+ *   above the cursor, so it never runs off screen.
+ * - Several images: steps through them every `cycleMs` while hovered, in
+ *   a fresh random order per hover when `shuffle` is on, otherwise in the
+ *   given order (starting from the first). It only ever steps to an image
+ *   that has finished loading, so a fast cycle never flashes an empty box.
+ * - Loading: nothing downloads until the first hover, except with `eager`,
+ *   which loads just the first image with the page so it's instant.
  * - Only on devices with a real hover pointer (and hidden below md), so
  *   touch screens just get the plain link.
  * - Portaled to <body> and positioned by writing a transform on mousemove
@@ -49,11 +51,13 @@ export function useCursorPreview({
   images,
   side,
   cycleMs = 600,
+  shuffle = true,
   eager = false,
 }: {
   images: PreviewImage[];
   side: "left" | "right";
   cycleMs?: number;
+  shuffle?: boolean;
   eager?: boolean;
 }): {
   handlers: {
@@ -66,22 +70,34 @@ export function useCursorPreview({
   const posRef = useRef<HTMLDivElement>(null);
   const canHoverRef = useRef(false);
   const [mounted, setMounted] = useState(false);
-  const [activated, setActivated] = useState(eager);
+  const [activated, setActivated] = useState(false);
   const [visible, setVisible] = useState(false);
   const [order, setOrder] = useState<PreviewImage[]>(images);
   const [index, setIndex] = useState(0);
+  const [loaded, setLoaded] = useState<Set<string>>(() => new Set());
+  const loadedRef = useRef(loaded);
+  loadedRef.current = loaded;
 
   useEffect(() => {
     canHoverRef.current = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     setMounted(true);
   }, []);
 
-  // While hovered, step through the images (only when there's more than one).
+  // While hovered, step to the next image that has loaded (skipping any
+  // still downloading). Stays put if none of the others are ready yet.
   useEffect(() => {
     if (!visible || order.length < 2) return;
-    const id = window.setInterval(() => setIndex((i) => (i + 1) % order.length), cycleMs);
+    const id = window.setInterval(() => {
+      setIndex((i) => {
+        for (let step = 1; step < order.length; step++) {
+          const candidate = (i + step) % order.length;
+          if (loadedRef.current.has(order[candidate].src)) return candidate;
+        }
+        return i;
+      });
+    }, cycleMs);
     return () => window.clearInterval(id);
-  }, [visible, order.length, cycleMs]);
+  }, [visible, order, cycleMs]);
 
   function place(e: React.MouseEvent) {
     const el = posRef.current;
@@ -95,9 +111,12 @@ export function useCursorPreview({
     onMouseEnter: (e: React.MouseEvent) => {
       if (!canHoverRef.current) return;
       if (images.length > 1) {
-        // A fresh random order on every hover.
-        setOrder(shuffle(images));
-        setIndex(0);
+        const next = shuffle ? shuffleList(images) : images;
+        setOrder(next);
+        // Start on an image that's already loaded when shuffling (so the
+        // preview is never blank); in order, always start from the first.
+        const firstReady = shuffle ? next.findIndex((img) => loadedRef.current.has(img.src)) : 0;
+        setIndex(firstReady >= 0 ? firstReady : 0);
       }
       setActivated(true);
       place(e);
@@ -108,6 +127,15 @@ export function useCursorPreview({
     },
     onMouseLeave: () => setVisible(false),
   };
+
+  function markLoaded(src: string) {
+    setLoaded((s) => {
+      if (s.has(src)) return s;
+      const copy = new Set(s);
+      copy.add(src);
+      return copy;
+    });
+  }
 
   const preview =
     mounted &&
@@ -123,17 +151,19 @@ export function useCursorPreview({
             visible ? "opacity-100 scale-100" : "opacity-0 scale-95"
           }`}
         >
-          {activated &&
-            order.map((img, i) => (
+          {order.map((img, i) =>
+            activated || (eager && i === 0) ? (
               <Image
                 key={img.src}
                 src={img.src}
                 alt=""
                 fill
                 sizes={`${PREVIEW_W}px`}
+                onLoad={() => markLoaded(img.src)}
                 className={`object-cover ${i === index ? "opacity-100" : "opacity-0"}`}
               />
-            ))}
+            ) : null
+          )}
         </div>
       </div>,
       document.body

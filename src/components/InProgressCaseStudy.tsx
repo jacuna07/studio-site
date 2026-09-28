@@ -1,8 +1,9 @@
 import Link from "next/link";
+import CoverPreviewLink from "./CoverPreviewLink";
 import Container from "./Container";
 import FeaturedCarousel from "./FeaturedCarousel";
 import CaseStudyBackSwipe from "./CaseStudyBackSwipe";
-import { getAllProjects, getFeaturedProjects } from "@/content/projects";
+import { getAllCovers, getFeaturedProjects } from "@/content/projects";
 import type { Project } from "@/content/projects/types";
 
 /**
@@ -46,15 +47,17 @@ export default function InProgressCaseStudy({ project }: { project: Project }) {
         <Container className="mt-12 md:mt-16">
           <FeaturedCarousel
             projects={finished}
-            previewCovers={getAllProjects().map((p) => ({ src: p.hero.src }))}
+            previewCovers={getAllCovers()}
           />
         </Container>
 
         <Container className="mt-16">
-          {/* Same "See all projects" link as the bottom of a case study,
-              left aligned here so it lines up with the closing line. */}
-          <Link
+          {/* Same "See all projects" link as the bottom of a case study
+              (covers flick by on hover), left aligned here so it lines up
+              with the closing line. */}
+          <CoverPreviewLink
             href="/work"
+            covers={getAllCovers()}
             className="group font-mono text-base md:text-lg uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
           >
             <span className="relative">
@@ -64,7 +67,7 @@ export default function InProgressCaseStudy({ project }: { project: Project }) {
                 className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
               />
             </span>
-          </Link>
+          </CoverPreviewLink>
 
           {/* Same closing treatment as the Studio page's sign-off. */}
           <p className="mt-24 md:mt-32 font-display font-normal text-3xl md:text-[56px] md:leading-tight">

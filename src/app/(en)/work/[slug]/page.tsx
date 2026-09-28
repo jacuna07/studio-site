@@ -2,16 +2,18 @@ import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import Container from "@/components/Container";
 import Gallery from "@/components/Gallery";
 import ShareButton from "@/components/ShareButton";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
 import InProgressCaseStudy from "@/components/InProgressCaseStudy";
 import AdjacentProjectLink from "@/components/AdjacentProjectLink";
+import CoverPreviewLink from "@/components/CoverPreviewLink";
 import { pageMetadata, projectShareImage } from "@/lib/metadata";
 import {
+  getAllCovers,
   getAllProjects,
+  getProjectImagery,
   getProjectBySlug,
   getAdjacentProject,
   getPreviousProject,
@@ -120,21 +122,32 @@ export default function ProjectPage({ params }: Props) {
               </div>
             </div>
           </div>
-          <dl className="font-mono text-sm space-y-6 md:self-start md:rounded-2xl md:border md:border-mist md:p-8">
+          {/* Desktop: a thin line on the left sets the details apart, and
+              the labels take the project's accent color (the same one the
+              brief above uses; stone when a project has none). Mobile keeps
+              plain stone labels with no divider. */}
+          <dl
+            className="font-mono text-sm space-y-6 md:self-start md:border-l md:border-mist md:pl-8"
+            style={
+              project.theme
+                ? ({ "--meta-accent": project.theme.bodyColor } as CSSProperties)
+                : undefined
+            }
+          >
             <div>
-              <dt className="font-bold uppercase tracking-[0.2em] text-stone text-xs">
+              <dt className="font-bold uppercase tracking-[0.2em] text-stone md:text-[var(--meta-accent,#8a8a8a)] text-xs">
                 Client
               </dt>
               <dd className="mt-1">{project.client}</dd>
             </div>
             <div>
-              <dt className="font-bold uppercase tracking-[0.2em] text-stone text-xs">
+              <dt className="font-bold uppercase tracking-[0.2em] text-stone md:text-[var(--meta-accent,#8a8a8a)] text-xs">
                 Year
               </dt>
               <dd className="mt-1">{project.year}</dd>
             </div>
             <div>
-              <dt className="font-bold uppercase tracking-[0.2em] text-stone text-xs">
+              <dt className="font-bold uppercase tracking-[0.2em] text-stone md:text-[var(--meta-accent,#8a8a8a)] text-xs">
                 Industry
               </dt>
               <dd className="mt-1">{project.industry}</dd>
@@ -170,25 +183,26 @@ export default function ProjectPage({ params }: Props) {
         )}
 
         <div className="mt-20 border-t border-mist pt-10 flex items-center justify-between">
-          {/* On desktop, hovering either link shows a small preview of
-              that project's cover next to the cursor. */}
+          {/* On desktop, hovering either link shows a small preview next
+              to the cursor that steps through that project's imagery. */}
           <AdjacentProjectLink
             href={`/work/${prev.slug}`}
             title={prev.title}
-            cover={prev.hero}
+            images={getProjectImagery(prev)}
             direction="prev"
           />
           <AdjacentProjectLink
             href={`/work/${next.slug}`}
             title={next.title}
-            cover={next.hero}
+            images={getProjectImagery(next)}
             direction="next"
           />
         </div>
 
         <div className="mt-10 flex justify-center">
-          <Link
+          <CoverPreviewLink
             href="/work"
+            covers={getAllCovers()}
             className="group font-mono text-base md:text-lg uppercase tracking-[0.2em] md:hover:text-cobalt transition-colors"
           >
             <span className="relative">
@@ -198,7 +212,7 @@ export default function ProjectPage({ params }: Props) {
                 className="absolute left-0 -bottom-2 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
               />
             </span>
-          </Link>
+          </CoverPreviewLink>
         </div>
       </Container>
       </article>
