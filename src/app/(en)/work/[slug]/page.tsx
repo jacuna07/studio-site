@@ -134,19 +134,19 @@ export default function ProjectPage({ params }: Props) {
             }
           >
             <div>
-              <dt className="font-bold uppercase tracking-[0.2em] text-stone md:text-[var(--meta-accent,#8a8a8a)] text-xs">
+              <dt className="font-bold uppercase tracking-[0.2em] text-stone md:text-[var(--meta-accent,#8B8F9B)] text-xs">
                 Client
               </dt>
               <dd className="mt-1">{project.client}</dd>
             </div>
             <div>
-              <dt className="font-bold uppercase tracking-[0.2em] text-stone md:text-[var(--meta-accent,#8a8a8a)] text-xs">
+              <dt className="font-bold uppercase tracking-[0.2em] text-stone md:text-[var(--meta-accent,#8B8F9B)] text-xs">
                 Year
               </dt>
               <dd className="mt-1">{project.year}</dd>
             </div>
             <div>
-              <dt className="font-bold uppercase tracking-[0.2em] text-stone md:text-[var(--meta-accent,#8a8a8a)] text-xs">
+              <dt className="font-bold uppercase tracking-[0.2em] text-stone md:text-[var(--meta-accent,#8B8F9B)] text-xs">
                 Industry
               </dt>
               <dd className="mt-1">{project.industry}</dd>
