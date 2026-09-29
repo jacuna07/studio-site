@@ -217,7 +217,16 @@ export default function FeaturedCarousel({
         // the peeking slide runs to the edge of the screen while the left
         // edge stays where Container's own padding already sits, matching
         // the rest of the page's copy. Mobile unchanged.
-        className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide -mr-6 pr-6 md:-mr-8 md:pr-8"
+        //
+        // overflow-y-hidden + pb-2: with overflow-x set, browsers make the
+        // track scrollable vertically too, and the "See project" hover
+        // underline poked ~1px out of its bottom. That sliver of vertical
+        // scroll was enough for a Mac trackpad to lock a scroll gesture
+        // onto the track when it started over a card, so the page stopped
+        // scrolling. Now the track can't scroll vertically at all (vertical
+        // gestures always go to the page), and pb-2 leaves room for the
+        // underline so it isn't clipped.
+        className="flex gap-4 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scrollbar-hide -mr-6 pr-6 md:-mr-8 md:pr-8"
       >
         {projects.map((project, i) => {
           const isActive = i === activeIndex;
@@ -340,7 +349,8 @@ export default function FeaturedCarousel({
         </div>
       </div>
 
-      <div className="mt-8 flex items-center gap-6">
+      {/* mt-6 + the track's pb-2 = the same 32px gap as before. */}
+      <div className="mt-6 flex items-center gap-6">
         {/* The padding gives the 2px bar a comfortable grab area; the
             negative margin cancels it out of the layout. Dragging only
             kicks in for a mouse on desktop (see handleBarPointerDown). */}
