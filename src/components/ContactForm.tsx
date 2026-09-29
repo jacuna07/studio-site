@@ -43,6 +43,10 @@ const copy: Record<
   },
 };
 
+// Same as the footer's group labels ("Get in touch", "Where to next?"):
+// Syne, regular, gray, sentence case, 16px phones / 18px desktop.
+const labelClass = "block mb-2 font-display font-normal text-stone text-base md:text-lg leading-snug";
+
 export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
   const t = copy[locale];
   const [status, setStatus] = useState<Status>("idle");
@@ -79,7 +83,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
       <div>
         <label
           htmlFor="name"
-          className="block font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2"
+          className={labelClass}
         >
           {t.name}
         </label>
@@ -94,7 +98,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
       <div>
         <label
           htmlFor="email"
-          className="block font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2"
+          className={labelClass}
         >
           {t.email}
         </label>
@@ -109,7 +113,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
       <div>
         <label
           htmlFor="phone"
-          className="block font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2"
+          className={labelClass}
         >
           {t.phone}
         </label>
@@ -123,7 +127,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
       <div>
         <label
           htmlFor="message"
-          className="block font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2"
+          className={labelClass}
         >
           {t.details}
         </label>
