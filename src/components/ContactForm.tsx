@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { actionCardClass, ActionCardArrow } from "./ActionCard";
+import { actionBarClass, ActionBarArrow } from "./ActionCard";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xljedpak";
 
@@ -79,7 +79,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
       <div>
         <label
           htmlFor="name"
-          className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2"
+          className="block font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2"
         >
           {t.name}
         </label>
@@ -94,7 +94,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
       <div>
         <label
           htmlFor="email"
-          className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2"
+          className="block font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2"
         >
           {t.email}
         </label>
@@ -109,7 +109,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
       <div>
         <label
           htmlFor="phone"
-          className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2"
+          className="block font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2"
         >
           {t.phone}
         </label>
@@ -123,7 +123,7 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
       <div>
         <label
           htmlFor="message"
-          className="block font-mono text-xs uppercase tracking-[0.2em] text-stone mb-2"
+          className="block font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-2"
         >
           {t.details}
         </label>
@@ -145,17 +145,19 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
         aria-hidden="true"
         className="hidden"
       />
-      {/* Same outlined card as the WhatsApp links beside the form, sized
-          like one of them (half the column on desktop, so the three line
-          up along the bottom), full width on phones. */}
-      <button
-        type="submit"
-        disabled={status === "loading"}
-        className={`${actionCardClass} w-full md:w-[calc(50%-0.5rem)] disabled:opacity-50`}
-      >
-        <ActionCardArrow />
-        <span>{status === "loading" ? t.sending : t.send}</span>
-      </button>
+      {/* A slim bar (half a WhatsApp card's height), sitting under the
+          right half of the form so it lines up with the "Contact Javier"
+          card further down. */}
+      <div className="flex justify-end pt-2">
+        <button
+          type="submit"
+          disabled={status === "loading"}
+          className={`${actionBarClass} w-[calc(50%-0.5rem)] disabled:opacity-50`}
+        >
+          <span>{status === "loading" ? t.sending : t.send}</span>
+          <ActionBarArrow />
+        </button>
+      </div>
       {status === "error" && <p className="text-sm text-red-600">{t.error}</p>}
     </form>
   );

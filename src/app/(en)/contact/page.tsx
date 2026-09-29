@@ -21,48 +21,50 @@ export default function ContactPage() {
     <CaseStudyBackSwipe targetHref="/work" targetLabel="Work" hint={false}>
       <section className="py-16 animate-page-in">
         <Container>
-          {/* Desktop: two columns. Left, the big statement up top and the
-              WhatsApp cards at the bottom; right, the form, spanning both
-              rows so its Send card lines up with the WhatsApp cards.
-              Phones: statement, form, then WhatsApp, in that order. */}
-          <div className="grid gap-y-12 md:grid-cols-2 md:grid-rows-[auto_1fr] md:gap-x-16 md:gap-y-16">
-            <div className="md:col-start-1 md:row-start-1">
-              <p className="font-mono font-bold text-xs md:text-sm uppercase tracking-[0.2em] text-stone">
-                Contact
-              </p>
-              {/* Same type as the Home page's intro. */}
-              <h1 className="mt-3 md:mt-4 font-display font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.2] text-balance">
-                We want to hear about what excites you.
+          {/* Desktop: the statement on the left; the form, then the
+              WhatsApp section, on the right. Phones: the same, stacked. */}
+          <div className="grid gap-y-12 md:grid-cols-2 md:gap-x-16">
+            {/* The column is a size container so the statement can be
+                sized against it (cqw): as large as it can be while "We
+                want to hear about" still fits on one line, capped at 72px.
+                That keeps the draft's two lines at any screen width. */}
+            <div className="[container-type:inline-size]">
+              {/* Same line by line entrance as the Home intro. */}
+              <h1 className="font-display font-normal text-[min(72px,9.7cqw)] leading-[1.2] tracking-normal">
+                <span className="block animate-line" style={{ animationDelay: "0ms" }}>
+                  We want to hear about
+                </span>{" "}
+                <span className="block animate-line" style={{ animationDelay: "150ms" }}>
+                  what excites you.
+                </span>
               </h1>
             </div>
 
-            <div className="md:col-start-2 md:row-start-1 md:row-span-2">
+            <div>
               <ContactForm />
-            </div>
 
-            <div className="md:col-start-1 md:row-start-2 md:self-end">
-              <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-4">
-                More questions?
-              </h2>
-              <p className="text-stone mb-6">Feel free to reach us via WhatsApp:</p>
-              <div className="grid grid-cols-2 gap-4">
-                {whatsappContacts.map((c) => (
-                  <a
-                    key={c.href}
-                    href={c.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`Contact ${c.name} on WhatsApp (${c.number})`}
-                    className={actionCardClass}
-                  >
-                    <ActionCardArrow />
-                    <span>
-                      Contact
-                      <br />
-                      {c.name}
-                    </span>
-                  </a>
-                ))}
+              <div className="mt-8 border-t border-mist pt-10">
+                <h2 className="font-display text-xl md:text-2xl text-paper">More questions?</h2>
+                <p className="mt-1 text-stone">Feel free to reach us via WhatsApp:</p>
+                <div className="mt-8 grid grid-cols-2 gap-4">
+                  {whatsappContacts.map((c) => (
+                    <a
+                      key={c.href}
+                      href={c.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Contact ${c.name} on WhatsApp (${c.number})`}
+                      className={actionCardClass}
+                    >
+                      <ActionCardArrow />
+                      <span>
+                        Contact
+                        <br />
+                        {c.name}
+                      </span>
+                    </a>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
