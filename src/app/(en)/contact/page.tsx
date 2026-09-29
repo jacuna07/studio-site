@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/metadata";
 import Container from "@/components/Container";
 import ContactForm from "@/components/ContactForm";
-import IconWhatsapp from "@/components/icons/IconWhatsapp";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
+import { actionCardClass, ActionCardArrow } from "@/components/ActionCard";
 
 export const metadata: Metadata = pageMetadata({
   page: "Contact",
@@ -11,63 +11,63 @@ export const metadata: Metadata = pageMetadata({
   path: "/contact",
 });
 
-const whatsappNumbers = [
-  { label: "+506 8706 0833", hoverLabel: "Message Adrian", href: "https://wa.me/50687060833" },
-  { label: "+506 7075 3929", hoverLabel: "Message Javier", href: "https://wa.me/50670753929" },
+const whatsappContacts = [
+  { name: "Adrian", number: "+506 8706 0833", href: "https://wa.me/50687060833" },
+  { name: "Javier", number: "+506 7075 3929", href: "https://wa.me/50670753929" },
 ];
 
 export default function ContactPage() {
   return (
     <CaseStudyBackSwipe targetHref="/work" targetLabel="Work" hint={false}>
-    <section className="py-16 animate-page-in">
-      <Container>
-        {/* Holds the page at the width it has always rendered at (the old
-            max-w-2xl here never actually applied), now left aligned with
-            the wider grid instead of stretching with it. */}
-        <div className="max-w-[1360px]">
-          <h1 className="font-display font-normal text-3xl md:text-4xl tracking-normal mb-4">
-            Contact
-          </h1>
-          <p className="text-stone mb-10">
-            We want to hear about what excites you.
-          </p>
-          <ContactForm />
+      <section className="py-16 animate-page-in">
+        <Container>
+          {/* Desktop: two columns. Left, the big statement up top and the
+              WhatsApp cards at the bottom; right, the form, spanning both
+              rows so its Send card lines up with the WhatsApp cards.
+              Phones: statement, form, then WhatsApp, in that order. */}
+          <div className="grid gap-y-12 md:grid-cols-2 md:grid-rows-[auto_1fr] md:gap-x-16 md:gap-y-16">
+            <div className="md:col-start-1 md:row-start-1">
+              <p className="font-mono font-bold text-xs md:text-sm uppercase tracking-[0.2em] text-stone">
+                Contact
+              </p>
+              {/* Same type as the Home page's intro. */}
+              <h1 className="mt-3 md:mt-4 font-display font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.2] text-balance">
+                We want to hear about what excites you.
+              </h1>
+            </div>
 
-          <div className="mt-16">
-            <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-4">
-              More questions?
-            </h2>
-            <p className="text-stone mb-6">Feel free to reach us via WhatsApp:</p>
-            <div className="flex flex-wrap gap-4">
-              {whatsappNumbers.map((n) => (
-                <a
-                  key={n.href}
-                  href={n.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 rounded-2xl border border-paper/20 bg-ink px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-paper transition-colors md:hover:border-cobalt md:hover:bg-cobalt"
-                >
-                  <IconWhatsapp className="h-4 w-4 flex-shrink-0" />
-                  {/* Desktop only: hovering swaps the phone number for who it reaches.
-                      Both labels sit in the same grid cell so the pill never resizes. */}
-                  <span className="grid">
-                    <span className="col-start-1 row-start-1 transition-opacity duration-200 md:group-hover:opacity-0">
-                      {n.label}
+            <div className="md:col-start-2 md:row-start-1 md:row-span-2">
+              <ContactForm />
+            </div>
+
+            <div className="md:col-start-1 md:row-start-2 md:self-end">
+              <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-4">
+                More questions?
+              </h2>
+              <p className="text-stone mb-6">Feel free to reach us via WhatsApp:</p>
+              <div className="grid grid-cols-2 gap-4">
+                {whatsappContacts.map((c) => (
+                  <a
+                    key={c.href}
+                    href={c.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Contact ${c.name} on WhatsApp (${c.number})`}
+                    className={actionCardClass}
+                  >
+                    <ActionCardArrow />
+                    <span>
+                      Contact
+                      <br />
+                      {c.name}
                     </span>
-                    <span
-                      aria-hidden="true"
-                      className="col-start-1 row-start-1 opacity-0 transition-opacity duration-200 hidden md:inline md:group-hover:opacity-100"
-                    >
-                      {n.hoverLabel}
-                    </span>
-                  </span>
-                </a>
-              ))}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </Container>
-    </section>
+        </Container>
+      </section>
     </CaseStudyBackSwipe>
   );
 }

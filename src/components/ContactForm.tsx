@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { actionCardClass, ActionCardArrow } from "./ActionCard";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xljedpak";
 
@@ -144,12 +145,16 @@ export default function ContactForm({ locale = "en" }: { locale?: Locale }) {
         aria-hidden="true"
         className="hidden"
       />
+      {/* Same outlined card as the WhatsApp links beside the form, sized
+          like one of them (half the column on desktop, so the three line
+          up along the bottom), full width on phones. */}
       <button
         type="submit"
         disabled={status === "loading"}
-        className="border border-paper px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] md:hover:border-cobalt md:hover:bg-cobalt md:hover:text-paper transition-colors disabled:opacity-50"
+        className={`${actionCardClass} w-full md:w-[calc(50%-0.5rem)] disabled:opacity-50`}
       >
-        {status === "loading" ? t.sending : t.send}
+        <ActionCardArrow />
+        <span>{status === "loading" ? t.sending : t.send}</span>
       </button>
       {status === "error" && <p className="text-sm text-red-600">{t.error}</p>}
     </form>
