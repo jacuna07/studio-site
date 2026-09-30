@@ -8,7 +8,7 @@ const project: Project = {
   year: "2023",
   industry: "Startups",
   featured: true,
-  featuredOrder: 1,
+  featuredOrder: 3,
   summary:
     "A flexible brand system for Co.Co, an ambitious coworking, coffee, and craft beer concept built to grow into whatever came next.",
   brief:

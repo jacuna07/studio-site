@@ -8,7 +8,7 @@ const project: Project = {
   year: "2026",
   industry: "Furniture",
   featured: true,
-  featuredOrder: 4,
+  featuredOrder: 5,
   summary:
     "A rebrand for Totoppo, a custom furniture workshop that designs every piece around a client's space and need. It marks the studio's move from a one-person shop to a small team.",
   brief:

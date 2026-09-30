@@ -7,6 +7,8 @@ const project: Project = {
   client: "Amimed",
   year: "2020",
   industry: "Healthcare",
+  featured: true,
+  featuredOrder: 4,
   summary: "A healthcare brand identity built around rest, not diagnosis.",
   brief: "A healthcare brand built around rest, not diagnosis.",
   overview: [

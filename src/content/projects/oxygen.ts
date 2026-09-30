@@ -7,8 +7,7 @@ const project: Project = {
   client: "Oxygen",
   year: "2022",
   industry: "Fitness",
-  featured: true,
-  featuredOrder: 5,
+  featured: false,
   summary: "An identity built for a fitness community that outgrew its own warehouse.",
   brief: "A fitness box built by three brothers who went all in from the start.",
   overview: [

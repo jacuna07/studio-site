@@ -7,8 +7,7 @@ const project: Project = {
   client: "Susana Méndez",
   year: "2025",
   industry: "Law",
-  featured: true,
-  featuredOrder: 6,
+  featured: false,
   summary:
     "An identity for an independent lawyer and notary, anchored by a mark that doubles as her own signature.",
   brief:

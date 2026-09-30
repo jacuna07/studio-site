@@ -8,7 +8,7 @@ const project: Project = {
   year: "2026",
   industry: "Food & Restaurants",
   featured: true,
-  featuredOrder: 2,
+  featuredOrder: 1,
   summary:
     "A rebrand for one of Costa Rica's best known vegan restaurants, built around the tagline: Revolutionary but kind.",
   brief:

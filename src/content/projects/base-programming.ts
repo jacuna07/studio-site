@@ -8,7 +8,7 @@ const project: Project = {
   year: "2024",
   industry: "Fitness",
   featured: true,
-  featuredOrder: 3,
+  featuredOrder: 2,
   summary:
     "A training brand identity built around an unfinished letterform system that adapts to whatever it's placed on.",
   brief:
