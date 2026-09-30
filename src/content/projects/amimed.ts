@@ -10,7 +10,7 @@ const project: Project = {
   summary: "A healthcare brand identity built around rest, not diagnosis.",
   brief: "A healthcare brand built around rest, not diagnosis.",
   overview: [
-    "Amimed makes sleep therapy devices, an industry that usually looks and sounds clinical. We wanted the brand to feel less like a diagnosis and more like a good night's rest.",
+    "Amimed provides sleep therapy devices, an industry that usually looks and sounds clinical. We wanted the brand to feel less like a diagnosis and more like a good night's rest.",
     "The identity is built around a gradient pattern that moves like a slow wave, a loose, abstracted nod to the bars in a sleep quality graph without ever feeling like a chart. The palette drifts from a deep, cozy night into a soft morning blue, the same shift the product is meant to help people make.",
   ],
   hero: {
@@ -47,6 +47,7 @@ const project: Project = {
       src: "/images/amimed/06-gallery.jpg",
       alt: "Amimed. A translucent navy shopping bag with the wordmark, holding a product catalog and boxes.",
       aspect: "square",
+      align: "right",
     },
     {
       src: "/images/amimed/07-gallery.jpg",
