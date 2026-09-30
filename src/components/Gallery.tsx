@@ -13,7 +13,9 @@ export default function Gallery({ images }: { images: GalleryImage[] }) {
       {images.map((img, i) => (
         <div
           key={i}
-          className={`relative overflow-hidden rounded-2xl bg-mist ${aspectClass[img.aspect]}`}
+          className={`relative overflow-hidden rounded-2xl bg-mist ${aspectClass[img.aspect]}${
+            img.align === "right" ? " md:col-start-2" : ""
+          }`}
         >
           {img.type === "video" ? (
             <video

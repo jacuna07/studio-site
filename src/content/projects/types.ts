@@ -6,6 +6,11 @@ export type GalleryImage = {
   type?: "image" | "video";
   /** Poster frame shown before a video loads. Video items only. */
   poster?: string;
+  /**
+   * Desktop only: "right" puts a square or portrait item in the right
+   * column, leaving the left half of its row blank. Phones are unchanged.
+   */
+  align?: "right";
 };
 
 export type Project = {

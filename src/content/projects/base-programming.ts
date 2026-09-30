@@ -36,6 +36,14 @@ const project: Project = {
       aspect: "wide",
     },
     {
+      src: "/images/base-programming/05-gallery.mp4",
+      poster: "/images/base-programming/05-gallery-poster.jpg",
+      alt: "Base Programming. A stretched line resolving into the logo: the b mark beside the pink wordmark.",
+      aspect: "square",
+      type: "video",
+      align: "right",
+    },
+    {
       src: "/images/base-programming/03-gallery.jpg",
       alt: "Base Programming. A woven label with the b mark and wordmark, stitched onto a white tee.",
       aspect: "portrait",
@@ -44,13 +52,6 @@ const project: Project = {
       src: "/images/base-programming/04-gallery.jpg",
       alt: "Base Programming. A black water bottle with the stretched b in pink, in an athlete's hand.",
       aspect: "portrait",
-    },
-    {
-      src: "/images/base-programming/05-gallery.mp4",
-      poster: "/images/base-programming/05-gallery-poster.jpg",
-      alt: "Base Programming. A stretched line resolving into the logo: the b mark beside the pink wordmark.",
-      aspect: "square",
-      type: "video",
     },
     {
       src: "/images/base-programming/06-gallery.jpg",
