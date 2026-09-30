@@ -20,6 +20,23 @@ import {
 
 type Props = { params: { slug: string } };
 
+/**
+ * Overview paragraphs can mark a key phrase with **double asterisks**: it
+ * shows bold, in the project's accent color (the same one "The brief" uses;
+ * white when a project has none).
+ */
+function withEmphasis(text: string) {
+  return text.split(/\*\*(.+?)\*\*/g).map((part, i) =>
+    i % 2 === 1 ? (
+      <strong key={i} className="font-bold text-[var(--body-color,#ffffff)]">
+        {part}
+      </strong>
+    ) : (
+      part
+    ),
+  );
+}
+
 export function generateStaticParams() {
   return getAllProjects().map((p) => ({ slug: p.slug }));
 }
@@ -114,9 +131,16 @@ export default function ProjectPage({ params }: Props) {
               <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone mb-3">
                 The idea
               </h2>
-              <div className="space-y-4 text-paper md:text-lg">
+              <div
+                className="space-y-4 text-paper md:text-lg"
+                style={
+                  project.theme
+                    ? ({ "--body-color": project.theme.bodyColor } as CSSProperties)
+                    : undefined
+                }
+              >
                 {project.overview.map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
+                  <p key={i}>{withEmphasis(paragraph)}</p>
                 ))}
               </div>
             </div>
