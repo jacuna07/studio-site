@@ -45,7 +45,7 @@ const project: Project = {
     },
     {
       src: "/images/base-programming/03-gallery.jpg",
-      alt: "Base Programming. A woven label with the b mark and wordmark, stitched onto a white tee.",
+      alt: "Base Programming. The stacked logo, the b mark beside the pink wordmark, over a black and white photo of an athlete holding a barbell.",
       aspect: "portrait",
     },
     {
