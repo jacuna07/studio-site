@@ -174,10 +174,10 @@ body {
   }
 }
 
-/* Studio page, phones: scroll reveals (src/components/Reveal.tsx) and the
-   opening lines' entrance (.reveal-on-load). Slower and smoother than the
-   Home intro lines, so the movement is noticed while scrolling: 1s,
-   48px, ease out. Desktop and reduced motion: nothing moves or hides. */
+/* Studio page, phones: the opening lines' entrance (.reveal-on-load)
+   and the scroll-linked blocks below them (src/components/Reveal.tsx,
+   which moves them with the scroll itself). 1s, 48px, ease out.
+   Desktop and reduced motion: nothing moves or hides. */
 @keyframes reveal-up {
   from {
     opacity: 0;
@@ -201,21 +201,12 @@ body {
     animation: reveal-up 1s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
-  [data-reveal] {
+  /* Only for the first settle of blocks already on screen at load; after
+     that the blocks follow the scroll directly, with no transition. */
+  [data-reveal="intro"] {
     transition:
-      opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  [data-reveal="hidden"] {
-    opacity: 0;
-    transform: translateY(48px);
-  }
-
-  /* Once in (or switched off), no transition left that could freeze. */
-  [data-reveal="static"],
-  [data-reveal="off"] {
-    transition: none;
+      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
