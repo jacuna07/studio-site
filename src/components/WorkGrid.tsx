@@ -15,6 +15,7 @@ export default function WorkGrid({
   variant = "chunked",
   enableImageSwipe = false,
   enableHoverLoop = false,
+  mobileVisible,
 }: {
   projects: Project[];
   locale?: "en" | "es";
@@ -23,6 +24,12 @@ export default function WorkGrid({
   enableImageSwipe?: boolean;
   /** Desktop only: hovering a card cycles through its images. */
   enableHoverLoop?: boolean;
+  /**
+   * Grid variant, phones only (the single column view, below sm): show
+   * just the first N cards; the rest stay in the page but hidden until
+   * the parent raises N ("Show more"). Every card shows from sm up.
+   */
+  mobileVisible?: number;
 }) {
   if (variant === "grid") {
     return (
@@ -38,6 +45,9 @@ export default function WorkGrid({
             showIndex={false}
             enableImageSwipe={enableImageSwipe}
             enableHoverLoop={enableHoverLoop}
+            className={
+              mobileVisible !== undefined && i >= mobileVisible ? "max-sm:hidden" : undefined
+            }
           />
         ))}
       </div>

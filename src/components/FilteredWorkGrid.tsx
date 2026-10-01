@@ -3,14 +3,20 @@
 import { useMemo, useState } from "react";
 import WorkGrid from "./WorkGrid";
 import CursorRevealGrid from "./CursorRevealGrid";
+import { actionBarCenteredClass } from "./ActionCard";
 import type { Project } from "@/content/projects/types";
 
 type Locale = "en" | "es";
 
-const copy: Record<Locale, { all: string }> = {
-  en: { all: "All" },
-  es: { all: "Todos" },
+const copy: Record<Locale, { all: string; showMore: string }> = {
+  en: { all: "All", showMore: "Show more" },
+  es: { all: "Todos", showMore: "Ver más" },
 };
+
+// Phones (the single column view): how many projects show at first, and
+// how many more each "Show more" tap adds, so the footer's contact CTA is
+// never a long scroll away.
+const MOBILE_PAGE = 5;
 
 export default function FilteredWorkGrid({
   projects,
@@ -25,7 +31,13 @@ export default function FilteredWorkGrid({
   }, [projects]);
 
   const [active, setActive] = useState<string | null>(null);
+  const [mobileVisible, setMobileVisible] = useState(MOBILE_PAGE);
   const t = copy[locale];
+
+  function selectFilter(industry: string | null) {
+    setActive(industry);
+    setMobileVisible(MOBILE_PAGE);
+  }
 
   const filtered = active ? projects.filter((p) => p.industry === active) : projects;
 
@@ -51,7 +63,7 @@ export default function FilteredWorkGrid({
         >
           <button
             type="button"
-            onClick={() => setActive(null)}
+            onClick={() => selectFilter(null)}
             className={`flex-shrink-0 ${pillClass(active === null)}`}
           >
             {t.all}
@@ -60,7 +72,7 @@ export default function FilteredWorkGrid({
             <button
               key={industry}
               type="button"
-              onClick={() => setActive(industry)}
+              onClick={() => selectFilter(industry)}
               className={`flex-shrink-0 ${pillClass(active === industry)}`}
             >
               {industry}
@@ -74,8 +86,25 @@ export default function FilteredWorkGrid({
       </div>
 
       <CursorRevealGrid>
-        <WorkGrid projects={filtered} locale={locale} variant="grid" enableHoverLoop />
+        <WorkGrid
+          projects={filtered}
+          locale={locale}
+          variant="grid"
+          enableHoverLoop
+          mobileVisible={mobileVisible}
+        />
       </CursorRevealGrid>
+
+      {/* Phones only: the Send button's shape, as wide as the cards. */}
+      {mobileVisible < filtered.length && (
+        <button
+          type="button"
+          onClick={() => setMobileVisible((n) => n + MOBILE_PAGE)}
+          className={`${actionBarCenteredClass} w-full sm:hidden`}
+        >
+          {t.showMore}
+        </button>
+      )}
     </div>
   );
 }

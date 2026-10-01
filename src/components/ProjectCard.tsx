@@ -14,6 +14,7 @@ export default function ProjectCard({
   showIndex = true,
   enableImageSwipe = false,
   enableHoverLoop = false,
+  className,
 }: {
   project: Project;
   index: number;
@@ -25,6 +26,8 @@ export default function ProjectCard({
   enableImageSwipe?: boolean;
   /** Desktop only: hovering the card cycles through the project's images. */
   enableHoverLoop?: boolean;
+  /** Extra classes for the card's outer link (e.g. hiding it on phones). */
+  className?: string;
 }) {
   const href = locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`;
 
@@ -182,7 +185,7 @@ export default function ProjectCard({
   }
 
   return (
-    <Link href={href} className="group block">
+    <Link href={href} className={`group block${className ? ` ${className}` : ""}`}>
       <div
         ref={cardRef}
         className={`relative overflow-hidden bg-mist shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] ${aspectClass}`}

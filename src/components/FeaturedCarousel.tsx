@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import IconArrowLeft from "./icons/IconArrowLeft";
@@ -41,9 +41,12 @@ function getFrames(project: Project) {
  * title/summary/link underneath, plus a scroll-progress bar with prev/next
  * controls below the track. Renders at every breakpoint.
  *
- * The currently active (centered) slide auto-cycles through its own
- * hero + gallery frames, same effect as ProjectCard's image swipe on the
- * desktop grid; other slides stay on their hero image.
+ * The active slides auto-cycle through their own hero + gallery frames,
+ * same effect as ProjectCard's image swipe on the desktop grid; other
+ * slides stay on their hero image. Phones: the one card in front, and
+ * a card that swipes into place moves on to its next image straight
+ * away instead of waiting a full cycle. Desktop: the two cards fully in
+ * view (the first two positions), each on its own cycle.
  *
  * The trailing slide differs by breakpoint: on mobile it's a vertically
  * scrollable "more work" panel of extra projects (just the "See all
@@ -71,7 +74,10 @@ export default function FeaturedCarousel({
   const trackRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [activeFrame, setActiveFrame] = useState(0);
+  // Current frame of each animating card, by slide index.
+  const [frameBySlide, setFrameBySlide] = useState<Record<number, number>>({});
+  const [isDesktop, setIsDesktop] = useState(false);
+  const firstActivationRef = useRef(true);
   const [scrubbing, setScrubbing] = useState(false);
   const scrubbingRef = useRef(false); // same flag, readable mid-gesture
   const snapTimerRef = useRef<number | undefined>(undefined);
@@ -108,19 +114,52 @@ export default function FeaturedCarousel({
     return () => el.removeEventListener("scroll", handleScroll);
   }, [slideCount]);
 
-  // Restarts the active card's frame cycle from its hero image whenever a
-  // new slide becomes active.
   useEffect(() => {
-    setActiveFrame(0);
-    const project = projects[activeIndex];
-    if (!project) return;
-    const frameCount = getFrames(project).length;
-    if (frameCount < 2) return;
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setIsDesktop(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  // How many cards animate at once: the first two positions on desktop
+  // (both fully in view), the front card on phones.
+  const activeCount = isDesktop ? 2 : 1;
+  const activeSlides = useMemo(() => {
+    const list: number[] = [];
+    const end = Math.min(activeIndex + activeCount, projects.length);
+    for (let i = activeIndex; i < end; i++) list.push(i);
+    return list;
+  }, [activeIndex, activeCount, projects.length]);
+
+  // Cycles every active card through its frames. A card that stays
+  // active keeps its place in its cycle; a card that just became active
+  // starts from its hero image, except on phones, where it moves on to
+  // its next image right away (no wait). The very first card on page
+  // load always starts from its hero.
+  useEffect(() => {
+    const counts = activeSlides.map((i) => getFrames(projects[i]).length);
+    const immediate = !isDesktop && !firstActivationRef.current;
+    firstActivationRef.current = false;
+    setFrameBySlide((prev) => {
+      const next: Record<number, number> = {};
+      activeSlides.forEach((slide, k) => {
+        next[slide] = slide in prev ? prev[slide] : immediate && counts[k] > 1 ? 1 : 0;
+      });
+      return next;
+    });
+    if (!counts.some((c) => c > 1)) return;
     const id = window.setInterval(() => {
-      setActiveFrame((f) => (f + 1) % frameCount);
+      setFrameBySlide((prev) => {
+        const next: Record<number, number> = {};
+        activeSlides.forEach((slide, k) => {
+          next[slide] = ((prev[slide] ?? 0) + 1) % counts[k];
+        });
+        return next;
+      });
     }, CYCLE_MS);
     return () => window.clearInterval(id);
-  }, [activeIndex, projects]);
+  }, [activeSlides, isDesktop, projects]);
 
   function scrollByCard(direction: 1 | -1) {
     const el = trackRef.current;
@@ -229,8 +268,11 @@ export default function FeaturedCarousel({
         className="flex gap-4 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scrollbar-hide -mr-6 pr-6 md:-mr-8 md:pr-8"
       >
         {projects.map((project, i) => {
-          const isActive = i === activeIndex;
-          const frames = isActive ? getFrames(project) : null;
+          // Frames are loaded for the active cards and the next one in
+          // line, so a card's images are ready by the time it animates.
+          const isLoaded = i >= activeIndex && i <= activeIndex + activeCount;
+          const frames = isLoaded ? getFrames(project) : null;
+          const shownFrame = frameBySlide[i] ?? 0;
 
           return (
             <Link
@@ -253,7 +295,7 @@ export default function FeaturedCarousel({
                         playsInline
                         aria-label={f.alt}
                         className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out ${
-                          fi === activeFrame ? "opacity-100" : "opacity-0"
+                          fi === shownFrame ? "opacity-100" : "opacity-0"
                         }`}
                       />
                     ) : (
@@ -265,7 +307,7 @@ export default function FeaturedCarousel({
                         sizes="(min-width: 768px) 45vw, 85vw"
                         priority={i === 0 && fi === 0}
                         className={`object-cover transition-opacity duration-500 ease-out ${
-                          fi === activeFrame ? "opacity-100" : "opacity-0"
+                          fi === shownFrame ? "opacity-100" : "opacity-0"
                         }`}
                       />
                     )

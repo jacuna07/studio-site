@@ -7,6 +7,7 @@ import IconWhatsapp from "@/components/icons/IconWhatsapp";
 import IconInstagram from "@/components/icons/IconInstagram";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
 import MethodCarousel from "@/components/MethodCarousel";
+import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = pageMetadata({
   page: "Studio",
@@ -96,7 +97,9 @@ export default function StudioPage() {
               </p>
             </div>
 
-            <div className="mt-16 md:mt-20">
+            {/* Phones: each section below the intro fades in from below
+                as it scrolls into view (Reveal); desktop is unchanged. */}
+            <Reveal className="mt-16 md:mt-20">
               <h2 className={`${sectionLabel} mb-4 md:mb-6`}>What we do</h2>
               <div className="space-y-4 md:space-y-6 text-paper md:text-[22px] md:leading-[1.5]">
                 <p>
@@ -117,14 +120,16 @@ export default function StudioPage() {
                   <strong className="font-bold">start to finish</strong>.
                 </p>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </Container>
 
       <Container className="mt-16 md:mt-24">
-        <h2 className={`${sectionLabel} mb-8`}>Our method</h2>
-        <MethodCarousel items={method} />
+        <Reveal>
+          <h2 className={`${sectionLabel} mb-8`}>Our method</h2>
+          <MethodCarousel items={method} />
+        </Reveal>
       </Container>
 
       {/* The team keeps the width it has always rendered at (the old
@@ -132,10 +137,12 @@ export default function StudioPage() {
           with the wider grid rather than growing with it. */}
       <Container className="mt-16 md:mt-24">
         <div className="max-w-[1360px]">
-          <h2 className={`${sectionLabel} mb-8`}>The team</h2>
+          <Reveal>
+            <h2 className={`${sectionLabel} mb-8`}>The team</h2>
+          </Reveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
             {team.map((person) => (
-              <div key={person.name}>
+              <Reveal key={person.name}>
                 <div className="relative aspect-square overflow-hidden rounded-2xl bg-mist">
                   <Image
                     src={person.photo.src}
@@ -167,7 +174,7 @@ export default function StudioPage() {
                     <IconInstagram className="h-5 w-5 md:h-6 md:w-6" />
                   </a>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -178,6 +185,7 @@ export default function StudioPage() {
           bookend the page, and the same cobalt link treatment as the
           Home hero's "the spotlight." */}
       <Container className="mt-24 md:mt-32">
+        <Reveal>
         <p className="font-display font-normal text-3xl md:text-[56px] md:leading-tight">
           There&apos;s always room for{" "}
           <Link href="/contact" className="group relative inline-block text-cobalt">
@@ -188,6 +196,7 @@ export default function StudioPage() {
             />
           </Link>
         </p>
+        </Reveal>
       </Container>
     </section>
     </CaseStudyBackSwipe>

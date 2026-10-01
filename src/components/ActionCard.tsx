@@ -11,6 +11,8 @@ import IconArrowUpRight from "./icons/IconArrowUpRight";
  *   WhatsApp, outside the site).
  * - Bar (the form's Send button): half the card's height, label on the
  *   left, a → arrow on the right.
+ * - Centered bar (the Work page's "Show more" on phones): the Send bar's
+ *   shape with the label centered and no arrow.
  *
  * Shared as class strings plus the arrows so they work on both <a> and
  * <button> (the form is a client component, the links are not).
@@ -21,6 +23,8 @@ const base =
 export const actionCardClass = `${base} relative flex h-32 md:h-36 flex-col justify-end p-4 md:p-5`;
 
 export const actionBarClass = `${base} flex h-16 md:h-[72px] items-center justify-between px-4 md:px-5`;
+
+export const actionBarCenteredClass = `${base} flex h-16 md:h-[72px] items-center justify-center px-4 md:px-5`;
 
 export function ActionCardArrow() {
   return (

@@ -25,17 +25,14 @@ export default function ContactPage() {
               WhatsApp section, on the right. Phones: the same, stacked. */}
           <div className="grid gap-y-12 md:grid-cols-2 md:gap-x-16">
             {/* The column is a size container so the statement can be
-                sized against it (cqw): as large as it can be while "We
-                want to hear about" still fits on one line, capped at 72px.
-                That keeps the draft's two lines at any screen width. */}
+                sized against it (cqw). The size is the one set for the
+                earlier two line statement (capped at 72px); "Ready when you
+                are." fits comfortably on one line at it. */}
             <div className="[container-type:inline-size]">
               {/* Same line by line entrance as the Home intro. */}
               <h1 className="font-display font-normal text-[min(72px,9.7cqw)] leading-[1.2] tracking-normal">
                 <span className="block animate-line" style={{ animationDelay: "0ms" }}>
-                  We want to hear about
-                </span>{" "}
-                <span className="block animate-line" style={{ animationDelay: "150ms" }}>
-                  what excites you.
+                  Ready when you are.
                 </span>
               </h1>
             </div>
