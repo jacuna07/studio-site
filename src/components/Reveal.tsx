@@ -5,10 +5,10 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 // How far below its spot a block starts (px).
 const DISTANCE = 48;
 // The block is fully hidden while its top is at the bottom edge of the
-// screen, and fully in place once its top is 40% of the way up. In
+// screen, and fully in place once its top is 60% of the way up. In
 // between, it follows the scroll (the finger) exactly.
 const START = 1;
-const END = 0.6;
+const END = 0.4;
 // Blocks already on screen when the page opens settle in after this
 // delay, so they follow the page's opening lines (.reveal-on-load).
 const INTRO_DELAY_MS = 450;
