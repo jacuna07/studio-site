@@ -80,10 +80,11 @@ export default function StudioPage() {
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="md:col-span-2 max-w-copy">
-            {/* Phones: the page comes in as a sequence. 01 the title and
-                02 the intro on load (.reveal-on-load), then 03 to 07 rise
-                and fade in tied to the scroll, following the finger both
-                ways (Reveal). Desktop is unchanged. */}
+            {/* Phones: the page comes in as a sequence. Only 01 the title
+                and 02 the intro show on load (.reveal-on-load); 03 to 07
+                stay hidden until the first scroll, then rise and fade in
+                tied to the scroll, following the finger both ways
+                (Reveal). Desktop is unchanged. */}
             <h1 className="reveal-on-load font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-8 md:mb-10">
               A tailor-made process, refined at the core.
             </h1>
