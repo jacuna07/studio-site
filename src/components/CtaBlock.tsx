@@ -10,7 +10,9 @@ import { COVER_CYCLE_MS } from "./CoverPreviewLink";
  * A full-width call to action: one big display-type link between two
  * dividers, sitting at the bottom left of the block (inset from the
  * bottom by the same 24px / 32px as the page's side margins). Hovering
- * the link turns the whole block cobalt. The footer's
+ * anywhere on the block (desktop) turns the whole block cobalt and makes
+ * it clickable: the link is stretched over the block with an invisible
+ * ::after layer. On phones only the text itself is the link. The footer's
  * "Say hi 👋" uses it, and so does the Home page's "See all projects"
  * block right above it.
  *
@@ -38,7 +40,7 @@ export default function CtaBlock({
 
   return (
     <div
-      className={`border-t transition-colors duration-300 ${
+      className={`relative border-t transition-colors duration-300 ${
         hot ? "bg-cobalt border-cobalt" : "bg-ink border-mist"
       } ${className}`}
     >
@@ -57,7 +59,7 @@ export default function CtaBlock({
             setHot(false);
             if (withPreview) handlers.onMouseLeave();
           }}
-          className="font-display text-4xl md:text-6xl font-normal leading-[1.08] inline-block text-paper"
+          className="font-display text-4xl md:text-6xl font-normal leading-[1.08] inline-block text-paper md:after:absolute md:after:inset-0"
         >
           {children}
         </Link>

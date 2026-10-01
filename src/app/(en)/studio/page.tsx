@@ -80,7 +80,11 @@ export default function StudioPage() {
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="md:col-span-2 max-w-copy">
-            <h1 className="font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-8 md:mb-10">
+            {/* Phones: the page comes in as a sequence. 01 the title and
+                02 the intro on load (.reveal-on-load), then 03 to 07 each
+                as it scrolls into view, reversing on the way back up
+                (Reveal). Desktop is unchanged. */}
+            <h1 className="reveal-on-load font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-8 md:mb-10">
               A tailor-made process, refined at the core.
             </h1>
 
@@ -88,7 +92,10 @@ export default function StudioPage() {
                 (this.design, Tinge, Folk, Pupila): the intro is set as a
                 large statement (~30px, tight leading) rather than body
                 copy, and supporting paragraphs sit around 22px. */}
-            <div className="space-y-6 text-paper text-lg md:text-[30px] md:leading-[1.3]">
+            <div
+              className="reveal-on-load space-y-6 text-paper text-lg md:text-[30px] md:leading-[1.3]"
+              style={{ animationDelay: "300ms" }}
+            >
               <p>
                 <strong className="font-bold">Tresunotres</strong> (313) is a brand design
                 studio based in Costa Rica. We build brands the way you&apos;d
@@ -97,8 +104,6 @@ export default function StudioPage() {
               </p>
             </div>
 
-            {/* Phones: each section below the intro fades in from below
-                as it scrolls into view (Reveal); desktop is unchanged. */}
             <Reveal className="mt-16 md:mt-20">
               <h2 className={`${sectionLabel} mb-4 md:mb-6`}>What we do</h2>
               <div className="space-y-4 md:space-y-6 text-paper md:text-[22px] md:leading-[1.5]">
