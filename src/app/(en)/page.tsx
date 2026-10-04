@@ -5,6 +5,7 @@ import SeeAllProjectsCta from "@/components/SeeAllProjectsCta";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
 import ScrollToWorkArrow from "@/components/ScrollToWorkArrow";
 import HeroBackdrop from "@/components/HeroBackdrop";
+import HomeHeroDesktop from "@/components/HomeHeroDesktop";
 import { getAllCovers, getAllProjects, getBackdropImages, getFeaturedProjects } from "@/content/projects";
 
 // Title, description and share preview come from the root layout's
@@ -28,7 +29,9 @@ export default function HomePage() {
 
   return (
     <div className="animate-page-in">
-      <section className="relative overflow-hidden min-h-[calc(100vh-5rem)] flex flex-col justify-center py-20">
+      {/* Phones: the hero as signed off (backdrop slideshow, six lines,
+          scroll arrow). Desktop has its own pinned hero below. */}
+      <section className="md:hidden relative overflow-hidden min-h-[calc(100vh-5rem)] flex flex-col justify-center py-20">
         <HeroBackdrop images={backdropImages} />
         <Container className="relative">
           <h1 className="font-display font-normal text-3xl sm:text-4xl md:text-5xl lg:text-6xl leading-[1.2] max-w-5xl">
@@ -64,9 +67,44 @@ export default function HomePage() {
         </Container>
       </section>
 
-      <section id="work" className="py-16 border-t border-mist">
+      {/* Desktop: the circled wordmark and the two sentences, pinned while
+          the page below slides up over it. Its images (the cursor card)
+          are every 16:9 image on the site: covers + wide gallery images. */}
+      <HomeHeroDesktop images={backdropImages} />
+
+      {/* Everything after the hero, as one opaque panel. On desktop it's
+          what slides over the pinned hero (z-10 over the hero's z-0), with
+          a thin mist line along its top edge. */}
+      <div className="relative z-10 bg-ink md:border-t md:border-mist">
+      {/* Desktop: the second statement; "custom process" goes to Studio. */}
+      <section className="hidden md:block pt-32 pb-20">
         <Container>
-          <div className="flex items-end justify-between mb-10">
+          <p className="text-center font-display font-normal text-3xl lg:text-4xl leading-[1.25] tracking-normal">
+            <span className="block">We construct visual identities</span>
+            <span className="block">
+              through a{" "}
+              <Link href="/studio" className="group relative inline-block text-cobalt">
+                custom process
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full"
+                />
+              </Link>
+            </span>
+            <span className="block">perfected over years.</span>
+          </p>
+        </Container>
+      </section>
+
+      {/* Desktop: a size container, so the full-width carousel inside can
+          measure the page width (cqw). */}
+      <section
+        id="work"
+        className="py-16 border-t border-mist md:border-t-0 md:py-0 md:[container-type:inline-size]"
+      >
+        <Container>
+          {/* Phones only: the desktop module goes straight to the cards. */}
+          <div className="flex items-end justify-between mb-10 md:hidden">
             <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone">
               Featured
             </h2>
@@ -81,12 +119,23 @@ export default function HomePage() {
             projects={projects}
             moreProjects={moreProjects}
             previewCovers={workCovers}
+            variant="home"
           />
+        </Container>
+      </section>
+
+      {/* Desktop: a closing line on the right, before the big CTA. */}
+      <section className="hidden md:block pt-32 pb-16">
+        <Container>
+          <p className="text-right font-display font-normal text-2xl lg:text-3xl leading-[1.25] tracking-normal">
+            With love, from Costa Rica.
+          </p>
         </Container>
       </section>
 
       {/* Closes the page right above the footer's "Say hi 👋" block. */}
       <SeeAllProjectsCta className="mt-4" />
+      </div>
     </div>
   );
 }

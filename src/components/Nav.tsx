@@ -7,6 +7,7 @@ import Container from "./Container";
 import Wordmark from "./icons/Wordmark";
 import CircledWordmark from "./icons/CircledWordmark";
 import { SPANISH_ENABLED } from "@/lib/site-config";
+import { HERO_WORDMARK_EVENT, type HeroWordmarkDetail } from "./HomeHeroDesktop";
 
 type Locale = "en" | "es";
 
@@ -44,6 +45,24 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
   // case study pages), the drawer also offers a way back Home.
   const isHome = pathname === t.home;
   const drawerLinks = isHome ? t.links : [{ href: t.home, label: t.homeLabel }, ...t.links];
+
+  // Desktop, English Home: the horizontal wordmark stays hidden while the
+  // hero's circled wordmark is on screen (from the first load), and
+  // appears once the page has scrolled over it. The hero reports it
+  // (HomeHeroDesktop). Phones keep their circled logo as is.
+  const isEnHome = pathname === "/";
+  const [heroWordmarkOnScreen, setHeroWordmarkOnScreen] = useState(true);
+  useEffect(() => {
+    if (isEnHome) setHeroWordmarkOnScreen(true);
+  }, [isEnHome]);
+  useEffect(() => {
+    function onHero(e: Event) {
+      setHeroWordmarkOnScreen((e as CustomEvent<HeroWordmarkDetail>).detail.onScreen);
+    }
+    window.addEventListener(HERO_WORDMARK_EVENT, onHero);
+    return () => window.removeEventListener(HERO_WORDMARK_EVENT, onHero);
+  }, []);
+  const hideWordmark = isEnHome && heroWordmarkOnScreen;
 
   // A link is "active" on an exact match (Home, About, Contact) or
   // anywhere under it (Work's own case study pages, e.g. /work/oxygen
@@ -168,11 +187,18 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
       <Container className="relative z-50 flex items-center justify-between h-20">
         <Link
           href={t.home}
-          className="block text-paper md:hover:text-cobalt transition-colors"
+          className={`block text-paper md:hover:text-cobalt transition-colors ${
+            hideWordmark ? "md:pointer-events-none" : ""
+          }`}
+          tabIndex={hideWordmark ? -1 : undefined}
           onClick={() => setOpen(false)}
         >
           <span className="sr-only">Tresunotres</span>
-          <Wordmark className="hidden md:block h-[15px] w-auto" />
+          <Wordmark
+            className={`hidden md:block h-[15px] w-auto transition-opacity duration-500 ${
+              hideWordmark ? "md:opacity-0" : "md:opacity-100"
+            }`}
+          />
           <CircledWordmark className="md:hidden h-[60px] w-[60px] animate-slow-spin" />
         </Link>
 

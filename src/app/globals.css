@@ -219,3 +219,15 @@ body {
     animation: reveal-failsafe 0.6s ease-out 4s forwards;
   }
 }
+
+/* Home hero, desktop (src/components/HomeHeroDesktop.tsx): before the JS
+   takes over, the two sentences are hidden only when scripting is on,
+   and shown anyway after 4s if the JS never runs. After that the JS
+   moves them with the scroll. */
+@media (min-width: 768px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  [data-hero="pending"] [data-hero-line] {
+    opacity: 0;
+    transform: translateY(48px);
+    animation: reveal-failsafe 0.6s ease-out 4s forwards;
+  }
+}

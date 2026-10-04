@@ -39,6 +39,10 @@ function shuffleList<T>(items: T[]): T[] {
  *   that has finished loading, so a fast cycle never flashes an empty box.
  * - Loading: nothing downloads until the first hover, except with `eager`,
  *   which loads just the first image with the page so it's instant.
+ * - `placement` "below" (the Home hero's cursor card) puts it below and
+ *   to the right of the arrow instead, flipping to the other side near
+ *   the screen's edges; `width` sets its size (always 16:9); `morph`
+ *   makes it grow out of the cursor point instead of just fading.
  * - Only on devices with a real hover pointer (and hidden below md), so
  *   touch screens just get the plain link.
  * - Portaled to <body> and positioned by writing a transform on mousemove
@@ -53,12 +57,18 @@ export function useCursorPreview({
   cycleMs = 600,
   shuffle = true,
   eager = false,
+  placement = "above",
+  width = PREVIEW_W,
+  morph = false,
 }: {
   images: PreviewImage[];
   side: "left" | "right";
   cycleMs?: number;
   shuffle?: boolean;
   eager?: boolean;
+  placement?: "above" | "below";
+  width?: number;
+  morph?: boolean;
 }): {
   handlers: {
     onMouseEnter: (e: React.MouseEvent) => void;
@@ -99,11 +109,24 @@ export function useCursorPreview({
     return () => window.clearInterval(id);
   }, [visible, order, cycleMs]);
 
+  const height = Math.round((width * 9) / 16);
+
   function place(e: React.MouseEvent) {
     const el = posRef.current;
     if (!el) return;
-    const x = side === "right" ? e.clientX + OFFSET : e.clientX - PREVIEW_W - OFFSET;
-    const y = e.clientY - PREVIEW_H - OFFSET;
+    let x: number;
+    let y: number;
+    if (placement === "below") {
+      // Clear of the arrow's tip, below and to the right; flips to the
+      // left / above near the right / bottom edge of the screen.
+      x = e.clientX + 20;
+      y = e.clientY + 28;
+      if (x + width > window.innerWidth - 8) x = e.clientX - width - 12;
+      if (y + height > window.innerHeight - 8) y = e.clientY - height - 12;
+    } else {
+      x = side === "right" ? e.clientX + OFFSET : e.clientX - width - OFFSET;
+      y = e.clientY - height - OFFSET;
+    }
     el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
   }
 
@@ -144,12 +167,12 @@ export function useCursorPreview({
         ref={posRef}
         aria-hidden="true"
         className="pointer-events-none fixed left-0 top-0 z-[60] hidden md:block"
-        style={{ width: PREVIEW_W, height: PREVIEW_H }}
+        style={{ width, height }}
       >
         <div
-          className={`relative h-full w-full overflow-hidden rounded-lg bg-mist transition-[opacity,transform] duration-200 ease-out ${
-            visible ? "opacity-100 scale-100" : "opacity-0 scale-95"
-          }`}
+          className={`relative h-full w-full overflow-hidden rounded-lg bg-mist transition-[opacity,transform] ease-out ${
+            morph ? "origin-top-left duration-300" : "duration-200"
+          } ${visible ? "opacity-100 scale-100" : morph ? "opacity-0 scale-50" : "opacity-0 scale-95"}`}
         >
           {order.map((img, i) =>
             activated || (eager && i === 0) ? (
@@ -158,7 +181,7 @@ export function useCursorPreview({
                 src={img.src}
                 alt=""
                 fill
-                sizes={`${PREVIEW_W}px`}
+                sizes={`${width}px`}
                 onLoad={() => markLoaded(img.src)}
                 className={`object-cover ${i === index ? "opacity-100" : "opacity-0"}`}
               />

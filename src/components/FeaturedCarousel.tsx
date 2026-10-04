@@ -48,6 +48,14 @@ function getFrames(project: Project) {
  * away instead of waiting a full cycle. Desktop: the two cards fully in
  * view (the first two positions), each on its own cycle.
  *
+ * `variant="home"` (the Home page) changes desktop only, and needs a
+ * full-width ancestor that's a size container (Home's Featured section):
+ * the track runs the full width of the screen (the first card still starts at the page
+ * margin, and cards slide out to both screen edges), cards sit 2px apart,
+ * and each shows just its title under the image (no summary, no "See
+ * project"). Phones, and the in-progress pages (default variant), are
+ * unchanged.
+ *
  * The trailing slide differs by breakpoint: on mobile it's a vertically
  * scrollable "more work" panel of extra projects (just the "See all
  * projects" row when `moreProjects` is empty); on desktop it's a single
@@ -59,6 +67,7 @@ export default function FeaturedCarousel({
   moreProjects = [],
   previewCovers = [],
   locale = "en",
+  variant = "default",
 }: {
   projects: Project[];
   /** Shown as a trailing "more work" panel once the visitor swipes past the last project. */
@@ -70,7 +79,9 @@ export default function FeaturedCarousel({
    */
   previewCovers?: { src: string }[];
   locale?: "en" | "es";
+  variant?: "default" | "home";
 }) {
+  const isHome = variant === "home";
   const trackRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -102,7 +113,7 @@ export default function FeaturedCarousel({
       setProgress(max > 0 ? el.scrollLeft / max : 0);
 
       const card = el.querySelector<HTMLElement>("[data-slide]");
-      const gap = 16;
+      const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
       const step = card ? card.getBoundingClientRect().width + gap : el.clientWidth;
       const index = step > 0 ? Math.round(el.scrollLeft / step) : 0;
       const clamped = Math.min(Math.max(index, 0), Math.max(slideCount - 1, 0));
@@ -165,7 +176,7 @@ export default function FeaturedCarousel({
     const el = trackRef.current;
     if (!el) return;
     const card = el.querySelector<HTMLElement>("[data-slide]");
-    const gap = 16;
+    const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
     const amount = card ? card.getBoundingClientRect().width + gap : el.clientWidth * 0.85;
     el.scrollBy({ left: amount * direction, behavior: "smooth" });
   }
@@ -211,7 +222,9 @@ export default function FeaturedCarousel({
     // Glide to whichever card's snap position is closest, then hand
     // control back to CSS snapping once the glide is done.
     const max = el.scrollWidth - el.clientWidth;
-    const trackLeft = el.getBoundingClientRect().left;
+    // Where snapped cards line up (the page margin on the home variant).
+    const trackLeft =
+      el.getBoundingClientRect().left + (parseFloat(getComputedStyle(el).scrollPaddingLeft) || 0);
     let target = el.scrollLeft;
     let best = Infinity;
     el.querySelectorAll<HTMLElement>("[data-slide]").forEach((slide) => {
@@ -265,7 +278,19 @@ export default function FeaturedCarousel({
         // scrolling. Now the track can't scroll vertically at all (vertical
         // gestures always go to the page), and pb-2 leaves room for the
         // underline so it isn't clipped.
-        className="flex gap-4 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scrollbar-hide -mr-6 pr-6 md:-mr-8 md:pr-8"
+        //
+        // Home variant, desktop: the track spans the whole page width (the
+        // negative margins pull it out of the page grid on both sides),
+        // and the padding / scroll padding keep the first card, and every
+        // snapped card, on the page margin: 32px, or more once the grid
+        // stops growing at 1920px. cqw is the Home section's width (it's a
+        // size container), so a permanent scrollbar doesn't throw it off
+        // the way vw would.
+        className={`flex gap-4 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scrollbar-hide -mr-6 pr-6 ${
+          isHome
+            ? "md:gap-0.5 md:mx-[calc(50%-50cqw)] md:px-[max(2rem,calc(50cqw-928px))] md:scroll-px-[max(2rem,calc(50cqw-928px))]"
+            : "md:-mr-8 md:pr-8"
+        }`}
       >
         {projects.map((project, i) => {
           // Frames are loaded for the active cards and the next one in
@@ -279,7 +304,9 @@ export default function FeaturedCarousel({
               key={project.slug}
               href={locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`}
               data-slide
-              className="group block w-[85%] md:w-[calc((100%-2rem)/2.2)] shrink-0 snap-start"
+              className={`group block w-[85%] shrink-0 snap-start ${
+                isHome ? "md:w-[calc((100%-4px)/2.2)]" : "md:w-[calc((100%-2rem)/2.2)]"
+              }`}
             >
               <div className="relative aspect-[4/3] overflow-hidden rounded-lg md:rounded-none bg-mist">
                 {frames ? (
@@ -322,9 +349,19 @@ export default function FeaturedCarousel({
                   />
                 )}
               </div>
-              <div className="font-display text-2xl leading-snug mt-5">{project.title}</div>
-              <p className="text-stone mt-3">{project.summary}</p>
-              <span className="relative inline-block mt-5 font-mono text-xs uppercase tracking-[0.2em] md:group-hover:text-cobalt transition-colors">
+              <div
+                className={`font-display text-2xl leading-snug mt-5 ${
+                  isHome ? "md:text-base md:mt-3 md:group-hover:text-cobalt transition-colors" : ""
+                }`}
+              >
+                {project.title}
+              </div>
+              <p className={`text-stone mt-3 ${isHome ? "md:hidden" : ""}`}>{project.summary}</p>
+              <span
+                className={`relative inline-block mt-5 font-mono text-xs uppercase tracking-[0.2em] md:group-hover:text-cobalt transition-colors ${
+                  isHome ? "md:hidden" : ""
+                }`}
+              >
                 {t.discover}
                 <span
                   aria-hidden="true"
@@ -335,7 +372,12 @@ export default function FeaturedCarousel({
           );
         })}
 
-        <div data-slide className="w-[85%] md:w-[calc((100%-2rem)/2.2)] shrink-0 snap-start">
+        <div
+          data-slide
+          className={`w-[85%] shrink-0 snap-start ${
+            isHome ? "md:w-[calc((100%-4px)/2.2)]" : "md:w-[calc((100%-2rem)/2.2)]"
+          }`}
+        >
           {/* Mobile: a vertically scrollable list of extra projects. */}
           <div className="md:hidden max-h-[300px] overflow-y-auto snap-y snap-mandatory divide-y divide-mist">
             {moreProjects.map((project) => (
