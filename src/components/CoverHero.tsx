@@ -2,11 +2,8 @@
 
 import { useEffect, useRef, type ReactNode } from "react";
 
-// Nearly the Home hero's cover effect: dims to 25% and blurs (0 to 12px,
-// easing in) as the page slides over it. Instead of shrinking (which
-// would show dark edges around a full-width photo) the photo zooms in a
-// touch, which also keeps the blur's soft edges out of the frame.
-const MAX_BLUR_PX = 12;
+// As the page slides over it the photo zooms in a touch. No dimming or
+// blur (removed 2026-10-04, Javier's call).
 const MAX_ZOOM = 0.06;
 
 function clamp01(n: number) {
@@ -21,9 +18,9 @@ function clamp01(n: number) {
  * content (`relative z-10 bg-ink`) that covers it. Its parent decides how
  * long it stays put (the case study article, so to the end of the page).
  *
- * As it's covered it dims, zooms in a touch and blurs, following the
- * scroll, and it's switched off once fully covered. Reduced motion: it
- * still stays put, without the dim, zoom or blur.
+ * As it's covered it zooms in a touch, following the scroll, and it's
+ * switched off once fully covered. Reduced motion: it still stays put,
+ * without the zoom.
  */
 export default function CoverHero({
   children,
@@ -34,20 +31,18 @@ export default function CoverHero({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const mediaRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
-    const media = mediaRef.current;
     const inner = innerRef.current;
-    if (!el || !media || !inner) return;
+    if (!el || !inner) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
 
     function update() {
       frame = 0;
-      if (!el || !media || !inner) return;
+      if (!el || !inner) return;
       const next = el.nextElementSibling as HTMLElement | null;
       if (!next) return;
       const r = el.getBoundingClientRect();
@@ -55,9 +50,7 @@ export default function CoverHero({
       const c = r.height > 0 ? clamp01((r.bottom - next.getBoundingClientRect().top) / r.height) : 0;
       el.style.visibility = c >= 1 ? "hidden" : "";
       if (reduced) return;
-      media.style.opacity = c > 0 ? (1 - 0.75 * c).toFixed(3) : "";
       inner.style.transform = c > 0 ? `scale(${(1 + MAX_ZOOM * c).toFixed(4)})` : "";
-      inner.style.filter = c > 0 ? `blur(${(MAX_BLUR_PX * c * c).toFixed(2)}px)` : "";
     }
 
     function onScroll() {
@@ -79,7 +72,7 @@ export default function CoverHero({
     // the very top edge, under the nav (set 2026-10-04). Phones keep it
     // below the nav.
     <div ref={ref} className="sticky top-0 z-0 md:-mt-20">
-      <div ref={mediaRef} className={className}>
+      <div className={className}>
         <div ref={innerRef} className="absolute inset-0">
           {children}
         </div>
