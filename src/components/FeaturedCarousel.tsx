@@ -554,7 +554,11 @@ export default function FeaturedCarousel({
                 href={locale === "es" ? `/es/work/${project.slug}` : `/work/${project.slug}`}
                 className="flex items-center gap-4 py-3 first:pt-0 snap-start"
               >
-                <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-mist">
+                <div
+                  className={`relative h-24 w-24 shrink-0 overflow-hidden bg-mist ${
+                    isHome ? "" : "rounded-lg"
+                  }`}
+                >
                   <Image
                     src={project.hero.src}
                     alt={project.hero.alt}
@@ -577,7 +581,11 @@ export default function FeaturedCarousel({
               // it's the only row (no moreProjects passed in).
               className="flex items-center gap-4 py-3 first:pt-0 snap-start"
             >
-              <div className="flex h-24 w-24 shrink-0 items-center justify-center rounded-lg bg-mist">
+              <div
+                className={`flex h-24 w-24 shrink-0 items-center justify-center bg-mist ${
+                  isHome ? "" : "rounded-lg"
+                }`}
+              >
                 <IconArrowLeft className="h-5 w-5 rotate-180" />
               </div>
               <div className="font-mono text-xs uppercase tracking-[0.2em]">{t.seeAll}</div>

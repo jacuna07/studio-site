@@ -59,6 +59,25 @@ body {
   }
 }
 
+/* Home, touch screens: scroll snap stops on the hero's markers (HomeHero:
+   the top, the intro stop and, on phones, the panel's top), so a hard
+   swipe can't fly past the hero's intro, and on phones the next swipe
+   brings the panel up to the top. HomeHero switches the class on only
+   while it's needed (never with reduced motion). */
+html.home-snap {
+  scroll-snap-type: y mandatory;
+}
+
+html.home-snap [data-home-snap] {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* While the hero's intro plays, the panel's stop is off. */
+html.home-snap-hold [data-home-snap="panel"] {
+  scroll-snap-align: none;
+}
+
 /* Staggers the homepage hero headline in, each line sliding up and
    fading in on its own `animation-delay` (0-1050ms per line, set
    inline in src/app/(en)/page.tsx and src/app/es/page.tsx).

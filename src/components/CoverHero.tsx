@@ -75,7 +75,10 @@ export default function CoverHero({
   }, []);
 
   return (
-    <div ref={ref} className="sticky top-0 z-0">
+    // Desktop: -mt-20 cancels main's top padding, so the photo starts at
+    // the very top edge, under the nav (set 2026-10-04). Phones keep it
+    // below the nav.
+    <div ref={ref} className="sticky top-0 z-0 md:-mt-20">
       <div ref={mediaRef} className={className}>
         <div ref={innerRef} className="absolute inset-0">
           {children}

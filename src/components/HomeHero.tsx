@@ -42,6 +42,18 @@ const MAX_BLUR_PX = 12;
 // The cursor card: 16:9, grows out of the cursor, flicks every 400ms.
 const CARD_WIDTH = 288;
 const CARD_CYCLE_MS = 400;
+// Hard scrolls can't fly past the hero before its intro has played (set
+// 2026-10-04). Mouse and trackpad: the scroll stops with the hero in full
+// (the intro stop, the second marker in the JSX) and is held there until
+// HOLD_MS after the intro starts; the rest of that same gesture (a
+// trackpad's momentum) stays held up to HOLD_MAX_MS, so it takes a fresh
+// scroll to move on. Touch screens: CSS scroll snap does it (see
+// html.home-snap in globals.css), and on phones the next swipe moves the
+// panel all the way up to the top, like a swipe between screens.
+const HOLD_MS = 1200;
+const HOLD_MAX_MS = 2500;
+// Wheel events further apart than this (ms) start a new gesture.
+const WHEEL_GAP_MS = 150;
 
 /** Fired on window whenever the circled wordmark goes off or on screen. */
 export const HERO_WORDMARK_EVENT = "tresunotres:hero-wordmark";
@@ -76,6 +88,8 @@ function announce(onScreen: boolean) {
  *   flicks through the same hero photos (like cuestudiodesign.com).
  * - Tells the nav when the wordmark is covered, so the nav's own logo
  *   only appears then (HERO_WORDMARK_EVENT).
+ * - A hard scroll stops at the hero in full while the intro plays (see
+ *   HOLD_MS); on phones the next swipe brings the panel up to the top.
  *
  * Fails toward visible: before the JS takes over, the wordmark and the
  * sentences are only hidden when scripting is on, with a CSS failsafe
@@ -92,6 +106,7 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
   const markMoveRef = useRef<HTMLDivElement>(null);
   const markSpinRef = useRef<HTMLDivElement>(null);
   const lineRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const introStopRef = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<"pending" | "live">("pending");
 
   const card = useCursorPreview({
@@ -112,9 +127,14 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
     const markBox = markBoxRef.current;
     const markMove = markMoveRef.current;
     const markSpin = markSpinRef.current;
-    if (!spacer || !hero || !gallery || !content || !markBox || !markMove || !markSpin) return;
+    const introStop = introStopRef.current;
+    if (!spacer || !hero || !gallery || !content || !markBox || !markMove || !markSpin || !introStop)
+      return;
     const lines = lineRefs.current.filter((l): l is HTMLSpanElement => !!l);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const touch = window.matchMedia("(hover: none)");
+    const wide = window.matchMedia("(min-width: 768px)");
+    const root = document.documentElement;
 
     let frame = 0;
     let lastTime = 0;
@@ -124,11 +144,46 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
     let onScreen: boolean | null = null;
     // Whether the intro has been played (null = not set up yet).
     let played: boolean | null = null;
+    let playedAt = 0;
+    // Scroll snap (touch screens), and when it may come back on after an
+    // in-page link switched it off.
+    let snapOn = false;
+    let snapHold: boolean | null = null;
+    let snapPausedUntil = 0;
+    // The current wheel gesture: when it started, when its last event
+    // came, and where it's taking the page (smooth wheel scrolling runs
+    // ahead of scrollY).
+    let wheelStart = 0;
+    let lastWheel = 0;
+    let wheelEnd = 0;
+    let glideUntil = 0;
 
     function report(next: boolean) {
       if (next === onScreen) return;
       onScreen = next;
       announce(next);
+    }
+
+    // Where the scroll stops with the hero in full (page px).
+    function stopY() {
+      if (!spacer || !introStop) return 0;
+      return spacer.getBoundingClientRect().top + window.scrollY + introStop.offsetTop;
+    }
+
+    // Whether the intro is still playing (or hasn't started).
+    function holding(now: number) {
+      return played !== true || now - playedAt < HOLD_MS;
+    }
+
+    function setSnap(on: boolean, hold: boolean) {
+      if (on !== snapOn) {
+        snapOn = on;
+        root.classList.toggle("home-snap", on);
+      }
+      if (hold !== snapHold) {
+        snapHold = hold;
+        root.classList.toggle("home-snap-hold", hold);
+      }
     }
 
     function centeredMark() {
@@ -187,7 +242,21 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
         const want = y > TRIGGER_PX;
         if (want !== played) {
           play(want, played === null && !want);
+          if (want) playedAt = now;
           played = want;
+        }
+
+        // Touch screens: snap only while it's needed. While the intro
+        // plays, the only stops are the top and the intro stop, so even a
+        // swipe whose drag alone goes past the intro stop comes back to
+        // it. Then phones: the panel's top is a stop too, until the panel
+        // reaches the top (inside the page, scrolling is free). Tablets:
+        // no more snapping past the intro stop.
+        const hold = holding(now);
+        if (!touch.matches) setSnap(false, false);
+        else if (now >= snapPausedUntil) {
+          if (!wide.matches || hold) setSnap(panelTop > 2, hold);
+          else setSnap(y < stopY() - 2, hold);
         }
 
         // Covered share: 0 when the page starts sliding over, 1 when the
@@ -226,6 +295,41 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
       if (!frame) frame = window.requestAnimationFrame(loop);
     }
 
+    // Mouse and trackpad: don't let a scroll run past the intro stop while
+    // the intro plays, nor the rest of that gesture (see HOLD_MS).
+    function onWheel(e: WheelEvent) {
+      const now = performance.now();
+      const y = window.scrollY;
+      if (now - lastWheel > WHEEL_GAP_MS) {
+        wheelStart = now;
+        wheelEnd = y;
+      }
+      lastWheel = now;
+      if (reduced || e.ctrlKey || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+      const dy = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1);
+      wheelEnd = (dy > 0 ? Math.max(wheelEnd, y) : Math.min(wheelEnd, y)) + dy;
+      if (dy <= 0) return;
+      const stop = stopY();
+      if (y > stop + 1) return; // already past the hero
+      // A gesture that starts once the intro has had its time moves on.
+      if (played === true && (wheelStart >= playedAt + HOLD_MS || now - playedAt >= HOLD_MAX_MS)) return;
+      if (wheelEnd <= stop) return; // stays short of the stop
+      e.preventDefault();
+      wheelEnd = stop;
+      if (stop - y > 1 && now >= glideUntil) {
+        window.scrollTo({ top: stop, behavior: "smooth" });
+        glideUntil = now + 400;
+      }
+    }
+
+    // An in-page link (the spotlight, back to top) jumps past the snap
+    // stops: switch the snap off for the jump.
+    function onClick(e: MouseEvent) {
+      if (!(e.target instanceof Element) || !e.target.closest('a[href*="#"]')) return;
+      snapPausedUntil = performance.now() + 1500;
+      setSnap(false, false);
+    }
+
     // Set everything in its starting place while the pending CSS still
     // hides the wordmark and sentences, then switch that CSS off: the
     // wordmark fades in (see [data-hero-mark] in globals.css), already
@@ -242,10 +346,15 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
 
     window.addEventListener("scroll", wake, { passive: true });
     window.addEventListener("resize", wake);
+    window.addEventListener("wheel", onWheel, { passive: false });
+    document.addEventListener("click", onClick, true);
     return () => {
       window.removeEventListener("scroll", wake);
       window.removeEventListener("resize", wake);
+      window.removeEventListener("wheel", onWheel);
+      document.removeEventListener("click", onClick, true);
       window.cancelAnimationFrame(frame);
+      root.classList.remove("home-snap", "home-snap-hold");
     };
   }, []);
 
@@ -257,6 +366,24 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
       // under the fixed nav from the very top.
       className={`relative -mt-20 ${SPACER_CLASS}`}
     >
+      {/* Scroll snap stops for touch screens (html.home-snap in
+          globals.css): the top; the intro stop, the hero in full with the
+          panel's top right at the bottom of the screen (a phone's
+          address bar hidden or not); and, phones only, the panel's top
+          (off while the intro plays). The intro stop is also where mouse
+          and trackpad scrolls are held (HOLD_MS). */}
+      <div aria-hidden="true" data-home-snap className="pointer-events-none absolute left-0 top-0 h-px w-px" />
+      <div
+        ref={introStopRef}
+        aria-hidden="true"
+        data-home-snap
+        className="pointer-events-none absolute left-0 top-[calc(135svh_-_100lvh)] h-px w-px md:top-[35vh]"
+      />
+      <div
+        aria-hidden="true"
+        data-home-snap="panel"
+        className="pointer-events-none absolute left-0 top-full h-px w-px md:hidden"
+      />
       <section
         ref={heroRef}
         data-hero={state}
