@@ -26,7 +26,10 @@ const nextConfig = {
       // too. No external stylesheets are loaded (fonts are self-hosted
       // via next/font, not fetched from Google at runtime).
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self'",
+      // data: for the nav pill's glass edge, whose displacement map is
+      // drawn in the browser and handed to an SVG filter as an inline PNG
+      // (Nav.tsx, glassMap). Images can't run code, so this is low risk.
+      "img-src 'self' data:",
       "font-src 'self'",
       // The contact form posts to Formspree.
       "connect-src 'self' https://formspree.io",
