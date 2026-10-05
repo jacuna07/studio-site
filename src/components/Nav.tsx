@@ -35,6 +35,8 @@ const copy: Record<Locale, { home: string; homeLabel: string; links: { href: str
 export default function Nav({ locale = "en" }: { locale?: Locale }) {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(true);
+  // Desktop: whether the page has scrolled at all (see the header).
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname() || "/";
   const t = copy[locale];
 
@@ -65,11 +67,9 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
   const hideWordmark = isEnHome && heroWordmarkOnScreen;
 
   // Desktop, English Home, while the hero's wordmark is on screen (set
-  // 2026-10-05): just the three links as text, centered, no pill; the
-  // pill fades in as it widens out (a width transition) once the logo
-  // appears. The
-  // links' width is measured (and re-measured if it changes, e.g. when
-  // the fonts load).
+  // 2026-10-05): just the three links as text, centered, no bar or pill.
+  // The links' width is measured (and re-measured if it changes, e.g.
+  // when the fonts load) so the box can shrink to them and grow back out.
   const linksRef = useRef<HTMLDivElement>(null);
   const [linksWidth, setLinksWidth] = useState(0);
   useEffect(() => {
@@ -81,16 +81,13 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
     watch.observe(el);
     return () => watch.disconnect();
   }, []);
-  // Full: 33px past the grid on each side, so the logo and the links sit
-  // right on the page margins (inside the pill's 1px outline and 32px
-  // padding). Compact: the links plus that padding and outline.
-  const pillStyle = {
-    "--pill-w": hideWordmark
-      ? linksWidth
-        ? `${linksWidth + 66}px`
-        : "fit-content"
-      : "calc(100% + 66px)",
-  } as CSSProperties;
+  // Desktop, like wolffolins.com (set 2026-10-05): at the very top of a
+  // page a full-width bar (the solid one from before the pill), the logo
+  // and links on the page margins; as soon as the page scrolls it shrinks
+  // into a centered floating pill. On the English Home hero, the links
+  // only (see above).
+  const navMode = hideWordmark ? "hero" : scrolled ? "pill" : "bar";
+  const linksStyle = { "--links-w": `${linksWidth}px` } as CSSProperties;
 
   // Phones, English Home and Studio (set 2026-10-05): the whole bar stays
   // hidden while the hero is on screen, and slides in once the page's
@@ -145,9 +142,11 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
       const goingDown = currentY > lastY;
 
       setVisible(currentY < 80 ? true : !goingDown);
+      setScrolled(currentY > 4);
       lastY = currentY;
     }
 
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -240,33 +239,47 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           have been failing to paint on one real device while this
           fixed header and the Footer (styled without transform/blur)
           keep rendering fine. Removing it costs nothing either way. */}
-      {/* Phones: a full-width bar. Desktop (set 2026-10-05): a floating
-          pill, 72px tall, 16px from the top. It reaches 33px past the
-          page grid on each side, so inside its outline and 32px padding
-          the logo and the links line up with the page content. More
-          see-through than the phone bar (ink at 40%), blurred, with a
-          mist outline; the header itself is see-through there. On the
-          Home hero it's just the three links as text, centered, with no
-          pill (see pillStyle); the pill fades in as it widens out. Both
-          slide up out of view when scrolling down. */}
+      {/* Phones: a full-width bar that slides up out of view when
+          scrolling down (and stays hidden over the Home and Studio heroes).
+          Desktop (set 2026-10-05, after wolffolins.com/work): always in
+          view. At the very top of a page it's the full-width solid bar
+          (ink at 75%, blurred, 80px tall, logo and links on the page
+          margins). Once the page scrolls, the bar shrinks into a floating
+          pill: centered, 16px from the top, 72px tall, 70% of the page
+          grid (640 to 960px wide), ink at 40% with a mist outline, logo
+          and links 32px inside it. Width, height, corners and color all
+          move together (650ms, a quick ease out). The bar/pill shape is
+          its own layer behind the logo and links, so it can reach the
+          screen edges. On the English Home hero: the links alone,
+          centered, no shape. */}
       <header
         id="top"
-        className={`fixed top-0 inset-x-0 z-50 bg-ink/75 backdrop-blur-md transition-transform duration-300 md:bg-transparent md:pt-4 md:backdrop-blur-none ${
-          visible || open ? "translate-y-0" : "-translate-y-full"
+        className={`fixed top-0 inset-x-0 z-50 bg-ink/75 backdrop-blur-md transition-transform duration-300 md:translate-y-0 md:bg-transparent md:backdrop-blur-none ${
+          visible || open ? "" : "max-md:-translate-y-full"
         } ${overHero && !open ? "max-md:-translate-y-full" : ""}`}
       >
       <Container className="relative z-50 md:flex md:justify-center">
       <div
-        style={pillStyle}
-        className={`relative flex h-20 items-center justify-between md:h-[72px] md:w-[var(--pill-w)] md:shrink-0 md:justify-end md:overflow-hidden md:rounded-full md:border md:px-8 md:transition-[width,background-color,border-color,backdrop-filter] md:duration-500 md:ease-out ${
-          hideWordmark
-            ? "md:border-transparent md:bg-transparent md:backdrop-blur-none"
-            : "md:border-mist md:bg-ink/40 md:backdrop-blur-md"
+        style={linksStyle}
+        className={`relative flex h-20 items-center justify-between md:shrink-0 md:justify-end md:transition-[width,height,margin] md:duration-[650ms] md:ease-[cubic-bezier(0.23,1,0.32,1)] ${
+          navMode === "bar"
+            ? "md:mt-0 md:h-20 md:w-full"
+            : navMode === "pill"
+              ? "md:mt-4 md:h-[72px] md:w-[clamp(576px,calc(70%_-_64px),896px)]"
+              : `md:mt-4 md:h-[72px] ${linksWidth ? "md:w-[var(--links-w)]" : "md:w-fit"}`
         }`}
       >
+        <span
+          aria-hidden="true"
+          className={`pointer-events-none absolute inset-y-0 -z-10 hidden border backdrop-blur-md transition-[left,right,border-radius,background-color,border-color,opacity] duration-[650ms] ease-[cubic-bezier(0.23,1,0.32,1)] md:block ${
+            navMode === "bar"
+              ? "left-[calc(50%_-_50vw)] right-[calc(50%_-_50vw)] rounded-none border-transparent bg-ink/75"
+              : `-left-8 -right-8 rounded-[36px] border-mist bg-ink/40 ${navMode === "hero" ? "opacity-0" : ""}`
+          }`}
+        />
         <Link
           href={t.home}
-          className={`block text-paper md:absolute md:left-8 md:top-1/2 md:-translate-y-1/2 md:hover:text-cobalt transition-colors ${
+          className={`block text-paper md:absolute md:left-0 md:top-1/2 md:-translate-y-1/2 md:hover:text-cobalt transition-colors ${
             hideWordmark ? "pointer-events-none" : ""
           }`}
           tabIndex={hideWordmark ? -1 : undefined}
@@ -275,7 +288,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           <span className="sr-only">Tresunotres</span>
           <Wordmark
             className={`hidden md:block h-[13px] w-auto transition-opacity duration-500 ${
-              hideWordmark ? "md:opacity-0" : "md:opacity-100"
+              hideWordmark ? "md:opacity-0" : "md:opacity-100 md:delay-300"
             }`}
           />
           <CircledWordmark
