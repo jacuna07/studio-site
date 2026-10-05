@@ -32,51 +32,6 @@ const copy: Record<Locale, { home: string; homeLabel: string; links: { href: str
   },
 };
 
-// The desktop pill's "liquid glass" edge (set 2026-10-05): within EDGE_PX
-// of its rim, what's behind it is pulled in from a little further inside,
-// like light bending through the rounded edge of a glass lens; the middle
-// is untouched. GLASS_SCALE is the strongest shift (px) right at the rim
-// times two (feDisplacementMap's scale), easing out over the band.
-const EDGE_PX = 14;
-const GLASS_SCALE = 24;
-
-/**
- * A displacement map for a pill (a rectangle with fully rounded ends) of
- * this size, as a PNG data URL: red is the sideways shift, green the
- * vertical one, 128 meaning none.
- */
-function glassMap(w: number, h: number) {
-  const canvas = document.createElement("canvas");
-  canvas.width = w;
-  canvas.height = h;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return "";
-  const img = ctx.createImageData(w, h);
-  const r = h / 2;
-  for (let y = 0; y < h; y++) {
-    for (let x = 0; x < w; x++) {
-      // Distance from the pill's spine (the line between the two round
-      // ends' centers), so the rim is at r and the normal points outward.
-      const px = x + 0.5;
-      const py = y + 0.5;
-      const dx = px - Math.min(Math.max(px, r), w - r);
-      const dy = py - r;
-      const dist = Math.hypot(dx, dy);
-      const t = Math.min(Math.max(1 - (r - dist) / EDGE_PX, 0), 1);
-      const k = t * t;
-      const nx = dist > 0 ? dx / dist : 0;
-      const ny = dist > 0 ? dy / dist : 0;
-      const i = (y * w + x) * 4;
-      img.data[i] = Math.round(128 - nx * k * 127);
-      img.data[i + 1] = Math.round(128 - ny * k * 127);
-      img.data[i + 2] = 128;
-      img.data[i + 3] = 255;
-    }
-  }
-  ctx.putImageData(img, 0, 0);
-  return canvas.toDataURL();
-}
-
 export default function Nav({ locale = "en" }: { locale?: Locale }) {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -126,59 +81,16 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
     watch.observe(el);
     return () => watch.disconnect();
   }, []);
-  // Full: 32px past the grid on each side, so the logo and the links sit
-  // right on the page margins (inside the pill's 32px padding). Compact:
-  // the links plus that padding.
+  // Full: 33px past the grid on each side, so the logo and the links sit
+  // right on the page margins (inside the pill's 1px outline and 32px
+  // padding). Compact: the links plus that padding and outline.
   const pillStyle = {
     "--pill-w": hideWordmark
       ? linksWidth
-        ? `${linksWidth + 64}px`
+        ? `${linksWidth + 66}px`
         : "fit-content"
-      : "calc(100% + 64px)",
+      : "calc(100% + 66px)",
   } as CSSProperties;
-
-  // The glass edge's displacement (see glassMap) is an SVG filter used as
-  // a backdrop filter, which only Chromium browsers (Chrome, Edge, Arc,
-  // Brave) draw; elsewhere the pill keeps its plain blur. The map is
-  // rebuilt for the pill's size once it has settled (not during the Home
-  // pill's widening), and the effect is off until then.
-  const pillRef = useRef<HTMLDivElement>(null);
-  const glassImageRef = useRef<SVGFEImageElement>(null);
-  const [glassReady, setGlassReady] = useState(false);
-  useEffect(() => {
-    const pill = pillRef.current;
-    const image = glassImageRef.current;
-    if (!pill || !image) return;
-    const ua = (navigator as Navigator & { userAgentData?: { brands?: { brand: string }[] } })
-      .userAgentData;
-    if (!ua?.brands?.some((b) => b.brand === "Chromium")) return;
-    const desktop = window.matchMedia("(min-width: 768px)");
-    let timer = 0;
-    let built = "";
-    function build() {
-      if (!pill || !image || !desktop.matches) return;
-      const w = Math.round(pill.offsetWidth);
-      const h = Math.round(pill.offsetHeight);
-      if (!w || !h) return;
-      if (built !== `${w}x${h}`) {
-        built = `${w}x${h}`;
-        image.setAttribute("href", glassMap(w, h));
-        image.setAttribute("width", String(w));
-        image.setAttribute("height", String(h));
-      }
-      setGlassReady(true);
-    }
-    const watch = new ResizeObserver(() => {
-      setGlassReady(false);
-      window.clearTimeout(timer);
-      timer = window.setTimeout(build, 150);
-    });
-    watch.observe(pill);
-    return () => {
-      watch.disconnect();
-      window.clearTimeout(timer);
-    };
-  }, []);
 
   // Phones, English Home and Studio (set 2026-10-05): the whole bar stays
   // hidden while the hero is on screen, and slides in once the page's
@@ -317,14 +229,6 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
 
   return (
     <>
-      {/* The pill's glass edge filter (see glassMap). The map is filled in
-          on the client, sized to the pill. */}
-      <svg aria-hidden="true" width="0" height="0" style={{ position: "absolute", width: 0, height: 0 }}>
-        <filter id="nav-glass" x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
-          <feImage ref={glassImageRef} x="0" y="0" preserveAspectRatio="none" result="map" />
-          <feDisplacementMap in="SourceGraphic" in2="map" scale={GLASS_SCALE} xChannelSelector="R" yChannelSelector="G" />
-        </filter>
-      </svg>
       {/* No `will-change-transform` here anymore: it was added early on
           as a defensive guess for a burger-icon nudge bug that was
           later actually fixed elsewhere (locking horizontal
@@ -337,18 +241,14 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           fixed header and the Footer (styled without transform/blur)
           keep rendering fine. Removing it costs nothing either way. */}
       {/* Phones: a full-width bar. Desktop (set 2026-10-05): a floating
-          pill, 72px tall, 16px from the top. It reaches 32px past the
-          page grid on each side, so inside its 32px padding the logo and
-          the links line up with the page content. More see-through than
-          the phone bar (ink at 40%), blurred; the header itself is
-          see-through there. On the
+          pill, 72px tall, 16px from the top. It reaches 33px past the
+          page grid on each side, so inside its outline and 32px padding
+          the logo and the links line up with the page content. More
+          see-through than the phone bar (ink at 40%), blurred, with a
+          mist outline; the header itself is see-through there. On the
           Home hero it's just the three links as text, centered, with no
           pill (see pillStyle); the pill fades in as it widens out. Both
-          slide up out of view when scrolling down.
-          Liquid glass (set 2026-10-05): instead of a solid outline, a 1px
-          gradient rim, light gray at the top fading to ink at the bottom
-          (.nav-ring in globals.css), a very soft drop shadow, and the rim
-          bends what's behind it (#nav-glass, Chromium only). */}
+          slide up out of view when scrolling down. */}
       <header
         id="top"
         className={`fixed top-0 inset-x-0 z-50 bg-ink/75 backdrop-blur-md transition-transform duration-300 md:bg-transparent md:pt-4 md:backdrop-blur-none ${
@@ -357,22 +257,13 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
       >
       <Container className="relative z-50 md:flex md:justify-center">
       <div
-        ref={pillRef}
         style={pillStyle}
-        className={`relative flex h-20 items-center justify-between md:h-[72px] md:w-[var(--pill-w)] md:shrink-0 md:justify-end md:overflow-hidden md:rounded-full md:px-8 md:transition-[width,background-color,box-shadow,backdrop-filter] md:duration-500 md:ease-out ${
+        className={`relative flex h-20 items-center justify-between md:h-[72px] md:w-[var(--pill-w)] md:shrink-0 md:justify-end md:overflow-hidden md:rounded-full md:border md:px-8 md:transition-[width,background-color,border-color,backdrop-filter] md:duration-500 md:ease-out ${
           hideWordmark
-            ? "md:bg-transparent md:shadow-none md:backdrop-blur-none"
-            : `md:bg-ink/40 md:shadow-[0_8px_24px_rgba(0,0,0,0.22)] md:backdrop-blur-md ${
-                glassReady ? "nav-glass" : ""
-              }`
+            ? "md:border-transparent md:bg-transparent md:backdrop-blur-none"
+            : "md:border-mist md:bg-ink/40 md:backdrop-blur-md"
         }`}
       >
-        <span
-          aria-hidden="true"
-          className={`nav-ring pointer-events-none absolute inset-0 hidden rounded-full transition-opacity duration-500 md:block ${
-            hideWordmark ? "opacity-0" : "opacity-100"
-          }`}
-        />
         <Link
           href={t.home}
           className={`block text-paper md:absolute md:left-8 md:top-1/2 md:-translate-y-1/2 md:hover:text-cobalt transition-colors ${
