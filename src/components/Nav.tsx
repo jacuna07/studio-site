@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Container from "./Container";
@@ -63,6 +63,33 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
     return () => window.removeEventListener(HERO_WORDMARK_EVENT, onHero);
   }, []);
   const hideWordmark = isEnHome && heroWordmarkOnScreen;
+
+  // Desktop, English Home, while the hero's wordmark is on screen (set
+  // 2026-10-05): the pill shrinks to wrap just the three links, centered;
+  // it widens back out (a width transition) once the logo appears. The
+  // links' width is measured (and re-measured if it changes, e.g. when
+  // the fonts load).
+  const linksRef = useRef<HTMLDivElement>(null);
+  const [linksWidth, setLinksWidth] = useState(0);
+  useEffect(() => {
+    const el = linksRef.current;
+    if (!el) return;
+    const measure = () => setLinksWidth(el.offsetWidth);
+    measure();
+    const watch = new ResizeObserver(measure);
+    watch.observe(el);
+    return () => watch.disconnect();
+  }, []);
+  // Full: 21px past the grid on each side, so the logo and the links sit
+  // right on the page margins (inside the pill's 1px outline and 20px
+  // padding). Compact: the links plus that padding and outline.
+  const pillStyle = {
+    "--pill-w": hideWordmark
+      ? linksWidth
+        ? `${linksWidth + 42}px`
+        : "fit-content"
+      : "calc(100% + 42px)",
+  } as CSSProperties;
 
   // Phones, English Home and Studio (set 2026-10-05): the whole bar stays
   // hidden while the hero is on screen, and slides in once the page's
@@ -213,21 +240,27 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           fixed header and the Footer (styled without transform/blur)
           keep rendering fine. Removing it costs nothing either way. */}
       {/* Phones: a full-width bar. Desktop (set 2026-10-05): a floating
-          pill, 64px tall, 16px from the top, as wide as the page's grid
-          (the Container's margins), with a mist outline; the header
-          itself is see-through there. Both slide up out of view when
-          scrolling down. */}
+          pill, 64px tall, 12px from the top. It reaches 21px past the
+          page grid on each side, so inside its outline and 20px padding
+          the logo and the links line up with the page content. More see-through than
+          the phone bar (ink at 40%), blurred, with a mist outline; the
+          header itself is see-through there. On the Home hero it wraps
+          just the links, centered (see pillStyle). Both slide up out of
+          view when scrolling down. */}
       <header
         id="top"
-        className={`fixed top-0 inset-x-0 z-50 bg-ink/75 backdrop-blur-md transition-transform duration-300 md:bg-transparent md:pt-4 md:backdrop-blur-none ${
+        className={`fixed top-0 inset-x-0 z-50 bg-ink/75 backdrop-blur-md transition-transform duration-300 md:bg-transparent md:pt-3 md:backdrop-blur-none ${
           visible || open ? "translate-y-0" : "-translate-y-full"
         } ${overHero && !open ? "max-md:-translate-y-full" : ""}`}
       >
-      <Container className="relative z-50">
-      <div className="flex h-20 items-center justify-between md:h-16 md:rounded-full md:border md:border-mist md:bg-ink/75 md:px-8 md:backdrop-blur-md">
+      <Container className="relative z-50 md:flex md:justify-center">
+      <div
+        style={pillStyle}
+        className="relative flex h-20 items-center justify-between md:h-16 md:w-[var(--pill-w)] md:shrink-0 md:justify-end md:overflow-hidden md:rounded-full md:border md:border-mist md:bg-ink/40 md:px-5 md:backdrop-blur-md md:transition-[width] md:duration-500 md:ease-out"
+      >
         <Link
           href={t.home}
-          className={`block text-paper md:hover:text-cobalt transition-colors ${
+          className={`block text-paper md:absolute md:left-5 md:top-1/2 md:-translate-y-1/2 md:hover:text-cobalt transition-colors ${
             hideWordmark ? "pointer-events-none" : ""
           }`}
           tabIndex={hideWordmark ? -1 : undefined}
@@ -246,7 +279,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           />
         </Link>
 
-        <div className="hidden md:flex items-center gap-10">
+        <div ref={linksRef} className="hidden md:flex items-center gap-10">
           <nav className="flex gap-9 font-sans text-base uppercase tracking-[0.2em]">
             {t.links.map((l) => (
               <Link
