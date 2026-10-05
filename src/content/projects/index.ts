@@ -77,24 +77,18 @@ export function getProjectImagery(project: Project): { src: string }[] {
 }
 
 /**
- * Every 16:9 still across all projects (covers plus "wide" gallery
- * images, videos excluded), for the Home hero's background slideshow.
+ * Every project's hero photo (16:9), for the Home hero's background
+ * slideshow and its desktop cursor card.
  */
 export function getBackdropImages(): { src: string; alt: string }[] {
   const seen = new Set<string>();
   const images: { src: string; alt: string }[] = [];
+  // Hero photos only (set 2026-10-04; wide gallery images used to join).
   for (const p of projects) {
-    const candidates = [
-      { src: p.hero.src, alt: p.hero.alt },
-      ...p.gallery
-        .filter((g) => g.aspect === "wide" && (g.type ?? "image") === "image")
-        .map((g) => ({ src: g.src, alt: g.alt })),
-    ];
-    for (const img of candidates) {
-      if (seen.has(img.src)) continue;
-      seen.add(img.src);
-      images.push(img);
-    }
+    const img = { src: p.hero.src, alt: p.hero.alt };
+    if (seen.has(img.src)) continue;
+    seen.add(img.src);
+    images.push(img);
   }
   return images;
 }

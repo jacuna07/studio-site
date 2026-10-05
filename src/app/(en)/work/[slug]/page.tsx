@@ -7,6 +7,7 @@ import Gallery from "@/components/Gallery";
 import ShareButton from "@/components/ShareButton";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
 import InProgressCaseStudy from "@/components/InProgressCaseStudy";
+import CoverHero from "@/components/CoverHero";
 import AdjacentProjectLink from "@/components/AdjacentProjectLink";
 import SeeAllProjectsCta from "@/components/SeeAllProjectsCta";
 import { pageMetadata, projectShareImage } from "@/lib/metadata";
@@ -73,7 +74,9 @@ export default function ProjectPage({ params }: Props) {
   return (
     <CaseStudyBackSwipe targetHref="/work" targetLabel="Work">
       <article className="animate-case-study-in">
-        <div className="relative aspect-[16/9] w-full overflow-hidden bg-mist">
+        {/* The hero photo stays put while the rest of the page scrolls up
+            over it, like the Home hero (CoverHero). */}
+        <CoverHero className="relative aspect-[16/9] w-full overflow-hidden bg-mist">
           {project.hero.video ? (
             <video
               src={project.hero.video}
@@ -94,8 +97,10 @@ export default function ProjectPage({ params }: Props) {
               className="object-cover"
             />
           )}
-        </div>
+        </CoverHero>
 
+        {/* Everything after the hero: opaque, above it, so it covers it. */}
+        <div className="relative z-10 bg-ink">
         <Container className="py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {/* max-w-copy: keeps the case study text at a reading width on
@@ -226,6 +231,7 @@ export default function ProjectPage({ params }: Props) {
 
       {/* Same closing block as the Home page, right above the footer. */}
       <SeeAllProjectsCta className="mt-4" />
+        </div>
       </article>
     </CaseStudyBackSwipe>
   );

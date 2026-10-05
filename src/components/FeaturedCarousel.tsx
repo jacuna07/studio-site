@@ -54,11 +54,13 @@ function getFrames(project: Project) {
  * view (the first two positions), each on its own cycle.
  *
  * `variant="home"` (the Home page):
- * - Plays only once it's in place (HomeCarouselInPlace, from
- *   HomeSecondModule: it has come in and is on screen). Then images start
- *   cycling straight away, and on desktop the whole strip drifts slowly
- *   sideways on its own (turning back at either end), pausing while
- *   hovered, dragged or scrolled by the visitor.
+ * - Plays only once it has come in (HomeCarouselInPlace, from
+ *   HomeSecondModule). Then images start cycling straight away, and on
+ *   desktop the whole strip drifts slowly sideways on its own (turning
+ *   back at either end), pausing while hovered, dragged, scrolled by the
+ *   visitor or off screen.
+ * - Phones: square corners, and each card shows its industry instead of
+ *   the summary (set 2026-10-04).
  * - Desktop only, and it needs a full-width ancestor that's a size
  *   container (Home's Featured section): full bleed (the track runs edge
  *   to edge of the screen, first card at the very left), no snapping to
@@ -67,8 +69,8 @@ function getFrames(project: Project) {
  *   in a cobalt band on hover, with a slight zoom, like the Work page.
  *   Wrap it in CursorRevealGrid for the 👀 cursor; the "See all
  *   projects" card opts out of it.
- * Phones keep their titles, summaries and progress bar. The in-progress
- * pages (default variant) are unchanged.
+ * Phones keep their titles, "See project" and progress bar. The
+ * in-progress pages (default variant) are unchanged.
  *
  * The trailing slide differs by breakpoint: on mobile it's a vertically
  * scrollable "more work" panel of extra projects (just the "See all
@@ -304,6 +306,11 @@ export default function FeaturedCarousel({
     let last = 0;
     let pos = el.scrollLeft;
     let dir = 1;
+    let visible = true;
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+    });
+    io.observe(el);
     function step(now: number) {
       if (!el) return;
       const dt = last ? Math.min(now - last, 64) : 0;
@@ -313,7 +320,8 @@ export default function FeaturedCarousel({
         pos = el.scrollLeft;
         resumeAtRef.current = Math.max(resumeAtRef.current, now + DRIFT_RESUME_MS);
       }
-      const paused = hoveredRef.current || dragRef.current !== null || now < resumeAtRef.current;
+      const paused =
+        !visible || hoveredRef.current || dragRef.current !== null || now < resumeAtRef.current;
       if (!paused) {
         const max = el.scrollWidth - el.clientWidth;
         pos += (dir * DRIFT_PX_PER_S * dt) / 1000;
@@ -329,7 +337,10 @@ export default function FeaturedCarousel({
       frame = window.requestAnimationFrame(step);
     }
     frame = window.requestAnimationFrame(step);
-    return () => window.cancelAnimationFrame(frame);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      io.disconnect();
+    };
   }, [isHome, inPlace, isDesktop]);
 
   // Glide to whichever card's snap position is closest, then hand control
@@ -438,7 +449,11 @@ export default function FeaturedCarousel({
                 isHome ? "md:w-[calc((100%-4px)/2.2)]" : "md:w-[calc((100%-2rem)/2.2)]"
               }`}
             >
-              <div className="relative aspect-[4/3] overflow-hidden rounded-lg md:rounded-none bg-mist">
+              <div
+                className={`relative aspect-[4/3] overflow-hidden bg-mist ${
+                  isHome ? "" : "rounded-lg md:rounded-none"
+                }`}
+              >
                 {frames ? (
                   frames.map((f, fi) =>
                     f.type === "video" ? (
@@ -502,7 +517,14 @@ export default function FeaturedCarousel({
               <div className={`font-display text-2xl leading-snug mt-5 ${isHome ? "md:hidden" : ""}`}>
                 {project.title}
               </div>
-              <p className={`text-stone mt-3 ${isHome ? "md:hidden" : ""}`}>{project.summary}</p>
+              {isHome ? (
+                // Phones: the industry instead of the summary.
+                <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-stone md:hidden">
+                  {project.industry}
+                </div>
+              ) : (
+                <p className="text-stone mt-3">{project.summary}</p>
+              )}
               <span
                 className={`relative inline-block mt-5 font-mono text-xs uppercase tracking-[0.2em] md:group-hover:text-cobalt transition-colors ${
                   isHome ? "md:hidden" : ""

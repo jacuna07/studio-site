@@ -18,7 +18,7 @@ html {
      `clip` (with `hidden` as the fallback for older browsers) cuts off
      sideways overflow the same way but, unlike `hidden`, doesn't turn
      html/body into scroll containers, which is what lets
-     `position: sticky` work (the Home second module's pin). */
+     `position: sticky` work (the case study hero). */
   overflow-x: hidden;
   overflow-x: clip;
   overscroll-behavior-x: none;
@@ -180,10 +180,10 @@ body {
   }
 }
 
-/* Studio page, phones: the opening lines' entrance (.reveal-on-load)
-   and the scroll-linked blocks below them (src/components/Reveal.tsx,
-   which moves them with the scroll itself). 1s, 48px, ease out.
-   Desktop and reduced motion: nothing moves or hides. */
+/* Studio's opening lines (.reveal-on-load, CSS only: title, then intro)
+   and every Reveal block (src/components/Reveal.tsx, Home and Studio):
+   rise 48px and fade in over 1s / 0.9s, ease out, phones and desktop.
+   Reduced motion: nothing moves or hides. */
 @keyframes reveal-up {
   from {
     opacity: 0;
@@ -202,41 +202,16 @@ body {
   }
 }
 
-@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) {
   .reveal-on-load {
     animation: reveal-up 1s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
-
-  /* Only for the first settle of blocks already on screen at load; after
-     that the blocks follow the scroll directly, with no transition. */
-  [data-reveal="intro"] {
-    transition:
-      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
 
 /* Before the JS takes over: hidden only when scripting is on, and shown
    anyway after 4s if the JS never runs. */
-@media (max-width: 767px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) {
-  [data-reveal="pending"] {
-    opacity: 0;
-    transform: translateY(48px);
-    animation: reveal-failsafe 0.6s ease-out 4s forwards;
-  }
-}
-
-/* The same, at every screen size, for Reveal scope="all" (Home). */
-@media (prefers-reduced-motion: no-preference) {
-  [data-reveal-scope="all"][data-reveal="intro"] {
-    transition:
-      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
-  [data-reveal-scope="all"][data-reveal="pending"] {
+  [data-reveal="pending"] {
     opacity: 0;
     transform: translateY(48px);
     animation: reveal-failsafe 0.6s ease-out 4s forwards;
@@ -263,17 +238,6 @@ body {
 
   [data-hero="pending"] [data-hero-mark] {
     opacity: 0;
-    animation: reveal-failsafe 0.6s ease-out 4s forwards;
-  }
-}
-
-/* Home second module (src/components/HomeSecondModule.tsx): before the
-   JS takes over, the statement and the carousel are hidden only when
-   scripting is on, and shown anyway after 4s if the JS never runs. */
-@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
-  [data-home-pin="pending"] [data-home-step] {
-    opacity: 0;
-    transform: translateY(48px);
     animation: reveal-failsafe 0.6s ease-out 4s forwards;
   }
 }

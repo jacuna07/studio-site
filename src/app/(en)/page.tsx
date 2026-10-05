@@ -40,9 +40,9 @@ export default function HomePage() {
           the pinned hero (z-10 over the hero's z-0), with a thin mist line
           along its top edge. */}
       <div className="relative z-10 border-t border-mist bg-ink">
-        {/* The second module: the statement, then the carousel, coming in
-            one after the other with the scroll while the module is pinned
-            to the top of the screen, like the hero (HomeSecondModule). */}
+        {/* The second module: the statement, then the carousel, each
+            rising and fading in, in full, once it comes into view
+            (HomeSecondModule). */}
         <HomeSecondModule
           statement={
             // Desktop: in the hero copy's column, with room around it so the
@@ -71,18 +71,6 @@ export default function HomePage() {
               can measure the page width (cqw). */}
           <section id="work" className="pb-16 md:pb-0 md:[container-type:inline-size]">
             <Container>
-              {/* Phones only: the desktop module goes straight to the cards. */}
-              <div className="flex items-end justify-between mb-10 md:hidden">
-                <h2 className="font-mono font-bold text-xs uppercase tracking-[0.2em] text-stone">
-                  Featured
-                </h2>
-                <Link
-                  href="/work"
-                  className="font-mono text-xs uppercase tracking-[0.2em] md:hover:text-cobalt md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] transition-colors"
-                >
-                  View all
-                </Link>
-              </div>
               {/* Desktop: the 👀 cursor over the cards, as on the Work page. */}
               <CursorRevealGrid>
                 <FeaturedCarousel
@@ -101,10 +89,10 @@ export default function HomePage() {
             divider, counting the CTA's mt-4) as before it: 96px phones
             (from the carousel's bar), 136px desktop (from the cards, with
             the track's 8px bottom padding). It and the CTA rise and fade
-            in as they come into view. */}
+            in, in full, as they come into view. */}
         <section className="pt-8 pb-20 md:pt-32 md:pb-[120px]">
           <Container>
-            <Reveal scope="all" end={0.6} phoneTrigger>
+            <Reveal>
               <p className="font-display font-normal text-2xl md:text-right lg:text-3xl leading-[1.25] tracking-normal">
                 With love, from Costa Rica.
               </p>
@@ -113,7 +101,7 @@ export default function HomePage() {
         </section>
 
         {/* Closes the page right above the footer's "Say hi 👋" block. */}
-        <Reveal scope="all" end={0.6} phoneTrigger>
+        <Reveal>
           <SeeAllProjectsCta className="mt-4" />
         </Reveal>
       </div>

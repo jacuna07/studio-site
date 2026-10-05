@@ -6,49 +6,18 @@ import HeroBackdrop from "./HeroBackdrop";
 import CircledWordmark from "./icons/CircledWordmark";
 import { useCursorPreview } from "./useCursorPreview";
 
-/**
- * The scroll timeline, in screens of scrolling (phones are shorter).
- * `reveal`: how long the hero stays pinned before the page starts to
- * slide over it (then one more screen until it's fully covered).
- * Each [start, end] is a stretch within the reveal:
- * - `mark`: the circled wordmark shrinks from the middle of the screen
- *   into its place above the copy,
- * - `gallery`: the photo slideshow behind it fades to solid ink,
- * - `lines`: the two sentences, one after the other.
- */
-type Timeline = {
-  reveal: number;
-  mark: [number, number];
-  gallery: [number, number];
-  lines: [number, number][];
-};
-const DESKTOP: Timeline = {
-  reveal: 1.2,
-  mark: [0, 0.45],
-  gallery: [0, 0.7],
-  lines: [
-    [0.35, 0.8],
-    [0.7, 1.15],
-  ],
-};
-// Phones don't follow the scroll for the intro: the first scroll plays
-// it in full (see PHONE_INTRO), so they only need a short stretch before
-// the page slides over. `mark`, `gallery` and `lines` aren't used there.
-const PHONE: Timeline = {
-  reveal: 0.35,
-  mark: [0, 0],
-  gallery: [0, 0],
-  lines: [],
-};
-// The spacer heights below must match: (reveal + 1) screens.
-const SPACER_CLASS = "h-[135svh] md:h-[220vh]";
+// How long the hero stays pinned before the page starts to slide over it
+// (in screens of scrolling), then one more screen until it's covered.
+const REVEAL = 0.35;
+// The spacer must match: (REVEAL + 1) screens.
+const SPACER_CLASS = "h-[135svh] md:h-[135vh]";
 
-// Phones: once the visitor scrolls past this (px), the intro plays in
-// full on its own: the wordmark settles into place and the slideshow
-// fades to ink, then the two sentences rise in one after the other.
-// Back at the very top it plays back the other way.
-const PHONE_TRIGGER_PX = 8;
-const PHONE_INTRO = {
+// Once the visitor scrolls past this (px), the intro plays in full on its
+// own (timed, not tied to the scroll): the wordmark settles into place
+// while the slideshow fades to ink, then the two sentences rise in one
+// after the other. Back at the very top it plays back the other way.
+const TRIGGER_PX = 8;
+const INTRO = {
   ease: "cubic-bezier(0.16, 1, 0.3, 1)",
   markMs: 1000,
   galleryMs: 1200,
@@ -60,7 +29,7 @@ const PHONE_INTRO = {
 // How big the wordmark is in the middle of the screen at load, relative
 // to its final size.
 const MARK_START_SCALE = 2;
-// How far below its spot each sentence starts (px), as on Studio.
+// How far below its spot each sentence starts (px), as in Reveal.
 const DISTANCE = 48;
 // The wordmark always turns (the same pace as the phone header logo, one
 // turn every 22s) and speeds up with the scroll: every px/s of scrolling
@@ -82,18 +51,6 @@ function clamp01(n: number) {
   return Math.min(Math.max(n, 0), 1);
 }
 
-function easeOut(t: number) {
-  return 1 - Math.pow(1 - t, 3);
-}
-
-function easeInOut(t: number) {
-  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-}
-
-function progress(s: number, [start, end]: [number, number]) {
-  return clamp01((s - start) / (end - start));
-}
-
 function announce(onScreen: boolean) {
   window.dispatchEvent(
     new CustomEvent<HeroWordmarkDetail>(HERO_WORDMARK_EVENT, { detail: { onScreen } })
@@ -107,17 +64,16 @@ function announce(onScreen: boolean) {
  *   its scroll time passes by, and the rest of the page (an opaque panel
  *   right after this component) slides up over it, like
  *   veintitres.studio. The copy dims, shrinks a touch and blurs as it's
- *   covered, and the hero is switched off once fully covered.
+ *   covered (this part does follow the scroll), and the hero is switched
+ *   off once fully covered.
  * - On load: the circled wordmark, big, in the middle of the screen, over
- *   the photo slideshow (HeroBackdrop). Desktop: scrolling shrinks it
- *   into its place while the slideshow fades to ink, then reveals the two
- *   sentences one after the other, all tied to the scroll. Phones: the
- *   first scroll plays that same intro in full on its own (timed, not
- *   tied to the finger), and scrolling back to the top plays it back.
+ *   the photo slideshow (HeroBackdrop, every project's hero photo). The
+ *   first scroll plays the intro in full (see INTRO); scrolling back to
+ *   the top plays it back.
  * - The wordmark is always turning, faster or slower with the scroll
  *   (like nevermodern.xyz).
  * - Desktop, over the hero: the cursor carries a rounded 16:9 card that
- *   flicks through every 16:9 image on the site (like cuestudiodesign.com).
+ *   flicks through the same hero photos (like cuestudiodesign.com).
  * - Tells the nav when the wordmark is covered, so the nav's own logo
  *   only appears then (HERO_WORDMARK_EVENT).
  *
@@ -158,8 +114,6 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
     const markSpin = markSpinRef.current;
     if (!spacer || !hero || !gallery || !content || !markBox || !markMove || !markSpin) return;
     const lines = lineRefs.current.filter((l): l is HTMLSpanElement => !!l);
-
-    const desktop = window.matchMedia("(min-width: 768px)");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     let frame = 0;
@@ -168,11 +122,15 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
     let velocity = 0; // px per second, smoothed
     let angle = 0;
     let onScreen: boolean | null = null;
-    // Phones: whether the intro has been played (null = not set up yet).
-    let phoneIntro: boolean | null = null;
-    let mode: "scroll" | "trigger" | null = null;
+    // Whether the intro has been played (null = not set up yet).
+    let played: boolean | null = null;
 
-    const E = PHONE_INTRO.ease;
+    function report(next: boolean) {
+      if (next === onScreen) return;
+      onScreen = next;
+      announce(next);
+    }
+
     function centeredMark() {
       if (!markBox || !hero) return "";
       const box = markBox.getBoundingClientRect();
@@ -181,27 +139,28 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
       return `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) scale(${MARK_START_SCALE})`;
     }
 
-    // Phones: play the intro in, or back out (instant: just set it, for
-    // the first load). The wordmark keeps its CSS fade in either way.
-    function phonePlay(show: boolean, instant = false) {
+    // Play the intro in, or back out (instant: just set it, for the first
+    // load). The wordmark keeps its CSS fade in either way.
+    function play(show: boolean, instant = false) {
       if (!markMove || !gallery) return;
+      const E = INTRO.ease;
       const fade = "opacity 0.8s ease-out";
       if (show) {
-        markMove.style.transition = `transform ${PHONE_INTRO.markMs}ms ${E}, ${fade}`;
+        markMove.style.transition = `transform ${INTRO.markMs}ms ${E}, ${fade}`;
         markMove.style.transform = "";
-        gallery.style.transition = `opacity ${PHONE_INTRO.galleryMs}ms ease-in-out`;
+        gallery.style.transition = `opacity ${INTRO.galleryMs}ms ease-in-out`;
         gallery.style.opacity = "0";
         lines.forEach((line, i) => {
-          const d = PHONE_INTRO.lineDelaysMs[i] ?? 0;
-          line.style.transition = `opacity ${PHONE_INTRO.lineMs}ms ${E} ${d}ms, transform ${PHONE_INTRO.lineMs}ms ${E} ${d}ms`;
+          const d = INTRO.lineDelaysMs[i] ?? 0;
+          line.style.transition = `opacity ${INTRO.lineMs}ms ${E} ${d}ms, transform ${INTRO.lineMs}ms ${E} ${d}ms`;
           line.style.opacity = "";
           line.style.transform = "";
         });
       } else {
-        const back = PHONE_INTRO.backMs;
-        markMove.style.transition = instant ? fade : `transform ${PHONE_INTRO.markMs}ms ${E}, ${fade}`;
+        const back = INTRO.backMs;
+        markMove.style.transition = instant ? fade : `transform ${INTRO.markMs}ms ${E}, ${fade}`;
         markMove.style.transform = centeredMark();
-        gallery.style.transition = instant ? "none" : `opacity ${PHONE_INTRO.galleryMs}ms ease-in-out`;
+        gallery.style.transition = instant ? "none" : `opacity ${INTRO.galleryMs}ms ease-in-out`;
         gallery.style.opacity = "1";
         lines.forEach((line) => {
           line.style.transition = instant ? "none" : `opacity ${back}ms ease-out, transform ${back}ms ease-out`;
@@ -211,20 +170,12 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
       }
     }
 
-    function report(next: boolean) {
-      if (next === onScreen) return;
-      onScreen = next;
-      announce(next);
-    }
-
     function render(now: number) {
-      if (!spacer || !hero || !gallery || !content || !markBox || !markMove || !markSpin) return false;
-      const t = desktop.matches ? DESKTOP : PHONE;
+      if (!spacer || !hero || !content || !markBox || !markSpin) return false;
       // One "screen" as CSS sizes the spacer (svh on phones), so the
       // timeline doesn't jump when a phone's address bar shows or hides.
-      const unit = spacer.offsetHeight / (t.reveal + 1) || window.innerHeight;
+      const unit = spacer.offsetHeight / (REVEAL + 1) || window.innerHeight;
       const y = window.scrollY;
-      const s = y / unit;
 
       // Fully covered (the panel's top has reached the top of the screen):
       // switch the hero off, so it never shows or takes the mouse later.
@@ -232,56 +183,17 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
       const visible = panelTop > 0;
       hero.style.visibility = visible ? "" : "hidden";
 
-      // Switching between phone and desktop layouts: drop the phone
-      // transitions so the desktop scroll-linked values apply directly.
-      const nextMode = desktop.matches ? "scroll" : "trigger";
-      if (nextMode !== mode) {
-        mode = nextMode;
-        phoneIntro = null;
-        if (mode === "scroll") {
-          markMove.style.transition = "";
-          gallery.style.transition = "";
-          lines.forEach((line) => {
-            line.style.transition = "";
-          });
-        }
-      }
-
-      if (!reduced && mode === "trigger") {
-        const want = y > PHONE_TRIGGER_PX;
-        if (want !== phoneIntro) {
-          phonePlay(want, phoneIntro === null && !want);
-          phoneIntro = want;
-        }
-      }
-
-      if (!reduced && mode === "scroll") {
-        // Wordmark: from big in the middle of the screen into its place.
-        const m = easeInOut(progress(s, t.mark));
-        const box = markBox.getBoundingClientRect();
-        const dx = (hero.clientWidth / 2 - (box.left + box.width / 2)) * (1 - m);
-        const dy = (hero.clientHeight / 2 - (box.top + box.height / 2)) * (1 - m);
-        const scale = 1 + (MARK_START_SCALE - 1) * (1 - m);
-        markMove.style.transform =
-          m >= 1 ? "" : `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) scale(${scale.toFixed(4)})`;
-
-        // The slideshow fades to ink.
-        const g = easeInOut(progress(s, t.gallery));
-        gallery.style.opacity = g >= 1 ? "0" : (1 - g).toFixed(3);
-
-        // The sentences rise and fade in.
-        lines.forEach((line, i) => {
-          const p = easeOut(progress(s, t.lines[i] ?? [0, 1]));
-          line.style.opacity = p >= 1 ? "" : p.toFixed(3);
-          line.style.transform = p >= 1 ? "" : `translate3d(0, ${((1 - p) * DISTANCE).toFixed(2)}px, 0)`;
-        });
-      }
-
       if (!reduced) {
+        const want = y > TRIGGER_PX;
+        if (want !== played) {
+          play(want, played === null && !want);
+          played = want;
+        }
+
         // Covered share: 0 when the page starts sliding over, 1 when the
         // hero is fully hidden. Dims, shrinks and blurs (the blur eases in
         // from nothing, strongest at the very end).
-        const c = clamp01(s - t.reveal);
+        const c = clamp01(y / unit - REVEAL);
         content.style.opacity = c > 0 ? (1 - 0.75 * c).toFixed(3) : "";
         content.style.transform = c > 0 ? `scale(${(1 - 0.04 * c).toFixed(4)})` : "";
         content.style.filter = c > 0 ? `blur(${(MAX_BLUR_PX * c * c).toFixed(2)}px)` : "";
@@ -330,11 +242,9 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
 
     window.addEventListener("scroll", wake, { passive: true });
     window.addEventListener("resize", wake);
-    desktop.addEventListener("change", wake);
     return () => {
       window.removeEventListener("scroll", wake);
       window.removeEventListener("resize", wake);
-      desktop.removeEventListener("change", wake);
       window.cancelAnimationFrame(frame);
     };
   }, []);
@@ -353,7 +263,8 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
         className="fixed inset-x-0 top-0 z-0 flex h-[100svh] items-center overflow-hidden bg-ink md:h-screen"
         {...card.handlers}
       >
-        {/* The photo slideshow (15% grayscale), faded out with the scroll. */}
+        {/* The photo slideshow (15% grayscale, project hero photos), faded
+            out once the intro plays. */}
         <div ref={galleryRef} className="absolute inset-0">
           <HeroBackdrop images={images} />
         </div>
