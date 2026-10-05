@@ -286,9 +286,9 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         </Link>
 
         <div ref={linksRef} className="hidden md:flex items-center gap-10">
-          {/* Desktop nav type (set 2026-10-05): 14px, bold, uppercase,
+          {/* Desktop nav type (set 2026-10-05): 14px, semibold, uppercase,
               tracked; the logo 13px tall. */}
-          <nav className="flex gap-8 font-sans text-sm font-bold uppercase tracking-[0.2em]">
+          <nav className="flex gap-8 font-sans text-sm font-semibold uppercase tracking-[0.2em]">
             {t.links.map((l) => (
               <Link
                 key={l.href}
