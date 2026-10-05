@@ -241,7 +241,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           fixed header and the Footer (styled without transform/blur)
           keep rendering fine. Removing it costs nothing either way. */}
       {/* Phones: a full-width bar. Desktop (set 2026-10-05): a floating
-          pill, 64px tall, 16px from the top. It reaches 33px past the
+          pill, 72px tall, 16px from the top. It reaches 33px past the
           page grid on each side, so inside its outline and 32px padding
           the logo and the links line up with the page content. More
           see-through than the phone bar (ink at 40%), blurred, with a
@@ -258,7 +258,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
       <Container className="relative z-50 md:flex md:justify-center">
       <div
         style={pillStyle}
-        className={`relative flex h-20 items-center justify-between md:h-16 md:w-[var(--pill-w)] md:shrink-0 md:justify-end md:overflow-hidden md:rounded-full md:border md:px-8 md:transition-[width,background-color,border-color,backdrop-filter] md:duration-500 md:ease-out ${
+        className={`relative flex h-20 items-center justify-between md:h-[72px] md:w-[var(--pill-w)] md:shrink-0 md:justify-end md:overflow-hidden md:rounded-full md:border md:px-8 md:transition-[width,background-color,border-color,backdrop-filter] md:duration-500 md:ease-out ${
           hideWordmark
             ? "md:border-transparent md:bg-transparent md:backdrop-blur-none"
             : "md:border-mist md:bg-ink/40 md:backdrop-blur-md"
@@ -274,7 +274,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         >
           <span className="sr-only">Tresunotres</span>
           <Wordmark
-            className={`hidden md:block h-[15px] w-auto transition-opacity duration-500 ${
+            className={`hidden md:block h-[13px] w-auto transition-opacity duration-500 ${
               hideWordmark ? "md:opacity-0" : "md:opacity-100"
             }`}
           />
@@ -286,7 +286,9 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         </Link>
 
         <div ref={linksRef} className="hidden md:flex items-center gap-10">
-          <nav className="flex gap-9 font-sans text-base uppercase tracking-[0.2em]">
+          {/* Desktop nav type (set 2026-10-05): 14px, bold, uppercase,
+              tracked; the logo 13px tall. */}
+          <nav className="flex gap-8 font-sans text-sm font-bold uppercase tracking-[0.2em]">
             {t.links.map((l) => (
               <Link
                 key={l.href}
