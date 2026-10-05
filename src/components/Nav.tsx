@@ -65,8 +65,9 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
   const hideWordmark = isEnHome && heroWordmarkOnScreen;
 
   // Desktop, English Home, while the hero's wordmark is on screen (set
-  // 2026-10-05): the pill shrinks to wrap just the three links, centered;
-  // it widens back out (a width transition) once the logo appears. The
+  // 2026-10-05): just the three links as text, centered, no pill; the
+  // pill fades in as it widens out (a width transition) once the logo
+  // appears. The
   // links' width is measured (and re-measured if it changes, e.g. when
   // the fonts load).
   const linksRef = useRef<HTMLDivElement>(null);
@@ -80,15 +81,15 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
     watch.observe(el);
     return () => watch.disconnect();
   }, []);
-  // Full: 21px past the grid on each side, so the logo and the links sit
-  // right on the page margins (inside the pill's 1px outline and 20px
+  // Full: 33px past the grid on each side, so the logo and the links sit
+  // right on the page margins (inside the pill's 1px outline and 32px
   // padding). Compact: the links plus that padding and outline.
   const pillStyle = {
     "--pill-w": hideWordmark
       ? linksWidth
-        ? `${linksWidth + 42}px`
+        ? `${linksWidth + 66}px`
         : "fit-content"
-      : "calc(100% + 42px)",
+      : "calc(100% + 66px)",
   } as CSSProperties;
 
   // Phones, English Home and Studio (set 2026-10-05): the whole bar stays
@@ -240,27 +241,32 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           fixed header and the Footer (styled without transform/blur)
           keep rendering fine. Removing it costs nothing either way. */}
       {/* Phones: a full-width bar. Desktop (set 2026-10-05): a floating
-          pill, 64px tall, 12px from the top. It reaches 21px past the
-          page grid on each side, so inside its outline and 20px padding
-          the logo and the links line up with the page content. More see-through than
-          the phone bar (ink at 40%), blurred, with a mist outline; the
-          header itself is see-through there. On the Home hero it wraps
-          just the links, centered (see pillStyle). Both slide up out of
-          view when scrolling down. */}
+          pill, 64px tall, 16px from the top. It reaches 33px past the
+          page grid on each side, so inside its outline and 32px padding
+          the logo and the links line up with the page content. More
+          see-through than the phone bar (ink at 40%), blurred, with a
+          mist outline; the header itself is see-through there. On the
+          Home hero it's just the three links as text, centered, with no
+          pill (see pillStyle); the pill fades in as it widens out. Both
+          slide up out of view when scrolling down. */}
       <header
         id="top"
-        className={`fixed top-0 inset-x-0 z-50 bg-ink/75 backdrop-blur-md transition-transform duration-300 md:bg-transparent md:pt-3 md:backdrop-blur-none ${
+        className={`fixed top-0 inset-x-0 z-50 bg-ink/75 backdrop-blur-md transition-transform duration-300 md:bg-transparent md:pt-4 md:backdrop-blur-none ${
           visible || open ? "translate-y-0" : "-translate-y-full"
         } ${overHero && !open ? "max-md:-translate-y-full" : ""}`}
       >
       <Container className="relative z-50 md:flex md:justify-center">
       <div
         style={pillStyle}
-        className="relative flex h-20 items-center justify-between md:h-16 md:w-[var(--pill-w)] md:shrink-0 md:justify-end md:overflow-hidden md:rounded-full md:border md:border-mist md:bg-ink/40 md:px-5 md:backdrop-blur-md md:transition-[width] md:duration-500 md:ease-out"
+        className={`relative flex h-20 items-center justify-between md:h-16 md:w-[var(--pill-w)] md:shrink-0 md:justify-end md:overflow-hidden md:rounded-full md:border md:px-8 md:transition-[width,background-color,border-color,backdrop-filter] md:duration-500 md:ease-out ${
+          hideWordmark
+            ? "md:border-transparent md:bg-transparent md:backdrop-blur-none"
+            : "md:border-mist md:bg-ink/40 md:backdrop-blur-md"
+        }`}
       >
         <Link
           href={t.home}
-          className={`block text-paper md:absolute md:left-5 md:top-1/2 md:-translate-y-1/2 md:hover:text-cobalt transition-colors ${
+          className={`block text-paper md:absolute md:left-8 md:top-1/2 md:-translate-y-1/2 md:hover:text-cobalt transition-colors ${
             hideWordmark ? "pointer-events-none" : ""
           }`}
           tabIndex={hideWordmark ? -1 : undefined}

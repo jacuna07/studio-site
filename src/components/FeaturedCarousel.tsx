@@ -430,7 +430,7 @@ export default function FeaturedCarousel({
         // the Home section's width (it's a size container), so a
         // permanent scrollbar doesn't throw it off the way vw would.
         className={`flex gap-4 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scrollbar-hide -mr-6 pr-6 ${
-          isHome ? "md:snap-none md:gap-0.5 md:mx-[calc(50%-50cqw)] md:px-0" : "md:-mr-8 md:pr-8"
+          isHome ? "md:snap-none md:gap-0.5 md:mx-[calc(50%-50cqw)] md:px-0" : "md:-mr-12 md:pr-12 lg:-mr-16 lg:pr-16"
         }`}
       >
         {projects.map((project, i) => {

@@ -205,10 +205,11 @@ export default function Footer({
         {/* Phones: everything stacked, contact and pages up top, the
             wordmark sign-off 80px below. Desktop: one row sitting at the
             bottom of a 360px band (lots of room above, as on Tinge), inset
-            32px from the bottom like the side margins. From lg up, "Where to
+            from the bottom like the side margins (48px tablets, 64px from
+            lg). From lg up, "Where to
             next?" starts a quarter of the way across the page; below that
             (tablets) the two groups just sit 64px apart. */}
-        <Container className="flex flex-col pt-8 pb-6 md:min-h-[360px] md:flex-row md:items-end md:justify-between md:gap-8 md:pt-12 md:pb-8">
+        <Container className="flex flex-col pt-8 pb-6 md:min-h-[360px] md:flex-row md:items-end md:justify-between md:gap-8 md:pt-12 md:pb-12 lg:pb-16">
           <div className="flex flex-col gap-8 md:flex-row md:gap-16 lg:w-1/2 lg:gap-0">
             <LinkGroup label={t.contactLabel} links={contactLinks} className="lg:w-1/2" />
             <LinkGroup label={t.moreLabel} links={pageLinks} className="lg:w-1/2" />
