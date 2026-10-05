@@ -77,7 +77,7 @@ function announce(onScreen: boolean) {
  *   covered (this part does follow the scroll), and the hero is switched
  *   off once fully covered.
  * - On load: the circled wordmark, big, in the middle of the screen, over
- *   a soft brand gradient that drifts and follows the cursor
+ *   Javier's shader gradient, a slow cobalt water plane at 30%
  *   (HeroGradient, since 2026-10-05; it replaced a photo slideshow and
  *   stays on through the intro). The first scroll plays the intro in full (see INTRO); scrolling back to
  *   the top plays it back.
@@ -383,8 +383,7 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
         className="fixed inset-x-0 top-0 z-0 flex h-[100svh] items-center overflow-hidden bg-ink md:h-screen"
         {...card.handlers}
       >
-        {/* The brand gradient, at 30%, drifting and following the
-            cursor. */}
+        {/* The shader gradient, at 30%. */}
         <HeroGradient />
 
         <Container className="relative">

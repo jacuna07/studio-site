@@ -98,14 +98,15 @@ export default function HomePage() {
               </p>
               {/* Phones (set 2026-10-05): the line loops across the screen,
                   edge to edge, right to left (.animate-marquee in
-                  globals.css). Two identical halves, so the loop is
-                  seamless. Reduced motion: the line once, still. */}
+                  globals.css), small and in dark gray (Ink 600). Two
+                  identical halves, so the loop is seamless. Reduced
+                  motion: the line once, still. */}
               <div className="md:hidden">
-                <p className="sr-only font-display font-normal text-2xl leading-[1.25] tracking-normal motion-reduce:not-sr-only">
+                <p className="sr-only font-display font-normal text-lg leading-[1.25] tracking-normal text-ink-600 motion-reduce:not-sr-only">
                   Made with love in Costa Rica
                 </p>
                 <div aria-hidden="true" className="-mx-6 overflow-hidden motion-reduce:hidden">
-                  <div className="flex w-max animate-marquee font-display font-normal text-2xl leading-[1.25] tracking-normal">
+                  <div className="flex w-max animate-marquee font-display font-normal text-lg leading-[1.25] tracking-normal text-ink-600">
                     {[0, 1, 2, 3, 4, 5].map((i) => (
                       <span key={i} className="shrink-0 whitespace-nowrap">
                         Made with love in Costa Rica<span className="px-[0.5em]">•</span>
