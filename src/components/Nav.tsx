@@ -64,6 +64,40 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
   }, []);
   const hideWordmark = isEnHome && heroWordmarkOnScreen;
 
+  // Phones, English Home and Studio (set 2026-10-05): the whole bar stays
+  // hidden while the hero is on screen, and slides in once the page's
+  // panel (the element right after the hero) has come up to the bar.
+  // Home: the hero's spacer; Studio: its CoverHero.
+  const heroPage = pathname === "/" || pathname === "/studio";
+  const [overHero, setOverHero] = useState(heroPage);
+  useEffect(() => {
+    if (!heroPage) {
+      setOverHero(false);
+      return;
+    }
+    let frame = 0;
+    function check() {
+      frame = 0;
+      const hero =
+        pathname === "/"
+          ? document.querySelector("[data-hero]")?.parentElement
+          : document.querySelector("[data-cover-hero]");
+      const panel = hero?.nextElementSibling;
+      setOverHero(panel ? panel.getBoundingClientRect().top > 80 : false);
+    }
+    function onScroll() {
+      if (!frame) frame = window.requestAnimationFrame(check);
+    }
+    check();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      window.cancelAnimationFrame(frame);
+    };
+  }, [heroPage, pathname]);
+
   // A link is "active" on an exact match (Home, About, Contact) or
   // anywhere under it (Work's own case study pages, e.g. /work/oxygen
   // still highlights Work). Used to mark the current page in the
@@ -178,13 +212,19 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           have been failing to paint on one real device while this
           fixed header and the Footer (styled without transform/blur)
           keep rendering fine. Removing it costs nothing either way. */}
+      {/* Phones: a full-width bar. Desktop (set 2026-10-05): a floating
+          pill, 64px tall, 16px from the top, as wide as the page's grid
+          (the Container's margins), with a mist outline; the header
+          itself is see-through there. Both slide up out of view when
+          scrolling down. */}
       <header
         id="top"
-        className={`fixed top-0 inset-x-0 z-50 bg-ink/75 backdrop-blur-md transition-transform duration-300 ${
+        className={`fixed top-0 inset-x-0 z-50 bg-ink/75 backdrop-blur-md transition-transform duration-300 md:bg-transparent md:pt-4 md:backdrop-blur-none ${
           visible || open ? "translate-y-0" : "-translate-y-full"
-        }`}
+        } ${overHero && !open ? "max-md:-translate-y-full" : ""}`}
       >
-      <Container className="relative z-50 flex items-center justify-between h-20">
+      <Container className="relative z-50">
+      <div className="flex h-20 items-center justify-between md:h-16 md:rounded-full md:border md:border-mist md:bg-ink/75 md:px-8 md:backdrop-blur-md">
         <Link
           href={t.home}
           className={`block text-paper md:hover:text-cobalt transition-colors ${
@@ -251,6 +291,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           <span className={`block h-px w-6 bg-paper transition-transform duration-300 ease-out ${open ? "translate-y-[3px] rotate-45" : ""}`} />
           <span className={`block h-px w-6 bg-paper transition-transform duration-300 ease-out ${open ? "-translate-y-[3px] -rotate-45" : ""}`} />
         </button>
+      </div>
       </Container>
       </header>
 

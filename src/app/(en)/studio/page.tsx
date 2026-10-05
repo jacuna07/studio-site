@@ -10,6 +10,7 @@ import MethodCarousel from "@/components/MethodCarousel";
 import Reveal from "@/components/Reveal";
 import CoverHero from "@/components/CoverHero";
 import HeroGradient from "@/components/HeroGradient";
+import CircledWordmark from "@/components/icons/CircledWordmark";
 
 export const metadata: Metadata = pageMetadata({
   page: "Studio",
@@ -98,6 +99,13 @@ export default function StudioPage() {
                     (.reveal-on-load); 03 to 07 wait for the first scroll, then
                     each rises and fades in, in full, as it comes into view
                     (Reveal), the same motion as the Home page. */}
+                {/* Phones only (set 2026-10-05): the circled wordmark above
+                    the title, the Home hero's phone size (112px), slowly
+                    turning like the phone nav's logo (the nav is hidden
+                    over this part on phones). */}
+                <div className="reveal-on-load mb-6 h-28 w-28 md:hidden">
+                  <CircledWordmark className="h-full w-full animate-slow-spin text-paper" />
+                </div>
                 <h1 className="reveal-on-load font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-8 md:mb-10">
                   A tailor-made process, refined at the core.
                 </h1>

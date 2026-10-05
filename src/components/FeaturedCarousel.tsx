@@ -507,7 +507,7 @@ export default function FeaturedCarousel({
                       <div className="font-display text-2xl md:text-3xl font-medium text-paper">
                         {project.title}
                       </div>
-                      <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-paper">
+                      <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-paper">
                         {project.industry}
                       </div>
                     </div>
@@ -519,7 +519,7 @@ export default function FeaturedCarousel({
               </div>
               {isHome ? (
                 // Phones: the industry instead of the summary.
-                <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-stone md:hidden">
+                <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-stone md:hidden">
                   {project.industry}
                 </div>
               ) : (
@@ -569,7 +569,7 @@ export default function FeaturedCarousel({
                 </div>
                 <div>
                   <div className="font-display text-lg leading-snug">{project.title}</div>
-                  <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-stone mt-1">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-stone mt-0.5">
                     {project.industry}
                   </div>
                 </div>
