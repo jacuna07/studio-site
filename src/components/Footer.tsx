@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Container from "./Container";
 import CtaBlock from "./CtaBlock";
 import Wordmark from "./icons/Wordmark";
+import RollText from "./RollText";
 
 type Locale = "en" | "es";
 type NavSection = "home" | "work" | "about" | "contact";
@@ -66,10 +67,9 @@ const copy: Record<
   },
 };
 
-// md: only — on mobile, an element with an unguarded :hover style needs a
-// first tap just to enter that state and a second to follow the link.
-const linkHover =
-  "md:hover:text-cobalt md:hover:[text-shadow:0_0_0.6px_currentColor,0_0_0.6px_currentColor] underline-offset-4 md:hover:underline transition-colors";
+// Hover (set 2026-10-05): the nav's roll, the label rolling up to a
+// cobalt copy (RollText). Desktop only, as before.
+const linkHover = "group inline-block align-top";
 
 // One size for everything in the footer's bottom half (18px desktop, 16px
 // phones), with hierarchy by color alone: gray labels, white links.
@@ -106,7 +106,7 @@ function LinkGroup({
                 {...(l.newTab ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 className={linkHover}
               >
-                {l.label}
+                <RollText>{l.label}</RollText>
               </a>
             ) : (
               <Link
@@ -114,7 +114,7 @@ function LinkGroup({
                 aria-current={l.current ? "page" : undefined}
                 className={linkHover}
               >
-                {l.label}
+                <RollText>{l.label}</RollText>
               </Link>
             )}
           </li>

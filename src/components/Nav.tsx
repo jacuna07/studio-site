@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import Container from "./Container";
 import Wordmark from "./icons/Wordmark";
 import CircledWordmark from "./icons/CircledWordmark";
+import RollText from "./RollText";
 import { SPANISH_ENABLED } from "@/lib/site-config";
 import { HERO_WORDMARK_EVENT, type HeroWordmarkDetail } from "./HomeHero";
 
@@ -247,7 +248,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           margins). Once the page scrolls, the bar shrinks into a floating
           pill: centered, 16px from the top, 72px tall, 70% of the page
           grid (640 to 960px wide), ink at 40% with a mist outline, logo
-          and links 32px inside it. Width, height, corners and color all
+          and links 48px inside it. Width, height, corners and color all
           move together (650ms, a quick ease out). The bar/pill shape is
           its own layer behind the logo and links, so it can reach the
           screen edges. On the English Home hero: the links alone,
@@ -265,7 +266,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           navMode === "bar"
             ? "md:mt-0 md:h-20 md:w-full"
             : navMode === "pill"
-              ? "md:mt-4 md:h-[72px] md:w-[clamp(576px,calc(70%_-_64px),896px)]"
+              ? "md:mt-4 md:h-[72px] md:w-[clamp(544px,calc(70%_-_96px),864px)]"
               : `md:mt-4 md:h-[72px] ${linksWidth ? "md:w-[var(--links-w)]" : "md:w-fit"}`
         }`}
       >
@@ -274,7 +275,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
           className={`pointer-events-none absolute inset-y-0 -z-10 hidden border backdrop-blur-md transition-[left,right,border-radius,background-color,border-color,opacity] duration-[650ms] ease-[cubic-bezier(0.23,1,0.32,1)] md:block ${
             navMode === "bar"
               ? "left-[calc(50%_-_50vw)] right-[calc(50%_-_50vw)] rounded-none border-transparent bg-ink/75"
-              : `-left-8 -right-8 rounded-[36px] border-mist bg-ink/40 ${navMode === "hero" ? "opacity-0" : ""}`
+              : `-left-12 -right-12 rounded-[36px] border-mist bg-ink/40 ${navMode === "hero" ? "opacity-0" : ""}`
           }`}
         />
         <Link
@@ -305,20 +306,9 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
               tracked; the logo 13px tall. */}
           <nav className="flex gap-8 font-sans text-sm font-semibold uppercase tracking-[0.2em]">
             {t.links.map((l) => (
-              // Hover, like thisistinge.com (set 2026-10-05): the label rolls
-              // up out of view and a cobalt copy rolls up into its place
-              // (250ms, linear). The copy is hidden from screen readers.
-              <Link
-                key={l.href}
-                href={l.href}
-                className="group relative block overflow-hidden"
-              >
-                <span className="relative block transition-transform duration-[250ms] ease-linear group-hover:-translate-y-full group-focus-visible:-translate-y-full">
-                  <span className="block">{l.label}</span>
-                  <span aria-hidden="true" className="absolute inset-x-0 top-full block text-cobalt-400">
-                    {l.label}
-                  </span>
-                </span>
+              // Hover: the label rolls up to a cobalt copy (RollText).
+              <Link key={l.href} href={l.href} className="group relative block">
+                <RollText>{l.label}</RollText>
               </Link>
             ))}
           </nav>
