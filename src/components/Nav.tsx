@@ -279,9 +279,11 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         />
         <Link
           href={t.home}
-          className={`block text-paper md:absolute md:left-0 md:top-1/2 md:-translate-y-1/2 md:hover:text-cobalt transition-colors ${
-            hideWordmark ? "pointer-events-none" : ""
-          }`}
+          // Desktop: the logo shrinks 8% in the pill (and on the Home
+          // hero, so it appears at the pill's size), moving with it.
+          className={`block text-paper [transition:color_150ms_ease,transform_650ms_cubic-bezier(0.23,1,0.32,1)] md:absolute md:left-0 md:top-1/2 md:origin-left md:-translate-y-1/2 md:hover:text-cobalt ${
+            navMode === "bar" ? "" : "md:scale-[0.92]"
+          } ${hideWordmark ? "pointer-events-none" : ""}`}
           tabIndex={hideWordmark ? -1 : undefined}
           onClick={() => setOpen(false)}
         >
@@ -303,16 +305,20 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
               tracked; the logo 13px tall. */}
           <nav className="flex gap-8 font-sans text-sm font-semibold uppercase tracking-[0.2em]">
             {t.links.map((l) => (
+              // Hover, like thisistinge.com (set 2026-10-05): the label rolls
+              // up out of view and a cobalt copy rolls up into its place
+              // (250ms, linear). The copy is hidden from screen readers.
               <Link
                 key={l.href}
                 href={l.href}
-                className="group relative inline-block hover:text-cobalt transition-colors"
+                className="group relative block overflow-hidden"
               >
-                {l.label}
-                <span
-                  aria-hidden="true"
-                  className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out group-hover:w-full"
-                />
+                <span className="relative block transition-transform duration-[250ms] ease-linear group-hover:-translate-y-full group-focus-visible:-translate-y-full">
+                  <span className="block">{l.label}</span>
+                  <span aria-hidden="true" className="absolute inset-x-0 top-full block text-cobalt-400">
+                    {l.label}
+                  </span>
+                </span>
               </Link>
             ))}
           </nav>
