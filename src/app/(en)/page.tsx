@@ -85,7 +85,7 @@ export default function HomePage() {
         </HomeSecondModule>
 
         {/* A closing line before the big CTA: right aligned on desktop,
-            left aligned on phones. The same room after it (to the CTA's
+            looping across the screen on phones. The same room after it (to the CTA's
             divider, counting the CTA's mt-4) as before it: 96px phones
             (from the carousel's bar), 136px desktop (from the cards, with
             the track's 8px bottom padding). It and the CTA rise and fade
@@ -93,9 +93,27 @@ export default function HomePage() {
         <section className="pt-8 pb-20 md:pt-32 md:pb-[120px]">
           <Container>
             <Reveal>
-              <p className="font-display font-normal text-2xl md:text-right lg:text-3xl leading-[1.25] tracking-normal">
+              <p className="hidden font-display font-normal text-2xl md:block md:text-right lg:text-3xl leading-[1.25] tracking-normal">
                 With love, from Costa Rica.
               </p>
+              {/* Phones (set 2026-10-05): the line loops across the screen,
+                  edge to edge, right to left (.animate-marquee in
+                  globals.css). Two identical halves, so the loop is
+                  seamless. Reduced motion: the line once, still. */}
+              <div className="md:hidden">
+                <p className="sr-only font-display font-normal text-2xl leading-[1.25] tracking-normal motion-reduce:not-sr-only">
+                  Made with love in Costa Rica
+                </p>
+                <div aria-hidden="true" className="-mx-6 overflow-hidden motion-reduce:hidden">
+                  <div className="flex w-max animate-marquee font-display font-normal text-2xl leading-[1.25] tracking-normal">
+                    {[0, 1, 2, 3, 4, 5].map((i) => (
+                      <span key={i} className="shrink-0 whitespace-nowrap">
+                        Made with love in Costa Rica<span className="px-[0.5em]">•</span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </Reveal>
           </Container>
         </section>

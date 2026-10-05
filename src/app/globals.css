@@ -165,6 +165,29 @@ html.home-snap-hold [data-home-snap="panel"] {
   }
 }
 
+/* Home, phones: "Made with love in Costa Rica •" looping right to left
+   (set 2026-10-05). The track holds the line six times and slides by
+   half its width (three lines), so the loop is seamless. Transform only,
+   so a frozen frame still shows the text. */
+@keyframes marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
 /* No `opacity` here, deliberately. This used to fade in (0 -> 1)
    alongside the slide-up, which turned out to be the actual cause of
    the recurring "big gap before the footer" report: a screen recording

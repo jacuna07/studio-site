@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Container from "./Container";
-import HeroBackdrop from "./HeroBackdrop";
+import HeroGradient from "./HeroGradient";
 import CircledWordmark from "./icons/CircledWordmark";
 import { useCursorPreview } from "./useCursorPreview";
 
@@ -13,14 +13,12 @@ const REVEAL = 0.35;
 const SPACER_CLASS = "h-[135svh] md:h-[135vh]";
 
 // Once the visitor scrolls past this (px), the intro plays in full on its
-// own (timed, not tied to the scroll): the wordmark settles into place
-// while the slideshow fades to ink, then the two sentences rise in one
-// after the other. Back at the very top it plays back the other way.
+// own (timed, not tied to the scroll): the wordmark settles into place,
+// then the two sentences rise in one after the other. Back at the very top it plays back the other way.
 const TRIGGER_PX = 8;
 const INTRO = {
   ease: "cubic-bezier(0.16, 1, 0.3, 1)",
   markMs: 1000,
-  galleryMs: 1200,
   lineMs: 900,
   lineDelaysMs: [450, 700],
   backMs: 500,
@@ -79,8 +77,9 @@ function announce(onScreen: boolean) {
  *   covered (this part does follow the scroll), and the hero is switched
  *   off once fully covered.
  * - On load: the circled wordmark, big, in the middle of the screen, over
- *   the photo slideshow (HeroBackdrop, every project's hero photo). The
- *   first scroll plays the intro in full (see INTRO); scrolling back to
+ *   a soft brand gradient that drifts and follows the cursor
+ *   (HeroGradient, since 2026-10-05; it replaced a photo slideshow and
+ *   stays on through the intro). The first scroll plays the intro in full (see INTRO); scrolling back to
  *   the top plays it back.
  * - The wordmark is always turning, faster or slower with the scroll
  *   (like nevermodern.xyz).
@@ -100,7 +99,6 @@ function announce(onScreen: boolean) {
 export default function HomeHero({ images }: { images: { src: string; alt: string }[] }) {
   const spacerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
-  const galleryRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const markBoxRef = useRef<HTMLDivElement>(null);
   const markMoveRef = useRef<HTMLDivElement>(null);
@@ -122,13 +120,12 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
   useEffect(() => {
     const spacer = spacerRef.current;
     const hero = heroRef.current;
-    const gallery = galleryRef.current;
     const content = contentRef.current;
     const markBox = markBoxRef.current;
     const markMove = markMoveRef.current;
     const markSpin = markSpinRef.current;
     const introStop = introStopRef.current;
-    if (!spacer || !hero || !gallery || !content || !markBox || !markMove || !markSpin || !introStop)
+    if (!spacer || !hero || !content || !markBox || !markMove || !markSpin || !introStop)
       return;
     const lines = lineRefs.current.filter((l): l is HTMLSpanElement => !!l);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -197,14 +194,12 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
     // Play the intro in, or back out (instant: just set it, for the first
     // load). The wordmark keeps its CSS fade in either way.
     function play(show: boolean, instant = false) {
-      if (!markMove || !gallery) return;
+      if (!markMove) return;
       const E = INTRO.ease;
       const fade = "opacity 0.8s ease-out";
       if (show) {
         markMove.style.transition = `transform ${INTRO.markMs}ms ${E}, ${fade}`;
         markMove.style.transform = "";
-        gallery.style.transition = `opacity ${INTRO.galleryMs}ms ease-in-out`;
-        gallery.style.opacity = "0";
         lines.forEach((line, i) => {
           const d = INTRO.lineDelaysMs[i] ?? 0;
           line.style.transition = `opacity ${INTRO.lineMs}ms ${E} ${d}ms, transform ${INTRO.lineMs}ms ${E} ${d}ms`;
@@ -215,8 +210,6 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
         const back = INTRO.backMs;
         markMove.style.transition = instant ? fade : `transform ${INTRO.markMs}ms ${E}, ${fade}`;
         markMove.style.transform = centeredMark();
-        gallery.style.transition = instant ? "none" : `opacity ${INTRO.galleryMs}ms ease-in-out`;
-        gallery.style.opacity = "1";
         lines.forEach((line) => {
           line.style.transition = instant ? "none" : `opacity ${back}ms ease-out, transform ${back}ms ease-out`;
           line.style.opacity = "0";
@@ -390,11 +383,9 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
         className="fixed inset-x-0 top-0 z-0 flex h-[100svh] items-center overflow-hidden bg-ink md:h-screen"
         {...card.handlers}
       >
-        {/* The photo slideshow (15% grayscale, project hero photos), faded
-            out once the intro plays. */}
-        <div ref={galleryRef} className="absolute inset-0">
-          <HeroBackdrop images={images} />
-        </div>
+        {/* The brand gradient, at 30%, drifting and following the
+            cursor. */}
+        <HeroGradient />
 
         <Container className="relative">
           {/* From lg up the copy starts a quarter of the way across, in
