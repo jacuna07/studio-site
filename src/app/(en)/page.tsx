@@ -104,7 +104,7 @@ export default function HomePage() {
             in as they come into view. */}
         <section className="pt-8 pb-20 md:pt-32 md:pb-[120px]">
           <Container>
-            <Reveal scope="all" end={0.6}>
+            <Reveal scope="all" end={0.6} phoneTrigger>
               <p className="font-display font-normal text-2xl md:text-right lg:text-3xl leading-[1.25] tracking-normal">
                 With love, from Costa Rica.
               </p>
@@ -113,7 +113,7 @@ export default function HomePage() {
         </section>
 
         {/* Closes the page right above the footer's "Say hi 👋" block. */}
-        <Reveal scope="all" end={0.6}>
+        <Reveal scope="all" end={0.6} phoneTrigger>
           <SeeAllProjectsCta className="mt-4" />
         </Reveal>
       </div>

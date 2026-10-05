@@ -31,17 +31,31 @@ const DESKTOP: Timeline = {
     [0.7, 1.15],
   ],
 };
+// Phones don't follow the scroll for the intro: the first scroll plays
+// it in full (see PHONE_INTRO), so they only need a short stretch before
+// the page slides over. `mark`, `gallery` and `lines` aren't used there.
 const PHONE: Timeline = {
-  reveal: 0.95,
-  mark: [0, 0.35],
-  gallery: [0, 0.55],
-  lines: [
-    [0.28, 0.6],
-    [0.55, 0.9],
-  ],
+  reveal: 0.35,
+  mark: [0, 0],
+  gallery: [0, 0],
+  lines: [],
 };
 // The spacer heights below must match: (reveal + 1) screens.
-const SPACER_CLASS = "h-[195svh] md:h-[220vh]";
+const SPACER_CLASS = "h-[135svh] md:h-[220vh]";
+
+// Phones: once the visitor scrolls past this (px), the intro plays in
+// full on its own: the wordmark settles into place and the slideshow
+// fades to ink, then the two sentences rise in one after the other.
+// Back at the very top it plays back the other way.
+const PHONE_TRIGGER_PX = 8;
+const PHONE_INTRO = {
+  ease: "cubic-bezier(0.16, 1, 0.3, 1)",
+  markMs: 1000,
+  galleryMs: 1200,
+  lineMs: 900,
+  lineDelaysMs: [450, 700],
+  backMs: 500,
+};
 
 // How big the wordmark is in the middle of the screen at load, relative
 // to its final size.
@@ -95,9 +109,11 @@ function announce(onScreen: boolean) {
  *   veintitres.studio. The copy dims, shrinks a touch and blurs as it's
  *   covered, and the hero is switched off once fully covered.
  * - On load: the circled wordmark, big, in the middle of the screen, over
- *   the photo slideshow (HeroBackdrop). Scrolling shrinks it into its
- *   place while the slideshow fades to ink, then reveals the two
- *   sentences one after the other, all tied to the scroll.
+ *   the photo slideshow (HeroBackdrop). Desktop: scrolling shrinks it
+ *   into its place while the slideshow fades to ink, then reveals the two
+ *   sentences one after the other, all tied to the scroll. Phones: the
+ *   first scroll plays that same intro in full on its own (timed, not
+ *   tied to the finger), and scrolling back to the top plays it back.
  * - The wordmark is always turning, faster or slower with the scroll
  *   (like nevermodern.xyz).
  * - Desktop, over the hero: the cursor carries a rounded 16:9 card that
@@ -152,6 +168,48 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
     let velocity = 0; // px per second, smoothed
     let angle = 0;
     let onScreen: boolean | null = null;
+    // Phones: whether the intro has been played (null = not set up yet).
+    let phoneIntro: boolean | null = null;
+    let mode: "scroll" | "trigger" | null = null;
+
+    const E = PHONE_INTRO.ease;
+    function centeredMark() {
+      if (!markBox || !hero) return "";
+      const box = markBox.getBoundingClientRect();
+      const dx = hero.clientWidth / 2 - (box.left + box.width / 2);
+      const dy = hero.clientHeight / 2 - (box.top + box.height / 2);
+      return `translate3d(${dx.toFixed(1)}px, ${dy.toFixed(1)}px, 0) scale(${MARK_START_SCALE})`;
+    }
+
+    // Phones: play the intro in, or back out (instant: just set it, for
+    // the first load). The wordmark keeps its CSS fade in either way.
+    function phonePlay(show: boolean, instant = false) {
+      if (!markMove || !gallery) return;
+      const fade = "opacity 0.8s ease-out";
+      if (show) {
+        markMove.style.transition = `transform ${PHONE_INTRO.markMs}ms ${E}, ${fade}`;
+        markMove.style.transform = "";
+        gallery.style.transition = `opacity ${PHONE_INTRO.galleryMs}ms ease-in-out`;
+        gallery.style.opacity = "0";
+        lines.forEach((line, i) => {
+          const d = PHONE_INTRO.lineDelaysMs[i] ?? 0;
+          line.style.transition = `opacity ${PHONE_INTRO.lineMs}ms ${E} ${d}ms, transform ${PHONE_INTRO.lineMs}ms ${E} ${d}ms`;
+          line.style.opacity = "";
+          line.style.transform = "";
+        });
+      } else {
+        const back = PHONE_INTRO.backMs;
+        markMove.style.transition = instant ? fade : `transform ${PHONE_INTRO.markMs}ms ${E}, ${fade}`;
+        markMove.style.transform = centeredMark();
+        gallery.style.transition = instant ? "none" : `opacity ${PHONE_INTRO.galleryMs}ms ease-in-out`;
+        gallery.style.opacity = "1";
+        lines.forEach((line) => {
+          line.style.transition = instant ? "none" : `opacity ${back}ms ease-out, transform ${back}ms ease-out`;
+          line.style.opacity = "0";
+          line.style.transform = `translate3d(0, ${DISTANCE}px, 0)`;
+        });
+      }
+    }
 
     function report(next: boolean) {
       if (next === onScreen) return;
@@ -174,7 +232,30 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
       const visible = panelTop > 0;
       hero.style.visibility = visible ? "" : "hidden";
 
-      if (!reduced) {
+      // Switching between phone and desktop layouts: drop the phone
+      // transitions so the desktop scroll-linked values apply directly.
+      const nextMode = desktop.matches ? "scroll" : "trigger";
+      if (nextMode !== mode) {
+        mode = nextMode;
+        phoneIntro = null;
+        if (mode === "scroll") {
+          markMove.style.transition = "";
+          gallery.style.transition = "";
+          lines.forEach((line) => {
+            line.style.transition = "";
+          });
+        }
+      }
+
+      if (!reduced && mode === "trigger") {
+        const want = y > PHONE_TRIGGER_PX;
+        if (want !== phoneIntro) {
+          phonePlay(want, phoneIntro === null && !want);
+          phoneIntro = want;
+        }
+      }
+
+      if (!reduced && mode === "scroll") {
         // Wordmark: from big in the middle of the screen into its place.
         const m = easeInOut(progress(s, t.mark));
         const box = markBox.getBoundingClientRect();
@@ -194,7 +275,9 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
           line.style.opacity = p >= 1 ? "" : p.toFixed(3);
           line.style.transform = p >= 1 ? "" : `translate3d(0, ${((1 - p) * DISTANCE).toFixed(2)}px, 0)`;
         });
+      }
 
+      if (!reduced) {
         // Covered share: 0 when the page starts sliding over, 1 when the
         // hero is fully hidden. Dims, shrinks and blurs (the blur eases in
         // from nothing, strongest at the very end).

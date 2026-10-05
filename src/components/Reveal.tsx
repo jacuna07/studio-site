@@ -47,6 +47,7 @@ export default function Reveal({
   className = "",
   scope = "phone",
   end: END = DEFAULT_END,
+  phoneTrigger = false,
 }: {
   children: ReactNode;
   className?: string;
@@ -54,6 +55,12 @@ export default function Reveal({
   scope?: "phone" | "all";
   /** Where the block's top is once fully in place (share of the screen). */
   end?: number;
+  /**
+   * Phones: instead of following the scroll, play the rise and fade in
+   * full once the block's top is 15% up from the bottom of the screen,
+   * and reset once it's back below the screen (Home).
+   */
+  phoneTrigger?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<State>("pending");
@@ -66,6 +73,47 @@ export default function Reveal({
     if ((scope === "phone" && !isPhone) || reduced) {
       setState("off");
       return;
+    }
+
+    // Phones with phoneTrigger: play in full when it comes into view.
+    if (phoneTrigger && isPhone) {
+      let shown = false;
+      let raf = 0;
+      el.style.opacity = "0";
+      el.style.transform = `translate3d(0, ${DISTANCE}px, 0)`;
+      setState("live");
+      const check = () => {
+        raf = 0;
+        let docTop = 0;
+        for (let n: HTMLElement | null = el; n; n = n.offsetParent as HTMLElement | null) {
+          docTop += n.offsetTop;
+        }
+        const top = docTop - window.scrollY;
+        const vh = window.innerHeight;
+        if (!shown && top < vh * 0.85) {
+          shown = true;
+          el.style.transition =
+            "opacity 900ms cubic-bezier(0.16, 1, 0.3, 1), transform 900ms cubic-bezier(0.16, 1, 0.3, 1)";
+          el.style.opacity = "";
+          el.style.transform = "";
+        } else if (shown && top >= vh) {
+          shown = false;
+          el.style.transition = "none";
+          el.style.opacity = "0";
+          el.style.transform = `translate3d(0, ${DISTANCE}px, 0)`;
+        }
+      };
+      const onScrollTrigger = () => {
+        if (!raf) raf = window.requestAnimationFrame(check);
+      };
+      check();
+      window.addEventListener("scroll", onScrollTrigger, { passive: true });
+      window.addEventListener("resize", onScrollTrigger);
+      return () => {
+        window.removeEventListener("scroll", onScrollTrigger);
+        window.removeEventListener("resize", onScrollTrigger);
+        window.cancelAnimationFrame(raf);
+      };
     }
 
     let frame = 0;
@@ -154,7 +202,7 @@ export default function Reveal({
       window.clearTimeout(introTimer);
       window.clearTimeout(liveTimer);
     };
-  }, [scope, END]);
+  }, [scope, END, phoneTrigger]);
 
   return (
     <div ref={ref} data-reveal={state} data-reveal-scope={scope} className={className || undefined}>

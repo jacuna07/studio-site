@@ -18,9 +18,14 @@ export const HomeCarouselInPlace = createContext<boolean | null>(null);
  */
 type Timeline = { pin: number; statement: [number, number]; carousel: [number, number] };
 const DESKTOP: Timeline = { pin: 0.75, statement: [-0.3, 0.25], carousel: [0.2, 0.7] };
-const PHONE: Timeline = { pin: 0.65, statement: [-0.3, 0.2], carousel: [0.15, 0.6] };
-// The pin spacer heights must match `pin` screens.
-const PIN_CLASS = "h-[65svh] md:h-[75vh]";
+// The pin spacer height must match `pin` screens (desktop only: phones
+// don't pin).
+const PIN_CLASS = "h-0 md:h-[75vh]";
+// Phones: each part plays in full once its top is 15% up from the bottom
+// of the screen, and resets once it's back below the screen.
+const PHONE_SHOW_AT = 0.85;
+const PHONE_MS = 900;
+const PHONE_EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
 // How far below its spot each step starts (px), as in the hero.
 const DISTANCE = 48;
 
@@ -34,11 +39,12 @@ function easeOut(t: number) {
 
 /**
  * The Home page's second module: the statement, then the Featured
- * carousel. Like the hero, it comes in as a sequence tied to the scroll:
- * once the panel has slid over the hero, the module pins to the top of
- * the screen (sticky; the carousel runs off the bottom) while first the
- * statement, then the carousel, rise 48px and fade in. Then it scrolls on
- * normally. Scrolling back up reverses it.
+ * carousel. Desktop: like the hero, it comes in as a sequence tied to the
+ * scroll: once the panel has slid over the hero, the module pins to the
+ * top of the screen (sticky; the carousel runs off the bottom) while
+ * first the statement, then the carousel, rise 48px and fade in. Then it
+ * scrolls on normally. Scrolling back up reverses it. Phones: no pin;
+ * each part plays its rise and fade in full once it comes into view.
  *
  * Fails toward visible: before the JS takes over, both are hidden only
  * when scripting is on, with a CSS failsafe after 4s (globals.css,
@@ -67,11 +73,51 @@ export default function HomeSecondModule({
     const desktop = window.matchMedia("(min-width: 768px)");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let frame = 0;
+    // Phones: which parts are showing; and the layout last seen.
+    const shown = [false, false];
+    let wasDesktop: boolean | null = null;
 
     function update() {
       frame = 0;
       if (!wrap || !spacer || !steps[0] || !steps[1]) return;
-      const t = desktop.matches ? DESKTOP : PHONE;
+      if (wasDesktop !== desktop.matches) {
+        wasDesktop = desktop.matches;
+        steps.forEach((el) => {
+          if (el) el.style.transition = "";
+        });
+        shown[0] = shown[1] = false;
+      }
+      if (!desktop.matches) {
+        const vh = window.innerHeight;
+        steps.forEach((el, i) => {
+          if (!el) return;
+          // Its resting position (offsetTop ignores its own rise).
+          let docTop = 0;
+          for (let n: HTMLElement | null = el; n; n = n.offsetParent as HTMLElement | null) {
+            docTop += n.offsetTop;
+          }
+          const top = docTop - window.scrollY;
+          if (!shown[i] && top < vh * PHONE_SHOW_AT) {
+            shown[i] = true;
+            if (!reduced) {
+              el.style.transition = `opacity ${PHONE_MS}ms ${PHONE_EASE}, transform ${PHONE_MS}ms ${PHONE_EASE}`;
+              el.style.opacity = "";
+              el.style.transform = "";
+            }
+          } else if (shown[i] && top >= vh) {
+            shown[i] = false;
+            if (!reduced) {
+              el.style.transition = "none";
+              el.style.opacity = "0";
+              el.style.transform = `translate3d(0, ${DISTANCE}px, 0)`;
+            }
+          }
+        });
+        const r = steps[1].getBoundingClientRect();
+        setInPlace(shown[1] && r.bottom > 0 && r.top < vh);
+        return;
+      }
+      const t = DESKTOP;
       // One "screen" as CSS sizes the spacer (svh on phones).
       const unit = spacer.offsetHeight / t.pin || window.innerHeight;
       const s = -wrap.getBoundingClientRect().top / unit;
