@@ -5,10 +5,11 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 // How far below its spot a block starts (px).
 const DISTANCE = 48;
 // The block is fully hidden while its top is at the bottom edge of the
-// screen, and fully in place once its top is 60% of the way up. In
-// between, it follows the scroll (the finger) exactly.
+// screen, and fully in place once its top is 60% of the way up (the
+// default `end`, a share of the screen height from the top). In between,
+// it follows the scroll (the finger) exactly.
 const START = 1;
-const END = 0.4;
+const DEFAULT_END = 0.4;
 // A block that's already on screen when the page opens (at the top)
 // stays hidden until the visitor scrolls, then rises from where it sits.
 // It still gets at least this much scrolling (share of the screen
@@ -27,7 +28,8 @@ function easeOut(t: number) {
 }
 
 /**
- * Phones only (below md): a block that rises and fades in as it scrolls
+ * Phones only (below md) by default, or every screen size with
+ * scope="all" (the Home page): a block that rises and fades in as it scrolls
  * up the screen, tied directly to the scroll position, so it moves with
  * the visitor's finger: stop scrolling and it stops; scroll back down
  * the page and it reverses. When the page opens, only what's above the
@@ -43,9 +45,15 @@ function easeOut(t: number) {
 export default function Reveal({
   children,
   className = "",
+  scope = "phone",
+  end: END = DEFAULT_END,
 }: {
   children: ReactNode;
   className?: string;
+  /** "phone": below md only (Studio). "all": every screen size (Home). */
+  scope?: "phone" | "all";
+  /** Where the block's top is once fully in place (share of the screen). */
+  end?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<State>("pending");
@@ -55,7 +63,7 @@ export default function Reveal({
     if (!el) return;
     const isPhone = window.matchMedia("(max-width: 767px)").matches;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!isPhone || reduced) {
+    if ((scope === "phone" && !isPhone) || reduced) {
       setState("off");
       return;
     }
@@ -146,10 +154,10 @@ export default function Reveal({
       window.clearTimeout(introTimer);
       window.clearTimeout(liveTimer);
     };
-  }, []);
+  }, [scope, END]);
 
   return (
-    <div ref={ref} data-reveal={state} className={className || undefined}>
+    <div ref={ref} data-reveal={state} data-reveal-scope={scope} className={className || undefined}>
       {children}
     </div>
   );

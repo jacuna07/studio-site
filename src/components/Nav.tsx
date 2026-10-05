@@ -7,7 +7,7 @@ import Container from "./Container";
 import Wordmark from "./icons/Wordmark";
 import CircledWordmark from "./icons/CircledWordmark";
 import { SPANISH_ENABLED } from "@/lib/site-config";
-import { HERO_WORDMARK_EVENT, type HeroWordmarkDetail } from "./HomeHeroDesktop";
+import { HERO_WORDMARK_EVENT, type HeroWordmarkDetail } from "./HomeHero";
 
 type Locale = "en" | "es";
 
@@ -46,10 +46,10 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
   const isHome = pathname === t.home;
   const drawerLinks = isHome ? t.links : [{ href: t.home, label: t.homeLabel }, ...t.links];
 
-  // Desktop, English Home: the horizontal wordmark stays hidden while the
-  // hero's circled wordmark is on screen (from the first load), and
-  // appears once the page has scrolled over it. The hero reports it
-  // (HomeHeroDesktop). Phones keep their circled logo as is.
+  // English Home: the nav's logo (the horizontal wordmark on desktop, the
+  // small circled one on phones) stays hidden while the hero's circled
+  // wordmark is on screen (from the first load), and appears once the
+  // page has scrolled over it. The hero reports it (HomeHero).
   const isEnHome = pathname === "/";
   const [heroWordmarkOnScreen, setHeroWordmarkOnScreen] = useState(true);
   useEffect(() => {
@@ -188,7 +188,7 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
         <Link
           href={t.home}
           className={`block text-paper md:hover:text-cobalt transition-colors ${
-            hideWordmark ? "md:pointer-events-none" : ""
+            hideWordmark ? "pointer-events-none" : ""
           }`}
           tabIndex={hideWordmark ? -1 : undefined}
           onClick={() => setOpen(false)}
@@ -199,7 +199,11 @@ export default function Nav({ locale = "en" }: { locale?: Locale }) {
               hideWordmark ? "md:opacity-0" : "md:opacity-100"
             }`}
           />
-          <CircledWordmark className="md:hidden h-[60px] w-[60px] animate-slow-spin" />
+          <CircledWordmark
+            className={`md:hidden h-[60px] w-[60px] animate-slow-spin transition-opacity duration-500 ${
+              hideWordmark ? "opacity-0" : "opacity-100"
+            }`}
+          />
         </Link>
 
         <div className="hidden md:flex items-center gap-10">

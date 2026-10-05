@@ -48,13 +48,20 @@ function getFrames(project: Project) {
  * away instead of waiting a full cycle. Desktop: the two cards fully in
  * view (the first two positions), each on its own cycle.
  *
- * `variant="home"` (the Home page) changes desktop only, and needs a
- * full-width ancestor that's a size container (Home's Featured section):
- * the track runs the full width of the screen (the first card still starts at the page
- * margin, and cards slide out to both screen edges), cards sit 2px apart,
- * and each shows just its title under the image (no summary, no "See
- * project"). Phones, and the in-progress pages (default variant), are
- * unchanged.
+ * `variant="home"` (the Home page):
+ * - Images only start cycling once the carousel is in place (its top 40%
+ *   of the way up the screen, where its Reveal finishes), straight away,
+ *   and go back to their covers when it leaves.
+ * - Desktop only, and it needs a full-width ancestor that's a size
+ *   container (Home's Featured section): the track runs the full width of
+ *   the screen (the first card still starts at the page margin, and cards
+ *   slide out to both screen edges), cards sit 2px apart, no progress bar
+ *   (mouse users can click and drag the track instead), and the project's
+ *   name and industry come up in a cobalt band on hover, with a slight
+ *   zoom, like the Work page. Wrap it in CursorRevealGrid for the 👀
+ *   cursor; the "See all projects" card opts out of it.
+ * Phones keep their titles, summaries and progress bar. The in-progress
+ * pages (default variant) are unchanged.
  *
  * The trailing slide differs by breakpoint: on mobile it's a vertically
  * scrollable "more work" panel of extra projects (just the "See all
@@ -89,6 +96,13 @@ export default function FeaturedCarousel({
   const [frameBySlide, setFrameBySlide] = useState<Record<number, number>>({});
   const [isDesktop, setIsDesktop] = useState(false);
   const firstActivationRef = useRef(true);
+  const rootRef = useRef<HTMLDivElement>(null);
+  // Home: whether the carousel has arrived in place (cycling only then).
+  const [inPlace, setInPlace] = useState(!isHome);
+  const wasRunningRef = useRef(false);
+  // Home, desktop: click and drag the track with a mouse.
+  const dragRef = useRef<{ x: number; left: number; moved: boolean; id: number } | null>(null);
+  const suppressClickRef = useRef(false);
   const [scrubbing, setScrubbing] = useState(false);
   const scrubbingRef = useRef(false); // same flag, readable mid-gesture
   const snapTimerRef = useRef<number | undefined>(undefined);
@@ -148,9 +162,49 @@ export default function FeaturedCarousel({
   // starts from its hero image, except on phones, where it moves on to
   // its next image right away (no wait). The very first card on page
   // load always starts from its hero.
+  // Home: in place once the carousel's top is 40% of the way up the screen
+  // (where its Reveal on the Home page finishes) and it's still on screen.
   useEffect(() => {
+    if (!isHome) return;
+    let frame = 0;
+    function check() {
+      frame = 0;
+      const el = rootRef.current;
+      if (!el) return;
+      // Its resting position (offsetTop ignores transforms), so the
+      // Reveal's own rise doesn't throw the check off mid-animation.
+      let docTop = 0;
+      for (let n: HTMLElement | null = el; n; n = n.offsetParent as HTMLElement | null) {
+        docTop += n.offsetTop;
+      }
+      const top = docTop - window.scrollY;
+      setInPlace(top <= window.innerHeight * 0.6 + 1 && top + el.offsetHeight > 0);
+    }
+    function onScroll() {
+      if (!frame) frame = window.requestAnimationFrame(check);
+    }
+    check();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      window.cancelAnimationFrame(frame);
+    };
+  }, [isHome]);
+
+  useEffect(() => {
+    // Home: nothing cycles until the carousel is in place; then every
+    // active card moves on to its next image straight away.
+    const running = !isHome || inPlace;
+    const justStarted = running && !wasRunningRef.current;
+    wasRunningRef.current = running;
+    if (!running) {
+      setFrameBySlide({});
+      return;
+    }
     const counts = activeSlides.map((i) => getFrames(projects[i]).length);
-    const immediate = !isDesktop && !firstActivationRef.current;
+    const immediate = (isHome && justStarted) || (!isDesktop && !firstActivationRef.current);
     firstActivationRef.current = false;
     setFrameBySlide((prev) => {
       const next: Record<number, number> = {};
@@ -170,7 +224,7 @@ export default function FeaturedCarousel({
       });
     }, CYCLE_MS);
     return () => window.clearInterval(id);
-  }, [activeSlides, isDesktop, projects]);
+  }, [activeSlides, isDesktop, projects, isHome, inPlace]);
 
   function scrollByCard(direction: 1 | -1) {
     const el = trackRef.current;
@@ -218,9 +272,49 @@ export default function FeaturedCarousel({
     scrubbingRef.current = false;
     setScrubbing(false);
     document.body.style.cursor = "";
+    glideToNearest(el);
+  }
 
-    // Glide to whichever card's snap position is closest, then hand
-    // control back to CSS snapping once the glide is done.
+  // Home, desktop: with no progress bar, a mouse can click and drag the
+  // track itself. A real drag (past 6px) moves the cards and then glides
+  // to the nearest one; a plain click still opens the project.
+  function handleTrackPointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    const el = trackRef.current;
+    if (!isHome || !el || e.pointerType !== "mouse" || e.button !== 0) return;
+    if (!window.matchMedia("(min-width: 768px)").matches) return;
+    dragRef.current = { x: e.clientX, left: el.scrollLeft, moved: false, id: e.pointerId };
+  }
+
+  function handleTrackPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    const d = dragRef.current;
+    const el = trackRef.current;
+    if (!d || !el) return;
+    const dx = e.clientX - d.x;
+    if (!d.moved) {
+      if (Math.abs(dx) < 6) return;
+      d.moved = true;
+      el.setPointerCapture(d.id);
+      window.clearTimeout(snapTimerRef.current);
+      el.style.scrollSnapType = "none";
+    }
+    el.scrollLeft = d.left - dx;
+  }
+
+  function handleTrackPointerUp() {
+    const d = dragRef.current;
+    const el = trackRef.current;
+    dragRef.current = null;
+    if (!d?.moved || !el) return;
+    suppressClickRef.current = true;
+    window.setTimeout(() => {
+      suppressClickRef.current = false;
+    }, 50);
+    glideToNearest(el);
+  }
+
+  // Glide to whichever card's snap position is closest, then hand control
+  // back to CSS snapping once the glide is done.
+  function glideToNearest(el: HTMLDivElement) {
     const max = el.scrollWidth - el.clientWidth;
     // Where snapped cards line up (the page margin on the home variant).
     const trackLeft =
@@ -260,11 +354,25 @@ export default function FeaturedCarousel({
   const workHref = locale === "es" ? "/es/work" : "/work";
 
   return (
-    <div>
+    <div ref={rootRef}>
       <div
         ref={trackRef}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
+        onPointerDown={handleTrackPointerDown}
+        onPointerMove={handleTrackPointerMove}
+        onPointerUp={handleTrackPointerUp}
+        onPointerCancel={handleTrackPointerUp}
+        onClickCapture={(e) => {
+          if (suppressClickRef.current) {
+            e.preventDefault();
+            e.stopPropagation();
+            suppressClickRef.current = false;
+          }
+        }}
+        onDragStart={(e) => {
+          if (isHome) e.preventDefault();
+        }}
         // Bleeds only on the right (by exactly the Container's padding), so
         // the peeking slide runs to the edge of the screen while the left
         // edge stays where Container's own padding already sits, matching
@@ -321,7 +429,7 @@ export default function FeaturedCarousel({
                         loop
                         playsInline
                         aria-label={f.alt}
-                        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out ${
+                        className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-500 ease-out ${isHome ? "md:group-hover:scale-105" : ""} ${
                           fi === shownFrame ? "opacity-100" : "opacity-0"
                         }`}
                       />
@@ -333,7 +441,7 @@ export default function FeaturedCarousel({
                         fill
                         sizes="(min-width: 768px) 45vw, 85vw"
                         priority={i === 0 && fi === 0}
-                        className={`object-cover transition-opacity duration-500 ease-out ${
+                        className={`object-cover transition-[opacity,transform] duration-500 ease-out ${isHome ? "md:group-hover:scale-105" : ""} ${
                           fi === shownFrame ? "opacity-100" : "opacity-0"
                         }`}
                       />
@@ -345,15 +453,31 @@ export default function FeaturedCarousel({
                     alt={project.hero.alt}
                     fill
                     sizes="(min-width: 768px) 45vw, 85vw"
-                    className="object-cover"
+                    className={`object-cover transition-transform duration-500 ease-out ${
+                      isHome ? "md:group-hover:scale-105" : ""
+                    }`}
                   />
                 )}
+                {/* Home, desktop: name and industry come up in a cobalt
+                    band on hover, the same as the Work page's cards. */}
+                {isHome && (
+                  <div className="absolute inset-x-0 bottom-0 hidden overflow-hidden md:block">
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0 origin-bottom scale-y-0 bg-cobalt transition-transform duration-500 ease-out md:group-hover:scale-y-100"
+                    />
+                    <div className="relative z-10 px-8 py-5 opacity-0 transition-opacity delay-100 duration-300 md:group-hover:opacity-100">
+                      <div className="font-display text-2xl md:text-3xl font-medium text-paper">
+                        {project.title}
+                      </div>
+                      <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-paper">
+                        {project.industry}
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-              <div
-                className={`font-display text-2xl leading-snug mt-5 ${
-                  isHome ? "md:text-base md:mt-3 md:group-hover:text-cobalt transition-colors" : ""
-                }`}
-              >
+              <div className={`font-display text-2xl leading-snug mt-5 ${isHome ? "md:hidden" : ""}`}>
                 {project.title}
               </div>
               <p className={`text-stone mt-3 ${isHome ? "md:hidden" : ""}`}>{project.summary}</p>
@@ -422,6 +546,7 @@ export default function FeaturedCarousel({
               the cursor. */}
           <Link
             href={workHref}
+            data-cursor-reveal-skip
             {...(previewCovers.length > 0 ? seeAllPreview.handlers : {})}
             className="group hidden md:flex aspect-[4/3] items-center justify-center bg-mist md:hover:bg-cobalt transition-colors"
           >
@@ -433,8 +558,9 @@ export default function FeaturedCarousel({
         </div>
       </div>
 
-      {/* mt-6 + the track's pb-2 = the same 32px gap as before. */}
-      <div className="mt-6 flex items-center gap-6">
+      {/* mt-6 + the track's pb-2 = the same 32px gap as before. Not on
+          the Home page's desktop (drag the track instead). */}
+      <div className={`mt-6 flex items-center gap-6 ${isHome ? "md:hidden" : ""}`}>
         {/* The padding gives the 2px bar a comfortable grab area; the
             negative margin cancels it out of the layout. Dragging only
             kicks in for a mouse on desktop (see handleBarPointerDown). */}

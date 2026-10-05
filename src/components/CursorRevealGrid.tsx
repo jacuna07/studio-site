@@ -12,7 +12,9 @@ const GROW_MS = 300;
  * Wraps a grid of project cards with a custom circular cursor that grows to
  * reveal a small emoji on hover, in place of the native pointer. Scope this
  * to just the grid you want the effect on — it hides the native cursor only
- * over <a> descendants inside it via `[&_a]:cursor-none`.
+ * over <a> descendants inside it via `[&_a]:cursor-none`. A link with
+ * `data-cursor-reveal-skip` keeps the normal cursor (e.g. the Home
+ * carousel's "See all projects" card, which has its own cover preview).
  */
 export default function CursorRevealGrid({ children }: { children: ReactNode }) {
   const cursorPosRef = useRef<HTMLDivElement>(null);
@@ -41,6 +43,7 @@ export default function CursorRevealGrid({ children }: { children: ReactNode }) 
   function handleMouseOver(e: React.MouseEvent) {
     if (!fineHoverRef.current) return;
     const card = (e.target as HTMLElement).closest("a");
+    if (card?.hasAttribute("data-cursor-reveal-skip")) return;
     if (card && card.dataset.cursorEntered !== "1") {
       card.dataset.cursorEntered = "1";
       setCursorActive(true);
@@ -64,7 +67,11 @@ export default function CursorRevealGrid({ children }: { children: ReactNode }) 
   }
 
   return (
-    <div onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} className="[&_a]:cursor-none">
+    <div
+      onMouseOver={handleMouseOver}
+      onMouseOut={handleMouseOut}
+      className="[&_a:not([data-cursor-reveal-skip])]:cursor-none"
+    >
       {children}
 
       <div
