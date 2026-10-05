@@ -18,17 +18,29 @@ function clamp01(n: number) {
  * content (`relative z-10 bg-ink`) that covers it. Its parent decides how
  * long it stays put (the case study article, so to the end of the page).
  *
- * As it's covered it zooms in a touch, following the scroll, and it's
- * switched off once fully covered. Reduced motion: it still stays put,
- * without the zoom.
+ * As it's covered it zooms in a touch, following the scroll (unless
+ * `zoom` is off), and it's switched off once fully covered
+ * (`visibility: hidden`, which also pauses a HeroGradient inside it,
+ * through `data-cover-hero`). Reduced motion: it still stays put, without
+ * the zoom.
+ *
+ * Also the Studio page's title and intro over the shader gradient (set
+ * 2026-10-05): full screen, from the very top on phones too, no zoom.
  */
 export default function CoverHero({
   children,
   className = "",
+  offsetClassName = "md:-mt-20",
+  zoom = true,
 }: {
   children: ReactNode;
-  /** Classes for the photo's frame (size, aspect, background). */
+  /** Classes for the frame (size, aspect, background). */
   className?: string;
+  /** Pulls it up under the nav. Default: desktop only (the case study:
+   *  phones keep the photo below the nav). */
+  offsetClassName?: string;
+  /** Zoom in a touch as it's covered. */
+  zoom?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
@@ -49,7 +61,7 @@ export default function CoverHero({
       // Covered share: how far the content's top edge has come up over it.
       const c = r.height > 0 ? clamp01((r.bottom - next.getBoundingClientRect().top) / r.height) : 0;
       el.style.visibility = c >= 1 ? "hidden" : "";
-      if (reduced) return;
+      if (reduced || !zoom) return;
       inner.style.transform = c > 0 ? `scale(${(1 + MAX_ZOOM * c).toFixed(4)})` : "";
     }
 
@@ -65,13 +77,12 @@ export default function CoverHero({
       window.removeEventListener("resize", onScroll);
       window.cancelAnimationFrame(frame);
     };
-  }, []);
+  }, [zoom]);
 
   return (
-    // Desktop: -mt-20 cancels main's top padding, so the photo starts at
-    // the very top edge, under the nav (set 2026-10-04). Phones keep it
-    // below the nav.
-    <div ref={ref} className="sticky top-0 z-0 md:-mt-20">
+    // -mt-20 cancels main's top padding, so it starts at the very top
+    // edge, under the nav (the case study: desktop only, set 2026-10-04).
+    <div ref={ref} data-cover-hero className={`sticky top-0 z-0 ${offsetClassName}`}>
       <div className={className}>
         <div ref={innerRef} className="absolute inset-0">
           {children}

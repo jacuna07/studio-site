@@ -8,8 +8,9 @@ import { useState } from "react";
 const HeroShader = dynamic(() => import("./HeroShader"), { ssr: false });
 
 /**
- * The Home hero's background (2026-10-05): Javier's ShaderGradient, a slow
- * cobalt water plane with grain (HeroShader), at 30% opacity over ink. It
+ * The Home hero's background, and the Studio page's title and intro
+ * (2026-10-05): Javier's ShaderGradient, a slow cobalt water plane with
+ * grain (HeroShader), at 30% opacity over ink. It
  * fades in once its first frame is drawn, so it never pops in. It doesn't
  * react to the cursor. (It replaced, the same day, a CSS gradient that
  * followed the cursor, which had replaced the photo slideshow.)

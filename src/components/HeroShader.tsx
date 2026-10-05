@@ -33,9 +33,9 @@ function FirstFrame({ onReady }: { onReady: () => void }) {
  *
  * Our own canvas instead of ShaderGradientCanvas (same settings: pixel
  * density 1, 45° field of view, linear and flat color) so we control the
- * frame loop: it stops while the hero is covered (the hero sets
- * `visibility: hidden` then) or the tab is in the background. With
- * reduced motion it's still, drawn only when needed.
+ * frame loop: it stops while the hero is covered (the Home hero or a
+ * CoverHero sets `visibility: hidden` then) or the tab is in the
+ * background. With reduced motion it's still, drawn only when needed.
  */
 export default function HeroShader({ onReady }: { onReady: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -45,7 +45,9 @@ export default function HeroShader({ onReady }: { onReady: () => void }) {
   const [on, setOn] = useState(true);
 
   useEffect(() => {
-    const host = ref.current?.closest<HTMLElement>("[data-hero]");
+    // The Home hero, or a CoverHero (the Studio page): both set
+    // `visibility: hidden` once they're fully covered.
+    const host = ref.current?.closest<HTMLElement>("[data-hero], [data-cover-hero]");
     function update() {
       setOn(!document.hidden && host?.style.visibility !== "hidden");
     }

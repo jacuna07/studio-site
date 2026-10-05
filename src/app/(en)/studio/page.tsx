@@ -8,6 +8,8 @@ import IconInstagram from "@/components/icons/IconInstagram";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
 import MethodCarousel from "@/components/MethodCarousel";
 import Reveal from "@/components/Reveal";
+import CoverHero from "@/components/CoverHero";
+import HeroGradient from "@/components/HeroGradient";
 
 export const metadata: Metadata = pageMetadata({
   page: "Studio",
@@ -76,36 +78,58 @@ const team = [
 export default function StudioPage() {
   return (
     <CaseStudyBackSwipe targetHref="/work" targetLabel="Work" hint={false}>
-    <section className="py-16 animate-page-in">
+    <div className="animate-page-in">
+      {/* The title and intro, full screen over the shader gradient (the
+          same as the Home hero, at 30%), stay put while the rest of the
+          page, an opaque panel, slides up over them (set 2026-10-05, like
+          the Home hero). Phones and desktop. */}
+      <CoverHero
+        offsetClassName="-mt-20"
+        zoom={false}
+        className="relative h-[100svh] w-full overflow-hidden bg-ink md:h-screen"
+      >
+        <HeroGradient />
+        <div className="relative flex h-full items-center">
+          <Container className="pb-10 md:pb-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+              <div className="md:col-span-2 max-w-copy">
+                {/* The page comes in as a sequence, phones and desktop: only
+                    01 the title and 02 the intro show on load
+                    (.reveal-on-load); 03 to 07 wait for the first scroll, then
+                    each rises and fades in, in full, as it comes into view
+                    (Reveal), the same motion as the Home page. */}
+                <h1 className="reveal-on-load font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-8 md:mb-10">
+                  A tailor-made process, refined at the core.
+                </h1>
+
+                {/* Desktop type scale follows the reference studios
+                    (this.design, Tinge, Folk, Pupila): the intro is set as a
+                    large statement (~30px, tight leading) rather than body
+                    copy, and supporting paragraphs sit around 22px. */}
+                <div
+                  className="reveal-on-load space-y-6 text-paper text-lg md:text-[30px] md:leading-[1.3]"
+                  style={{ animationDelay: "300ms" }}
+                >
+                  <p>
+                    <strong className="font-bold">Tresunotres</strong> (313) is a brand design
+                    studio based in Costa Rica. We build brands the way you&apos;d
+                    build anything meant to last. We dig into the product first,
+                    and the identity only goes up once the foundation is set.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </Container>
+        </div>
+      </CoverHero>
+
+    {/* The rest of the page: the panel that covers the title and intro,
+        with a mist top line, like the Home page's. */}
+    <section className="relative z-10 border-t border-mist bg-ink py-16 md:pt-24">
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div className="md:col-span-2 max-w-copy">
-            {/* The page comes in as a sequence, phones and desktop: only
-                01 the title and 02 the intro show on load
-                (.reveal-on-load); 03 to 07 wait for the first scroll, then
-                each rises and fades in, in full, as it comes into view
-                (Reveal), the same motion as the Home page. */}
-            <h1 className="reveal-on-load font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-8 md:mb-10">
-              A tailor-made process, refined at the core.
-            </h1>
-
-            {/* Desktop type scale follows the reference studios
-                (this.design, Tinge, Folk, Pupila): the intro is set as a
-                large statement (~30px, tight leading) rather than body
-                copy, and supporting paragraphs sit around 22px. */}
-            <div
-              className="reveal-on-load space-y-6 text-paper text-lg md:text-[30px] md:leading-[1.3]"
-              style={{ animationDelay: "300ms" }}
-            >
-              <p>
-                <strong className="font-bold">Tresunotres</strong> (313) is a brand design
-                studio based in Costa Rica. We build brands the way you&apos;d
-                build anything meant to last. We dig into the product first,
-                and the identity only goes up once the foundation is set.
-              </p>
-            </div>
-
-            <Reveal className="mt-16 md:mt-20">
+            <Reveal>
               <h2 className={`${sectionLabel} mb-4 md:mb-6`}>What we do</h2>
               <div className="space-y-4 md:space-y-6 text-paper md:text-[22px] md:leading-[1.5]">
                 <p>
@@ -206,6 +230,7 @@ export default function StudioPage() {
         </Reveal>
       </Container>
     </section>
+    </div>
     </CaseStudyBackSwipe>
   );
 }
