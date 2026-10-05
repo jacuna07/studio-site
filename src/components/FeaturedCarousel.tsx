@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import IconArrowLeft from "./icons/IconArrowLeft";
 import { useCursorPreview } from "./useCursorPreview";
 import { COVER_CYCLE_MS } from "./CoverPreviewLink";
+import { HomeCarouselInPlace } from "./HomeSecondModule";
 import type { Project } from "@/content/projects/types";
 
 const copy = {
@@ -16,6 +17,10 @@ const copy = {
 // How often the active slide's image cycles to its next frame — matches
 // ProjectCard's own auto-cycle interval on the desktop grid.
 const CYCLE_MS = 1500;
+// Home, desktop: the slow drift once the carousel is in place (px per
+// second), and how long it waits after the visitor moves it themselves.
+const DRIFT_PX_PER_S = 24;
+const DRIFT_RESUME_MS = 2500;
 
 function getFrames(project: Project) {
   return [
@@ -49,17 +54,19 @@ function getFrames(project: Project) {
  * view (the first two positions), each on its own cycle.
  *
  * `variant="home"` (the Home page):
- * - Images only start cycling once the carousel is in place (its top 40%
- *   of the way up the screen, where its Reveal finishes), straight away,
- *   and go back to their covers when it leaves.
+ * - Plays only once it's in place (HomeCarouselInPlace, from
+ *   HomeSecondModule: it has come in and is on screen). Then images start
+ *   cycling straight away, and on desktop the whole strip drifts slowly
+ *   sideways on its own (turning back at either end), pausing while
+ *   hovered, dragged or scrolled by the visitor.
  * - Desktop only, and it needs a full-width ancestor that's a size
- *   container (Home's Featured section): the track runs the full width of
- *   the screen (the first card still starts at the page margin, and cards
- *   slide out to both screen edges), cards sit 2px apart, no progress bar
- *   (mouse users can click and drag the track instead), and the project's
- *   name and industry come up in a cobalt band on hover, with a slight
- *   zoom, like the Work page. Wrap it in CursorRevealGrid for the 👀
- *   cursor; the "See all projects" card opts out of it.
+ *   container (Home's Featured section): full bleed (the track runs edge
+ *   to edge of the screen, first card at the very left), no snapping to
+ *   cards, cards 2px apart, no progress bar (mouse users can click and
+ *   drag the track instead), and the project's name and industry come up
+ *   in a cobalt band on hover, with a slight zoom, like the Work page.
+ *   Wrap it in CursorRevealGrid for the 👀 cursor; the "See all
+ *   projects" card opts out of it.
  * Phones keep their titles, summaries and progress bar. The in-progress
  * pages (default variant) are unchanged.
  *
@@ -97,8 +104,12 @@ export default function FeaturedCarousel({
   const [isDesktop, setIsDesktop] = useState(false);
   const firstActivationRef = useRef(true);
   const rootRef = useRef<HTMLDivElement>(null);
-  // Home: whether the carousel has arrived in place (cycling only then).
-  const [inPlace, setInPlace] = useState(!isHome);
+  // Home: whether the carousel has come in and is on screen (it only
+  // plays then). Outside HomeSecondModule it always counts as in place.
+  const homeInPlace = useContext(HomeCarouselInPlace);
+  const inPlace = !isHome || homeInPlace !== false;
+  const hoveredRef = useRef(false);
+  const resumeAtRef = useRef(0);
   const wasRunningRef = useRef(false);
   // Home, desktop: click and drag the track with a mouse.
   const dragRef = useRef<{ x: number; left: number; moved: boolean; id: number } | null>(null);
@@ -162,37 +173,6 @@ export default function FeaturedCarousel({
   // starts from its hero image, except on phones, where it moves on to
   // its next image right away (no wait). The very first card on page
   // load always starts from its hero.
-  // Home: in place once the carousel's top is 40% of the way up the screen
-  // (where its Reveal on the Home page finishes) and it's still on screen.
-  useEffect(() => {
-    if (!isHome) return;
-    let frame = 0;
-    function check() {
-      frame = 0;
-      const el = rootRef.current;
-      if (!el) return;
-      // Its resting position (offsetTop ignores transforms), so the
-      // Reveal's own rise doesn't throw the check off mid-animation.
-      let docTop = 0;
-      for (let n: HTMLElement | null = el; n; n = n.offsetParent as HTMLElement | null) {
-        docTop += n.offsetTop;
-      }
-      const top = docTop - window.scrollY;
-      setInPlace(top <= window.innerHeight * 0.6 + 1 && top + el.offsetHeight > 0);
-    }
-    function onScroll() {
-      if (!frame) frame = window.requestAnimationFrame(check);
-    }
-    check();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      window.cancelAnimationFrame(frame);
-    };
-  }, [isHome]);
-
   useEffect(() => {
     // Home: nothing cycles until the carousel is in place; then every
     // active card moves on to its next image straight away.
@@ -294,23 +274,63 @@ export default function FeaturedCarousel({
       if (Math.abs(dx) < 6) return;
       d.moved = true;
       el.setPointerCapture(d.id);
-      window.clearTimeout(snapTimerRef.current);
-      el.style.scrollSnapType = "none";
     }
     el.scrollLeft = d.left - dx;
+    resumeAtRef.current = performance.now() + DRIFT_RESUME_MS;
   }
 
+  // The strip stays wherever it's let go (no snapping to a card).
   function handleTrackPointerUp() {
     const d = dragRef.current;
-    const el = trackRef.current;
     dragRef.current = null;
-    if (!d?.moved || !el) return;
+    if (!d?.moved) return;
     suppressClickRef.current = true;
     window.setTimeout(() => {
       suppressClickRef.current = false;
     }, 50);
-    glideToNearest(el);
+    resumeAtRef.current = performance.now() + DRIFT_RESUME_MS;
   }
+
+  // Home, desktop: the slow drift. Moves by its own running position (so
+  // sub-pixel steps add up), turns back at either end, and pauses while
+  // the strip is hovered or dragged, or for a moment after the visitor
+  // scrolls it themselves.
+  useEffect(() => {
+    if (!isHome || !inPlace || !isDesktop) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const el = trackRef.current;
+    if (!el) return;
+    let frame = 0;
+    let last = 0;
+    let pos = el.scrollLeft;
+    let dir = 1;
+    function step(now: number) {
+      if (!el) return;
+      const dt = last ? Math.min(now - last, 64) : 0;
+      last = now;
+      // The visitor moved it (trackpad, drag): pick up from there.
+      if (Math.abs(el.scrollLeft - Math.round(pos)) > 2) {
+        pos = el.scrollLeft;
+        resumeAtRef.current = Math.max(resumeAtRef.current, now + DRIFT_RESUME_MS);
+      }
+      const paused = hoveredRef.current || dragRef.current !== null || now < resumeAtRef.current;
+      if (!paused) {
+        const max = el.scrollWidth - el.clientWidth;
+        pos += (dir * DRIFT_PX_PER_S * dt) / 1000;
+        if (pos >= max) {
+          pos = max;
+          dir = -1;
+        } else if (pos <= 0) {
+          pos = 0;
+          dir = 1;
+        }
+        el.scrollLeft = pos;
+      }
+      frame = window.requestAnimationFrame(step);
+    }
+    frame = window.requestAnimationFrame(step);
+    return () => window.cancelAnimationFrame(frame);
+  }, [isHome, inPlace, isDesktop]);
 
   // Glide to whichever card's snap position is closest, then hand control
   // back to CSS snapping once the glide is done.
@@ -373,6 +393,12 @@ export default function FeaturedCarousel({
         onDragStart={(e) => {
           if (isHome) e.preventDefault();
         }}
+        onMouseEnter={() => {
+          hoveredRef.current = true;
+        }}
+        onMouseLeave={() => {
+          hoveredRef.current = false;
+        }}
         // Bleeds only on the right (by exactly the Container's padding), so
         // the peeking slide runs to the edge of the screen while the left
         // edge stays where Container's own padding already sits, matching
@@ -387,17 +413,13 @@ export default function FeaturedCarousel({
         // gestures always go to the page), and pb-2 leaves room for the
         // underline so it isn't clipped.
         //
-        // Home variant, desktop: the track spans the whole page width (the
-        // negative margins pull it out of the page grid on both sides),
-        // and the padding / scroll padding keep the first card, and every
-        // snapped card, on the page margin: 32px, or more once the grid
-        // stops growing at 1920px. cqw is the Home section's width (it's a
-        // size container), so a permanent scrollbar doesn't throw it off
-        // the way vw would.
+        // Home variant, desktop: full bleed. The negative margins pull the
+        // track out of the page grid on both sides, so it runs edge to
+        // edge with the first card at the very left; no snapping. cqw is
+        // the Home section's width (it's a size container), so a
+        // permanent scrollbar doesn't throw it off the way vw would.
         className={`flex gap-4 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scrollbar-hide -mr-6 pr-6 ${
-          isHome
-            ? "md:gap-0.5 md:mx-[calc(50%-50cqw)] md:px-[max(2rem,calc(50cqw-928px))] md:scroll-px-[max(2rem,calc(50cqw-928px))]"
-            : "md:-mr-8 md:pr-8"
+          isHome ? "md:snap-none md:gap-0.5 md:mx-[calc(50%-50cqw)] md:px-0" : "md:-mr-8 md:pr-8"
         }`}
       >
         {projects.map((project, i) => {

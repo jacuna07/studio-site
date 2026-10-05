@@ -14,8 +14,13 @@ html {
      scrollable width and let the browser rubber-band the whole page
      sideways (visible as fixed header elements, like the burger icon,
      nudging over for a frame). Locking horizontal scroll and overscroll
-     on the document itself rules that out entirely. */
+     on the document itself rules that out entirely.
+     `clip` (with `hidden` as the fallback for older browsers) cuts off
+     sideways overflow the same way but, unlike `hidden`, doesn't turn
+     html/body into scroll containers, which is what lets
+     `position: sticky` work (the Home second module's pin). */
   overflow-x: hidden;
+  overflow-x: clip;
   overscroll-behavior-x: none;
 }
 
@@ -23,6 +28,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Text selection in the brand cobalt instead of the browser's default
@@ -257,6 +263,17 @@ body {
 
   [data-hero="pending"] [data-hero-mark] {
     opacity: 0;
+    animation: reveal-failsafe 0.6s ease-out 4s forwards;
+  }
+}
+
+/* Home second module (src/components/HomeSecondModule.tsx): before the
+   JS takes over, the statement and the carousel are hidden only when
+   scripting is on, and shown anyway after 4s if the JS never runs. */
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  [data-home-pin="pending"] [data-home-step] {
+    opacity: 0;
+    transform: translateY(48px);
     animation: reveal-failsafe 0.6s ease-out 4s forwards;
   }
 }
