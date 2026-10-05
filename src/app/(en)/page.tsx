@@ -50,18 +50,18 @@ export default function HomePage() {
             <section className="pt-24 pb-16 md:flex md:min-h-[60vh] md:items-center md:py-24">
               <Container>
                 <p className="font-display font-normal text-[28px] sm:text-3xl md:text-4xl lg:text-5xl leading-[1.2] tracking-normal lg:pl-[25%]">
-                  <span className="md:block">We construct visual identities</span>{" "}
+                  <span className="md:block">We build visual identities</span>{" "}
                   <span className="md:block">
                     through a{" "}
                     <Link href="/studio" className="group relative inline-block text-cobalt">
-                      custom process
+                      proven process
                       <span
                         aria-hidden="true"
                         className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
                       />
                     </Link>
                   </span>{" "}
-                  <span className="md:block">perfected over years.</span>
+                  <span className="md:block">we&apos;ve refined over the years.</span>
                 </p>
               </Container>
             </section>
