@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { pageMetadata } from "@/lib/metadata";
 import Image from "next/image";
 import Link from "next/link";
@@ -37,7 +38,22 @@ const bodyCopy = "text-base leading-[1.625] text-paper";
 // full-width hairlines.
 const sectionClass = "py-16 md:py-24 lg:py-32";
 
-const method = [
+// The Approach's pillars. `lines`: the name broken over lines on purpose.
+type Pillar = {
+  question: string;
+  number: string;
+  label: string;
+  lines?: string[];
+  description: ReactNode;
+};
+
+// A small squared tag for the questions (Who? / What? / How?): the label
+// type in a 1px stone outline. The right padding is trimmed by the
+// letter spacing so the word sits centered in the box.
+const tagClass =
+  "inline-block border border-stone/50 py-1 pl-3 pr-[calc(0.75rem-0.2em)] font-mono font-bold text-xs md:text-sm uppercase tracking-[0.2em] text-stone";
+
+const method: Pillar[] = [
   {
     question: "Who?",
     number: "3",
@@ -55,6 +71,7 @@ const method = [
     question: "What?",
     number: "1",
     label: "High-end, polished product",
+    lines: ["High-end,", "polished product"],
     description: (
       <>
         One final product, <strong className="font-bold">refined at its core</strong>. Our
@@ -180,42 +197,45 @@ export default function StudioPage() {
         </Container>
       </section>
 
-      {/* Approach: the 3-1-3, one row per pillar, hairlines between them.
-          Tablets and desktop: the question in its own narrow column
-          (column 4 on desktop, the section's content axis), the numeral
-          (Syne Bold, like the old phone cards) and its name in columns 5
-          to 8, the description in 9 to 12, all on one top line. Phones
-          (set 2026-10-05, matching desktop instead of the cobalt cards):
-          the same pieces stacked. */}
+      {/* Approach: the 3-1-3, one row per pillar, hairlines between them
+          (set 2026-10-05, Javier's second mockup). Desktop: the numeral
+          (Syne Bold) and its name in columns 6 to 8, right next to the
+          description in 9 to 12, which starts with the question as a
+          small squared tag; the hairlines run from column 6. Tablets: the
+          same two blocks side by side. Phones: stacked. */}
       <section className={`border-t border-mist ${sectionClass}`}>
         <Container>
           <div className="lg:grid lg:grid-cols-12 lg:gap-x-6">
             <Reveal className="lg:col-span-3">
               <h2 className={`${sectionLabel} mb-8 md:mb-12 lg:mb-0`}>Approach</h2>
             </Reveal>
-            <div className="lg:col-span-9 lg:col-start-4">
+            <div className="lg:col-span-7 lg:col-start-6">
               {method.map((item, i) => (
                 <Reveal
                   key={item.label}
-                  className={`grid grid-cols-12 gap-x-6 lg:grid-cols-9 ${
+                  className={`grid grid-cols-12 gap-x-6 lg:grid-cols-7 ${
                     i === 0 ? "pb-8 md:pb-10 lg:pb-12" : "border-t border-mist py-8 md:py-10 lg:py-12"
                   } ${i === method.length - 1 ? "!pb-0" : ""}`}
                 >
-                  <p className={`${sectionLabel} col-span-12 mb-5 md:col-span-2 md:mb-0 lg:col-span-1`}>
-                    {item.question}
-                  </p>
-                  <div className="col-span-12 md:col-span-4">
+                  <div className="col-span-12 md:col-span-5 lg:col-span-3">
                     <p aria-hidden="true" className="font-display font-bold text-6xl leading-[0.8] md:text-[72px] lg:text-[96px]">
                       {item.number}
                     </p>
                     <h3 className="mt-4 font-display font-normal text-2xl leading-tight md:mt-5 lg:mt-6 lg:text-3xl">
                       <span className="sr-only">{item.number} </span>
-                      {item.label}
+                      {item.lines
+                        ? item.lines.map((line) => (
+                            <span key={line} className="block">
+                              {line}
+                            </span>
+                          ))
+                        : item.label}
                     </h3>
                   </div>
-                  <p className={`${bodyCopy} col-span-12 mt-5 md:col-span-6 md:mt-0 lg:col-span-4`}>
-                    {item.description}
-                  </p>
+                  <div className="col-span-12 mt-6 md:col-span-7 md:mt-0 lg:col-span-4">
+                    <p className={tagClass}>{item.question}</p>
+                    <p className={`${bodyCopy} mt-4`}>{item.description}</p>
+                  </div>
                 </Reveal>
               ))}
             </div>
@@ -224,8 +244,8 @@ export default function StudioPage() {
       </section>
 
       {/* Team: square portraits, no rounded corners. Desktop: in columns
-          5 to 8 and 9 to 12, under the Approach rows' numeral and
-          description columns. */}
+          5 to 8 and 9 to 12 (the second under the Approach's description
+          column). */}
       <section className={`border-t border-mist ${sectionClass}`}>
         <Container>
           <div className="lg:grid lg:grid-cols-12 lg:gap-x-6">
