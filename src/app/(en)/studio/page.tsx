@@ -19,13 +19,24 @@ export const metadata: Metadata = pageMetadata({
   path: "/studio",
 });
 
-// Section labels ("What we do", "Our method", "The team"): bold, and a
-// step up from 12px to 14px on desktop so they read as real headings.
+// Section and row labels ("What we do", "Approach", "Who?", "Team"): bold,
+// and a step up from 12px to 14px on desktop so they read as real
+// headings. From lg up their line box matches the 22px body copy's first
+// line (33px), so a label and the text next to it share a line.
 const sectionLabel =
-  "font-mono font-bold text-xs md:text-sm uppercase tracking-[0.2em] text-stone";
+  "font-mono font-bold text-xs md:text-sm uppercase tracking-[0.2em] text-stone lg:leading-[33px]";
+
+// Editorial layout (set 2026-10-05, from Javier's mockup and
+// pentagram.com/about): a 12-column grid with 24px gutters. From lg up,
+// every section's label sits in columns 1 to 3 and its content starts at
+// column 4, a quarter of the way across (the same axis as the Home hero
+// copy and the footer's "Where to next?"). Sections are separated by
+// full-width hairlines.
+const sectionClass = "py-16 md:py-24 lg:py-32";
 
 const method = [
   {
+    question: "Who?",
     number: "3",
     label: "Creative minds",
     description: (
@@ -38,6 +49,7 @@ const method = [
     ),
   },
   {
+    question: "What?",
     number: "1",
     label: "High-end, polished product",
     description: (
@@ -48,6 +60,7 @@ const method = [
     ),
   },
   {
+    question: "How?",
     number: "3",
     label: "Refined phases",
     description: (
@@ -132,112 +145,154 @@ export default function StudioPage() {
       </CoverHero>
 
     {/* The rest of the page: the panel that covers the title and intro,
-        with a mist top line, like the Home page's. */}
-    <section className="relative z-10 border-t border-mist bg-ink py-16 md:pt-24">
-      <Container>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          <div className="md:col-span-2 max-w-copy">
-            <Reveal>
-              <h2 className={`${sectionLabel} mb-4 md:mb-6`}>What we do</h2>
-              <div className="space-y-4 md:space-y-6 text-paper md:text-[22px] md:leading-[1.5]">
-                <p>
-                  We care about your product{" "}
-                  <strong className="font-bold">as much as you do</strong>. Some
-                  days, a little more.
-                </p>
-                <p>
-                  We work in the shadows, by design. Once a project starts, we
-                  stay close, hand in hand with the client through the whole
-                  process. No surprises. Just a process built to hold up.
-                </p>
-                <p>
-                  Every project we&apos;ve taken on so far has come to us through
-                  word of mouth. A past client recommending us to someone they
-                  trust. We&apos;ve kept it that way on purpose. It keeps the
-                  studio small, and it means every client gets both of us,{" "}
-                  <strong className="font-bold">start to finish</strong>.
-                </p>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </Container>
-
-      <Container className="mt-16 md:mt-24">
-        <Reveal>
-          <h2 className={`${sectionLabel} mb-8`}>Our method</h2>
-          <MethodCarousel items={method} />
-        </Reveal>
-      </Container>
-
-      {/* The team keeps the width it has always rendered at (the old
-          max-w-3xl on this Container never actually applied), left aligned
-          with the wider grid rather than growing with it. */}
-      <Container className="mt-16 md:mt-24">
-        <div className="max-w-[1360px]">
-          <Reveal>
-            <h2 className={`${sectionLabel} mb-8`}>The team</h2>
+        with a mist top line, like the Home page's. Inside, editorial
+        sections (see sectionClass). */}
+    <div className="relative z-10 border-t border-mist bg-ink">
+      {/* What we do: label in columns 1 to 3, the copy in 4 to 10 (a
+          readable measure, about 65 characters at 22px). */}
+      <section className={sectionClass}>
+        <Container>
+          <Reveal className="lg:grid lg:grid-cols-12 lg:gap-x-6">
+            <h2 className={`${sectionLabel} mb-4 md:mb-8 lg:col-span-3 lg:mb-0`}>What we do</h2>
+            <div className="max-w-copy space-y-4 text-paper md:space-y-6 md:text-[22px] md:leading-[1.5] lg:col-span-7 lg:col-start-4 lg:max-w-none">
+              <p>
+                We care about your product{" "}
+                <strong className="font-bold">as much as you do</strong>. Some
+                days, a little more.
+              </p>
+              <p>
+                We work in the shadows, by design. Once a project starts, we
+                stay close, hand in hand with the client through the whole
+                process. No surprises. Just a process built to hold up.
+              </p>
+              <p>
+                Every project we&apos;ve taken on so far has come to us through
+                word of mouth. A past client recommending us to someone they
+                trust. We&apos;ve kept it that way on purpose. It keeps the
+                studio small, and it means every client gets both of us,{" "}
+                <strong className="font-bold">start to finish</strong>.
+              </p>
+            </div>
           </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
-            {team.map((person, i) => (
-              // Side by side on desktop: the second card follows a beat later.
-              <Reveal key={person.name} delay={i * 150}>
-                <div className="relative aspect-square overflow-hidden rounded-2xl bg-mist">
-                  <Image
-                    src={person.photo.src}
-                    alt={person.photo.alt}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <h3 className="font-display text-lg md:text-2xl mt-4 md:mt-5">{person.name}</h3>
-                <p className="font-mono text-[11px] md:text-sm uppercase tracking-[0.2em] text-stone mt-1 md:mt-2">
-                  {person.role}
-                </p>
-                <div className="flex items-center gap-3 mt-3 md:mt-4">
-                  <a
-                    href={person.whatsapp}
-                    aria-label={`${person.name} on WhatsApp`}
-                    className="text-stone md:hover:text-cobalt transition-colors"
-                  >
-                    <IconWhatsapp className="h-5 w-5 md:h-6 md:w-6" />
-                  </a>
-                  {/* Desktop only, sits right of the WhatsApp icon. */}
-                  <a
-                    href={person.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${person.name} on Instagram`}
-                    className="hidden text-stone transition-colors md:inline-flex md:hover:text-cobalt"
-                  >
-                    <IconInstagram className="h-5 w-5 md:h-6 md:w-6" />
-                  </a>
-                </div>
-              </Reveal>
-            ))}
+        </Container>
+      </section>
+
+      {/* Approach: the 3-1-3. Tablets and desktop: one row per pillar,
+          hairlines between them. The question in its own narrow column
+          (column 4 on desktop, the section's content axis), the numeral
+          and its name in columns 5 to 8, the description in 9 to 12, all
+          on one top line. Phones keep the swipeable cobalt cards. */}
+      <section className={`border-t border-mist ${sectionClass}`}>
+        <Container>
+          <div className="lg:grid lg:grid-cols-12 lg:gap-x-6">
+            <Reveal className="lg:col-span-3">
+              <h2 className={`${sectionLabel} mb-8 md:mb-12 lg:mb-0`}>Approach</h2>
+            </Reveal>
+            <Reveal className="md:hidden">
+              <MethodCarousel items={method} />
+            </Reveal>
+            <div className="hidden md:block lg:col-span-9 lg:col-start-4">
+              {method.map((item, i) => (
+                <Reveal
+                  key={item.label}
+                  className={`grid grid-cols-12 gap-x-6 lg:grid-cols-9 ${
+                    i === 0 ? "pb-10 lg:pb-12" : "border-t border-mist py-10 lg:py-12"
+                  } ${i === method.length - 1 ? "!pb-0" : ""}`}
+                >
+                  <p className={`${sectionLabel} col-span-2 lg:col-span-1`}>{item.question}</p>
+                  <div className="col-span-4 lg:col-span-4">
+                    <p aria-hidden="true" className="font-display font-normal text-[72px] leading-[0.8] lg:text-[96px]">
+                      {item.number}
+                    </p>
+                    <h3 className="mt-5 font-display font-normal text-2xl leading-tight lg:mt-6 lg:text-3xl">
+                      <span className="sr-only">{item.number} </span>
+                      {item.label}
+                    </h3>
+                  </div>
+                  <p className="col-span-6 text-paper md:text-lg md:leading-[1.5] lg:col-span-4 lg:text-[22px]">
+                    {item.description}
+                  </p>
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </div>
-      </Container>
+        </Container>
+      </section>
+
+      {/* Team: square portraits, no rounded corners. Desktop: in columns
+          5 to 8 and 9 to 12, under the Approach rows' numeral and
+          description columns. */}
+      <section className={`border-t border-mist ${sectionClass}`}>
+        <Container>
+          <div className="lg:grid lg:grid-cols-12 lg:gap-x-6">
+            <Reveal className="lg:col-span-3">
+              <h2 className={`${sectionLabel} mb-8 md:mb-12 lg:mb-0`}>Team</h2>
+            </Reveal>
+            <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-x-6 lg:col-span-8 lg:col-start-5 lg:grid-cols-8">
+              {team.map((person, i) => (
+                // Side by side on desktop: the second card follows a beat later.
+                <Reveal key={person.name} delay={i * 150} className="lg:col-span-4">
+                  <div className="relative aspect-square overflow-hidden bg-mist">
+                    <Image
+                      src={person.photo.src}
+                      alt={person.photo.alt}
+                      fill
+                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <h3 className="font-display text-lg md:text-2xl mt-4 md:mt-5">{person.name}</h3>
+                  <p className="font-mono text-[11px] md:text-sm uppercase tracking-[0.2em] text-stone mt-1 md:mt-2">
+                    {person.role}
+                  </p>
+                  <div className="flex items-center gap-3 mt-3 md:mt-4">
+                    <a
+                      href={person.whatsapp}
+                      aria-label={`${person.name} on WhatsApp`}
+                      className="text-stone md:hover:text-cobalt transition-colors"
+                    >
+                      <IconWhatsapp className="h-5 w-5 md:h-6 md:w-6" />
+                    </a>
+                    {/* Desktop only, sits right of the WhatsApp icon. */}
+                    <a
+                      href={person.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${person.name} on Instagram`}
+                      className="hidden text-stone transition-colors md:inline-flex md:hover:text-cobalt"
+                    >
+                      <IconInstagram className="h-5 w-5 md:h-6 md:w-6" />
+                    </a>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
 
       {/* Closing wink: 3-1-3, and the client as "the third pillar" from
-          the method cards. Same size as the page's H1 so the two
-          bookend the page, and the same cobalt link treatment as the
-          Home hero's "the spotlight." */}
-      <Container className="mt-24 md:mt-32">
-        <Reveal>
-        <p className="font-display font-normal text-3xl md:text-[56px] md:leading-tight">
-          There&apos;s always room for{" "}
-          <Link href="/contact" className="group relative inline-block text-cobalt">
-            a third.
-            <span
-              aria-hidden="true"
-              className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
-            />
-          </Link>
-        </p>
-        </Reveal>
-      </Container>
-    </section>
+          the Approach. Same size as the page's H1 so the two bookend the
+          page, on the left margin like it, and the same cobalt link
+          treatment as the Home hero's "the spotlight." Ends with the
+          usual 64px before the footer. */}
+      <section className="border-t border-mist pt-16 pb-16 md:pt-24 lg:pt-32">
+        <Container>
+          <Reveal>
+            <p className="font-display font-normal text-3xl md:text-[56px] md:leading-tight">
+              There&apos;s always room for{" "}
+              <Link href="/contact" className="group relative inline-block text-cobalt">
+                a third.
+                <span
+                  aria-hidden="true"
+                  className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
+                />
+              </Link>
+            </p>
+          </Reveal>
+        </Container>
+      </section>
+    </div>
     </div>
     </CaseStudyBackSwipe>
   );
