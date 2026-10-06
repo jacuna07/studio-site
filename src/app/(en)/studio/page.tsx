@@ -6,7 +6,6 @@ import Container from "@/components/Container";
 import IconWhatsapp from "@/components/icons/IconWhatsapp";
 import IconInstagram from "@/components/icons/IconInstagram";
 import CaseStudyBackSwipe from "@/components/CaseStudyBackSwipe";
-import MethodCarousel from "@/components/MethodCarousel";
 import Reveal from "@/components/Reveal";
 import CoverHero from "@/components/CoverHero";
 import HeroGradient from "@/components/HeroGradient";
@@ -21,10 +20,14 @@ export const metadata: Metadata = pageMetadata({
 
 // Section and row labels ("What we do", "Approach", "Who?", "Team"): bold,
 // and a step up from 12px to 14px on desktop so they read as real
-// headings. From lg up their line box matches the 22px body copy's first
-// line (33px), so a label and the text next to it share a line.
+// headings. From lg up their line box matches the body copy's first line
+// (26px), so a label and the text next to it share a line.
 const sectionLabel =
-  "font-mono font-bold text-xs md:text-sm uppercase tracking-[0.2em] text-stone lg:leading-[33px]";
+  "font-mono font-bold text-xs md:text-sm uppercase tracking-[0.2em] text-stone lg:leading-[26px]";
+
+// Body copy (set 2026-10-05, smaller for a more editorial feel, like
+// pentagram.com): 16px on a 26px line, every screen size.
+const bodyCopy = "text-base leading-[1.625] text-paper";
 
 // Editorial layout (set 2026-10-05, from Javier's mockup and
 // pentagram.com/about): a 12-column grid with 24px gutters. From lg up,
@@ -126,7 +129,7 @@ export default function StudioPage() {
                 {/* Desktop type scale follows the reference studios
                     (this.design, Tinge, Folk, Pupila): the intro is set as a
                     large statement (~30px, tight leading) rather than body
-                    copy, and supporting paragraphs sit around 22px. */}
+                    copy. The paragraphs further down are 16px (bodyCopy). */}
                 <div
                   className="reveal-on-load space-y-6 text-paper text-lg md:text-[30px] md:leading-[1.3]"
                   style={{ animationDelay: "300ms" }}
@@ -148,13 +151,13 @@ export default function StudioPage() {
         with a mist top line, like the Home page's. Inside, editorial
         sections (see sectionClass). */}
     <div className="relative z-10 border-t border-mist bg-ink">
-      {/* What we do: label in columns 1 to 3, the copy in 4 to 10 (a
-          readable measure, about 65 characters at 22px). */}
+      {/* What we do: label in columns 1 to 3, the copy in 4 to 9 (a
+          readable measure at 16px). */}
       <section className={sectionClass}>
         <Container>
           <Reveal className="lg:grid lg:grid-cols-12 lg:gap-x-6">
             <h2 className={`${sectionLabel} mb-4 md:mb-8 lg:col-span-3 lg:mb-0`}>What we do</h2>
-            <div className="max-w-copy space-y-4 text-paper md:space-y-6 md:text-[22px] md:leading-[1.5] lg:col-span-7 lg:col-start-4 lg:max-w-none">
+            <div className={`${bodyCopy} space-y-4 md:max-w-[40rem] lg:col-span-6 lg:col-start-4 lg:max-w-none`}>
               <p>
                 We care about your product{" "}
                 <strong className="font-bold">as much as you do</strong>. Some
@@ -177,39 +180,40 @@ export default function StudioPage() {
         </Container>
       </section>
 
-      {/* Approach: the 3-1-3. Tablets and desktop: one row per pillar,
-          hairlines between them. The question in its own narrow column
+      {/* Approach: the 3-1-3, one row per pillar, hairlines between them.
+          Tablets and desktop: the question in its own narrow column
           (column 4 on desktop, the section's content axis), the numeral
-          and its name in columns 5 to 8, the description in 9 to 12, all
-          on one top line. Phones keep the swipeable cobalt cards. */}
+          (Syne Bold, like the old phone cards) and its name in columns 5
+          to 8, the description in 9 to 12, all on one top line. Phones
+          (set 2026-10-05, matching desktop instead of the cobalt cards):
+          the same pieces stacked. */}
       <section className={`border-t border-mist ${sectionClass}`}>
         <Container>
           <div className="lg:grid lg:grid-cols-12 lg:gap-x-6">
             <Reveal className="lg:col-span-3">
               <h2 className={`${sectionLabel} mb-8 md:mb-12 lg:mb-0`}>Approach</h2>
             </Reveal>
-            <Reveal className="md:hidden">
-              <MethodCarousel items={method} />
-            </Reveal>
-            <div className="hidden md:block lg:col-span-9 lg:col-start-4">
+            <div className="lg:col-span-9 lg:col-start-4">
               {method.map((item, i) => (
                 <Reveal
                   key={item.label}
                   className={`grid grid-cols-12 gap-x-6 lg:grid-cols-9 ${
-                    i === 0 ? "pb-10 lg:pb-12" : "border-t border-mist py-10 lg:py-12"
+                    i === 0 ? "pb-8 md:pb-10 lg:pb-12" : "border-t border-mist py-8 md:py-10 lg:py-12"
                   } ${i === method.length - 1 ? "!pb-0" : ""}`}
                 >
-                  <p className={`${sectionLabel} col-span-2 lg:col-span-1`}>{item.question}</p>
-                  <div className="col-span-4 lg:col-span-4">
-                    <p aria-hidden="true" className="font-display font-normal text-[72px] leading-[0.8] lg:text-[96px]">
+                  <p className={`${sectionLabel} col-span-12 mb-5 md:col-span-2 md:mb-0 lg:col-span-1`}>
+                    {item.question}
+                  </p>
+                  <div className="col-span-12 md:col-span-4">
+                    <p aria-hidden="true" className="font-display font-bold text-6xl leading-[0.8] md:text-[72px] lg:text-[96px]">
                       {item.number}
                     </p>
-                    <h3 className="mt-5 font-display font-normal text-2xl leading-tight lg:mt-6 lg:text-3xl">
+                    <h3 className="mt-4 font-display font-normal text-2xl leading-tight md:mt-5 lg:mt-6 lg:text-3xl">
                       <span className="sr-only">{item.number} </span>
                       {item.label}
                     </h3>
                   </div>
-                  <p className="col-span-6 text-paper md:text-lg md:leading-[1.5] lg:col-span-4 lg:text-[22px]">
+                  <p className={`${bodyCopy} col-span-12 mt-5 md:col-span-6 md:mt-0 lg:col-span-4`}>
                     {item.description}
                   </p>
                 </Reveal>
