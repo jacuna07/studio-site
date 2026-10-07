@@ -189,8 +189,9 @@ export default function StudioPage() {
           top, then, from tablets up, a table of three rows, a hairline
           over each. Each row: the question in the label type, the numeral
           (Syne Bold, small), then the name (bold caps) over a gray
-          description. Columns: tablets 1 to 4, 5, 6 to 12; desktop 1 to
-          6, 7, 8 to 12. Top aligned: each line height puts the caps' top
+          description. Columns 1 to 4, 5, 6 to 12 (from lg the numerals
+          line up with the first team portrait, Javier's call 2026-10-06;
+          the description stops at 36rem). Top aligned: each line height puts the caps' top
           (Montserrat: cap 0.70 over a 0.968 / 0.251 ascent and descent)
           and the old style numerals' top (Syne: 0.51 over 0.925 / 0.275)
           at the same height as the question's caps.
@@ -199,7 +200,7 @@ export default function StudioPage() {
       <section className={`border-t border-mist ${sectionClass}`}>
         <Container>
           <Reveal>
-            <h2 className={`${sectionLabel} mb-8 md:mb-10 lg:mb-12`}>The Method</h2>
+            <h2 className={`${sectionLabel} mb-12 md:mb-10 lg:mb-12`}>The Method</h2>
           </Reveal>
           <Reveal className="md:hidden">
             <MethodSwipe items={method} />
@@ -211,7 +212,7 @@ export default function StudioPage() {
                 i === method.length - 1 ? "" : "pb-8 lg:pb-10"
               }`}
             >
-              <p className="col-span-4 font-mono font-bold text-sm leading-[20px] uppercase tracking-[0.2em] text-stone lg:col-span-6 lg:leading-[26px]">
+              <p className="col-span-4 font-mono font-bold text-sm leading-[20px] uppercase tracking-[0.2em] text-stone lg:leading-[26px]">
                 {item.question}
               </p>
               <p
@@ -220,7 +221,7 @@ export default function StudioPage() {
               >
                 {item.number}
               </p>
-              <div className="col-span-7 min-w-0 lg:col-span-5">
+              <div className="col-span-7 min-w-0">
                 <h3 className="font-mono font-bold text-base leading-[21px] uppercase tracking-[0.2em] text-paper lg:leading-[27px]">
                   <span className="sr-only">{item.number} </span>
                   {item.label}

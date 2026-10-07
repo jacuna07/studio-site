@@ -18,10 +18,13 @@ export default function WorkPage() {
     <CaseStudyBackSwipe targetHref="/" targetLabel="Home" hint={false}>
       <section className="py-16 animate-page-in">
         <Container>
-          <h1 className="font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-12">
+          {/* Phones (set 2026-10-06, like Home and Studio): the title and
+              the filters rise in on load, then each card as it comes into
+              view. */}
+          <h1 className="reveal-on-load-phone font-display font-normal text-3xl md:text-[56px] md:leading-tight tracking-normal mb-12">
             Work
           </h1>
-          <FilteredWorkGrid projects={projects} />
+          <FilteredWorkGrid projects={projects} revealOnPhones />
         </Container>
       </section>
     </CaseStudyBackSwipe>

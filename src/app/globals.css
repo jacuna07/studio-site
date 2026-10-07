@@ -250,10 +250,27 @@ html.home-snap-hold [data-home-snap="panel"] {
   }
 }
 
+/* The same, phones only (the Work page's title and filters, set
+   2026-10-06). */
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+  .reveal-on-load-phone {
+    animation: reveal-up 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
 /* Before the JS takes over: hidden only when scripting is on, and shown
    anyway after 4s if the JS never runs. */
 @media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
   [data-reveal="pending"] {
+    opacity: 0;
+    transform: translateY(48px);
+    animation: reveal-failsafe 0.6s ease-out 4s forwards;
+  }
+}
+
+/* Reveal's phonesOnly blocks (the Work page's cards): the same, below md. */
+@media (max-width: 767px) and (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  [data-reveal="pending-phone"] {
     opacity: 0;
     transform: translateY(48px);
     animation: reveal-failsafe 0.6s ease-out 4s forwards;

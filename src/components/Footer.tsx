@@ -43,7 +43,7 @@ const copy: Record<
     contactHref: "/contact",
     ctaLines: ["Say hi"],
     ctaEmoji: "👋",
-    backLines: ["Take me", "home."],
+    backLines: ["Take me", "home"],
     askLines: (title) => [`Curious about ${title}?`, "Ask us about it."],
     contactLabel: "Get in touch",
     moreLabel: "Where to next?",
@@ -151,7 +151,7 @@ export default function Footer({
             : null;
 
   // The big CTA: "Say hi 👋" (to Contact) almost everywhere; "Take me
-  // home." on Contact itself; and on an in-progress project page, an
+  // home" on Contact itself; and on an in-progress project page, an
   // invitation to ask about that project.
   const isContactPage = currentSection === "contact";
   const ctaHref = isContactPage ? t.home : t.contactHref;

@@ -7,10 +7,11 @@ import Reveal from "./Reveal";
 import type { Project } from "@/content/projects/types";
 
 // The industry tag over each cover (set 2026-10-06): the footer's label
-// type ("Get in touch", "Where to next?": Syne 16px, title case) in
-// white, on the nav's dark glass, with slightly rounded corners.
+// type ("Get in touch", "Where to next?": Syne, title case) a step
+// smaller (14px), in white, on the desktop nav pill's glass (ink at 40%,
+// blurred, with a faint light outline), slightly rounded corners.
 const tag =
-  "pointer-events-none absolute bottom-3 left-3 rounded border border-paper/10 bg-ink/75 px-2 py-0.5 font-display text-base leading-snug text-paper backdrop-blur-md";
+  "pointer-events-none absolute bottom-3 left-3 rounded border border-paper/10 bg-ink/40 px-2 py-0.5 font-display text-sm leading-5 text-paper backdrop-blur-md";
 
 function getFrames(project: Project) {
   return [

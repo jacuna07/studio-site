@@ -21,9 +21,15 @@ const MOBILE_PAGE = 5;
 export default function FilteredWorkGrid({
   projects,
   locale = "en",
+  revealOnPhones = false,
 }: {
   projects: Project[];
   locale?: Locale;
+  /**
+   * Phones only (the English Work page, set 2026-10-06): the filters
+   * rise in after the title, then each card as it comes into view.
+   */
+  revealOnPhones?: boolean;
 }) {
   const industries = useMemo(() => {
     const set = new Set(projects.map((p) => p.industry));
@@ -51,7 +57,10 @@ export default function FilteredWorkGrid({
 
   return (
     <div>
-      <div className="relative mb-10">
+      <div
+        className={`relative mb-10 ${revealOnPhones ? "reveal-on-load-phone" : ""}`}
+        style={revealOnPhones ? { animationDelay: "150ms" } : undefined}
+      >
         <div
           className="scrollbar-hide flex gap-x-6 overflow-x-auto whitespace-nowrap font-mono text-xs uppercase tracking-[0.2em] sm:flex-wrap sm:gap-y-3 sm:overflow-visible sm:whitespace-normal"
           // Stop this horizontal drag from also bubbling up to Nav's
@@ -92,6 +101,7 @@ export default function FilteredWorkGrid({
           variant="grid"
           enableHoverLoop
           mobileVisible={mobileVisible}
+          revealOnPhones={revealOnPhones}
         />
       </CursorRevealGrid>
 

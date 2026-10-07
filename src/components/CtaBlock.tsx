@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Container from "./Container";
 import { useCursorPreview } from "./useCursorPreview";
 import { COVER_CYCLE_MS } from "./CoverPreviewLink";
@@ -30,7 +31,13 @@ export default function CtaBlock({
   className?: string;
   children: ReactNode;
 }) {
+  // Cobalt while a mouse is over it. Touch screens never turn it on (a
+  // tap counts as a hover there and nothing ever ends it, so the block
+  // stayed cobalt, also on the next page for the footer's, which stays
+  // put; fixed 2026-10-06), and it resets whenever the page changes.
   const [hot, setHot] = useState(false);
+  const pathname = usePathname();
+  useEffect(() => setHot(false), [pathname]);
   const withPreview = covers.length > 0;
   const { handlers, preview } = useCursorPreview({
     images: covers,
@@ -50,15 +57,13 @@ export default function CtaBlock({
       <Container className="pt-[136px] pb-6 md:pt-28 md:pb-12 lg:pt-24 lg:pb-16">
         <Link
           href={href}
-          onMouseEnter={(e) => {
-            setHot(true);
-            if (withPreview) handlers.onMouseEnter(e);
+          onPointerEnter={(e) => {
+            if (e.pointerType === "mouse") setHot(true);
           }}
+          onPointerLeave={() => setHot(false)}
+          onMouseEnter={withPreview ? handlers.onMouseEnter : undefined}
           onMouseMove={withPreview ? handlers.onMouseMove : undefined}
-          onMouseLeave={() => {
-            setHot(false);
-            if (withPreview) handlers.onMouseLeave();
-          }}
+          onMouseLeave={withPreview ? handlers.onMouseLeave : undefined}
           className="font-display text-4xl md:text-6xl font-normal leading-[1.08] inline-block text-paper md:after:absolute md:after:inset-0"
         >
           {children}

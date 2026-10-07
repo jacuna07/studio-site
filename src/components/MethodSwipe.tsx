@@ -20,9 +20,11 @@ export type MethodPillar = {
  * which card is in view. Tablets and desktop use the table in the
  * Studio page instead.
  *
- * Spacing (from the mockup, on the 4px grid): 16px from the question to
+ * Spacing (from the mockup, on the 4px grid): 48px from the section
+ * label (set on the label in the Studio page), 16px from the question to
  * the numeral, 14px from the numeral to the name, 12px to the
- * description, 16px to the hairline, 8px to the dots. The numeral's line
+ * description, 32px to the hairline (more room above and below, Javier's
+ * ask 2026-10-06), 8px to the dots. The numeral's line
  * height (0.37) puts the top of Syne's old style figures at the top of
  * its box, with room below for the 3's tail (as on the table).
  */
@@ -67,7 +69,7 @@ export default function MethodSwipe({
         className="scrollbar-hide -mx-6 flex snap-x snap-mandatory scroll-px-6 gap-6 overflow-x-auto overflow-y-hidden overscroll-x-contain px-6"
       >
         {items.map((item) => (
-          <div key={item.label} className="w-full shrink-0 snap-start snap-always border-b border-mist pb-4">
+          <div key={item.label} className="w-full shrink-0 snap-start snap-always border-b border-mist pb-8">
             <p className="font-mono font-bold text-xs leading-4 uppercase tracking-[0.2em] text-cobalt-400">
               {item.question}
             </p>
