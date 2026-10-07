@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import { pageMetadata } from "@/lib/metadata";
 import Image from "next/image";
 import Container from "@/components/Container";
@@ -10,6 +9,7 @@ import Reveal from "@/components/Reveal";
 import CoverHero from "@/components/CoverHero";
 import HeroGradient from "@/components/HeroGradient";
 import CircledWordmark from "@/components/icons/CircledWordmark";
+import MethodSwipe, { type MethodPillar } from "@/components/MethodSwipe";
 
 export const metadata: Metadata = pageMetadata({
   page: "Studio",
@@ -39,17 +39,11 @@ const bodyCopy = "text-base leading-[1.625] text-paper";
 const sectionClass = "py-16 md:py-24 lg:py-32";
 
 // The Method's pillars (copy from Javier's third mockup, 2026-10-06).
-type Pillar = {
-  question: string;
-  number: string;
-  label: string;
-  description: ReactNode;
-};
-
-// Emphasis inside The Method's gray descriptions: bold, in white.
+// Emphasis inside The Method's descriptions: bold, in white (they're
+// gray on tablets and desktop, white on phones).
 const strong = "font-bold text-paper";
 
-const method: Pillar[] = [
+const method: MethodPillar[] = [
   {
     question: "Who",
     number: "3",
@@ -192,42 +186,46 @@ export default function StudioPage() {
       </section>
 
       {/* The Method (set 2026-10-06, Javier's third mockup): the label on
-          top, then a table of three rows, a hairline over each. Each row:
-          the question in the label type, the numeral (Syne Bold, small),
-          then the name (bold caps) over a gray description.
-          Columns: phones 4 / 1 / 7 twelfths of the width (no gutters);
-          tablets 1 to 4, 5, 6 to 12; desktop 1 to 6, 7, 8 to 12.
-          Top aligned: each line height puts the caps' top (Montserrat:
-          cap 0.70 over a 0.968 / 0.251 ascent and descent) and the old
-          style numerals' top (Syne: 0.51 over 0.925 / 0.275) at the same
-          height as the question's caps. */}
+          top, then, from tablets up, a table of three rows, a hairline
+          over each. Each row: the question in the label type, the numeral
+          (Syne Bold, small), then the name (bold caps) over a gray
+          description. Columns: tablets 1 to 4, 5, 6 to 12; desktop 1 to
+          6, 7, 8 to 12. Top aligned: each line height puts the caps' top
+          (Montserrat: cap 0.70 over a 0.968 / 0.251 ascent and descent)
+          and the old style numerals' top (Syne: 0.51 over 0.925 / 0.275)
+          at the same height as the question's caps.
+          Phones (Javier's mobile mockup, same day): the pillars as cards
+          in a sideways swipe with dots (MethodSwipe). */}
       <section className={`border-t border-mist ${sectionClass}`}>
         <Container>
           <Reveal>
             <h2 className={`${sectionLabel} mb-8 md:mb-10 lg:mb-12`}>The Method</h2>
           </Reveal>
+          <Reveal className="md:hidden">
+            <MethodSwipe items={method} />
+          </Reveal>
           {method.map((item, i) => (
             <Reveal
               key={item.label}
-              className={`grid grid-cols-[4fr_1fr_7fr] border-t border-mist pt-6 md:grid-cols-12 md:gap-x-6 md:pt-8 lg:pt-10 ${
-                i === method.length - 1 ? "" : "pb-6 md:pb-8 lg:pb-10"
+              className={`hidden border-t border-mist pt-8 md:grid md:grid-cols-12 md:gap-x-6 lg:pt-10 ${
+                i === method.length - 1 ? "" : "pb-8 lg:pb-10"
               }`}
             >
-              <p className="font-mono font-bold text-xs leading-[20px] uppercase tracking-[0.2em] text-stone md:col-span-4 md:text-sm lg:col-span-6 lg:leading-[26px]">
+              <p className="col-span-4 font-mono font-bold text-sm leading-[20px] uppercase tracking-[0.2em] text-stone lg:col-span-6 lg:leading-[26px]">
                 {item.question}
               </p>
               <p
                 aria-hidden="true"
-                className="font-display font-bold text-[32px] leading-[24px] md:col-span-1 md:text-[40px] md:leading-[25px] lg:text-[48px] lg:leading-[34px]"
+                className="col-span-1 font-display font-bold text-[40px] leading-[25px] lg:text-[48px] lg:leading-[34px]"
               >
                 {item.number}
               </p>
-              <div className="min-w-0 md:col-span-7 lg:col-span-5">
-                <h3 className="font-mono font-bold text-sm leading-[21px] uppercase tracking-[0.2em] text-paper md:text-base lg:leading-[27px]">
+              <div className="col-span-7 min-w-0 lg:col-span-5">
+                <h3 className="font-mono font-bold text-base leading-[21px] uppercase tracking-[0.2em] text-paper lg:leading-[27px]">
                   <span className="sr-only">{item.number} </span>
                   {item.label}
                 </h3>
-                <p className="mt-2 text-sm leading-[22px] text-stone md:text-base md:leading-[1.625] lg:mt-3 lg:max-w-[36rem]">
+                <p className="mt-2 text-base leading-[1.625] text-stone lg:mt-3 lg:max-w-[36rem]">
                   {item.description}
                 </p>
               </div>

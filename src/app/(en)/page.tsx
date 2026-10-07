@@ -76,37 +76,20 @@ export default function HomePage() {
           </section>
         </HomeSecondModule>
 
-        {/* A closing line before the big CTA: right aligned on desktop,
-            looping across the screen on phones. The same room after it (to the CTA's
-            divider, counting the CTA's mt-4) as before it: 96px phones
-            (from the last project's tagline), 136px desktop (from the cards, with
-            the track's 8px bottom padding). It and the CTA rise and fade
-            in, in full, as they come into view. */}
-        <section className="pt-8 pb-20 md:pt-32 md:pb-[120px]">
+        {/* Tablets and desktop: a closing line before the big CTA, right
+            aligned. The same room after it (to the CTA's divider, counting
+            the CTA's mt-4) as before it: 136px (from the cards, with the
+            track's 8px bottom padding). It and the CTA rise and fade in, in
+            full, as they come into view. Phones (since 2026-10-06): no
+            line here (its looping version sits in the footer, between "Say
+            hi" and the links), so the last project's tagline is 80px from
+            the CTA's divider. */}
+        <section className="hidden md:block md:pt-32 md:pb-[120px]">
           <Container>
             <Reveal>
-              <p className="hidden font-display font-normal text-2xl md:block md:text-right lg:text-3xl leading-[1.25] tracking-normal">
+              <p className="font-display font-normal text-2xl md:text-right lg:text-3xl leading-[1.25] tracking-normal">
                 With love, from Costa Rica.
               </p>
-              {/* Phones (set 2026-10-05): the line loops across the screen,
-                  edge to edge, right to left (.animate-marquee in
-                  globals.css), small and in dark gray (Ink 600). Two
-                  identical halves, so the loop is seamless. Reduced
-                  motion: the line once, still. */}
-              <div className="md:hidden">
-                <p className="sr-only font-display font-normal text-lg leading-[1.25] tracking-normal text-ink-600 motion-reduce:not-sr-only">
-                  Made with love in Costa Rica
-                </p>
-                <div aria-hidden="true" className="-mx-6 overflow-hidden motion-reduce:hidden">
-                  <div className="flex w-max animate-marquee font-display font-normal text-lg leading-[1.25] tracking-normal text-ink-600">
-                    {[0, 1, 2, 3, 4, 5].map((i) => (
-                      <span key={i} className="shrink-0 whitespace-nowrap">
-                        Made with love in Costa Rica<span className="px-[0.5em]">•</span>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
             </Reveal>
           </Container>
         </section>

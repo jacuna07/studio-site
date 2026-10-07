@@ -6,11 +6,11 @@ import Link from "next/link";
 import Reveal from "./Reveal";
 import type { Project } from "@/content/projects/types";
 
-// The small squared chips over each cover (the industry, the counter):
-// the label type at 10px on the nav's dark glass. The right padding is
-// trimmed by the letter spacing so the word sits centered in the chip.
-const chip =
-  "pointer-events-none absolute bottom-3 border border-paper/10 bg-ink/75 py-1 pl-2 pr-[calc(0.5rem-0.2em)] font-mono font-bold text-[10px] leading-[14px] uppercase tracking-[0.2em] text-paper backdrop-blur-md";
+// The industry tag over each cover (set 2026-10-06): the footer's label
+// type ("Get in touch", "Where to next?": Syne 16px, title case) in
+// white, on the nav's dark glass, with slightly rounded corners.
+const tag =
+  "pointer-events-none absolute bottom-3 left-3 rounded border border-paper/10 bg-ink/75 px-2 py-0.5 font-display text-base leading-snug text-paper backdrop-blur-md";
 
 function getFrames(project: Project) {
   return [
@@ -27,7 +27,6 @@ function getFrames(project: Project) {
 function StackCard({ project }: { project: Project }) {
   const frames = getFrames(project);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [index, setIndex] = useState(0);
   // The furthest image reached so far (images stay loaded once reached).
   const [reach, setReach] = useState(0);
   // Once the card is close to the screen, the image after the one in
@@ -50,14 +49,13 @@ function StackCard({ project }: { project: Project }) {
     return () => io.disconnect();
   }, []);
 
-  // Which image is in view, from the track's scroll position.
+  // How far the visitor has swiped, from the track's scroll position.
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
     function onScroll() {
       if (!el || el.clientWidth === 0) return;
       const i = Math.min(Math.max(Math.round(el.scrollLeft / el.clientWidth), 0), frames.length - 1);
-      setIndex(i);
       setReach((prev) => Math.max(prev, i));
     }
     el.addEventListener("scroll", onScroll, { passive: true });
@@ -131,12 +129,7 @@ function StackCard({ project }: { project: Project }) {
             </div>
           ))}
         </div>
-        <span className={`${chip} left-3`}>{project.industry}</span>
-        {frames.length > 1 && (
-          <span aria-hidden="true" className={`${chip} right-3 tabular-nums`}>
-            {index + 1}/{frames.length}
-          </span>
-        )}
+        <span className={tag}>{project.industry}</span>
       </div>
       <h3 className="mt-4 font-display font-normal text-xl leading-tight text-paper">
         {project.title}
@@ -152,8 +145,8 @@ function StackCard({ project }: { project: Project }) {
  * thisistinge.com's: a full-width cover with the industry as a small tag
  * over its bottom-left corner, then the name and tagline. Each cover
  * swipes sideways through the project's images (cover first, then the
- * gallery), one at a time, with a counter in the bottom-right corner.
- * Square corners, our label type for the chips.
+ * gallery), one at a time (no counter, Javier's call 2026-10-06). Square
+ * corners on the covers.
  *
  * Every card after the first rises in on its own as it comes into view
  * (Reveal); the first comes in with the section around it.
