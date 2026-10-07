@@ -60,7 +60,9 @@ function getFrames(project: Project) {
  *   back at either end), pausing while hovered, dragged, scrolled by the
  *   visitor or off screen.
  * - Phones: square corners, and each card shows its industry instead of
- *   the summary (set 2026-10-04).
+ *   the summary (set 2026-10-04). The Home page itself shows
+ *   FeaturedStack on phones instead (since 2026-10-06), so there this
+ *   variant only shows from tablets up.
  * - Desktop only, and it needs a full-width ancestor that's a size
  *   container (Home's Featured section): full bleed (the track runs edge
  *   to edge of the screen, first card at the very left), no snapping to

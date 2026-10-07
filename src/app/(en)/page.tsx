@@ -3,11 +3,12 @@ import Link from "next/link";
 import Container from "@/components/Container";
 import SeeAllProjectsCta from "@/components/SeeAllProjectsCta";
 import FeaturedCarousel from "@/components/FeaturedCarousel";
+import FeaturedStack from "@/components/FeaturedStack";
 import HomeHero from "@/components/HomeHero";
 import Reveal from "@/components/Reveal";
 import CursorRevealGrid from "@/components/CursorRevealGrid";
 import HomeSecondModule from "@/components/HomeSecondModule";
-import { getAllCovers, getAllProjects, getBackdropImages, getFeaturedProjects } from "@/content/projects";
+import { getAllCovers, getFeaturedProjects } from "@/content/projects";
 
 // Title, description and share preview come from the root layout's
 // site-wide defaults ("Tresunotres | Brand Design Studio").
@@ -15,32 +16,22 @@ export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 export default function HomePage() {
   const projects = getFeaturedProjects().slice(0, 6);
-  const backdropImages = getBackdropImages();
   // Every project on the Work page, for the hover preview on the
   // carousel's "See all projects" card.
   const workCovers = getAllCovers();
-  // A handful of non-featured projects, shown as a "more work" panel at
-  // the end of the mobile carousel once the visitor swipes past the last
-  // featured project.
-  const featuredSlugs = new Set(projects.map((p) => p.slug));
-  const moreProjects = getAllProjects()
-    .filter((p) => !featuredSlugs.has(p.slug))
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
 
   return (
     <div className="animate-page-in">
-      {/* The circled wordmark (big and centered over the photo slideshow
+      {/* The circled wordmark (big and centered over the shader gradient
           at load), then the two sentences, pinned while the page below
-          slides up over it. Phones and desktop. Its images (slideshow and
-          desktop cursor card) are every 16:9 image on the site. */}
-      <HomeHero images={backdropImages} />
+          slides up over it. Phones and desktop. */}
+      <HomeHero />
 
       {/* Everything after the hero, as one opaque panel that slides over
           the pinned hero (z-10 over the hero's z-0), with a thin mist line
           along its top edge. */}
       <div className="relative z-10 border-t border-mist bg-ink">
-        {/* The second module: the statement, then the carousel, each
+        {/* The second module: the statement, then the featured work, each
             rising and fading in, in full, once it comes into view
             (HomeSecondModule). */}
         <HomeSecondModule
@@ -71,15 +62,16 @@ export default function HomePage() {
               can measure the page width (cqw). */}
           <section id="work" className="pb-16 md:pb-0 md:[container-type:inline-size]">
             <Container>
-              {/* Desktop: the 👀 cursor over the cards, as on the Work page. */}
-              <CursorRevealGrid>
-                <FeaturedCarousel
-                  projects={projects}
-                  moreProjects={moreProjects}
-                  previewCovers={workCovers}
-                  variant="home"
-                />
-              </CursorRevealGrid>
+              {/* Phones (set 2026-10-06): the projects one under the other,
+                  each cover swiping through its images. */}
+              <FeaturedStack projects={projects} className="md:hidden" />
+              {/* Tablets and desktop: the carousel, with the 👀 cursor over
+                  the cards, as on the Work page. */}
+              <div className="hidden md:block">
+                <CursorRevealGrid>
+                  <FeaturedCarousel projects={projects} previewCovers={workCovers} variant="home" />
+                </CursorRevealGrid>
+              </div>
             </Container>
           </section>
         </HomeSecondModule>
@@ -87,7 +79,7 @@ export default function HomePage() {
         {/* A closing line before the big CTA: right aligned on desktop,
             looping across the screen on phones. The same room after it (to the CTA's
             divider, counting the CTA's mt-4) as before it: 96px phones
-            (from the carousel's bar), 136px desktop (from the cards, with
+            (from the last project's tagline), 136px desktop (from the cards, with
             the track's 8px bottom padding). It and the CTA rise and fade
             in, in full, as they come into view. */}
         <section className="pt-8 pb-20 md:pt-32 md:pb-[120px]">

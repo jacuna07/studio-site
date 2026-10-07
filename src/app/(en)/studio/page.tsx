@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { pageMetadata } from "@/lib/metadata";
 import Image from "next/image";
-import Link from "next/link";
 import Container from "@/components/Container";
 import IconWhatsapp from "@/components/icons/IconWhatsapp";
 import IconInstagram from "@/components/icons/IconInstagram";
@@ -34,59 +33,54 @@ const bodyCopy = "text-base leading-[1.625] text-paper";
 // pentagram.com/about): a 12-column grid with 24px gutters. From lg up,
 // every section's label sits in columns 1 to 3 and its content starts at
 // column 4, a quarter of the way across (the same axis as the Home hero
-// copy and the footer's "Where to next?"). Sections are separated by
-// full-width hairlines.
+// copy and the footer's "Where to next?"); The Method's label sits on
+// top of its table instead. Sections are separated by full-width
+// hairlines.
 const sectionClass = "py-16 md:py-24 lg:py-32";
 
-// The Method's pillars. `lines`: the name broken over lines on purpose.
+// The Method's pillars (copy from Javier's third mockup, 2026-10-06).
 type Pillar = {
   question: string;
   number: string;
   label: string;
-  lines?: string[];
   description: ReactNode;
 };
 
-// A small squared tag for the questions (Who? / What? / How?): the label
-// type in a 1px stone outline. The right padding is trimmed by the
-// letter spacing so the word sits centered in the box.
-const tagClass =
-  "inline-block border border-stone/50 py-1 pl-3 pr-[calc(0.75rem-0.2em)] font-mono font-bold text-xs md:text-sm uppercase tracking-[0.2em] text-stone";
+// Emphasis inside The Method's gray descriptions: bold, in white.
+const strong = "font-bold text-paper";
 
 const method: Pillar[] = [
   {
-    question: "Who?",
+    question: "Who",
     number: "3",
     label: "Creative minds",
     description: (
       <>
         Two seasoned brand designers who&apos;ve been working together for
-        over a decade, with experience across multiple fields, teaming up
-        with you:{" "}
-        <strong className="font-bold">the third pillar of the process</strong>.
+        over a decade, teaming up with you:{" "}
+        <strong className={strong}>the third pillar of the process</strong>.
       </>
     ),
   },
   {
-    question: "What?",
+    question: "What",
     number: "1",
-    label: "High-end, polished product",
-    lines: ["High-end,", "polished product"],
+    label: "Top-notch brand",
     description: (
       <>
-        One final product, <strong className="font-bold">refined at its core</strong>. Our
+        One final product, <strong className={strong}>refined at its core</strong>. Our
         commitment: never deliver something we won&apos;t love ourselves.
       </>
     ),
   },
   {
-    question: "How?",
+    question: "How",
     number: "3",
     label: "Refined phases",
     description: (
       <>
         Three tailor-made phases, perfected over the years.{" "}
-        <strong className="font-bold">No guesswork</strong>. Just a precise result.
+        <strong className={strong}>No guesswork</strong>. Just a precise result.
       </>
     ),
   },
@@ -197,72 +191,56 @@ export default function StudioPage() {
         </Container>
       </section>
 
-      {/* The Method (was "Approach"): the 3-1-3, one row per pillar,
-          hairlines between them (set 2026-10-05, Javier's second mockup).
-          Desktop: the numeral (Syne Bold) and its name in columns 6 to 8,
-          right next to the description in 9 to 12, which starts with the
-          question as a small squared tag; the numeral's top lines up with
-          the tag's; the hairlines run from column 6. Tablets: the same two
-          blocks side by side. Phones: tag, numeral, name, description. */}
+      {/* The Method (set 2026-10-06, Javier's third mockup): the label on
+          top, then a table of three rows, a hairline over each. Each row:
+          the question in the label type, the numeral (Syne Bold, small),
+          then the name (bold caps) over a gray description.
+          Columns: phones 4 / 1 / 7 twelfths of the width (no gutters);
+          tablets 1 to 4, 5, 6 to 12; desktop 1 to 6, 7, 8 to 12.
+          Top aligned: each line height puts the caps' top (Montserrat:
+          cap 0.70 over a 0.968 / 0.251 ascent and descent) and the old
+          style numerals' top (Syne: 0.51 over 0.925 / 0.275) at the same
+          height as the question's caps. */}
       <section className={`border-t border-mist ${sectionClass}`}>
         <Container>
-          <div className="lg:grid lg:grid-cols-12 lg:gap-x-6">
-            <Reveal className="lg:col-span-3">
-              {/* Its line box is the tag's height (30px), so the label
-                  lines up with the first tag's text. */}
-              <h2 className={`${sectionLabel} mb-8 md:mb-12 lg:mb-0 lg:!leading-[30px]`}>The Method</h2>
+          <Reveal>
+            <h2 className={`${sectionLabel} mb-8 md:mb-10 lg:mb-12`}>The Method</h2>
+          </Reveal>
+          {method.map((item, i) => (
+            <Reveal
+              key={item.label}
+              className={`grid grid-cols-[4fr_1fr_7fr] border-t border-mist pt-6 md:grid-cols-12 md:gap-x-6 md:pt-8 lg:pt-10 ${
+                i === method.length - 1 ? "" : "pb-6 md:pb-8 lg:pb-10"
+              }`}
+            >
+              <p className="font-mono font-bold text-xs leading-[20px] uppercase tracking-[0.2em] text-stone md:col-span-4 md:text-sm lg:col-span-6 lg:leading-[26px]">
+                {item.question}
+              </p>
+              <p
+                aria-hidden="true"
+                className="font-display font-bold text-[32px] leading-[24px] md:col-span-1 md:text-[40px] md:leading-[25px] lg:text-[48px] lg:leading-[34px]"
+              >
+                {item.number}
+              </p>
+              <div className="min-w-0 md:col-span-7 lg:col-span-5">
+                <h3 className="font-mono font-bold text-sm leading-[21px] uppercase tracking-[0.2em] text-paper md:text-base lg:leading-[27px]">
+                  <span className="sr-only">{item.number} </span>
+                  {item.label}
+                </h3>
+                <p className="mt-2 text-sm leading-[22px] text-stone md:text-base md:leading-[1.625] lg:mt-3 lg:max-w-[36rem]">
+                  {item.description}
+                </p>
+              </div>
             </Reveal>
-            <div className="lg:col-span-7 lg:col-start-6">
-              {method.map((item, i) => (
-                // The tag comes first, so phones show it above the numeral;
-                // from md up the grid puts it at the top of the right
-                // column, over the description, with the numeral spanning
-                // both rows on the left.
-                <Reveal
-                  key={item.label}
-                  className={`grid grid-cols-12 gap-x-6 md:grid-rows-[auto_1fr] lg:grid-cols-7 ${
-                    i === 0 ? "pb-8 md:pb-10 lg:pb-12" : "border-t border-mist py-8 md:py-10 lg:py-12"
-                  } ${i === method.length - 1 ? "!pb-0" : ""}`}
-                >
-                  <p className={`${tagClass} col-span-12 justify-self-start md:col-span-7 md:col-start-6 md:row-start-1 lg:col-span-4 lg:col-start-4`}>
-                    {item.question}
-                  </p>
-                  <div className="col-span-12 mt-6 md:col-span-5 md:col-start-1 md:row-span-2 md:row-start-1 md:mt-0 lg:col-span-3">
-                    {/* Top aligned with the tag: Syne's figures are
-                        old style (the 1 is x-height tall, the 3 drops
-                        below the baseline), so the line height puts
-                        their top (51% of the size, over a 92.5 / 27.5
-                        ascent and descent) right at the top of the box,
-                        and the bottom padding makes room for the 3's
-                        tail. */}
-                    <p aria-hidden="true" className="pb-[0.31em] font-display font-bold text-6xl leading-[0.37] md:text-[72px] lg:text-[96px]">
-                      {item.number}
-                    </p>
-                    <h3 className="mt-4 font-display font-normal text-2xl leading-tight md:mt-5 lg:mt-6 lg:text-3xl">
-                      <span className="sr-only">{item.number} </span>
-                      {item.lines
-                        ? item.lines.map((line) => (
-                            <span key={line} className="block">
-                              {line}
-                            </span>
-                          ))
-                        : item.label}
-                    </h3>
-                  </div>
-                  <p className={`${bodyCopy} col-span-12 mt-5 md:col-span-7 md:col-start-6 md:row-start-2 md:mt-4 lg:col-span-4 lg:col-start-4`}>
-                    {item.description}
-                  </p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
+          ))}
         </Container>
       </section>
 
       {/* Team: square portraits, no rounded corners. Desktop: in columns
-          5 to 8 and 9 to 12 (the second under The Method's description
-          column). */}
-      <section className={`border-t border-mist ${sectionClass}`}>
+          5 to 8 and 9 to 12. The page's last section (the "There's always
+          room for a third" line came out 2026-10-06): the usual 64px
+          before the footer. */}
+      <section className="border-t border-mist pt-16 pb-16 md:pt-24 lg:pt-32">
         <Container>
           <div className="lg:grid lg:grid-cols-12 lg:gap-x-6">
             <Reveal className="lg:col-span-3">
@@ -311,27 +289,6 @@ export default function StudioPage() {
         </Container>
       </section>
 
-      {/* Closing wink: 3-1-3, and the client as "the third pillar" from
-          The Method. Same size as the page's H1 so the two bookend the
-          page, on the left margin like it, and the same cobalt link
-          treatment as the Home hero's "the spotlight." Ends with the
-          usual 64px before the footer. */}
-      <section className="border-t border-mist pt-16 pb-16 md:pt-24 lg:pt-32">
-        <Container>
-          <Reveal>
-            <p className="font-display font-normal text-3xl md:text-[56px] md:leading-tight">
-              There&apos;s always room for{" "}
-              <Link href="/contact" className="group relative inline-block text-cobalt">
-                a third.
-                <span
-                  aria-hidden="true"
-                  className="absolute left-0 -bottom-1 h-[2px] w-0 bg-current transition-all duration-300 ease-out md:group-hover:w-full"
-                />
-              </Link>
-            </p>
-          </Reveal>
-        </Container>
-      </section>
     </div>
     </div>
     </CaseStudyBackSwipe>

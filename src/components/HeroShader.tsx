@@ -26,7 +26,8 @@ function FirstFrame({ onReady }: { onReady: () => void }) {
 
 /**
  * The Home hero's shader gradient (set 2026-10-05), Javier's ShaderGradient
- * (shadergradient.co) settings: a cobalt "water plane" with grain. It
+ * (shadergradient.co) settings: a cobalt "water plane", grain off since
+ * 2026-10-06. It
  * doesn't react to the cursor. The export only settings (format, frame
  * rate, background colors, helpers) are left out: the canvas is
  * see-through over the hero's ink.
@@ -104,7 +105,7 @@ export default function HeroShader({ onReady }: { onReady: () => void }) {
           lightType="3d"
           brightness={1}
           envPreset="city"
-          grain="on"
+          grain="off"
         />
         <FirstFrame onReady={onReady} />
       </Canvas>

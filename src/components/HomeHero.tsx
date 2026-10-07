@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Container from "./Container";
 import HeroGradient from "./HeroGradient";
 import CircledWordmark from "./icons/CircledWordmark";
-import { useCursorPreview } from "./useCursorPreview";
 
 // How long the hero stays pinned before the page starts to slide over it
 // (in screens of scrolling), then one more screen until it's covered.
@@ -37,9 +36,6 @@ const SPIN_DEG_PER_S = 360 / 22;
 const SPIN_PER_SCROLL = 0.15;
 // Blur at the very end of the cover, starting from none.
 const MAX_BLUR_PX = 12;
-// The cursor card: 16:9, grows out of the cursor, flicks every 400ms.
-const CARD_WIDTH = 288;
-const CARD_CYCLE_MS = 400;
 // Hard scrolls can't fly past the hero before its intro has played (set
 // 2026-10-04). Mouse and trackpad: the scroll stops with the hero in full
 // (the intro stop, the second marker in the JSX) and is held there until
@@ -83,8 +79,6 @@ function announce(onScreen: boolean) {
  *   the top plays it back.
  * - The wordmark is always turning, faster or slower with the scroll
  *   (like nevermodern.xyz).
- * - Desktop, over the hero: the cursor carries a rounded 16:9 card that
- *   flicks through the same hero photos (like cuestudiodesign.com).
  * - Tells the nav when the wordmark is covered, so the nav's own logo
  *   only appears then (HERO_WORDMARK_EVENT).
  * - A hard scroll stops at the hero in full while the intro plays (see
@@ -96,7 +90,7 @@ function announce(onScreen: boolean) {
  * in place from the start, nothing moves, turns, dims or blurs; the page
  * still slides over the hero.
  */
-export default function HomeHero({ images }: { images: { src: string; alt: string }[] }) {
+export default function HomeHero() {
   const spacerRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -106,16 +100,6 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
   const lineRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const introStopRef = useRef<HTMLDivElement>(null);
   const [state, setState] = useState<"pending" | "live">("pending");
-
-  const card = useCursorPreview({
-    images,
-    side: "right",
-    placement: "below",
-    width: CARD_WIDTH,
-    cycleMs: CARD_CYCLE_MS,
-    morph: true,
-    eager: true,
-  });
 
   useEffect(() => {
     const spacer = spacerRef.current;
@@ -381,7 +365,6 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
         ref={heroRef}
         data-hero={state}
         className="fixed inset-x-0 top-0 z-0 flex h-[100svh] items-center overflow-hidden bg-ink md:h-screen"
-        {...card.handlers}
       >
         {/* The shader gradient, at 30%. */}
         <HeroGradient />
@@ -427,7 +410,6 @@ export default function HomeHero({ images }: { images: { src: string; alt: strin
           </div>
         </Container>
       </section>
-      {card.preview}
     </div>
   );
 }
