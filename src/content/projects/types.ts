@@ -20,6 +20,11 @@ export type Project = {
   client: string;
   year: string;
   industry: string;
+  /**
+   * Optional extra rows in the case study's details, after Industry
+   * (label, then name), e.g. { role: "Photography", name: "Geanina Mora" }.
+   */
+  credits?: { role: string; name: string }[];
   summary: string;
   brief: string;
   overview: string[];

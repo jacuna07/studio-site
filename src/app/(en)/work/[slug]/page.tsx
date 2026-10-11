@@ -180,6 +180,14 @@ export default function ProjectPage({ params }: Props) {
               </dt>
               <dd className="mt-1">{project.industry}</dd>
             </div>
+            {project.credits?.map((credit) => (
+              <div key={credit.role}>
+                <dt className="font-bold uppercase tracking-[0.2em] text-stone md:text-[var(--meta-accent,#8B8F9B)] text-xs">
+                  {credit.role}
+                </dt>
+                <dd className="mt-1">{credit.name}</dd>
+              </div>
+            ))}
             <div>
               <ShareButton
                 title={project.title}

@@ -3,6 +3,7 @@ import oxygen from "./oxygen";
 import puralma from "./puralma";
 import susanaMendez from "./susana-mendez";
 import cocoBrew from "./co-co-brew";
+import pisovaso from "./pisovaso";
 import fiveTrainingCenter from "./five-training-center";
 import naharaPilates from "./nahara-pilates";
 import lux from "./lux";
@@ -23,6 +24,7 @@ export const projects: Project[] = [
   puralma,
   susanaMendez,
   cocoBrew,
+  pisovaso,
   fiveTrainingCenter,
   naharaPilates,
   lux,
